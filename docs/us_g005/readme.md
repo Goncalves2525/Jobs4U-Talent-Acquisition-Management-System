@@ -1,6 +1,6 @@
-# US G005
+# US G002
 
-*As PM, I want the team to add to the project the necessary scripts. so that build/executions/deployments can be executed effortlessly*
+*This is an example template*
 
 ## 1. Context
 
