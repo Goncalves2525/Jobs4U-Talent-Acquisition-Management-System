@@ -25,9 +25,40 @@
 
 *In this section, the team should report the study/analysis/comparison that was done in order to take the best design decisions for the requirement. This section should also include supporting diagrams/artifacts (such as domain model; use case diagrams, etc.),*
 
+### Domain Model 1
+![domain model](domain_model_attemps/domain_model1.jpeg)
+
+*This was the first domain model aproach.*
+
+*Problems:*
+* Usage of system users which are irrelevant for the domain model.
+* Not kwoing the difference between entities and value objects yet.
+* Not knowing how "Interview" should be represented.
+* Too simple.
+
+*At this point we started asking the client questions and improved our aproach.*
+
+**Question:** "As entrevistas são feitas presencialmente? Se sim, quem é responsável por registar essas respostas no sistema?"
+
+**Answer:** "O meio usado para as entrevistas está fora do âmbito do sistema. Podem ser presenciais, remotas (ex: telefone ou outro meio). Independentemente do meio, o Customer Manager é o responsável por registar as respostas no sistema, através da submissão (upload) do ficheiro de texto com as respostas do candidato."
+
+**Question:** "Quem é responsável por analisar as candidaturas (applications)?"
+
+**Answer:** "Será o Customer Manager. Este analisa as candidaturas e decide o ranking dos candidatos."
+
+
+### Domain Model 2
+![domain model](domain_model_attemps/domain_model2.png)
+
+*In our second aproach, we started to distinguish entities from value objects and added services.*
+
+*Problems:*
+* 
+
+
 ## 4. Design
 
-*In this sections, the team should present the solution design that was adopted to solve the requirement. This should include, at least, a diagram of the realization of the functionality (e.g., sequence diagram), a class diagram (presenting the classes that support the functionality), the identification and rational behind the applied design patterns and the specification of the main tests used to validade the functionality.*
+*In this section, the team should present the solution design that was adopted to solve the requirement. This should include, at least, a diagram of the realization of the functionality (e.g., sequence diagram), a class diagram (presenting the classes that support the functionality), the identification and rational behind the applied design patterns and the specification of the main tests used to validade the functionality.*
 
 ### 4.1. Realization
 
