@@ -1,24 +1,21 @@
-# US 3004
+# US G006
 
-*This is an example template*
+*Elaborate the Domain Model using DDD.*
 
 ## 1. Context
 
-*Explain the context for this task. It is the first time the task is assigned to be developed or this tasks was incomplete in a previous sprint and is to be completed in this sprint? Are we fixing some bug?*
+*This is a new task. DDD stands for "Domain-Driven Design" which is a software develompent appproach that focuses on the processes and rules of the projects domain.*
 
 ## 2. Requirements
 
-*In this section you should present the functionality that is being developed, how do you understand it, as well as possible correlations to other requirements (i.e., dependencies). You should also add acceptance criteria.*
-
-*Example*
-
-**US G002** As {Ator} I Want...
+**US G006** s Project Manager, I want the team to elaborate a Domain Model using DDD.
 
 **Acceptance Criteria:**
 
-- G002.1. The system should...Blá Blá Blá ...
-
-- G002.2. Blá Blá Blá ...
+- G006.1. The entities should be identified.
+- G006.2. The value objects should be identified.
+- G006.3. The aggregates should be identified.
+- G006.4. 
 
 **Dependencies/References:**
 

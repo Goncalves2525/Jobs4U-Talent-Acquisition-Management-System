@@ -1,4 +1,4 @@
-# Student: John Doe - 1170000
+# Student: Ricardo Gonçalves - 1221720
 
 ## Developed Tasks
 

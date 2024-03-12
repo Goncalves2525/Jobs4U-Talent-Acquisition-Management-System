@@ -1,4 +1,4 @@
-# 1170000 - John Doe - Sprint A - Self Assessment
+# 1221720 - Ricardo Gonçalves - Sprint A - Self Assessment
 
 **This section is mandatory for students of LAPR4**
 
