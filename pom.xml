@@ -8,10 +8,11 @@
 	<artifactId>jobs4u</artifactId>
 	<packaging>pom</packaging>
 	<modules>
-		<module>jobs4u.app1</module>
-		<module>jobs4u.app2</module>
+		<module>jobs4u.candidateApp</module>
+		<module>jobs4u.customerApp</module>
 		<module>jobs4u.util.ci</module>
-	</modules>
+        <module>jobs4u.backofficeApp</module>
+    </modules>
 	<version>0.1.0</version>
 
 	<properties>
