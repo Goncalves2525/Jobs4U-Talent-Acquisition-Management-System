@@ -15,22 +15,55 @@
 - G006.1. The entities should be identified.
 - G006.2. The value objects should be identified.
 - G006.3. The aggregates should be identified.
-- G006.4. 
+- G006.4. If responsibility atribution of a task is not clear, a service should be created for executing it.
 
 **Dependencies/References:**
 
-*Regarding this requirement we understand that it relates to...*
+*Regarding this requirement we understand that it relates to the future Class Diagram.*
 
 ## 3. Analysis
 
+### 3.1. Entities and Value Objects 
 *In this section, the team should report the study/analysis/comparison that was done in order to take the best design decisions for the requirement. This section should also include supporting diagrams/artifacts (such as domain model; use case diagrams, etc.),*
 
+The folowing screenshot was taken from https://blog.sapiensworks.com/post/2016/07/29/DDD-Entities-Value-Objects-Explained.
+
+![analysis](study/entities_definition.png)
  
+So, entities need to be single identifiable items that matter to the buisness.
+Based on this information, we defined the following entities inside the business domain:
 
+- Customer Manager
+- Customer
+- Candidate
+- Operator
+- Job Offer
+- Application Request
+- Application
+- Interview Result
 
+On the other hand, value objects are objects that are not defined by their identity, but rather by a set of attributes. They are immutable and are used to describe entities.
+We associated each entity with it´s respective value objects.
+
+For example:
+![analysis](study/valueObject_example.png)
+
+### 3.2. Aggregates
+The folowing screenshot was taken from https://moodle.isep.ipp.pt/ (Author: Prof. Pedro Gandra Sousa)
+
+![analysis](study/aggregate_definition.png)
+
+Based on this definition, we aggregated the entities with their respective value objects since they are related.
+
+For example:
+
+![analysis](study/aggregate_example.png)
 ## 4. Design
 
 *In this section, the team should present the solution design that was adopted to solve the requirement. This should include, at least, a diagram of the realization of the functionality (e.g., sequence diagram), a class diagram (presenting the classes that support the functionality), the identification and rational behind the applied design patterns and the specification of the main tests used to validade the functionality.*
+
+
+
 
 ### 4.1. Realization
 
