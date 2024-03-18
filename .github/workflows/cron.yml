@@ -3,6 +3,7 @@ name: Night Build
 on:
   schedule:
     - cron: '0 0 * * *' # will run at 0h00 of every day
+  workflow_dispatch: # this will allow us to manually run workflows
 
 jobs:
   check-for-changes:
