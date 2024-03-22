@@ -15,6 +15,7 @@ build/
 target/
 bin/
 dependency-reduced-pom.xml
+effective-pom.xml
 
 # Eclipse Project Files
 
