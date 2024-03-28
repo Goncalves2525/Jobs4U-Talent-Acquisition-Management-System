@@ -68,7 +68,7 @@ The follwing screenshot was taken from https://enterprisecraftsmanship.com/posts
 ![analysis](study/services_definition.png)
 
 When the responsibility atribution of a task is not clear, a service can be created for executing it.
-There were also some taks that we identified as services because they woulh overwelm the entities if they were included in them.
+There were also some taks that we identified as services because they would overwelm the entities if they were included in them.
 For example, the evaluation of an interview could have been included in the Interview entity, but it would make it too complex.
 
 Example:
