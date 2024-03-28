@@ -24,7 +24,6 @@
 ## 3. Analysis
 
 ### 3.1. Entities and Value Objects 
-*In this section, the team should report the study/analysis/comparison that was done in order to take the best design decisions for the requirement. This section should also include supporting diagrams/artifacts (such as domain model; use case diagrams, etc.),*
 
 The folowing screenshot was taken from https://blog.sapiensworks.com/post/2016/07/29/DDD-Entities-Value-Objects-Explained.
 
@@ -38,9 +37,13 @@ Based on this information, we defined the following entities inside the business
 - Candidate
 - Operator
 - Job Offer
-- Application Request
 - Application
+- Application Result
+- Interview
 - Interview Result
+- Language Engineer
+- Requirement Specefications Module
+- Interview Module
 
 On the other hand, value objects are objects that are not defined by their identity, but rather by a set of attributes. They are immutable and are used to describe entities.
 We associated each entity with it´s respective value objects.
@@ -58,11 +61,22 @@ Based on this definition, we aggregated the entities with their respective value
 For example:
 
 ![analysis](study/aggregate_example.png)
+
+### 3.3. Services
+The follwing screenshot was taken from https://enterprisecraftsmanship.com/posts/domain-vs-application-services/
+
+![analysis](study/services_definition.png)
+
+When the responsibility atribution of a task is not clear, a service can be created for executing it.
+There were also some taks that we identified as services because they woulh overwelm the entities if they were included in them.
+For example, the evaluation of an interview could have been included in the Interview entity, but it would make it too complex.
+
+Example:
+![analysis](study/services_example.png)
+
+
+
 ## 4. Design
-
-*In this section, the team should present the solution design that was adopted to solve the requirement. This should include, at least, a diagram of the realization of the functionality (e.g., sequence diagram), a class diagram (presenting the classes that support the functionality), the identification and rational behind the applied design patterns and the specification of the main tests used to validade the functionality.*
-
-
 
 
 ### 4.1. Realization
@@ -95,26 +109,44 @@ For example:
 *In our second aproach, we started to distinguish entities from value objects and added services.*
 
 *Problems:*
-*
+* Sharing value objects might not be necessary.
+* It is not the Candidate who uses the "Interview Serivce", but the Customer Manager.
+* The services do not have the correct names.
+* Each object must be identified with a stereotype (entity, value object, service).
+* The "requirement specification service" does not generate anything.
 
 
 ### 4.2. Applied Patterns
+We applied a Domain-Driven Design approach to the development of the domain model.
 
 ### 4.3. Tests
 
-Include here the main tests used to validate the functionality. Focus on how they relate to the acceptance criteria.
+**Test 1:** *Verifies that the entities were identified.*
 
-**Test 1:** *Verifies that it is not possible to ...*
-
-**Refers to Acceptance Criteria:** G002.1
+**Refers to Acceptance Criteria:** G006.1
 
 
-```
-@Test(expected = IllegalArgumentException.class)
-public void ensureXxxxYyyy() {
-	...
-}
-````
+
+**Test 2:** *Verifies that the vale objects were identified.*
+
+**Refers to Acceptance Criteria:** G006.2
+
+
+
+
+**Test 3:** *Verifies that the aggregates were identified.*
+
+**Refers to Acceptance Criteria:** G006.3
+
+
+
+
+
+**Test 4:** *Verifies that services were identified, when needed.*
+
+**Refers to Acceptance Criteria:** G006.4
+
+
 
 ## 5. Implementation
 
