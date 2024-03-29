@@ -1,14 +1,14 @@
-# US G002
+# US G002 - Use the defined project repo, and set up a tool for project management
 
 ## 1. Context
 
-Task assigned during sprint a.
-This task is meant to setup the grounds for the team routines during each US, Sprint, and the Project as a whole.
+Task assigned during sprint A.
+This task is meant to set up the grounds for the team routines during each US, Sprint, and the Project as a whole.
 The main goal is to have a tool, or several tools, that allow the team members to implement an agile framework, where task can be settled, configurated and followed along the Project development.
 
 ## 2. Requirements
 
-**US G002** As PM, I want the team to use the defined project repo, and setup a tool for project management.
+**US G002** As PM, I want the team to use the defined project repo, and set up a tool for project management.
 
 **Acceptance Criteria:**
 
@@ -25,7 +25,7 @@ The following analysis is divided by the two main goals for the US: **Setup Repo
 
 > **Setup Repository**
 
-Given the acceptance criteria G002.1. the team has to use the repository that was prepared by the teaches, within the **Organization** *Departamento-de-Engenharia-Informatica*.
+Given the acceptance criteria G002.1. the team has to use the repository that was prepared by the teachers, within the **Organization** *Departamento-de-Engenharia-Informatica*.
 No decisions are to be taken for this part.
 The team has to familiarize with the tool and the features that allow communication with the project management tool, as well as with the IDE in use by each team member.
 
@@ -35,7 +35,7 @@ Taking in consideration the acceptance criteria G002.2., all the GitHub Project 
 It is worth noting that all the templates allow to add new items/ new tabs.
 
 * **Team Planning**: *Manage your team's work items, plan upcoming cycles, and understand team capacity.*
-  * *Tabs*: Backog; Team capacity; Current iteration; Roadmap; My items.
+  * *Tabs*: Backlog; Team capacity; Current iteration; Roadmap; My items.
 * **Feature Release**: *Manage your team's prioritized work items when planning for a feature release.* 🚀
   * *Tabs*: Prioritized backlog; Status board; Roadmap; Bugs; In review.
 * **Kanban**: *Visualize the status of your project and limit work in progress.*
@@ -57,7 +57,7 @@ It is worth noting that all the templates allow to add new items/ new tabs.
 
 Regarding the Tool for Project Management, it is taken in consideration the Analysis and previous work/projects developed by the team.
 Thus, it will be selected the template **Team Planning**.
-This template encompasses all the features that the team was used to: Backog; Team capacity; Current iteration; Roadmap; My items.
+This template encompasses all the features that the team was used to: Backlog; Team capacity; Current iteration; Roadmap; My items.
 It won't be added any other *tab* to the tool.
 Nevertheless, to make sure that all the team will be aware of the project development, regarding each US, a phase will be added to the Backlog tab.
 So, instead of having only: Todo; In Progress; Done - it will be added the phase Team Review.
