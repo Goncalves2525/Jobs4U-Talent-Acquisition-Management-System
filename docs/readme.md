@@ -17,14 +17,18 @@ The members of the group:
 
 The assignment of tasks (requirements/user stories/use cases) during the project.
 
-| Student Nr.                  | Name              | Sprint A                     | Sprint B | Sprint C |
-|------------------------------|-------------------|------------------------------|----------|----------|
-| [1212047](1212047/readme.md) | Rafael Carolo     | [US G001](us_g001/readme.md) |          |          |
-| [1212047](1212047/readme.md) | ALL (doc by RC)   | [US G002](us_g002/readme.md) |          |          |
-|                              |                   | [US G003](us_g003/readme.md) |          |          |
-|                              |                   | [US G004](us_g004/readme.md) |          |          |
-|                              |                   | [US G005](us_g005/readme.md) |          |          |
-| [1221720](1221720/readme.md) | Ricardo Gonçalves | [US G006](us_g006/readme.md) |          |          |
+| Student Nr.                    | Name                 | Sprint A                     | Sprint B | Sprint C |
+|--------------------------------|----------------------|------------------------------|----------|----------|
+| [1212047](1212047/readme.md)   | Rafael Carolo        | [US G001](us_g001/readme.md) |          |          |
+| [1212039](1212039/readme.md)   | Diogo Espírito Santo | [US G002](us_g002/readme.md) |          |          |
+| & [1212044](1212044/readme.md) | & Paulo Moreira      |                              |          |          |
+| & [1212047](1212047/readme.md) | & Rafael Carolo      |                              |          |          |
+| & [1221720](1221720/readme.md) | & Ricardo Gonçalves  |                              |          |          |
+|                                |                      | [US G003](us_g003/readme.md) |          |          |
+|                                |                      | [US G004](us_g004/readme.md) |          |          |
+| [1221720](1221720/readme.md)   | Ricardo Gonçalves    | [US G005](us_g005/readme.md) |          |          |
+| & [1212047](1212047/readme.md) | & Rafael Carolo      |                              |          |          |
+| [1221720](1221720/readme.md)   | Ricardo Gonçalves    | [US G006](us_g006/readme.md) |          |          |
 
 ## 3. LAPR4 Self Assessment
 
