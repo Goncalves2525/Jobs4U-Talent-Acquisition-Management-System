@@ -3,7 +3,7 @@
 cd ..
 
 :: Build
-mvn clean package
+call mvn clean package
 
 :: Change Directory
 cd jobs4u.customerApp\target
