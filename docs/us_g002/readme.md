@@ -8,7 +8,7 @@ The main goal is to have a tool, or several tools, that allow the team members t
 
 ## 2. Requirements
 
-**US G002** As PM, I want the team to use the defined project repo, and set up a tool for project management.
+**US G002** As Project Manager, I want the team to use the defined project repo, and set up a tool for project management.
 
 **Acceptance Criteria:**
 
