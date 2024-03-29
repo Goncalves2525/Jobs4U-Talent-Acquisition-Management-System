@@ -1,46 +1,80 @@
 # US G002
 
-*This is an example template*
+*Create scripts to make it easier to run the apps.*
 
 ## 1. Context
 
-*Explain the context for this task. It is the first time the task is assigned to be developed or this tasks was incomplete in a previous sprint and is to be completed in this sprint? Are we fixing some bug?*
+*This is a new Task. If a user wants to execute the apps, he must first create a jar file and the run the necessary command to run it. If we create scripts that do all of that work automatically, running the apps will be faster and easier.*
 
 ## 2. Requirements
 
-*In this section you should present the functionality that is being developed, how do you understand it, as well as possible correlations to other requirements (i.e., dependencies). You should also add acceptance criteria.*
-
-*Example*
-
-**US G002** As {Ator} I Want...
+**US G005** As Project Manager, I want the team to add to the project the necessary scripts,
+so that build/executions/deployments/... can be executed e￿ortlessly.
 
 **Acceptance Criteria:**
 
-- G002.1. The system should...Blá Blá Blá ...
+- G005.1. The scripts should be able to create the jar file.
 
-- G002.2. Blá Blá Blá ...
+- G005.2. The scripts should be able to run the jar file.
+
+- G005.3. There should be a script for each app.
+
+- G005.4. There should be scripts for linux/mac and windows.
 
 **Dependencies/References:**
 
-*Regarding this requirement we understand that it relates to...*
+*No dependencies found.*
 
 ## 3. Analysis
 
-*In this section, the team should report the study/analysis/comparison that was done in order to take the best design decisions for the requirement. This section should also include supporting diagrams/artifacts (such as domain model; use case diagrams, etc.),*
-
+In Sprint A, the team is focused on the structure of the project. We are using Maven to manage the project and the dependencies.
+We decided that, at least, three apps should be created: one for the Customer, one for the Candidate and the Backoffice for the Customer Manager and the Operator.
+To run the apps, the user must first create the jar file and then run the necessary command to run it. This process can be time-consuming and error-prone.
+To make it easier for the user, we are going to create scripts that do all of that work automatically.
+There will be a script for each app and for each operating system.
+For Windows, we are going to use a batch files (.bat) and for Linux/Mac, we are going to use shell scripts (.sh).
 ## 4. Design
 
-*In this sections, the team should present the solution design that was adopted to solve the requirement. This should include, at least, a diagram of the realization of the functionality (e.g., sequence diagram), a class diagram (presenting the classes that support the functionality), the identification and rational behind the applied design patterns and the specification of the main tests used to validade the functionality.*
-
 ### 4.1. Realization
+<br>
 
-### 4.2. Class Diagram
+#### 4.1.1. Linux/Mac
+To build the jar file, we are going to use the following command:
+```
+mvn clean package
+```
 
-![a class diagram](class-diagram-01.svg "A Class Diagram")
+To run the jar file, we are going to use the following command:
+```
+java -jar jobs4u.backofficeApp-0.1.0.jar
+```
+<br><br>
 
-### 4.3. Applied Patterns
+#### 4.1.2. Windows
+To build the jar file, we are going to use the following command:
+```
+call mvn clean package
+```
 
-### 4.4. Tests
+To run the jar file, we are going to use the following command:
+```
+java -jar jobs4u.backofficeApp-0.1.0.jar
+```
+<br>
+
+#### 4.1.3. Others
+Since the scripts are going to be in the "scripts" folder, we are going to use some commands to navigate to the root folder of the project.
+Examples:
+```
+cd ..
+```
+and
+```
+cd jobs4u.backofficeApp/target
+```
+### 4.2. Applied Patterns
+
+### 4.3. Tests
 
 Include here the main tests used to validate the functionality. Focus on how they relate to the acceptance criteria.
 
