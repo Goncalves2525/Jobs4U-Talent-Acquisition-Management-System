@@ -193,7 +193,7 @@ Reports of the manual testing/review:
   - C language
   - Command language (shell; batch)
 - **G001.NFR02. Technical Documentation**
-  - [docs readme](../../docs/readme.md)
+  - [docs readme](../../readme.md)
 - **G001.NFR03. Test-driven development**
   - ...
 - **G001.NFR04. Source Control**

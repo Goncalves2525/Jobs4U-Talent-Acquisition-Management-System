@@ -119,13 +119,13 @@ Operational scripts will be added to the [Implementation](#5-implementation) tab
 
 | Script Description                     | Mac                                                                 | Windows                                                              |
 |----------------------------------------|---------------------------------------------------------------------|----------------------------------------------------------------------|
-| Builds and runs Backoffice Application | [build_run_backofficeApp](../../scripts/build_run_backofficeApp.sh) | [build_run_backofficeApp](../../scripts/build_run_backofficeApp.bat) |
-| Builds and runs Candidate Application  | [build_run_candidateApp](../../scripts/build_run_candidateApp.sh)   | [build_run_candidateApp](../../scripts/build_run_candidateApp.bat)   |
-| Builds and runs Customer Application   | [build_run_customerApp](../../scripts/build_run_customerApp.sh)     | [build_run_customerApp](../../scripts/build_run_customerApp.bat)     |
+| Builds and runs Backoffice Application | [build_run_backofficeApp](../../../scripts/build_run_backofficeApp.sh) | [build_run_backofficeApp](../../../scripts/build_run_backofficeApp.bat) |
+| Builds and runs Candidate Application  | [build_run_candidateApp](../../../scripts/build_run_candidateApp.sh)   | [build_run_candidateApp](../../../scripts/build_run_candidateApp.bat)   |
+| Builds and runs Customer Application   | [build_run_customerApp](../../../scripts/build_run_customerApp.sh)     | [build_run_customerApp](../../../scripts/build_run_customerApp.bat)     |
 
 ## 6. Integration/Demonstration
 
-To execute all scripts, go to the [scripts](../../scripts) folder, within project, through the command line.
+To execute all scripts, go to the [scripts](../../../scripts) folder, within project, through the command line.
 After that just type the "[script name]".
 The script will run accordingly.
 

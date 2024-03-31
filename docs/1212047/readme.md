@@ -4,8 +4,8 @@
 
 | Sprint | Task                            |
 |--------|---------------------------------|
-| **A**  | [US G001](../us_g001/readme.md) |
-|        | [US G002](../us_g002/readme.md) |
-|        | [US G005](../us_g005/readme.md) |
+| **A**  | [US G001](../Sprint%20A/us_g001/readme.md) |
+|        | [US G002](../Sprint%20A/us_g002/readme.md) |
+|        | [US G005](../Sprint%20A/us_g005/readme.md) |
 | **B**  | (...)                           |
 | **C**  | (...)                           |
