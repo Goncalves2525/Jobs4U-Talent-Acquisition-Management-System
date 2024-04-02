@@ -42,3 +42,7 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: maven
+
+      - name: Print changes variable # para perceber porque é que corre, mas não faz o passo do build quando devia
+        run:
+          echo "Changes variable value: ${{ env.CHANGES }}"
