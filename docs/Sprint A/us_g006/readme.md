@@ -8,7 +8,7 @@
 
 ## 2. Requirements
 
-**US G006** s Project Manager, I want the team to elaborate a Domain Model using DDD.
+**US G006** As Project Manager, I want the team to elaborate a Domain Model using DDD.
 
 **Acceptance Criteria:**
 
@@ -115,6 +115,21 @@ Example:
 * Each object must be identified with a stereotype (entity, value object, service).
 * The "requirement specification service" does not generate anything.
 
+### Domain Model 3.1 and 3.2
+By the end of Sprint A we had two alternatives for the domain model.
+
+#### Domain Model 3.1
+![domain model](domain_model_attemps/domain_model3.1.jpg)
+
+#### Domain Model 3.2
+![domain model](domain_model_attemps/domain_model3.2.jpg)
+
+In domain model 3.1, the Application Result connects to the Job Opening and the Interview to the Candidate.
+On the other hand, in domain model 3.2, the Application Result and the Interview Result both connect to the Application which connects to the Job Opening.
+
+We decided that 3.2 was the best option because the client refered to us that Applications hold other information like interviews and application results.
+It also shows in a better way how the entities are connected.
+In Domain Model 3.2 we also deleted the File Service since it's an Application Service and not a Domain Service.
 
 ### 4.2. Applied Patterns
 We applied a Domain-Driven Design approach to the development of the domain model.
@@ -125,20 +140,21 @@ We applied a Domain-Driven Design approach to the development of the domain mode
 
 **Refers to Acceptance Criteria:** G006.1
 
+The entities were identified.
 
 
 **Test 2:** *Verifies that the vale objects were identified.*
 
 **Refers to Acceptance Criteria:** G006.2
 
-
+The value Objects were identified.
 
 
 **Test 3:** *Verifies that the aggregates were identified.*
 
 **Refers to Acceptance Criteria:** G006.3
 
-
+Every entity belongs to an aggregate.
 
 
 
@@ -146,24 +162,20 @@ We applied a Domain-Driven Design approach to the development of the domain mode
 
 **Refers to Acceptance Criteria:** G006.4
 
-
+Two services were identified. One for the evaluation of the interviews and another for the requirement specifications.
 
 ## 5. Implementation
 
-*In this section the team should present, if necessary, some evidencies that the implementation is according to the design. It should also describe and explain other important artifacts necessary to fully understand the implementation like, for instance, configuration files.*
+This is the domain model that was created using Visual Paradigm.
 
-*It is also a best practice to include a listing (with a brief summary) of the major commits regarding this requirement.*
+![domain model](domain_model_attemps/domain_model3.2.jpg)
+
+
 
 ## 6. Integration/Demonstration
 
-*In this section the team should describe the efforts realized in order to integrate this functionality with the other parts/components of the system*
-
-*It is also important to explain any scripts or instructions required to execute an demonstrate this functionality*
+n/a
 
 ## 7. Observations
 
-*This section should be used to include any content that does not fit any of the previous sections.*
-
-*The team should present here, for instance, a critical prespective on the developed work including the analysis of alternative solutioons or related works*
-
-*The team should include in this section statements/references regarding third party works that were used in the development this work.*
+The is only the Domain Model during Sprint A. Throughout the project, the domain model will be updated and improved.

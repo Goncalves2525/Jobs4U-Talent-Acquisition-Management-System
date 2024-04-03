@@ -9,7 +9,8 @@ This task can have improvements throughout the project development, as more scri
 
 ## 2. Requirements
 
-**US G005** As Project Manager, I want the team to add to the project the necessary scripts, so that build/executions/deployments can be executed effortlessly.
+**US G005** As Project Manager, I want the team to add to the project the necessary scripts,
+so that build/executions/deployments/... can be executed e￿ffortlessly.
 
 **Acceptance Criteria:**
 
@@ -49,6 +50,8 @@ To run the apps, the user must first create the jar file and then run the necess
 This process can be time-consuming and error-prone.
 To make it easier for the user, we are going to create scripts that do all of that work automatically.
 There will be a script for each app and for each operating system.
+For Windows, we are going to use batch files (.bat) and for Linux/Mac, we are going to use shell scripts (.sh).
+## 4. Design
 For Windows, we are going to use a batch files (.bat) and for Linux/Mac, we are going to use shell scripts (.sh).
 
 > **Build and run Backoffice Application**
@@ -116,13 +119,13 @@ Operational scripts will be added to the [Implementation](#5-implementation) tab
 
 | Script Description                     | Mac                                                                 | Windows                                                              |
 |----------------------------------------|---------------------------------------------------------------------|----------------------------------------------------------------------|
-| Builds and runs Backoffice Application | [build_run_backofficeApp](../../scripts/build_run_backofficeApp.sh) | [build_run_backofficeApp](../../scripts/build_run_backofficeApp.bat) |
-| Builds and runs Candidate Application  | [build_run_candidateApp](../../scripts/build_run_candidateApp.sh)   | [build_run_candidateApp](../../scripts/build_run_candidateApp.bat)   |
-| Builds and runs Customer Application   | [build_run_customerApp](../../scripts/build_run_customerApp.sh)     | [build_run_customerApp](../../scripts/build_run_customerApp.bat)     |
+| Builds and runs Backoffice Application | [build_run_backofficeApp](../../../scripts/build_run_backofficeApp.sh) | [build_run_backofficeApp](../../../scripts/build_run_backofficeApp.bat) |
+| Builds and runs Candidate Application  | [build_run_candidateApp](../../../scripts/build_run_candidateApp.sh)   | [build_run_candidateApp](../../../scripts/build_run_candidateApp.bat)   |
+| Builds and runs Customer Application   | [build_run_customerApp](../../../scripts/build_run_customerApp.sh)     | [build_run_customerApp](../../../scripts/build_run_customerApp.bat)     |
 
 ## 6. Integration/Demonstration
 
-To execute all scripts, go to the [scripts](../../scripts) folder, within project, through the command line.
+To execute all scripts, go to the [scripts](../../../scripts) folder, within project, through the command line.
 After that just type the "[script name]".
 The script will run accordingly.
 
