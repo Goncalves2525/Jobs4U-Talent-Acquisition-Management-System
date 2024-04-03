@@ -25,9 +25,13 @@ jobs:
             echo "changes=false" >> $GITHUB_ENV
           fi
 
-      - name: Print changes variable
+  debug:
+    runs-on: ubuntu-latest
+    needs: check-for-changes
+    steps:
+      - name: Debug
         run: |
-          echo "Changes variable value: ${{ needs.check-for-changes.outputs.changes }}"
+          echo "Changes variable: ${{ needs.check-for-changes.outputs.changes }}"
 
   build:
     needs: check-for-changes
