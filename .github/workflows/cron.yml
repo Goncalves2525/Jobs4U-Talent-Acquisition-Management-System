@@ -26,7 +26,8 @@ jobs:
           fi
 
   build:
-    if: ${{ env.CHANGES == 'true' }}
+    needs: check-for-changes
+    if: ${{ needs.check-for-changes.outputs.changes == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
