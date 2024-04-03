@@ -44,5 +44,5 @@ jobs:
           cache: maven
 
       - name: Print changes variable # para perceber porque é que corre, mas não faz o passo do build quando devia
-        run:
+        run: |
           echo "Changes variable value: ${{ env.CHANGES }}"
