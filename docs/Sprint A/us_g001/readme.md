@@ -79,37 +79,60 @@ design decisions for the requirement. This section should also include supportin
   software is fully developed, and tracking all software development by repeatedly testing the software against all test cases. 
   This is as opposed to software being developed first and test cases created later." @[TDD](https://en.wikipedia.org/wiki/Test-driven_development)
 - **G001.NFR04. Source Control**
-  - ...
+  - "The complete developer platform to build, scale, and deliver secure software."
+  - GitHub allows a set of features for collaborative coding and project/team management ([GitHub Features](https://github.com/features)).
+  - It was provided a project access and a specific repository for the team to work on.
+  This will allow the team to have a source code and documentation control.
+  - "In software engineering, version control (also known as revision control, source control, or source code management) is a class of systems 
+  responsible for managing changes to computer programs, documents, large web sites, or other collections of information. 
+  Version control is a component of software configuration management." @[Source Control](https://en.wikipedia.org/wiki/Version_control)
 - **G001.NFR05. Continuous Integration**
-  - ...
+  - Given the requirement of using GitHub as the repository, it was analysed the usage of GitHub actions as a mean to continuously integrate the work developed.
+  - "GitHub Actions makes it easy to automate all your software workflows, now with world-class CI/CD. Build, test, and deploy your code right from GitHub. 
+  Make code reviews, branch management, and issue triaging work the way you want." @[GitHub Actions](https://github.com/features/actions)
 - **G001.NFR06. Deployment and Scripts**
-  - ...
+  - Shell and Batch scripting files are tools used that allow to quickly run a set of repetitive tasks.
+  It can be used to locally build and deploy a runnable executable file.
+  - "Shell scripting is a powerful tool commonly used across industries to automate tasks, test solutions, and increase efficiency." @[Shell Scripting](https://www.coursera.org/articles/what-is-shell-scripting)
 - **G001.NFR07. Database**
-  - ...
+  - Relational databases allow to consistently maintain the data across a database, by relating tables that have related content.
+  It is also consistent with data normalization theories.
+  - "H2 is a relational database management system written in Java. It can be embedded in Java applications or run in client-server mode." @[About H2](https://en.wikipedia.org/wiki/H2_(database))
+  - "The main features of H2 are: Very fast, open source, JDBC API; Embedded and server modes; in-memory databases; 
+  Browser based Console application; Small footprint: around 2.5 MB jar file size" @[H2 Features](https://www.h2database.com/html/main.html)
 - **G001.NFR08. Authentication and Authorization**
-  - ...
+  - To be updated on the next sprints, along with main menu planning.
 - **G001.NFR09. (LPROG) Requirement Specifications and Interview Models**
-  - ...
+  - To be updated on the next sprints, once provided specific requirements by the LPROG teachers.
 - **G001.NFR10. (RCOMP)**
-  - ...
+  - To be updated on the next sprints, once specific protocol are provided: Application Protocol.
 - **G001.NFR11. (RCOMP)**
-  - ...
+  - To be updated on the next sprints, when it is lectured on how to deploy servers in the cloud and how to implement running applications in them.
 - **G001.NFR12. (SCOMP)**
-  - ...
+  - "**Processes** are the primitive units for allocation of system resources. Each process has its own address space and (usually) one thread of control. 
+  A process executes a program; you can have multiple processes executing the same program, but each process has its own copy of the program within its own address space and executes it independently of the other copies.
+  Processes are organized hierarchically. 
+  Each process has a parent process which explicitly arranged to create it. 
+  The processes created by a given parent are called its child processes. 
+  A child inherits many of its attributes from the parent process." @[About processes](https://www.gnu.org/software/libc/manual/html_node/Processes.html)
+  - "A **signal** is a software interrupt delivered to a process.
+  The operating system uses signals to report exceptional situations to an executing program. 
+  Some signals report errors such as references to invalid memory addresses; others report asynchronous events, such as disconnection of a phone line. 
+  Some kinds of events make it inadvisable or impossible for the program to proceed as usual, and the corresponding signals normally abort the program.
+  Other kinds of signals that report harmless events are ignored by default.
+  If you anticipate an event that causes signals, you can define a handler function and tell the operating system to run it when that particular type of signal arrives.
+  Finally, one process can send a signal to another process; this allows a parent process to abort a child, or two related processes to communicate and synchronize." @[About signals](https://www.gnu.org/software/libc/manual/html_node/Signal-Handling.html)
+  - "A **pipe** is a mechanism for interprocess communication; data written to the pipe by one process can be read by another process. 
+  The data is handled in a first-in, first-out (FIFO) order. 
+  The pipe has no name; it is created for one use and both ends must be inherited from the single process which created the pipe." @[About pipes](https://www.gnu.org/software/libc/manual/html_node/Pipes-and-FIFOs.html)
 - **G001.NFR13. (SCOMP)**
-  - ...
+  - To be updated on the next sprints, when it is lectured on how to implement shared memory and semaphores using Java and threads.
 - **G001.NFR14. (SCOMP)**
-  - ...
+  - To be updated on the next sprints, when it is lectured on how to implement parallelism and concurrency using Java and threads.
 - **G001.NFR15. (LAPR4)**
-  - ...
+  - To be updated on the next sprints, once provided specific requirements by the LAPR4 TP teacher.
 
 ## 4. Design
-
-*In these sections, the team should present the solution design that was adopted to solve the requirement.
-This should include, at least, a diagram of the realization of the functionality (e.g., sequence diagram),
-a class diagram (presenting the classes that support the functionality),
-the identification and rationale behind the applied design patterns and the specification of the main tests used
-to validate the functionality.*
 
 ### 4.1. Realization
 
@@ -119,33 +142,35 @@ to validate the functionality.*
   - Markdown is to be used for formal documentation, as well as code snippets (eg: tests).
   - PlantUML and Visual Paradigm are to be used in building diagrams, flow-charts, or conceptual models.
 - **G001.NFR03. Test-driven development**
-  - All User Stories, and essentially all methods intended to be developed, shall have tests ideated and implemented, before it's developed.
+  - All User Stories, and essentially all methods intended to be developed, shall have tests ideated and implemented, before it is developed.
   Predicted entries and outcomes must be defined by the team member responsible by the User Story and/or method.
   Further tests might be implemented during development, based on remaining team inputs. 
 - **G001.NFR04. Source Control**
-  - ...
+  - Further details on [US G002](../us_g002/readme.md).
 - **G001.NFR05. Continuous Integration**
-  - ...
+  - Further details on [US G004](../us_g004/readme.md).
 - **G001.NFR06. Deployment and Scripts**
-  - ...
+  - Further details on [US G005](../us_g005/readme.md).
 - **G001.NFR07. Database**
-  - ...
+  - By using JDBC and associated libraries, the team will use annotations throughout the java code to implement the database model to H2.
+  - Additionally, and to guarantee a baseline of dummy data to be used in the academic setting, a bootstrap will be created, making it possible for applications initial use.
 - **G001.NFR08. Authentication and Authorization**
-  - ...
+  - To be updated on the next sprints, along with main menu planning.
 - **G001.NFR09. (LPROG) Requirement Specifications and Interview Models**
-  - ...
+  - To be updated on the next sprints, once provided specific requirements by the LPROG teachers.
 - **G001.NFR10. (RCOMP)**
-  - ...
+  - To be updated on the next sprints, once specific protocol are provided: Application Protocol.
 - **G001.NFR11. (RCOMP)**
-  - ...
+  - To be updated on the next sprints, when it is lectured on how to deploy servers in the cloud and how to implement running applications in them.
 - **G001.NFR12. (SCOMP)**
-  - ...
+  - Using processes and signals, a service will be continuously looking for new files to be processed.
+  Per each new file, the service will be using pipes to gather the new data for the system.
 - **G001.NFR13. (SCOMP)**
-  - ...
+  - To be updated on the next sprints, when it is lectured on how to implement shared memory and semaphores using Java and threads.
 - **G001.NFR14. (SCOMP)**
-  - ...
+  - To be updated on the next sprints, when it is lectured on how to implement parallelism and concurrency using Java and threads.
 - **G001.NFR15. (LAPR4)**
-  - ...
+  - To be updated on the next sprints, once provided specific requirements by the LAPR4 TP teacher.
 
 ### 4.2. Class Diagram
 
@@ -162,9 +187,10 @@ documentation presence, content review and team members feedback, for NFRs:
 - **G001.NFR01. Programming language**
 - **G001.NFR02. Technical Documentation**
 - **G001.NFR03. Test-driven development**
+- **G001.NFR07. Database**
 
 Automated tests:
-- (...)
+- **G001.NFR12. (SCOMP)** - by creating a new file, and track its lifecycle through the process of being identified and data transferred.
 
 Reports of the manual testing/review:
 - April 12th
@@ -191,35 +217,36 @@ Reports of the manual testing/review:
 - **G001.NFR01. Programming language**
   - Java language
   - C language
-  - Command language (shell; batch)
+  - Command language (shell\bash; batch)
 - **G001.NFR02. Technical Documentation**
   - [docs readme](../../readme.md)
 - **G001.NFR03. Test-driven development**
-  - ...
+  - Read readme for each US, to find the test implemented.
+  Follow on this document for weekly validation.
 - **G001.NFR04. Source Control**
-  - ...
+  - Further details on [US G002](../us_g002/readme.md).
 - **G001.NFR05. Continuous Integration**
-  - ...
+  - Further details on [US G004](../us_g004/readme.md).
 - **G001.NFR06. Deployment and Scripts**
-  - ...
+  - Further details on [US G005](../us_g005/readme.md).
 - **G001.NFR07. Database**
-  - ...
+  - A live connection is established with H2, guaranteeing the most updated model, whenever a new deployment is made.
 - **G001.NFR08. Authentication and Authorization**
-  - ...
+  - To be updated on the next sprints, along with main menu planning.
 - **G001.NFR09. (LPROG) Requirement Specifications and Interview Models**
-  - ...
+  - To be updated on the next sprints, once provided specific requirements by the LPROG teachers.
 - **G001.NFR10. (RCOMP)**
-  - ...
+  - To be updated on the next sprints, once specific protocol are provided: Application Protocol.
 - **G001.NFR11. (RCOMP)**
-  - ...
+  - To be updated on the next sprints, when it is lectured on how to deploy servers in the cloud and how to implement running applications in them.
 - **G001.NFR12. (SCOMP)**
-  - ...
+  - To be implemented during sprint B.
 - **G001.NFR13. (SCOMP)**
-  - ...
+  - To be updated on the next sprints, when it is lectured on how to implement shared memory and semaphores using Java and threads.
 - **G001.NFR14. (SCOMP)**
-  - ...
+  - To be updated on the next sprints, when it is lectured on how to implement parallelism and concurrency using Java and threads.
 - **G001.NFR15. (LAPR4)**
-  - ...
+  - To be updated on the next sprints, once provided specific requirements by the LAPR4 TP teacher.
 
 ## 6. Integration/Demonstration
 
