@@ -14,9 +14,9 @@
 | 4 – Correct |	The engineering process is correct. Code and design are completely aligned. Failures in the application of good practices and techniques are almost meaningless. |
 | 5 - Exceptional |	The engineering process is correct (order of activities). Code and design are completely aligned. Very good justification of the process followed/applied. Application of good practices and techniques is exemplary. |
 
-**Selected Level:** 3
+**Selected Level:** 4
 
-**Justification and Evidences:**
+**Justification and Evidences:** In US G006 I showed how we chose each element of the domain model and explained all the problems and solutions along the way. [US G006](../Sprint%20A/us_g006/readme.md)
 
 ## Issues and Version Control
 
@@ -29,9 +29,11 @@
 | 4 – Correct	| Frequent use of the repository: messages that are mostly significant but sometimes fail to connect to issues/tasks. Use task/issue management boards correctly. |
 | 5 - Exceptional |	Frequent use of the repository: mostly significant messages and (virtually) no failures in connection to issues/tasks. They use task/issue management boards in an exemplary way. |
 
-**Selected Level:** 3
+**Selected Level:** 5
 
-**Justification and Evidences:**
+**Justification and Evidences:** I always connected the commits to the issues using the issue number in the commit message. [Commits](https://github.com/Departamento-de-Engenharia-Informatica/sem4pi-23-24-2nb1/commits/main/)
+
+Example: "Started Design for USG006 #15" 12/03/2024, 14:47
 
 ## Team Work
 
@@ -44,9 +46,11 @@
 | 4 – Correct	| There is evidence of a team decision-making process in which students actively participate and which results in the assignment of tasks in a clear and timely manner. |
 | 5 - Exceptional |	There is evidence of a team decision-making process in which students actively participate and which results in the assignment of tasks in a clear and timely manner. There is evidence of group tasks such as integration and deployment activities. |
 
-**Selected Level:** 3
+**Selected Level:** 4
 
-**Justification and Evidences:**
+**Justification and Evidences:** In US G002 and USG005 I worked with other team members. This can be confirmed in the [Commits](https://github.com/Departamento-de-Engenharia-Informatica/sem4pi-23-24-2nb1/commits/main/)
+
+Example: "USG005 Added requirements, analysis and desgin do documentation #13" 20/03/2024, 11:09
 
 ## Deployment
 
@@ -59,9 +63,9 @@
 | 4 – Correct	| The system runs outside the IDE, distributed across two or more local virtual environments (machines or containers). The group was able to demonstrate the system without any execution failures during the demonstration. The correct version was used. |
 | 5 - Exceptional |	The system runs outside the IDE, distributed across two or more remote virtual environments (machines or containers) (e.g. in the cloud). The group was able to demonstrate the system without any execution failures during the demonstration. The correct version was used. |
 
-**Selected Level:** 3
+**Selected Level:** 4
 
-**Justification and Evidences:**
+**Justification and Evidences:** In US G005 scripts were created that build and run the application, both in Windows and UNIX systems.
 
 ## Integration
 
@@ -74,9 +78,9 @@
 | 4 – Correct	| There is integration between most components/functionalities without any type of incoherence and/or unnecessary coupling. |
 | 5 - Exceptional	| The previous item is true and this integration is perfectly documented. |
 
-**Selected Level:** 3
+**Selected Level:** 4
 
-**Justification and Evidences:**
+**Justification and Evidences:** Sprint A does not yet require much integration
 
 ## Req. Satisfaction
 
@@ -89,6 +93,45 @@
 | 4 – Correct	| All requirements have been met in full, and any options related to the interpretation/analysis of the problem are correctly justified and are evidence of your understanding of the problem domain. Very complete definition of acceptance criteria. Most criteria are reflected in tests. |
 | 5 - Exceptional	| The above is true and alternatives are also discussed that are supported by a rich understanding of the problem domain. These alternatives may be related to the problem domain or the high-level architecture of the solution. Exemplary acceptance criteria and excellent connection to testing. |
 
-**Selected Level:** 3
+**Selected Level:** 4
 
-**Justification and Evidences:**
+**Justification and Evidences:** All Acceptance Criteria was met.
+
+US G006 example:
+
+**Acceptance Criteria:**
+
+- G006.1. The entities should be identified.
+- G006.2. The value objects should be identified.
+- G006.3. The aggregates should be identified.
+- G006.4. If responsibility atribution of a task is not clear, a service should be created for executing it.
+
+### 4.3. Tests
+
+**Test 1:** *Verifies that the entities were identified.*
+
+**Refers to Acceptance Criteria:** G006.1
+
+The entities were identified.
+
+
+**Test 2:** *Verifies that the vale objects were identified.*
+
+**Refers to Acceptance Criteria:** G006.2
+
+The value Objects were identified.
+
+
+**Test 3:** *Verifies that the aggregates were identified.*
+
+**Refers to Acceptance Criteria:** G006.3
+
+Every entity belongs to an aggregate.
+
+
+
+**Test 4:** *Verifies that services were identified, when needed.*
+
+**Refers to Acceptance Criteria:** G006.4
+
+Two services were identified. One for the evaluation of the interviews and another for the requirement specifications.
