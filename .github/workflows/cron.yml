@@ -37,7 +37,7 @@ jobs:
 
   build:
     needs: check-for-changes
-    if: ${{ needs.check-for-changes.outputs.changes == 'true' }}
+    if: ${{ env.changes == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
