@@ -1,42 +1,20 @@
 grammar scratch;
 
-prog : decl | def ;
+// Parser Rules
+expression: term ((PLUS | MINUS) term)*;
 
-dec1 : funcHeader ';'       // fundecl
-     | type ID ';'           //vardef
-     ;
+term: factor ((TIMES | DIVIDE) factor)*;
 
-def : funcHeader block
-    | type ID ('=' expr)? ';'
-    ;
+factor: NUMBER | '(' expression ')';
 
-block: '{' stat* '}' ;
+// Lexer Rules
+PLUS: '+';
+MINUS: '-';
+TIMES: '*';
+DIVIDE: '/';
 
-stat: 'while' '(' expr ')' stat
-    |   ID '=' expr ';'
-    |   'return' expr ';'
-    |   expr ';'
-    |   block
-    ;
+NUMBER: DIGIT+ ('.' DIGIT+)?;
 
-expr: '(' expr ')'
-    | ID '(' expr (',' expr)* ')'
-    | ID
-    | INT
-    | CHAR
-    ;
+fragment DIGIT: [0-9];
 
-type: 'int' | 'char' | 'void' ;
-
-funcHeader : type ID '(' args= ')' ;
-
-args : arg (',' arg)*;
-
-arg : type ID;
-
-COMMENT : '/*' .*? '*/' -> channel(HIDDEN);
-
-WS : [ \t\n\r]+ -> skip ;
-ID : [a-zA-Z_]+ [a-zA-Z0-9_]* ;
-INT : [0-9]+ ;
-CHAR : '\' '~'\''+'\'';
+WS: [ \t\r\n]+ -> skip;
