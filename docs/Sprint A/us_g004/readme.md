@@ -7,7 +7,7 @@ Task assigned during sprint A.
 
 ## 2. Requirements
 
-**US G004** As PM, I want the team to setup a continuous integration server.
+**US G004** As PM, I want the team to set up a continuous integration server.
 
 **Acceptance Criteria:**
 
@@ -54,6 +54,10 @@ The scripts are platform-agnostic.
 > **Night build**
 >
 > A script that runs every night, building the project and running the tests, if changes have been made.
+> The script is going to be created in the .github folder, inside a "workflows" subfolder.
+> The script is going to be named "cron.yml".
+> The script will schedule a nightly build, to be run at 00:00.
+> The script will only build if changes have been made.
 
 
 ### 4.1. Class Diagram
@@ -66,7 +70,7 @@ n/a
 
 ### 4.3. Tests
 
-Tests were made inside the GitHub Actions, and the results were displayed in the Actions tab.
+Tests were made inside the GitHub Repository, on the "Actions" tab, and the results were displayed in the same tab.
 
 ## 5. Implementation
 

@@ -16,7 +16,7 @@ on:
 
 jobs:
   build:
-
+    if: false # já temos outro job que corre o mesmo; pode ficar inativo
     runs-on: ubuntu-latest
 
     steps:

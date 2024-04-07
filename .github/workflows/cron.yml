@@ -31,11 +31,11 @@ jobs:
     steps:
       - name: Debug
         run: |
-          echo "Changes variable: ${{ env.CHANGES }}"
+          echo "Changes variable: ${{ needs.check-for-changes.env.changes }}"
 
   build:
     needs: check-for-changes
-    if: ${{ needs.check-for-changes.outputs.changes == 'true' }}
+    if: ${{ needs.check-for-changes.env.changes == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
