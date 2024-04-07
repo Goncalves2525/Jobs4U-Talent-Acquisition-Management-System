@@ -25,7 +25,7 @@ jobs:
 
       - name: Print changes variable value
         run: |
-          echo "Changes variable value: ${{ env.CHANGES }}"
+          echo "Changes variable value: ${{ env.changes }}"
 
   debug:
     runs-on: ubuntu-latest
@@ -33,11 +33,11 @@ jobs:
     steps:
       - name: Debug
         run: |
-          echo "Changes variable: ${{ env.CHANGES }}"
+          echo "Changes variable: ${{ env.changes }}"
 
   build:
     needs: check-for-changes
-    if: ${{ needs.check-for-changes.env.CHANGES == 'true' }}
+    if: ${{ needs.check-for-changes.outputs.changes == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -53,7 +53,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build
+      - name: Build and package with Maven
         run: mvn dependency:copy-dependencies package
 
       - name: Print changes variable # para perceber porque é que corre, mas não faz o passo do build quando devia
