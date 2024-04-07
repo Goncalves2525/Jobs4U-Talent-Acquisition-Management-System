@@ -40,7 +40,7 @@ The assignment of tasks (requirements/user stories/use cases) during the project
 |------------------------------|----------------------|--------------------------------------------------|---------------------|----------------------------|-----------|------------|-------------|-------------------|
 | [1212039](1212039/readme.md) | Diogo Espírito Santo | [Justification](1212039/lapr4/sprinta/readme.md) | 0                   | 0                          | 0         | 0          | 0           | 0                 |
 | [1212044](1212044/readme.md) | Paulo Moreira        | [Justification](1212044/lapr4/sprinta/readme.md) | 0                   | 0                          | 0         | 0          | 0           | 0                 |
-| [1212047](1212047/readme.md) | Rafael Carolo        | [Justification](1212047/lapr4/sprinta/readme.md) | 0                   | 0                          | 0         | 0          | 0           | 0                 |
+| [1212047](1212047/readme.md) | Rafael Carolo        | [Justification](1212047/lapr4/sprinta/readme.md) | 4                   | 5                          | 4         | 3          | 5           | 4                 |
 | [1221720](1221720/readme.md) | Ricardo Gonçalves    | [Justification](1221720/lapr4/sprinta/readme.md) | 4                   | 5                          | 4         | 4          | 4           | 4                 |
 
 ### Sprint B
