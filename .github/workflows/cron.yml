@@ -44,4 +44,16 @@ jobs:
           cache: maven
 
       - name: Build and package with Maven
-        run: mvn dependency:copy-dependencies package
+        run: mvn dependency:copy-dependencies -DskipTests package #ignorar os testes neste ponto
+
+      - name: Test
+        run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
+
+      - name: Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Maven Tests
+          path: target/surefire-reports/*.xml
+          reporter: java-junit
+          fail-on-error: true
