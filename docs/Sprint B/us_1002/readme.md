@@ -50,15 +50,34 @@ After analysing more deeply the Specification Document and asking some questions
 
 ## 4. Design
 
-*In this sections, the team should present the solution design that was adopted to solve the requirement. This should include, at least, a diagram of the realization of the functionality (e.g., sequence diagram), a class diagram (presenting the classes that support the functionality), the identification and rational behind the applied design patterns and the specification of the main tests used to validade the functionality.*
-
 ### 4.1. Realization
+
+| Interaction ID                                                                    | Question: Which class is responsible for...                                         | Answer               | Justification (with patterns)            |
+|:----------------------------------------------------------------------------------|:------------------------------------------------------------------------------------|:---------------------|:-----------------------------------------|
+| Step 1 : Customer Manager requests to register a Job Opening                      | 	... requesting Job Opening Info?                                                   | RegisterJobOpeningUI | Pure Fabrication                         |
+| 		                                                                                | 	... validating Customer Managers inputs?                                           | RegisterJobOpeningUI | Pure Fabrication                         |
+| Step 2 : System registers Job Opening                                             | 	... coordination between users request and saving the Job Opening in the Database? | JobOpeningController | Controller                               |
+|                                                                                   | 	... creating the Job Opening?                                                      | JobOpeningBuilder    | Creater                                  |
+|                                                                                   | 	... saving the Job Opening in the Database?                                        | JobOpeningRepository | Information Expert,<br/>Pure Fabrication |
+| Step 3 : Inform the Customer Manager of Success/insuccess of the operation			  		 | 	... Showing result?                                                                | RegisterJobOpeningUI | Pure Fabrication                         |
+
+According to the taken rationale, the conceptual classes promoted to software classes are:
+
+* Job Opening
+
+Other software classes (i.e. Pure Fabrication) identified:
+
+* RegisterJobOpeningUI
+* JobOpeningController
+* JobOpeningRepository
+* JobOpeningBuilder
+
 
 ### 4.2. Class Diagram
 
 ![a class diagram](class-diagram-01.svg "A Class Diagram")
 
-### 4.3. Applied Patterns
+### 4.3. Sequence Diagram
 
 ### 4.4. Tests
 

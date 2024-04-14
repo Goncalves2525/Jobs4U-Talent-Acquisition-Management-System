@@ -1,13 +1,25 @@
 @startuml
 
-class A {
-
+package Presentation {
+    class RegisterJobOpeningUI
 }
 
-class B {
-
+package Domain {
+    class JobOpening
 }
 
-A -> B
+package Persistence {
+    class JpaJobOpeningRepository
+}
+
+package Application {
+    class JobOpeningController
+}
+
+
+
+Presentation.RegisterJobOpeningUI --> Application.JobOpeningController
+Application.JobOpeningController --> Persistence.JpaJobOpeningRepository
+Application.JobOpeningController --> Domain.JobOpening
 
 @enduml
