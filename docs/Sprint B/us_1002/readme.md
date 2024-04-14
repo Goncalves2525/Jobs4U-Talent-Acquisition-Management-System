@@ -14,16 +14,39 @@ Each Customer Manager should be able to register a Job Opening based on the Job 
 
 - 1002.1. It shouldn't be possible to register that is already registered.
 - 1002.2. The job opening should have: job reference, title, contract type, mode, address, company, number of vacancies, description, requirements and a state.
-- 1002.3. The state of the job opening should be "Application" by default.
-- 1002.4. The Job Opening must only be registered if there is a requirements specification available.
+- 1002.3. The state of the job opening should be "REGISTERING" by default.
 - 
 **Dependencies/References:**
 
 *Regarding this requirement we understand that it relates to US1008 because the Customer Manager must select one of the requirements specification that was previously loaded by the Language Engineer.*
 
 ## 3. Analysis
+### 3.1. Relevant Domain Model Excerpt
+![Domain Model](domain_model.png)
 
-*In this section, the team should report the study/analysis/comparison that was done in order to take the best design decisions for the requirement. This section should also include supporting diagrams/artifacts (such as domain model; use case diagrams, etc.),*
+### 3.2. Questions and Answers
+> **Question:** No contexto em que o Customer Manager regista uma oferta de emprego, como são selecionados/definidos os requisitos para essa job offer?
+> 
+> **Answer:** O Customer manager regista a job opening (US 1002) e de seguida (normalmente) seleciona qual o requirements specification que é adequado a esse job opening. O requirements specification será um dos que foi “criado” pelo language engineer e registado no sistema.
+
+> **Question:** No job opening é tudo de preenchimento obrigatório ou existem opcionais?
+> 
+> **Answer:** Os campos referidos na secção 2.2.2 são de preenchimento obrigatório. Os requirements vão ser dinâmicos uma vez que dependem do requirements specification selecionado para aquele job opening (que se baseia numa linguagem).
+
+> **Question:** Sobre a job specification, deve ser o cliente a enviar os requisitos ou é a responsabilidade do customer manager? Qual o conceito de uma job specification?
+>
+> **Answer:** Tipicamente será o customer que informa o custerm manager dos requisitos mínimos para uma oferta de emprego. O Customer manager verifica se existe já um requirements specification adequado. Caso não existe, com a ajuda do Language Engineer é criado um novo.
+
+> **Question:** Sobre a job specification, deve ser o cliente a enviar os requisitos ou é a responsabilidade do customer manager? Qual o conceito de uma job specification?
+>
+> **Answer:** Tipicamente será o customer que informa o custerm manager dos requisitos mínimos para uma oferta de emprego. O Customer manager verifica se existe já um requirements specification adequado. Caso não existe, com a ajuda do Language Engineer é criado um novo.
+
+
+### 3.3. Other Remarks
+After analysing more deeply the Specification Document and asking some questions to the client, we made the following adjustments to the domain model:
+* Customer is a part of the same Aggregate as the Job Opening.
+* Job Opening has a value object called state.
+* Job Opening is connected to the Requirement Specification created by the Language Engineer.
 
 ## 4. Design
 
