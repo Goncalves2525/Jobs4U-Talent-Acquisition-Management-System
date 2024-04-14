@@ -15,7 +15,7 @@
 - G006.1. The entities should be identified.
 - G006.2. The value objects should be identified.
 - G006.3. The aggregates should be identified.
-- G006.4. If responsibility atribution of a task is not clear, a service should be created for executing it.
+- G006.4. If responsibility attribution of a task is not clear, a service should be created for executing it.
 
 **Dependencies/References:**
 
@@ -67,8 +67,8 @@ The follwing screenshot was taken from https://enterprisecraftsmanship.com/posts
 
 ![analysis](study/services_definition.png)
 
-When the responsibility atribution of a task is not clear, a service can be created for executing it.
-There were also some taks that we identified as services because they would overwelm the entities if they were included in them.
+When the responsibility attribution of a task is not clear, a service can be created for executing it.
+There were also some tasks that we identified as services because they would overwelm the entities if they were included in them.
 For example, the evaluation of an interview could have been included in the Interview entity, but it would make it too complex.
 
 Example:
@@ -88,7 +88,7 @@ Example:
 
 *Problems:*
 * Usage of system users which are irrelevant for the domain model.
-* Not kwoing the difference between entities and value objects yet.
+* Not knowing the difference between entities and value objects yet.
 * Not knowing how "Interview" should be represented.
 * Too simple.
 
@@ -106,11 +106,11 @@ Example:
 ### Domain Model 2
 ![domain model](domain_model_attemps/domain_model2.png)
 
-*In our second aproach, we started to distinguish entities from value objects and added services.*
+*In our second approach, we started to distinguish entities from value objects and added services.*
 
 *Problems:*
 * Sharing value objects might not be necessary.
-* It is not the Candidate who uses the "Interview Serivce", but the Customer Manager.
+* It is not the Candidate who uses the "Interview Service", but the Customer Manager.
 * The services do not have the correct names.
 * Each object must be identified with a stereotype (entity, value object, service).
 * The "requirement specification service" does not generate anything.
@@ -127,7 +127,7 @@ By the end of Sprint A we had two alternatives for the domain model.
 In domain model 3.1, the Application Result connects to the Job Opening and the Interview to the Candidate.
 On the other hand, in domain model 3.2, the Application Result and the Interview Result both connect to the Application which connects to the Job Opening.
 
-We decided that 3.2 was the best option because the client refered to us that Applications hold other information like interviews and application results.
+We decided that 3.2 was the best option because the client referred to us that Applications hold other information like interviews and application results.
 It also shows in a better way how the entities are connected.
 In Domain Model 3.2 we also deleted the File Service since it's an Application Service and not a Domain Service.
 
