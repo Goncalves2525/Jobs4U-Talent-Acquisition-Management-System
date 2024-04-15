@@ -12,3 +12,6 @@ clean:
 
 run: main
 	./main
+
+runargs: main
+	./main input output report 5 60
