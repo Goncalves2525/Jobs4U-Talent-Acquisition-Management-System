@@ -12,7 +12,10 @@
 		<module>jobs4u.customerApp</module>
 		<module>jobs4u.util.ci</module>
         <module>jobs4u.backofficeApp</module>
-    </modules>
+		<module>jobs4u.core</module>
+		<module>jobs4u.persistance</module>
+		<module>jobs4u.common</module>
+	</modules>
 	<version>0.1.0</version>
 
 	<properties>

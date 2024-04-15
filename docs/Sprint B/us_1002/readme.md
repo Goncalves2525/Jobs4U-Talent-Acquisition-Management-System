@@ -56,7 +56,7 @@ After analysing more deeply the Specification Document and asking some questions
 |:----------------------------------------------------------------------------------|:------------------------------------------------------------------------------------|:---------------------|:-----------------------------------------|
 | Step 1 : Customer Manager requests to register a Job Opening                      | 	... requesting Job Opening Info?                                                   | RegisterJobOpeningUI | Pure Fabrication                         |
 | 		                                                                                | 	... validating Customer Managers inputs?                                           | RegisterJobOpeningUI | Pure Fabrication                         |
-| Step 2 : System registers Job Opening                                             | 	... coordination between users request and saving the Job Opening in the Database? | JobOpeningController | Controller                               |
+| Step 2 : System registers Job Opening                                             | 	... coordination between users request and saving the Job Opening in the Database? | RegisterJobOpeningController | Controller                               |
 |                                                                                   | 	... creating the Job Opening?                                                      | JobOpeningBuilder    | Creater                                  |
 |                                                                                   | 	... saving the Job Opening in the Database?                                        | JobOpeningRepository | Information Expert,<br/>Pure Fabrication |
 | Step 3 : Inform the Customer Manager of Success/insuccess of the operation			  		 | 	... Showing result?                                                                | RegisterJobOpeningUI | Pure Fabrication                         |
@@ -68,7 +68,7 @@ According to the taken rationale, the conceptual classes promoted to software cl
 Other software classes (i.e. Pure Fabrication) identified:
 
 * RegisterJobOpeningUI
-* JobOpeningController
+* RegisterJobOpeningController
 * JobOpeningRepository
 * JobOpeningBuilder
 

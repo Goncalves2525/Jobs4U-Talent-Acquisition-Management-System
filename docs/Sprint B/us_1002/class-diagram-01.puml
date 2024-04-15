@@ -6,20 +6,24 @@ package Presentation {
 
 package Domain {
     class JobOpening
+    class JobOpeningBuilder
 }
 
 package Persistence {
     class JpaJobOpeningRepository
+    interface JobOpeningRepository
 }
 
 package Application {
-    class JobOpeningController
+    class RegisterJobOpeningController
 }
 
 
 
-Presentation.RegisterJobOpeningUI --> Application.JobOpeningController
-Application.JobOpeningController --> Persistence.JpaJobOpeningRepository
-Application.JobOpeningController --> Domain.JobOpening
+Presentation.RegisterJobOpeningUI --> Application.RegisterJobOpeningController
+Application.RegisterJobOpeningController --> Persistence.JobOpeningRepository
+Application.RegisterJobOpeningController --> Domain.JobOpeningBuilder
+Domain.JobOpeningBuilder --> Domain.JobOpening
+Persistence.JobOpeningRepository <|-- Persistence.JpaJobOpeningRepository
 
 @enduml

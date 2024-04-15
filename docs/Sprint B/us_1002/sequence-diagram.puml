@@ -1,0 +1,42 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "CustomerManager" as CM
+participant "RegisterJobOpeningUI" as UI
+participant "RegisterJobOpeningController" as CTRL
+participant "JobOpeningRepository" as JOREPO
+participant "JobOpeningBuilder" as JOBUILDER
+
+
+activate CM
+    CM -> UI : registerJobOpening()
+    activate UI
+        UI -> CTRL : registerJobOpening()
+        activate CTRL
+            CTRL -> JOREPO : registerJobOpening()
+            activate JOREPO
+                JOREPO -> JOREPO : getJobOpeningRepository()
+                deactivate JOREPO
+            CTRL -> JOBUILDER : createJobOpening()
+            activate JOBUILDER
+                JOBUILDER -> JO : JobOpening()
+                activate JO
+                JO --> JOBUILDER : JobOpening
+                deactivate JO
+            deactivate JOBUILDER
+            CTRL -> JOREPO : saveJobOpening()
+            activate JOREPO
+            JOREPO -> JOREPO : saveJobOpening()
+            deactivate JOREPO
+        deactivate CTRL
+
+
+
+
+
+@enduml
