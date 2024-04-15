@@ -161,10 +161,55 @@ int validateAllArgumentsAvailable(arguments* arglocal) {
 }
 
 int createDirectory(char* newDirectoryPath) {
-    
+
+    int filho = cria_filhos(1);
+
+    // Lança erro de criação de filho
+    if(filho == -1){
+        return -1;
+    }
+
+    // Sendo processo filho, cria um novo diretorio de acordo com o parametro
+    if(filho > 0){
+        int valid = 0;
+        valid = execlp("mkdir", newDirectoryPath, NULL);
+        exit(valid);
+    }
+
+    // Aguarda o término do filho para encerrar o processo
+    wait(NULL);
+    return 0;
 }
 
 int moveFilesToDirectory(char* inputPath, char* basePathJobApplication, char* prefix) {
-
     // find [inputPath] -name '[prefix]-%' -exec mv -t [basePathJobApplication] {} +
+
+    int filho = cria_filhos(1);
+
+    // Lança erro de criação de filho
+    if(filho == -1){
+        return -1;
+    }
+
+    // Sendo processo filho, move todos os ficheiros com o prefixo passado em parametro
+    if(filho > 0){
+        int valid = 0;
+
+        char fullExecution[500];
+        strcpy(fullExecution, inputPath);
+        strcat(fullExecution, " -name ");
+        strcat(fullExecution, " '");
+        strcat(fullExecution, prefix);
+        strcat(fullExecution, "-%' ");
+        strcat(fullExecution, " -exec mv -t ");
+        strcat(fullExecution, basePathJobApplication);
+        strcat(fullExecution, " {} +");
+
+        valid = execlp("find", fullExecution, NULL);
+        exit(valid);
+    }
+
+    // Aguarda o término do filho para encerrar o processo
+    wait(NULL);
+    return 0;
 }
