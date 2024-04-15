@@ -9,8 +9,9 @@ autonumber
 actor "CustomerManager" as CM
 participant "RegisterJobOpeningUI" as UI
 participant "RegisterJobOpeningController" as CTRL
+participant "JobOpening" as JO
 participant "JobOpeningRepository" as JOREPO
-participant "JobOpeningBuilder" as JOBUILDER
+
 
 
 activate CM
@@ -18,23 +19,15 @@ activate CM
     activate UI
         UI -> CTRL : registerJobOpening()
         activate CTRL
-            CTRL -> JOREPO : registerJobOpening()
-            activate JOREPO
-                JOREPO -> JOREPO : getJobOpeningRepository()
-                deactivate JOREPO
-            CTRL -> JOBUILDER : createJobOpening()
-            activate JOBUILDER
-                JOBUILDER -> JO : JobOpening()
-                activate JO
-                JO --> JOBUILDER : JobOpening
-                deactivate JO
-            deactivate JOBUILDER
-            CTRL -> JOREPO : saveJobOpening()
-            activate JOREPO
-            JOREPO -> JOREPO : saveJobOpening()
-            deactivate JOREPO
+            CTRL -> JO : new JobOpening()
+            activate JO
+                JO --> CTRL : return JobOpening
+            deactivate JO
+            CTRL -> JOREPO : save(JobOpening)
         deactivate CTRL
-
+        UI --> CM : inform if job opening was registered or not
+    deactivate UI
+deactivate CM
 
 
 
