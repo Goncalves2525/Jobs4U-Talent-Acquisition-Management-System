@@ -21,74 +21,60 @@ void sigUsr1Handler(int signal){ //não podemos usar printf
 	printf("Handled SIGUSR1\n");
 }
 
-int findFirstPrefix(char *dirPath, char *prefix) {
-    DIR *dir;
-    struct dirent* entry;
-
-    dir = opendir(dirPath);
-
-    if (dir == NULL) {
-        perror("Error opening directory\n");
-        return 1;
-    }
-    
-    while ((entry = readdir(dir)) != NULL) {                   // itera sobre os ficheiros do diretório
-        // Verifica se é um ficheiro regular e se contém um hífen
-        if (strchr(entry->d_name, '-') != NULL) { 
-            char *hyphen_pos = strchr(entry->d_name, '-');     // encontra '-'
-            int len = hyphen_pos - entry->d_name;              // calcula o tamanho do prefixo
-            strncpy(prefix, entry->d_name, len);               // Copy the prefix
-            prefix[len] = '\0';                                // termina a "string"
-            break;
-        }
-    }
-
-    closedir(dir);
-
-    //Confirma se foi encontrado algum prefixo
-    if (strcmp(prefix, "") == 0) {
-        printf("No prefix found.\n");
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-int findNewPrefix(const char *dirPath, char *currentPrefix) {
-    DIR *dir;
-    struct dirent *entry;
-    char prefix[20] = "";
-
-    // Open the directory
-    dir = opendir(dirPath);
-
-    if (dir == NULL) {
-        perror("Error opening directory\n");
-        return 1;
-    }
-    while ((entry = readdir(dir)) != NULL) {
-        char *hyphen_pos = strchr(entry->d_name, '-');
+int findNewPrefix(char** fileNames, int fileCount, char* currentPrefix) {
+    for (int i = 0; i < fileCount; i++) {
+        char* hyphen_pos = strchr(fileNames[i], '-');
         if (hyphen_pos != NULL) {
-            int len = hyphen_pos - entry->d_name;
+            int len = hyphen_pos - fileNames[i];
             char tempPrefix[len + 1];
-            strncpy(tempPrefix, entry->d_name, len);
+            strncpy(tempPrefix, fileNames[i], len);
             tempPrefix[len] = '\0';
-            
-            // Verifica se o prefixo é diferente do prefixo atual
+
             if (strcmp(tempPrefix, currentPrefix) != 0) {
                 strcpy(currentPrefix, tempPrefix);
-                break;
+                return 0;
             }
         }
     }
+    return 1; //não encontrou novo prefixo
+}
+
+int compareFileNames(const void *a, const void *b) {
+    return strcmp(*(const char **)a, *(const char **)b);
+}
+
+int getDirFileNames(char* inputPath, char*** fileNames) {
+    DIR *dir;
+    struct dirent *entry;
+    int fileCount = 0;
+    int i = 0;
+
+    dir = opendir(inputPath);
+
+    if (dir == NULL) {
+        perror("Error opening directory\n");
+        return 1;
+    }
+
+    while ((entry = readdir(dir)) != NULL) {
+        //não conta com os ficheiros . e ..
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0 || strcmp(entry->d_name, ".DS_Store") == 0) {
+            continue;
+        }
+        fileNames[i] = malloc(strlen(entry->d_name) + 1); //aloca memória para cada nome de ficheiro
+        strcpy(fileNames[i], entry->d_name); //copia o nome do ficheiro
+        fileCount++;
+        i++;
+    }
 
     closedir(dir);
+    qsort(fileNames, fileCount, sizeof(char *), compareFileNames);
 
-    if (prefix == NULL) {
-        printf("No new prefix found.\n");
-        return 1;
+    if (i == 0) {
+        printf("No files found in directory.\n");
+        return -1;
     } else {
-        return 0;
+        return fileCount;
     }
 }
 

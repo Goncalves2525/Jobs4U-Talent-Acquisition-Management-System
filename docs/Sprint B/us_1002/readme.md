@@ -13,9 +13,7 @@ Each Customer Manager should be able to register a Job Opening based on the Job 
 **Acceptance Criteria:**
 
 - 1002.1. It shouldn't be possible to register that is already registered.
-- 1002.2. The job opening should have: job reference, title, contract type, mode, address, company, number of vacancies, description, requirements and a state.
-- 1002.3. The state of the job opening should be "REGISTERING" by default.
-- 
+
 **Dependencies/References:**
 
 *Regarding this requirement we understand that it relates to US1008 because the Customer Manager must select one of the requirements specification that was previously loaded by the Language Engineer.*

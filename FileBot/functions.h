@@ -3,8 +3,9 @@
 
 int cria_filhos(int n);
 void sigUsr1Handler(int signal);
-int findFirstPrefix(char *dirPath, char *prefix);
-int findNewPrefix(const char *dirPath, char *currentPrefix);
+int findNewPrefix(char** fileNames, int fileCount, char* currentPrefix);
+int compareFileNames(const void *a, const void *b);
+int getDirFileNames(char* inputPath, char*** fileNames);
 int extractArguments(const char* configFile, arguments* arg);
 int validateAllArgumentsAvailable(argumtents* arglocal);
 

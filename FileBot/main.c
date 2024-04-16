@@ -63,32 +63,34 @@ int main(int argc, char *argv[]){
         }else if(result == 0){
             char* fileName = "candidate-data.txt";
             char currentPrefix[20] = "";
-            char filePath[50] = "";
-            struct dirent *entry;
-            while(1){
-                pause(); //aguardar sinal do filho
-                if(strcmp(currentPrefix, "") == 0){ //primeira vez que se recebe sinal
-                    if(findFirstPrefix(inputPath, currentPrefix) == 1){
-                        printf("No prefix found.\n");
-                        exit(EXIT_FAILURE);
-                    }
-                }else{ //restantes vezes que se recebe sinal
-                    if (findNewPrefix(inputPath, currentPrefix) == 1) {
-                        printf("No prefix found.\n");
-                        exit(EXIT_FAILURE);
-                    }
-                }
-                //Criação do caminho para enviar aos filhos trabalhadores
-                snprintf(filePath, sizeof(filePath), "%s/%s-%s", inputPath, currentPrefix, fileName);
-                int i = 0;
-    
-    ////////////// CAROLO: REVER ESTE CICLO FOR COM RICARDO !!!
 
-                for(i = 0; i < nWorkers; i++){
-                    close(fd[i][READ]);  
-                    write(fd[i][WRITE], filePath, strlen(filePath) + 1);
-                    close(fd[i][WRITE]);
+            while(1){
+                char* fileNames[50];
+                int fileCount = 0;
+                pause(); //aguardar sinal do filho
+                fileCount = getDirFileNames(inputPath, fileNames);
+                if(fileCount == -1){
+                    perror("Error opening directory\n");
+                    exit(EXIT_FAILURE);
                 }
+
+                int end = 0;
+                int child = 0;
+                int lastChild = nWorkers;
+                while(end == 0){
+                    end = findNewPrefix(fileNames, fileCount, currentPrefix);
+                    if(end == 0){
+                        close(fd[child][READ]);
+                        write(fd[child][WRITE], currentPrefix, strlen(currentPrefix));
+                        close(fd[child][WRITE]);
+
+                        child++;
+                        if(child == lastChild){
+                            child = 0;
+                        }
+                    }
+                }
+                //FALTA-ME MATAR OS FILHOS
             }
         }else{ // código dos "worker child"
             close(fd[result][WRITE]); // fechar canal de escrita
