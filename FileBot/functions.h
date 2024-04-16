@@ -3,6 +3,7 @@
 
 int cria_filhos(int n);
 void sigUsr1Handler(int signal);
+void monitor_files(const char* inputPath);
 int findFirstPrefix(char *dirPath, char *prefix);
 int findNewPrefix(const char *dirPath, char *currentPrefix);
 int extractArguments(const char* configFile, arguments* arg);
