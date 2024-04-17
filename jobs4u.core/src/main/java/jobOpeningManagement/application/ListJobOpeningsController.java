@@ -1,17 +1,12 @@
 package jobOpeningManagement.application;
 
 import infrastructure.persistance.PersistenceContext;
-import jobOpeningManagement.domain.JobOpening;
 import jobOpeningManagement.repositories.JobOpeningRepository;
 
-
-public class RegisterJobOpeningController {
-
+public class ListJobOpeningsController {
     private JobOpeningRepository repo = PersistenceContext.repositories().jobOpenings();
 
-    public void registerJobOpening(String jobReference) {
-        JobOpening jobOpening = new JobOpening(jobReference);
-        repo.save(jobOpening);
-
+    public void listJobOpenings() {
+        repo.findAll().forEach(System.out::println);
     }
 }

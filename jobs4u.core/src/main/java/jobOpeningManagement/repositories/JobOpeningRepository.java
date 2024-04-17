@@ -1,4 +1,8 @@
 package jobOpeningManagement.repositories;
 
-public interface JobOpeningRepository {
+import eapli.framework.domain.repositories.DomainRepository;
+import jobOpeningManagement.domain.JobOpening;
+
+public interface JobOpeningRepository extends DomainRepository<String, JobOpening>{
+
 }
