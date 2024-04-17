@@ -9,8 +9,7 @@
 
 int main(int argc, char *argv[]){
 
-    // Usar argumentos do ficheiro de configuração ou do command prompt:
-    arguments arglocal;
+    // Usar argumentos do ficheiro de configuração ou do command prompt: arguments arglocal;
     if(argc>1){
         strcpy(arglocal.inputPath, argv[1]);
         strcpy(arglocal.outputPath, argv[2]);
@@ -55,6 +54,8 @@ int main(int argc, char *argv[]){
         exit(EXIT_FAILURE);
     }else if(pid == 0){
         //CÓDIGO DO JORGE
+        monitor_files(inputPath);
+
     }else{
         int result = cria_filhos(nWorkers);
         if(result == -1){
@@ -163,6 +164,5 @@ int main(int argc, char *argv[]){
         }
         
     }
-
 
 }

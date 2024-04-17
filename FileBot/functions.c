@@ -2,7 +2,14 @@
 #include <dirent.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <signal.h>
 #include "functions.h"
+
+// Variável global para guardar o estado anterior da pasta
+int previous_num_files = 0;
+
 
 int cria_filhos(int n) {
     pid_t pid = 0;
@@ -198,4 +205,37 @@ int moveFilesToDirectory(char* inputPath, char* basePathJobApplication, char* pr
     // Aguarda o término do filho para encerrar o processo
     wait(NULL);
     return 0;
+}
+
+void monitor_files(const char* inputPath) {
+    DIR* dir;
+    struct dirent* entry;
+    while (1) {
+        dir = opendir(inputPath);
+        if (dir == NULL) {
+            perror("opendir");
+            return;
+        }
+        int num_files = 0;
+        while ((entry = readdir(dir)) != NULL) {
+            if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
+                continue; // Ignorar diretório atual e pai
+            }
+            printf("Found file: %s\n", entry->d_name);
+            num_files++;
+        }
+        closedir(dir);
+        // Verificar se o número de ficheiros alterou
+        if (num_files > previous_num_files) {
+            // Se encontrar novos ficheiros enviar um sinal para o processo pai
+            kill(getppid(), SIGUSR1);
+        }
+        // Atualiza o estado anterior
+        previous_num_files = num_files;
+        // Se não houver ficheiros na pasta, coloca o contador a 0
+        if (num_files == 0) {
+            previous_num_files = 0;
+        }
+        sleep(10);
+    }
 }
