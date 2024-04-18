@@ -50,7 +50,7 @@ int compareFileNames(const void *a, const void *b) {
     return strcmp(*(const char **)a, *(const char **)b);
 }
 
-int getDirFileNames(char* inputPath, char*** fileNames) {
+int getDirFileNames(char* inputPath, char** fileNames) {
     DIR *dir;
     struct dirent *entry;
     int fileCount = 0;
@@ -85,9 +85,9 @@ int getDirFileNames(char* inputPath, char*** fileNames) {
     }
 }
 
-int extractArguments(const char* configFile, arguments* arg) {
+int extractArguments(const char* configFile, arglocal* arg) {
 
-    FILE *file = fopen(CONFIGFILE, "r"); // abrir ficheiro
+    FILE *file = fopen(configFile, "r"); // abrir ficheiro
     if (file == NULL) { // testar erro ao abrir ficheiro
         perror("Error opening file");
         fclose(file);
@@ -99,58 +99,104 @@ int extractArguments(const char* configFile, arguments* arg) {
     } else { // executar código para recolher valores do ficheiro
         rewind(file); // reposicionar no inicio do ficheiro
         char lineRead[250]; // variável para guardar o conteúdo de cada linha temporariamente
-        char token[250];
-        while (fgets(lineRead, sizeof(lineRead), file) != EOF) { // percorre todas as linhas até o final do ficheiro
-            token = strtok(configLine, " ");
-            switch (token) { // mediante a primeira parte da linha, aloca o valor ao respetivo elemento do struct
-                case "#input-directory:":
-                    token = strtok(NULL, " ");
-                    strcpy(arg.inputPath, token);
-                    break;
-                case "#output-directory:":
-                    token = strtok(NULL, " ");
-                    strcpy(arg.outputPath, token);
-                    break;
-                case "#report-directory:":
-                    token = strtok(NULL, " ");
-                    strcpy(arg.reportPath, token);
-                    break;
-                case "#worker-child:":
-                    token = strtok(NULL, " ");
-                    arg.nWorkers = atoi(token);
-                    break;
-                case "#time-interval:":
-                    token = strtok(NULL, " ");
-                    arg.timeInterval = atoi(token);
-                    break;
-            }
+        char* token;
+        while (fgets(lineRead, sizeof(lineRead), file) != NULL) { // percorre todas as linhas até o final do ficheiro
+            token = strtok(lineRead, " ");
+            // mediante a primeira parte da linha, aloca o valor ao respetivo elemento do struct
+            if(strcmp(token, "#input-directory:") == 0){
+				token = strtok(NULL, " ");
+                strcpy(arg->inputPath, token);
+			}
+			if(strcmp(token, "#output-directory:") == 0){
+				token = strtok(NULL, " ");
+                strcpy(arg->outputPath, token);
+			}
+			if(strcmp(token, "#report-directory:") == 0){
+				token = strtok(NULL, " ");
+                strcpy(arg->reportPath, token);
+			}
+			if(strcmp(token, "#worker-child:") == 0){
+				token = strtok(NULL, " ");
+                arg->nWorkers = atoi(token);
+			}
+			if(strcmp(token, "#time-interval:") == 0){
+				token = strtok(NULL, " ");
+                arg->timeInterval = atoi(token);
+			}
         }
     }
     return 0;
 }
 
-int validateAllArgumentsAvailable(arguments* arglocal) {
-    if(!strcmp(arg.inputPath, "\0")){
+int validateAllArgumentsAvailable(arglocal* arg) {
+    if(!strcmp(arg->inputPath, "\0")){
         printf("Path INVÁLIDO para o diretório input.\n");
         return -1;
     }
-    if(!strcmp(arg.outputPath, "\0")){
+    if(!strcmp(arg->outputPath, "\0")){
         printf("Path INVÁLIDO para o diretório output.\n");
         return -1;
     }
-    if(!strcmp(arg.reportPath, "\0")){
+    if(!strcmp(arg->reportPath, "\0")){
         printf("Path INVÁLIDO para o diretório report.\n");
         return -1;
     }
-    if(arg.nWorkers <= 0){
+    if(arg->nWorkers <= 0){
         printf("Nr de 'worker childs' inválido.\n");
         return -1;
     }
-    if(arg.timeInterval < 0){
+    if(arg->timeInterval < 0){
         printf("Tempo de 'time interval' inválido.\n");
         return -1;
     }
     return 0;
+}
+
+int getApplicationDetails(char* currentPrefix, char* jobReference, char* jobApplicant) {
+	
+	char candidateDataFile[100];
+	strcpy(candidateDataFile, "./input/");
+	strcat(candidateDataFile, currentPrefix);
+	strcat(candidateDataFile, "-candidate-data.txt");
+	
+	FILE *file = fopen(candidateDataFile, "r"); // abrir ficheiro
+	if (file == NULL) { // testar erro ao abrir ficheiro
+		char errorMessage[300];
+		strcpy(errorMessage, "Error opening file for candidate data ");
+		strcat(errorMessage, candidateDataFile);
+		strcat(errorMessage,"\n");
+		perror(errorMessage);
+		fclose(file);
+		return -1;
+	}
+	
+	char lineRead[250];
+	int lineCounter = 0;
+	
+	while(fgets(lineRead, sizeof(lineRead), file) != EOF){
+		lineCounter++;
+		switch (lineCounter){
+			case 1:
+				strcpy(jobReference, lineRead);
+				break;
+			case 2:
+				strcpy(jobApplicant, lineRead);
+				break;
+		}
+	}
+	fclose(file);
+
+	// Validar se ficheiro contem os 4 dados essenciais:
+	if(lineCounter < 4){ 
+		char errorMessage[300];
+		strcpy(errorMessage, "Not enough candidate details at ");
+		strcat(errorMessage, candidateDataFile);
+		strcat(errorMessage,"\n");
+		perror(errorMessage);
+		return -1;
+	}
+	
+	return 0;
 }
 
 int createDirectory(char* newDirectoryPath) {
@@ -174,7 +220,7 @@ int createDirectory(char* newDirectoryPath) {
     return 0;
 }
 
-int moveFilesToDirectory(char* inputPath, char* basePathJobApplication, char* prefix) {
+int moveFilesToDirectory(char* inputPath, char* jobApplicantPath, char* currentPrefix) {
     // find [inputPath] -name '[prefix]-%' -exec mv -t [basePathJobApplication] {} +
 
     int filho = cria_filhos(1);
@@ -192,10 +238,10 @@ int moveFilesToDirectory(char* inputPath, char* basePathJobApplication, char* pr
         strcpy(fullExecution, inputPath);
         strcat(fullExecution, " -name ");
         strcat(fullExecution, " '");
-        strcat(fullExecution, prefix);
+        strcat(fullExecution, currentPrefix);
         strcat(fullExecution, "-%' ");
         strcat(fullExecution, " -exec mv -t ");
-        strcat(fullExecution, basePathJobApplication);
+        strcat(fullExecution, jobApplicantPath);
         strcat(fullExecution, " {} +");
 
         valid = execlp("find", fullExecution, NULL);
@@ -211,9 +257,13 @@ void monitor_files(const char* inputPath) {
     DIR* dir;
     struct dirent* entry;
     while (1) {
-        dir = opendir(inputPath);
+        dir = opendir(&inputPath);
         if (dir == NULL) {
-            perror("opendir");
+            char errorMessage[300];
+			strcpy(errorMessage, "Error opening directory: ");
+			strcat(errorMessage, inputPath);
+			strcat(errorMessage,"\n");
+			perror(errorMessage);
             return;
         }
         int num_files = 0;

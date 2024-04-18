@@ -14,4 +14,4 @@ run: main
 	./main
 
 runargs: main
-	./main input output report 5 60
+	./main ./input ./output ./report 5 60
