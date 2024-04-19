@@ -6,6 +6,7 @@
   <persistence-unit name="default">
 
     <class>jobOpeningManagement.domain.JobOpening</class>
+    <class>jobOpeningManagement.domain.Customer</class>
 
     <properties>
       <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>

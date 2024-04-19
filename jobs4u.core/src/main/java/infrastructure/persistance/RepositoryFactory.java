@@ -28,6 +28,7 @@ import eapli.framework.domain.repositories.TransactionalContext;
 import eapli.framework.infrastructure.authz.domain.repositories.UserRepository;
 import eapli.framework.infrastructure.pubsub.impl.simplepersistent.repositories.EventConsumptionRepository;
 import eapli.framework.infrastructure.pubsub.impl.simplepersistent.repositories.EventRecordRepository;
+import jobOpeningManagement.repositories.CustomerRepository;
 import jobOpeningManagement.repositories.JobOpeningRepository;
 
 /**
@@ -58,6 +59,8 @@ public interface RepositoryFactory {
 	UserRepository users();
 
 	JobOpeningRepository jobOpenings();
+
+	CustomerRepository customers();
 
 	EventConsumptionRepository eventConsumption();
 

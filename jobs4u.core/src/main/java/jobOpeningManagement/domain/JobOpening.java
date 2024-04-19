@@ -1,13 +1,9 @@
 package jobOpeningManagement.domain;
 
 import eapli.framework.domain.model.AggregateRoot;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "JobOpening")
 public class JobOpening implements AggregateRoot<String> {
     @Id
     private String jobReference;
@@ -15,88 +11,103 @@ public class JobOpening implements AggregateRoot<String> {
     @Column
     private String title;
 
+    @Enumerated(EnumType.STRING)
     @Column
-    private String contractType;
+    private ContractType contractType;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private JobMode mode;
+
+    @Embedded
+    @Column
+    private Address address;
+
+    @ManyToOne
+    @JoinColumn(name = "code")
+    private Customer company;
 
     @Column
-    private String mode;
-
-    @Column
-    private String address;
-
-    @Column
-    private String company;
-
-    @Column
-    private String numberOfVacancies;
+    private int numberOfVacancies;
 
     @Column
     private String description;
 
+    @Embedded
     @Column
-    private String requirements;
+    private Requirements requirements;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private RecruitmentState state;
 
     @Column
-    private String state;
+    private int sequentialNumber;
+
+    @Transient
+    private static int jobOpeningCounter = 0;
 
     protected JobOpening() {
         // for ORM
     }
 
-    public JobOpening(String jobReference){
-        this.jobReference = jobReference;
-    }
-
-    public JobOpening(String jobReference, String title, String contractType, String mode, String address, String company, String numberOfVacancies, String description, String requirements, String state) {
-        this.jobReference = jobReference;
+    public JobOpening(String title, ContractType contractType, JobMode mode, Address address, Customer company, int numberOfVacancies, String description, Requirements requirements, RecruitmentState state) {
         this.title = title;
         this.contractType = contractType;
         this.mode = mode;
         this.address = address;
         this.company = company;
+        //ensure that the number of vacancies is a positive number
+        if (numberOfVacancies <= 0) {
+            throw new IllegalArgumentException("Number of vacancies must be a positive number");
+        }
         this.numberOfVacancies = numberOfVacancies;
         this.description = description;
         this.requirements = requirements;
         this.state = state;
+        sequentialNumber = jobOpeningCounter++;
+
+        //Company code + sequential number
+        generateJobReference();
     }
 
-    public String getJobReference() {
+    public String jobReference() {
         return jobReference;
     }
 
-    public String getTitle() {
+    public String title() {
         return title;
     }
 
-    public String getContractType() {
+    public ContractType contractType() {
         return contractType;
     }
 
-    public String getMode() {
+    public JobMode mode() {
         return mode;
     }
 
-    public String getAddress() {
+    public Address address() {
         return address;
     }
 
-    public String getCompany() {
+    public Customer company() {
         return company;
     }
 
-    public String getNumberOfVacancies() {
+    public int numberOfVacancies() {
         return numberOfVacancies;
     }
 
-    public String getDescription() {
+    public String description() {
         return description;
     }
 
-    public String getRequirements() {
+    public Requirements requirements() {
         return requirements;
     }
 
-    public String getState() {
+    public RecruitmentState state() {
         return state;
     }
 
@@ -116,6 +127,11 @@ public class JobOpening implements AggregateRoot<String> {
                 '}';
     }
 
+    @PrePersist
+    public void generateJobReference() {
+        String companyCode = company.getCode().getCode();
+        jobReference = companyCode + "-" + sequentialNumber;
+    }
 
     @Override
     public boolean sameAs(Object other) {

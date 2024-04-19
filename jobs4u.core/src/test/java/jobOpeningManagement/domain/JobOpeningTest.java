@@ -34,4 +34,9 @@ public class JobOpeningTest {
 
     }
 
+    @Test
+    void ensureNumberOfVacanciesIsPositive(){
+
+    }
+
 }

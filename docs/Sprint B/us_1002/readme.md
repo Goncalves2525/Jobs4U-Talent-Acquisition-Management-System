@@ -32,6 +32,8 @@ Each Customer Manager should be able to register a Job Opening based on the Job 
 - 1002.4. Job Reference should be based on a Customer code followed by a sequential number (with 10 characters max).
 **Dependencies/References:**
 
+- 1002.5. "Number of vacancies" should be a positive integer.
+
 *Regarding this requirement we understand that it relates to US1008 because the Customer Manager must select one of the requirements specification that was previously loaded by the Language Engineer.*
 
 ## 3. Analysis
@@ -161,6 +163,17 @@ void ensureJobReferenceDoesNotExceedMaxChars(){
 ```
 @Test
 void ensureJobReferenceUsesSequentialNumbers(){
+
+}
+````
+
+**Test 7:** *Verifies that the Number of vacancies is a positive integer*
+
+**Refers to Acceptance Criteria:** G002.5
+
+```
+@Test
+void ensureNumberOfVacanciesIsPositive(){
 
 }
 ````
