@@ -39,4 +39,9 @@ public class JobOpeningTest {
 
     }
 
+    @Test
+    void ensureNoJobOpeningIfNoCustomers(){
+
+    }
+
 }

@@ -3,10 +3,12 @@ package jpa;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 import jobOpeningManagement.domain.CompanyCode;
 import jobOpeningManagement.domain.Customer;
 import jobOpeningManagement.repositories.CustomerRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public class JpaCustomerRepository implements CustomerRepository {
@@ -29,13 +31,20 @@ public class JpaCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Iterable<Customer> findAll() {
-        return null;
+    public List<Customer> findAll() {
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM Customer e");
+        List<Customer> list = query.getResultList();
+        return list;
     }
 
     @Override
     public Optional<Customer> ofIdentity(CompanyCode id) {
-        return Optional.empty();
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM Customer e WHERE e.code = :id");
+        query.setParameter("id", id);
+        Customer customer = (Customer) query.getSingleResult();
+        return Optional.of(customer);
     }
 
     @Override

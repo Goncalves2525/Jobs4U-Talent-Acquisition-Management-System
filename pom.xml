@@ -114,7 +114,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>Main</mainClass>
+							<mainClass>BackOffice</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

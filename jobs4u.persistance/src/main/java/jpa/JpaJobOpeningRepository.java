@@ -54,7 +54,11 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
 
     @Override
     public Optional<JobOpening> ofIdentity(String id) {
-        return Optional.empty();
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM JobOpening e WHERE e.id = :id");
+        query.setParameter("id", id);
+        JobOpening jobOpening = (JobOpening) query.getSingleResult();
+        return Optional.of(jobOpening);
     }
 
     @Override

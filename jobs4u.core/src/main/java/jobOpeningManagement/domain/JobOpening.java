@@ -6,6 +6,10 @@ import jakarta.persistence.*;
 @Entity
 public class JobOpening implements AggregateRoot<String> {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column
     private String jobReference;
 
     @Column
@@ -41,12 +45,6 @@ public class JobOpening implements AggregateRoot<String> {
     @Column
     private RecruitmentState state;
 
-    @Column
-    private int sequentialNumber;
-
-    @Transient
-    private static int jobOpeningCounter = 0;
-
     protected JobOpening() {
         // for ORM
     }
@@ -65,7 +63,6 @@ public class JobOpening implements AggregateRoot<String> {
         this.description = description;
         this.requirements = requirements;
         this.state = state;
-        sequentialNumber = jobOpeningCounter++;
 
         //Company code + sequential number
         generateJobReference();
@@ -130,7 +127,7 @@ public class JobOpening implements AggregateRoot<String> {
     @PrePersist
     public void generateJobReference() {
         String companyCode = company.getCode().getCode();
-        jobReference = companyCode + "-" + sequentialNumber;
+        jobReference = companyCode + "-" + id;
     }
 
     @Override

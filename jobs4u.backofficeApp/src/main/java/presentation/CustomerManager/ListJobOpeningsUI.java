@@ -1,4 +1,4 @@
-package presentation;
+package presentation.CustomerManager;
 
 import eapli.framework.presentation.console.AbstractUI;
 import jobOpeningManagement.application.ListJobOpeningsController;

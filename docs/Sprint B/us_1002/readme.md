@@ -15,7 +15,6 @@ Each Customer Manager should be able to register a Job Opening based on the Job 
 - 1002.1. It shouldn't be possible to register a job opening that is already registered.
 
 - 1002.2. The first state of the job opening should be "APPLICATION".
-- 1002.1. It shouldn't be possible to register that is already registered.
 
 - 1002.3. The job opening should have the following attributes:
   - Job Reference
@@ -30,9 +29,12 @@ Each Customer Manager should be able to register a Job Opening based on the Job 
   - State
 
 - 1002.4. Job Reference should be based on a Customer code followed by a sequential number (with 10 characters max).
-**Dependencies/References:**
 
 - 1002.5. "Number of vacancies" should be a positive integer.
+
+- 1002.6. "If there are no Customers registered, it shouldn't be possible to register a Job Opening."
+
+**Dependencies/References:**
 
 *Regarding this requirement we understand that it relates to US1008 because the Customer Manager must select one of the requirements specification that was previously loaded by the Language Engineer.*
 
@@ -68,14 +70,15 @@ After analysing more deeply the Specification Document and asking some questions
 
 ### 4.1. Realization
 
-| Interaction ID                                                                    | Question: Which class is responsible for...                                         | Answer               | Justification (with patterns)            |
-|:----------------------------------------------------------------------------------|:------------------------------------------------------------------------------------|:---------------------|:-----------------------------------------|
-| Step 1 : Customer Manager requests to register a Job Opening                      | 	... requesting Job Opening Info?                                                   | RegisterJobOpeningUI | Pure Fabrication                         |
-| 		                                                                                | 	... validating Customer Managers inputs?                                           | RegisterJobOpeningUI | Pure Fabrication                         |
+| Interaction ID                                                                    | Question: Which class is responsible for...                                         | Answer                       | Justification (with patterns)            |
+|:----------------------------------------------------------------------------------|:------------------------------------------------------------------------------------|:-----------------------------|:-----------------------------------------|
+| Step 1 : Customer Manager requests to register a Job Opening                      | 	... requesting Job Opening Info?                                                   | RegisterJobOpeningUI         | Pure Fabrication                         |
+| 		                                                                                | 	... validating Customer Managers inputs?                                           | RegisterJobOpeningUI         | Pure Fabrication                         |
+| 		                                                                                | 	... retrieving available companies?                                                | ListCustomersService         | Service                                  |
 | Step 2 : System registers Job Opening                                             | 	... coordination between users request and saving the Job Opening in the Database? | RegisterJobOpeningController | Controller                               |
-|                                                                                   | 	... creating the Job Opening?                                                      | obOpening   | Creater                                  |
-|                                                                                   | 	... saving the Job Opening in the Database?                                        | JobOpeningRepository | Information Expert,<br/>Pure Fabrication |
-| Step 3 : Inform the Customer Manager of Success/insuccess of the operation			  		 | 	... Showing result?                                                                | RegisterJobOpeningUI | Pure Fabrication                         |
+|                                                                                   | 	... creating the Job Opening?                                                      | obOpening                    | Creater                                  |
+|                                                                                   | 	... saving the Job Opening in the Database?                                        | JobOpeningRepository         | Information Expert,<br/>Pure Fabrication |
+| Step 3 : Inform the Customer Manager of Success/insuccess of the operation			  		 | 	... Showing result?                                                                | RegisterJobOpeningUI         | Pure Fabrication                         |
 
 According to the taken rationale, the conceptual classes promoted to software classes are:
 
@@ -174,6 +177,17 @@ void ensureJobReferenceUsesSequentialNumbers(){
 ```
 @Test
 void ensureNumberOfVacanciesIsPositive(){
+
+}
+````
+
+**Test 8:** *Verifies that it is not possible to register a Job Opening if there are no Customers registered*
+
+**Refers to Acceptance Criteria:** G002.6
+
+```
+@Test
+void ensureNoJobOpeningIfNoCustomers(){
 
 }
 ````

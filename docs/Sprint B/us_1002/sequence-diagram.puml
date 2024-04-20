@@ -9,21 +9,44 @@ autonumber
 actor "CustomerManager" as CM
 participant "RegisterJobOpeningUI" as UI
 participant "RegisterJobOpeningController" as CTRL
+participant "ListCustomersService" as JOSVC
+participant "CustomerRepository" as CREPO
 participant "JobOpening" as JO
 participant "JobOpeningRepository" as JOREPO
 
 
 
+
+
 activate CM
-    CM -> UI : registerJobOpening()
     activate UI
-        UI -> CTRL : registerJobOpening()
+        UI --> CM : prompt: title, contract type, mode, address
+        CM -> UI : insert: title, contract type, mode, address
+        UI -> CTRL : allCustomers()
         activate CTRL
+            CTRL -> JOSVC : allCustomers()
+            activate JOSVC
+                JOSVC -> CREPO : allCustomer()
+                activate CREPO
+                    CREPO --> JOSVC : return customers
+                deactivate CREPO
+                JOSVC --> CTRL : return customers
+            deactivate JOSVC
+            CTRL --> UI : return customers
+            UI --> CM : show companies and prompt to select one
+            CM -> UI : select company
+            UI --> CM : prompts n. of vacancies and description
+            CM -> UI : inserts  n. of vacancies and description
+            UI -> CTRL : registerJobOpening()
             CTRL -> JO : new JobOpening()
             activate JO
                 JO --> CTRL : return JobOpening
             deactivate JO
             CTRL -> JOREPO : save(JobOpening)
+            activate JOREPO
+                JOREPO --> CTRL : return JobOpening
+            deactivate JOREPO
+            CTRL --> UI : return true/false
         deactivate CTRL
         UI --> CM : inform if job opening was registered or not
     deactivate UI

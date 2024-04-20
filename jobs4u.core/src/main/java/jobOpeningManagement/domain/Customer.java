@@ -2,6 +2,7 @@ package jobOpeningManagement.domain;
 
 import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +10,19 @@ import java.util.List;
 @Entity
 public class Customer implements AggregateRoot<CompanyCode> {
     @Id
+    @GeneratedValue
+    private Long id;
+    @Getter
+    @Embedded
+    @Column(unique = true)
     private CompanyCode code;
+    @Getter
     @Column
     private String name;
+    @Getter
     @Column
     private String email;
+    @Getter
     @Embedded
     private Address address;
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
@@ -28,22 +37,6 @@ public class Customer implements AggregateRoot<CompanyCode> {
         this.name = name;
         this.email = email;
         this.address = address;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public CompanyCode getCode() {
-        return code;
     }
 
     @Override
