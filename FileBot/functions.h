@@ -9,7 +9,12 @@ typedef struct Arguments {
     int timeInterval;
 } arglocal;
 
-int cria_filhos(int n);
+typedef struct ReturnValues {
+    int child;
+    pid_t pid;
+} returnValues;
+
+returnValues cria_filhos(int n);
 void sigUsr1Handler(int signal);
 void monitor_files(char* inputPath);
 int findNewPrefix(char** fileNames, int fileCount, char* currentPrefix, char* oldPrefixes);

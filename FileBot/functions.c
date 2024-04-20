@@ -20,17 +20,23 @@ int countChars(char* string){
 }
 
 
-int cria_filhos(int n) {
+returnValues cria_filhos(int n) {
+    returnValues values;
     pid_t pid = 0;
     int i = 0;
     for (i = 0; i < n; ++i) {
         pid = fork();
-        if (pid < 0)
-            return -1;
-        else if (pid == 0)
-            return i + 1;
+        if (pid < 0){
+            values.child = -1;
+            return values;
+        }else if (pid == 0){
+            values.child = i + 1;
+            values.pid = getpid();
+            return values;
+        }
     }
-    return 0;
+    values.child = 0;
+    return values;
 }
 
 void sigUsr1Handler(int signal){ //não podemos usar printf
@@ -119,17 +125,29 @@ int extractArguments(const char* configFile, arglocal* arg) {
             // mediante a primeira parte da linha, aloca o valor ao respetivo elemento do struct
             if(strcmp(token, "#input-directory:") == 0){
 				token = strtok(NULL, " ");
-                token[strlen(token) - 1] = '\0';
+                if(token[strlen(token) - 2] == '\r'){ 
+					token[strlen(token) - 2] = '\0'; 
+				} else { 
+					token[strlen(token) - 1] = '\0'; 
+				}
                 strcpy(arg->inputPath, token);
 			}
 			if(strcmp(token, "#output-directory:") == 0){
 				token = strtok(NULL, " ");
-                token[strlen(token) - 1] = '\0';
+                if(token[strlen(token) - 2] == '\r'){ 
+					token[strlen(token) - 2] = '\0'; 
+				} else { 
+					token[strlen(token) - 1] = '\0'; 
+				}
                 strcpy(arg->outputPath, token);
 			}
 			if(strcmp(token, "#report-directory:") == 0){
 				token = strtok(NULL, " ");
-                token[strlen(token) - 1] = '\0';
+                if(token[strlen(token) - 2] == '\r'){ 
+					token[strlen(token) - 2] = '\0'; 
+				} else { 
+					token[strlen(token) - 1] = '\0'; 
+				}
                 strcpy(arg->reportPath, token);
 			}
 			if(strcmp(token, "#worker-child:") == 0){
@@ -139,7 +157,8 @@ int extractArguments(const char* configFile, arglocal* arg) {
 			}
 			if(strcmp(token, "#time-interval:") == 0){
 				token = strtok(NULL, " ");
-                token[strlen(token) - 1] = '\0';
+                //token[strlen(token) - 1] = '\0'; 
+                // not applicable due to being configs.txt last line
                 arg->timeInterval = atoi(token);
 			}
         }
@@ -223,21 +242,20 @@ int getApplicationDetails(char* currentPrefix, char* jobReference, char* jobAppl
 
 int createDirectory(char* newDirectoryPath) {
 
-    int filho = cria_filhos(1);
+    returnValues result = cria_filhos(1);
 
     // Lança erro de criação de filho
-    if(filho == -1){
+    if(result.child == -1){
         return -1;
     }
 
     // Sendo processo filho, cria um novo diretorio de acordo com o parametro
-    if(filho > 0){
+    if(result.child > 0){
         int valid = 0;
         char* parameter;
         strcpy(parameter, "mkdir ");
         strcat(parameter, newDirectoryPath);
-        printf("I got here with parameter %s\n", parameter);
-        valid = execlp(parameter, "mkdir", NULL);
+        valid = execlp("mkdir", "mkdir", newDirectoryPath, NULL);
         perror("Error creating directory\n");
         exit(valid);
     }
@@ -250,15 +268,15 @@ int createDirectory(char* newDirectoryPath) {
 int moveFilesToDirectory(char* inputPath, char* jobApplicantPath, char* currentPrefix) {
     // find [inputPath] -name '[prefix]-%' -exec mv -t [basePathJobApplication] {} +
 
-    int filho = cria_filhos(1);
+    returnValues result = cria_filhos(1);
 
     // Lança erro de criação de filho
-    if(filho == -1){
+    if(result.child == -1){
         return -1;
     }
 
     // Sendo processo filho, move todos os ficheiros com o prefixo passado em parametro
-    if(filho > 0){
+    if(result.child > 0){
         int valid = 0;
 
         char fullExecution[500];

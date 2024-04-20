@@ -66,10 +66,10 @@ int main(int argc, char *argv[]){
     }                                           //  |
     
     // Cria filhos que trabalham
-	int result = cria_filhos(arg.nWorkers);
+	returnValues result = cria_filhos(arg.nWorkers);
 	
 	// Tratamento erros fork
-	if(result == -1){
+	if(result.child == -1){
 		perror("ERROR when creating children processes.\n");
 		exit(EXIT_FAILURE);
 	}
@@ -77,13 +77,13 @@ int main(int argc, char *argv[]){
 	char currentPrefix[20] = "";
 	
 	// Código do filho trabalhador
-	if(result > 0) {
-		close(fd[result - 1][WRITE]); // fechar canal de escrita
+	if(result.child > 0) {
+		close(fd[result.child - 1][WRITE]); // fechar canal de escrita
 		sleep(5); // [TEMPORÁRIO] apagar mais tarde!
 		while(1){
 			int available = 0; // sinal para identificar o estado do filho (0=disponivel; -1=indisponível)
 			// [TODO:] (enviar sinal a informar o pai de que está disponível para trabalhar)
-			read(fd[result - 1][READ], currentPrefix, strlen(currentPrefix) + 1); // ler o prefixo do pipe
+			read(fd[result.child - 1][READ], currentPrefix, strlen(currentPrefix) + 1); // ler o prefixo do pipe
 			printf("FILHO %d - Recebi prefixo: %s\n", result, currentPrefix);
 			// Obter detalhe da "job reference" e do "e-mail do candidato":
 			char jobReference[250];
@@ -126,7 +126,7 @@ int main(int argc, char *argv[]){
 				};
 			}
 		}
-		close(fd[result - 1][READ]); // fechar canal de leitura
+		close(fd[result.child - 1][READ]); // fechar canal de leitura
 		exit(EXIT_SUCCESS);
 	}
 	
@@ -135,7 +135,7 @@ int main(int argc, char *argv[]){
 	int end = 0;
 	int child = 0;
 	int lastChild = arg.nWorkers;
-	int* oldPrefixes;
+	char* oldPrefixes;
 
 	while(1){
 		char* fileNames[50];
