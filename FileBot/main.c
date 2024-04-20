@@ -55,16 +55,25 @@ int main(int argc, char *argv[]){
 	// Continua código do processo principal (pai)
     
     // Preparar os PIPES
-    enum extremidade {READ=0, WRITE=1};         //  |- CRIA OS PIPES
-    int fd[arg.nWorkers][2];                    //  |
-    memset(fd, 0, sizeof(fd));                  //  |
-    for(int i = 0; i < arg.nWorkers; i++){      //  |
-        if(pipe(fd[i]) == -1){                  //  |
-            perror("Pipe failed!\n");           //  |
-            exit(EXIT_FAILURE);                 //  |
-        }                                       //  |
-    }                                           //  |
-    
+    enum extremidade {READ=0, WRITE=1};         
+    int pipeDown[arg.nWorkers][2];                    
+    memset(pipeDown, 0, sizeof(pipeDown));                  
+    for(int i = 0; i < arg.nWorkers; i++){      
+        if(pipe(pipeDown[i]) == -1){                  
+            perror("Pipe Down failed!\n");           
+            exit(EXIT_FAILURE);                 
+        }                                       
+    }    
+
+	int pipeUp[arg.nWorkers][2];                    
+    memset(pipeUp, 0, sizeof(pipeUp));                  
+    for(int i = 0; i < arg.nWorkers; i++){      
+        if(pipe(pipeUp[i]) == -1){                  
+            perror("Pipe Up failed!\n");           
+            exit(EXIT_FAILURE);                 
+        }                                       
+    } 
+
     // Cria filhos que trabalham
 	returnValues result = cria_filhos(arg.nWorkers);
 	
@@ -78,13 +87,26 @@ int main(int argc, char *argv[]){
 	
 	// Código do filho trabalhador
 	if(result.child > 0) {
-		close(fd[result.child - 1][WRITE]); // fechar canal de escrita
+		childReport report;
+		report.available = 0;
+		report.filesMoved = 0;
+		close(pipeDown[result.child - 1][WRITE]); // fechar canal de escrita
+		close(pipeUp[result.child - 1][READ]); // fechar canal de leitura
 		sleep(5); // [TEMPORÁRIO] apagar mais tarde!
+
 		while(1){
+			//avisar o pai que está disponivel
+			report.available = 0;
+			write(pipeUp[result.child - 1][WRITE], &report, sizeof(report));
+			printf("FILHO %d - Informei o pai que estou disponível.\n", result.child);
 			int available = 0; // sinal para identificar o estado do filho (0=disponivel; -1=indisponível)
 			// [TODO:] (enviar sinal a informar o pai de que está disponível para trabalhar)
-			read(fd[result.child - 1][READ], currentPrefix, strlen(currentPrefix) + 1); // ler o prefixo do pipe
+			read(pipeDown[result.child - 1][READ], currentPrefix, strlen(currentPrefix) + 1); // ler o prefixo do pipe
 			printf("FILHO %d - Recebi prefixo: %s\n", result, currentPrefix);
+			//avisar o pai que está ocupado
+			report.available = 1;
+			write(pipeUp[result.child - 1][WRITE], &report, sizeof(report));
+			printf("FILHO %d - Informei o pai que estou ocupado.\n", result.child);
 			// Obter detalhe da "job reference" e do "e-mail do candidato":
 			char jobReference[250];
 			char jobApplicant[250];
@@ -126,7 +148,8 @@ int main(int argc, char *argv[]){
 				};
 			}
 		}
-		close(fd[result.child - 1][READ]); // fechar canal de leitura
+		close(pipeDown[result.child - 1][READ]); // fechar canal de leitura
+		close(pipeUp[result.child - 1][WRITE]); // fechar canal de escrita
 		exit(EXIT_SUCCESS);
 	}
 	
@@ -136,6 +159,9 @@ int main(int argc, char *argv[]){
 	int child = 0;
 	int lastChild = arg.nWorkers;
 	char* oldPrefixes;
+	childReport childReports[lastChild];
+	close(pipeDown[child][READ]);
+	close(pipeUp[child][WRITE]);
 
 	while(1){
 		char* fileNames[50];
@@ -150,11 +176,16 @@ int main(int argc, char *argv[]){
 
 		oldPrefixes = malloc(sizeof(char) * fileCount);
 		while(end == 0){
+			childReport childReport = childReports[child];
 			end = findNewPrefix(fileNames, fileCount, currentPrefix, oldPrefixes);
 			if(end == 0){
-				close(fd[child][READ]);
 				sleep(1); // [TEMPORÁRIO] apagar mais tarde!
-				write(fd[child][WRITE], currentPrefix, strlen(currentPrefix));
+				//ver se o filho está disponivel
+				read(pipeUp[child][READ], &childReport, sizeof(childReport));
+				if(childReport.available == 0){
+					printf("PAI: O filho %d disse que está disponível.\n", child);
+					write(pipeDown[child][WRITE], currentPrefix, strlen(currentPrefix));
+				}
 
 				child++;
 				if(child == lastChild){
@@ -164,7 +195,8 @@ int main(int argc, char *argv[]){
 		}
 	}
 	free(oldPrefixes);
-	close(fd[child][WRITE]);
+	close(pipeDown[child][WRITE]);
+	close(pipeUp[child][READ]);
 	exit(EXIT_SUCCESS);
 	
 	//RICARDO: FALTA-ME MATAR OS FILHOS

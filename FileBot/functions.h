@@ -14,6 +14,12 @@ typedef struct ReturnValues {
     pid_t pid;
 } returnValues;
 
+typedef struct ChildReport{
+    int available;
+    int filesMoved;
+    char createdPath[100];
+}childReport;
+
 returnValues cria_filhos(int n);
 void sigUsr1Handler(int signal);
 void monitor_files(char* inputPath);
