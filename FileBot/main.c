@@ -78,13 +78,13 @@ int main(int argc, char *argv[]){
 	
 	// Código do filho trabalhador
 	if(result > 0) {
-		close(fd[result][WRITE]); // fechar canal de escrita
-		sleep(10); // [TEMPORÁRIO] apagar mais tarde!
+		close(fd[result - 1][WRITE]); // fechar canal de escrita
+		sleep(5); // [TEMPORÁRIO] apagar mais tarde!
 		while(1){
 			int available = 0; // sinal para identificar o estado do filho (0=disponivel; -1=indisponível)
 			// [TODO:] (enviar sinal a informar o pai de que está disponível para trabalhar)
-			read(fd[result][READ], currentPrefix, strlen(currentPrefix) + 1); // ler o prefixo do pipe
-
+			read(fd[result - 1][READ], currentPrefix, strlen(currentPrefix) + 1); // ler o prefixo do pipe
+			printf("FILHO %d - Recebi prefixo: %s\n", result, currentPrefix);
 			// Obter detalhe da "job reference" e do "e-mail do candidato":
 			char jobReference[250];
 			char jobApplicant[250];
@@ -93,7 +93,7 @@ int main(int argc, char *argv[]){
 				available = -1;
 			}
 			
-			char basePath[] = "./input/";
+			char basePath[] = "output/";
 			char jobReferencePath[200];
 			if(available == 0) {
 				// Criar diretório da job reference:
@@ -104,6 +104,7 @@ int main(int argc, char *argv[]){
 					available = -1;
 				}
 			}
+
 
 			char jobApplicantPath[200];
 			if(available == 0) {
@@ -125,7 +126,7 @@ int main(int argc, char *argv[]){
 				};
 			}
 		}
-		close(fd[result][READ]); // fechar canal de leitura
+		close(fd[result - 1][READ]); // fechar canal de leitura
 		exit(EXIT_SUCCESS);
 	}
 	
@@ -134,21 +135,25 @@ int main(int argc, char *argv[]){
 	int end = 0;
 	int child = 0;
 	int lastChild = arg.nWorkers;
+	int* oldPrefixes;
 
 	while(1){
 		char* fileNames[50];
 		int fileCount = 0;
 		pause(); //aguardar sinal do filho
+		printf("PAI: Recebi sinal do filho.\n");
 		fileCount = getDirFileNames(arg.inputPath, fileNames);
 		if(fileCount == -1){
 			perror("Error opening directory\n");
 			exit(EXIT_FAILURE);
 		}
 
+		oldPrefixes = malloc(sizeof(char) * fileCount);
 		while(end == 0){
-			end = findNewPrefix(fileNames, fileCount, currentPrefix);
+			end = findNewPrefix(fileNames, fileCount, currentPrefix, oldPrefixes);
 			if(end == 0){
 				close(fd[child][READ]);
+				sleep(1); // [TEMPORÁRIO] apagar mais tarde!
 				write(fd[child][WRITE], currentPrefix, strlen(currentPrefix));
 
 				child++;
@@ -158,6 +163,7 @@ int main(int argc, char *argv[]){
 			}
 		}
 	}
+	free(oldPrefixes);
 	close(fd[child][WRITE]);
 	exit(EXIT_SUCCESS);
 	

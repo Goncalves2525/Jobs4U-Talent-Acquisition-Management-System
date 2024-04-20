@@ -10,6 +10,15 @@
 // Variável global para guardar o estado anterior da pasta
 int previous_num_files = 0;
 
+//count how many characaters are in a string
+int countChars(char* string){
+    int count = 0;
+    while(string[count] != '\0'){
+        count++;
+    }
+    return count;
+}
+
 
 int cria_filhos(int n) {
     pid_t pid = 0;
@@ -28,7 +37,7 @@ void sigUsr1Handler(int signal){ //não podemos usar printf
 	printf("Handled SIGUSR1\n");
 }
 
-int findNewPrefix(char** fileNames, int fileCount, char* currentPrefix) {
+int findNewPrefix(char** fileNames, int fileCount, char* currentPrefix, char* oldPrefixes) {
     for (int i = 0; i < fileCount; i++) {
         char* hyphen_pos = strchr(fileNames[i], '-');
         if (hyphen_pos != NULL) {
@@ -36,10 +45,14 @@ int findNewPrefix(char** fileNames, int fileCount, char* currentPrefix) {
             char tempPrefix[len + 1];
             strncpy(tempPrefix, fileNames[i], len);
             tempPrefix[len] = '\0';
-
-            if (strcmp(tempPrefix, currentPrefix) != 0) {
-                strcpy(currentPrefix, tempPrefix);
-                return 0;
+           
+            if(strcmp(tempPrefix, currentPrefix) != 0 || strcmp(currentPrefix, "") == 0){
+                // Verificar se o prefixo já foi processado
+                if(!(strstr(oldPrefixes, tempPrefix) != NULL)){
+                    strcpy(currentPrefix, tempPrefix);
+                    strcat(oldPrefixes, tempPrefix);
+                    return 0;
+                }
             }
         }
     }
@@ -77,6 +90,7 @@ int getDirFileNames(char* inputPath, char** fileNames) {
     closedir(dir);
     qsort(fileNames, fileCount, sizeof(char *), compareFileNames);
 
+
     if (i == 0) {
         printf("No files found in directory.\n");
         return -1;
@@ -105,22 +119,27 @@ int extractArguments(const char* configFile, arglocal* arg) {
             // mediante a primeira parte da linha, aloca o valor ao respetivo elemento do struct
             if(strcmp(token, "#input-directory:") == 0){
 				token = strtok(NULL, " ");
+                token[strlen(token) - 1] = '\0';
                 strcpy(arg->inputPath, token);
 			}
 			if(strcmp(token, "#output-directory:") == 0){
 				token = strtok(NULL, " ");
+                token[strlen(token) - 1] = '\0';
                 strcpy(arg->outputPath, token);
 			}
 			if(strcmp(token, "#report-directory:") == 0){
 				token = strtok(NULL, " ");
+                token[strlen(token) - 1] = '\0';
                 strcpy(arg->reportPath, token);
 			}
 			if(strcmp(token, "#worker-child:") == 0){
 				token = strtok(NULL, " ");
+                token[strlen(token) - 1] = '\0';
                 arg->nWorkers = atoi(token);
 			}
 			if(strcmp(token, "#time-interval:") == 0){
 				token = strtok(NULL, " ");
+                token[strlen(token) - 1] = '\0';
                 arg->timeInterval = atoi(token);
 			}
         }
@@ -155,9 +174,10 @@ int validateAllArgumentsAvailable(arglocal* arg) {
 int getApplicationDetails(char* currentPrefix, char* jobReference, char* jobApplicant) {
 	
 	char candidateDataFile[100];
-	strcpy(candidateDataFile, "./input/");
+	strcpy(candidateDataFile, "input/");
 	strcat(candidateDataFile, currentPrefix);
 	strcat(candidateDataFile, "-candidate-data.txt");
+    
 	
 	FILE *file = fopen(candidateDataFile, "r"); // abrir ficheiro
 	if (file == NULL) { // testar erro ao abrir ficheiro
@@ -172,15 +192,17 @@ int getApplicationDetails(char* currentPrefix, char* jobReference, char* jobAppl
 	
 	char lineRead[250];
 	int lineCounter = 0;
-	
-	while(fgets(lineRead, sizeof(lineRead), file) != EOF){
+	while(fgets(lineRead, sizeof(lineRead), file) != NULL){
+        //printf("Line counter %d\n", lineCounter);
 		lineCounter++;
 		switch (lineCounter){
 			case 1:
 				strcpy(jobReference, lineRead);
+                jobReference[strlen(jobReference) - 1] = '\0';
 				break;
 			case 2:
 				strcpy(jobApplicant, lineRead);
+                jobApplicant[strlen(jobApplicant) - 1] = '\0';
 				break;
 		}
 	}
@@ -211,7 +233,12 @@ int createDirectory(char* newDirectoryPath) {
     // Sendo processo filho, cria um novo diretorio de acordo com o parametro
     if(filho > 0){
         int valid = 0;
-        valid = execlp("mkdir", newDirectoryPath, NULL);
+        char* parameter;
+        strcpy(parameter, "mkdir ");
+        strcat(parameter, newDirectoryPath);
+        printf("I got here with parameter %s\n", parameter);
+        valid = execlp(parameter, "mkdir", NULL);
+        perror("Error creating directory\n");
         exit(valid);
     }
 
@@ -235,7 +262,8 @@ int moveFilesToDirectory(char* inputPath, char* jobApplicantPath, char* currentP
         int valid = 0;
 
         char fullExecution[500];
-        strcpy(fullExecution, inputPath);
+        strcpy(fullExecution, "find ");
+        strcat(fullExecution, inputPath);
         strcat(fullExecution, " -name ");
         strcat(fullExecution, " '");
         strcat(fullExecution, currentPrefix);
@@ -243,8 +271,9 @@ int moveFilesToDirectory(char* inputPath, char* jobApplicantPath, char* currentP
         strcat(fullExecution, " -exec mv -t ");
         strcat(fullExecution, jobApplicantPath);
         strcat(fullExecution, " {} +");
+        
 
-        valid = execlp("find", fullExecution, NULL);
+        valid = execlp(fullExecution, "find", NULL);
         exit(valid);
     }
 
@@ -253,11 +282,11 @@ int moveFilesToDirectory(char* inputPath, char* jobApplicantPath, char* currentP
     return 0;
 }
 
-void monitor_files(const char* inputPath) {
+void monitor_files(char* inputPath) {
     DIR* dir;
     struct dirent* entry;
     while (1) {
-        dir = opendir(&inputPath);
+        dir = opendir(inputPath);
         if (dir == NULL) {
             char errorMessage[300];
 			strcpy(errorMessage, "Error opening directory: ");
@@ -271,13 +300,13 @@ void monitor_files(const char* inputPath) {
             if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
                 continue; // Ignorar diretório atual e pai
             }
-            printf("Found file: %s\n", entry->d_name);
             num_files++;
         }
         closedir(dir);
         // Verificar se o número de ficheiros alterou
         if (num_files > previous_num_files) {
             // Se encontrar novos ficheiros enviar um sinal para o processo pai
+            printf("FILHO: enviei sinal para o pai\n");
             kill(getppid(), SIGUSR1);
         }
         // Atualiza o estado anterior

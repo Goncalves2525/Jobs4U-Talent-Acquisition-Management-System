@@ -1,5 +1,5 @@
-#input-directory: ./input
-#output-directory: ./output
-#report-directory: ./report
+#input-directory: input
+#output-directory: output
+#report-directory: report
 #worker-child: 5
 #time-interval: 10

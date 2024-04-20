@@ -11,8 +11,8 @@ typedef struct Arguments {
 
 int cria_filhos(int n);
 void sigUsr1Handler(int signal);
-void monitor_files(const char* inputPath);
-int findNewPrefix(char** fileNames, int fileCount, char* currentPrefix);
+void monitor_files(char* inputPath);
+int findNewPrefix(char** fileNames, int fileCount, char* currentPrefix, char* oldPrefixes);
 int compareFileNames(const void *a, const void *b);
 int getDirFileNames(char* inputPath, char** fileNames);
 int extractArguments(const char* configFile, arglocal* arg);
