@@ -9,12 +9,17 @@
         <version>0.1.0</version>
     </parent>
 
-    <artifactId>infrastructure.application</artifactId>
+    <artifactId>jobs4u.infrastructure.application</artifactId>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+
+
+    </dependencies>
 
 </project>

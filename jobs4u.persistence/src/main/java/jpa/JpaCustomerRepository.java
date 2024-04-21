@@ -49,12 +49,23 @@ public class JpaCustomerRepository implements CustomerRepository {
 
     @Override
     public void delete(Customer entity) {
-
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        em.remove(entity);
+        em.getTransaction().commit();
+        em.close();
     }
 
     @Override
     public void deleteOfIdentity(CompanyCode entityId) {
-
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        Query query = em.createQuery(
+                "DELETE FROM Customer e WHERE e.code = :id");
+        query.setParameter("id", entityId);
+        query.executeUpdate();
+        em.getTransaction().commit();
+        em.close();
     }
 
     @Override

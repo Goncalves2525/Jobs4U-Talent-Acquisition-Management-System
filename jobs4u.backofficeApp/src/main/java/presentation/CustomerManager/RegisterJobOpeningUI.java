@@ -15,13 +15,19 @@ public class RegisterJobOpeningUI extends AbstractUI{
     @Override
     protected boolean doShow() {
         int option = 0;
-        String title = Utils.readLineFromConsole("Title: ");
+        String title;
+        do{
+            title = Utils.readLineFromConsole("Title: ");
+        }while(title.equals(""));
         ContractType contractType = selectContractType();
         JobMode mode = selectJobMode();
         System.out.println("-ADDRESS-");
-        String street = Utils.readLineFromConsole(" Street: ");
-        String city = Utils.readLineFromConsole(" City: ");
-        String postalCode = Utils.readLineFromConsole(" Postal Code: ");
+        String street, city, postalCode;
+        do{
+            street = Utils.readLineFromConsole(" Street: ");
+            city = Utils.readLineFromConsole(" City: ");
+            postalCode = Utils.readLineFromConsole(" Postal Code: ");
+        }while(street.equals("") || city.equals("") || postalCode.equals(""));
         Address address = new Address(street, city, postalCode);
         Customer company = selectCompany();
         if(company == null){

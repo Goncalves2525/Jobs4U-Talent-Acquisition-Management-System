@@ -9,7 +9,7 @@
         <version>0.1.0</version>
     </parent>
 
-    <artifactId>jobs4u.persistance</artifactId>
+    <artifactId>jobs4u.persistence</artifactId>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>

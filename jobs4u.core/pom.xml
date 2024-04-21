@@ -17,12 +17,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
+
         <dependency>
             <groupId>lapr4</groupId>
-            <artifactId>infrastructure.application</artifactId>
+            <artifactId>jobs4u.infrastructure.application</artifactId>
             <version>0.1.0</version>
             <scope>compile</scope>
         </dependency>
+
     </dependencies>
 
 

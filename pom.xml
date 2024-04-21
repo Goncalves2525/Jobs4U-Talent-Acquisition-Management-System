@@ -13,9 +13,9 @@
 		<module>jobs4u.util.ci</module>
         <module>jobs4u.backofficeApp</module>
 		<module>jobs4u.core</module>
-		<module>jobs4u.persistance</module>
+		<module>jobs4u.persistence</module>
 		<module>jobs4u.common</module>
-		<module>infrastructure.application</module>
+		<module>jobs4u.infrastructure.application</module>
 	</modules>
 	<version>0.1.0</version>
 

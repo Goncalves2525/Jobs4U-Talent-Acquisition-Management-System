@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Entity
 public class JobOpening implements AggregateRoot<String> {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column
