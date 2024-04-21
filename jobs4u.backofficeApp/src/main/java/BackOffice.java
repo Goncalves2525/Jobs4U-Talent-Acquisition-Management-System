@@ -1,8 +1,4 @@
-import eapli.framework.actions.menu.Menu;
-import eapli.framework.presentation.console.ShowUiAction;
 import presentation.CustomerManager.CustomerManagerUI;
-import presentation.CustomerManager.ListJobOpeningsUI;
-import presentation.CustomerManager.RegisterJobOpeningUI;
 import utils.Utils;
 
 public class BackOffice {

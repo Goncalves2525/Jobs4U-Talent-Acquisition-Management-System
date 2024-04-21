@@ -12,7 +12,7 @@
 
     <groupId>lapr4</groupId>
     <artifactId>jobs4u.customerApp</artifactId>
-    <version>0.1.0</version>
+
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
@@ -24,6 +24,13 @@
         <dependency>
             <groupId>lapr4</groupId>
             <artifactId>jobs4u.common</artifactId>
+            <version>0.1.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>lapr4</groupId>
+            <artifactId>jobs4u.persistence</artifactId>
             <version>0.1.0</version>
             <scope>compile</scope>
         </dependency>

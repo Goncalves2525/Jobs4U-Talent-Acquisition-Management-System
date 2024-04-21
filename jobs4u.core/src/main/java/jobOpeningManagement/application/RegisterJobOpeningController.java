@@ -6,8 +6,6 @@ import jobOpeningManagement.domain.JobOpening;
 import jobOpeningManagement.domain.dto.JobOpeningDTO;
 import jobOpeningManagement.repositories.JobOpeningRepository;
 
-import java.util.Iterator;
-
 
 public class RegisterJobOpeningController {
 

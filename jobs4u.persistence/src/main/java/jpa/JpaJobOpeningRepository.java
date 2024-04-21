@@ -1,6 +1,5 @@
 package jpa;
 
-import eapli.framework.infrastructure.repositories.impl.jpa.JpaTransactionalRepository;
 import jakarta.persistence.*;
 import jobOpeningManagement.domain.JobOpening;
 import jobOpeningManagement.domain.RecruitmentState;
@@ -8,8 +7,6 @@ import jobOpeningManagement.repositories.JobOpeningRepository;
 
 import java.util.List;
 import java.util.Optional;
-
-import static org.eclipse.persistence.jpa.JpaHelper.getEntityManager;
 
 public class JpaJobOpeningRepository implements JobOpeningRepository {
     private EntityManager getEntityManager() {

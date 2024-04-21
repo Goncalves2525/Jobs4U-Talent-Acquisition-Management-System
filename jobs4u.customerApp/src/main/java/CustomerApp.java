@@ -10,7 +10,6 @@ public class CustomerApp {
             ConsoleUtils.buildUiHeader("Customer App");
             CustomerUI ui = new CustomerUI();
             ui.show();
-
         }
     }
 }
