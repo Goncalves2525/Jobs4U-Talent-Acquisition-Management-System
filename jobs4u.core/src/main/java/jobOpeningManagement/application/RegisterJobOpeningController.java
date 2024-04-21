@@ -15,7 +15,7 @@ public class RegisterJobOpeningController {
     private ListCustomersService svc = new ListCustomersService();
 
     public boolean registerJobOpening(JobOpeningDTO dto) {
-        JobOpening jobOpening = new JobOpening(dto.title(), dto.contractType(), dto.mode(), dto.address(), dto.company(), dto.numberOfVacancies(), dto.description(), dto.requirements(), dto.state());
+        JobOpening jobOpening = new JobOpening(dto.title(), dto.contractType(), dto.mode(), dto.address(), dto.company(), dto.numberOfVacancies(), dto.description(), dto.requirements());
         jobOpening = repo.save(jobOpening);
         return jobOpening != null;
     }

@@ -45,11 +45,16 @@ public class JobOpening implements AggregateRoot<String> {
     @Column
     private RecruitmentState state;
 
+    @Transient
+    private static int counter = 0;
+
+
+
     protected JobOpening() {
         // for ORM
     }
 
-    public JobOpening(String title, ContractType contractType, JobMode mode, Address address, Customer company, int numberOfVacancies, String description, Requirements requirements, RecruitmentState state) {
+    public JobOpening(String title, ContractType contractType, JobMode mode, Address address, Customer company, int numberOfVacancies, String description, Requirements requirements) {
         this.title = title;
         this.contractType = contractType;
         this.mode = mode;
@@ -62,8 +67,8 @@ public class JobOpening implements AggregateRoot<String> {
         this.numberOfVacancies = numberOfVacancies;
         this.description = description;
         this.requirements = requirements;
-        this.state = state;
-
+        state = RecruitmentState.APPLICATION;
+        counter++;
         //Company code + sequential number
         generateJobReference();
     }
@@ -127,7 +132,7 @@ public class JobOpening implements AggregateRoot<String> {
     @PrePersist
     public void generateJobReference() {
         String companyCode = company.getCode().getCode();
-        jobReference = companyCode + "-" + id;
+        jobReference = companyCode + "-" + counter;
     }
 
     @Override
