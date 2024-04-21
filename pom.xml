@@ -7,6 +7,7 @@
 	<groupId>lapr4</groupId>
 	<artifactId>jobs4u</artifactId>
 	<packaging>pom</packaging>
+
 	<modules>
 		<module>jobs4u.candidateApp</module>
 		<module>jobs4u.customerApp</module>
@@ -19,7 +20,16 @@
 	</modules>
 	<version>0.1.0</version>
 
+	<repositories>
+		<repository>
+			<id>bitbucket-releases</id>
+			<url>https://bitbucket.org/pag_isep/eapliframework/src/master/</url>
+		</repository>
+	</repositories>
+
 	<properties>
+		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
+
 		<eapli.framework.core.version>v24.0.1_RELEASE</eapli.framework.core.version>
 		<eapli.framework.authz.version>v24.0.1_RELEASE</eapli.framework.authz.version>
 		<eapli.framework.pubsub.version>v24.0.1_RELEASE</eapli.framework.pubsub.version>
@@ -27,6 +37,8 @@
 		<eapli.framework.core.version-snapshot>25.0.0</eapli.framework.core.version-snapshot>
 		<eapli.framework.authz.version-snapshot>21.0.0</eapli.framework.authz.version-snapshot>
 		<eapli.framework.pubsub.version-snapshot>22.0.0</eapli.framework.pubsub.version-snapshot>
+
+		<maven.compiler.release>17</maven.compiler.release>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>11</maven.compiler.source>
