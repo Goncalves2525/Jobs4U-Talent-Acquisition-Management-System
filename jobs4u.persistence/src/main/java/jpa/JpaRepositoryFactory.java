@@ -1,9 +1,7 @@
 package jpa;
 
+import authzManagement.persistence.UserRepository;
 import eapli.framework.domain.repositories.TransactionalContext;
-import eapli.framework.infrastructure.authz.domain.repositories.UserRepository;
-import eapli.framework.infrastructure.pubsub.impl.simplepersistent.repositories.EventConsumptionRepository;
-import eapli.framework.infrastructure.pubsub.impl.simplepersistent.repositories.EventRecordRepository;
 import infrastructure.persistance.RepositoryFactory;
 import jobOpeningManagement.repositories.CustomerRepository;
 import jobOpeningManagement.repositories.JobOpeningRepository;
@@ -12,16 +10,6 @@ public class JpaRepositoryFactory implements RepositoryFactory {
 
     @Override
     public TransactionalContext newTransactionalContext() {
-        return null;
-    }
-
-    @Override
-    public UserRepository users(TransactionalContext autoTx) {
-        return null;
-    }
-
-    @Override
-    public UserRepository users() {
         return null;
     }
 
@@ -36,12 +24,28 @@ public class JpaRepositoryFactory implements RepositoryFactory {
     }
 
     @Override
-    public EventConsumptionRepository eventConsumption() {
+    public UserRepository users() {
         return null;
     }
 
-    @Override
-    public EventRecordRepository eventRecord() {
-        return null;
-    }
+//    @Override
+//    public UserRepository users(TransactionalContext autoTx) {
+//        return null;
+//    }
+//
+//    @Override
+//    public UserRepository users() {
+//        return null;
+//    }
+//
+//    @Override
+//    public EventConsumptionRepository eventConsumption() {
+//        return null;
+//    }
+//
+//    @Override
+//    public EventRecordRepository eventRecord() {
+//        return null;
+//    }
+
 }

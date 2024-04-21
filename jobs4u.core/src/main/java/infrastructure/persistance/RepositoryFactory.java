@@ -24,45 +24,45 @@
 package infrastructure.persistance;
 
 
+import authzManagement.persistence.UserRepository;
 import eapli.framework.domain.repositories.TransactionalContext;
-import eapli.framework.infrastructure.authz.domain.repositories.UserRepository;
-import eapli.framework.infrastructure.pubsub.impl.simplepersistent.repositories.EventConsumptionRepository;
-import eapli.framework.infrastructure.pubsub.impl.simplepersistent.repositories.EventRecordRepository;
 import jobOpeningManagement.repositories.CustomerRepository;
 import jobOpeningManagement.repositories.JobOpeningRepository;
 
 /**
-
  * @author Paulo Gandra Sousa
  */
 public interface RepositoryFactory {
 
-	/**
-	 * Factory method to create a transactional context to use in the repositories
-	 *
-	 * @return
-	 */
-	TransactionalContext newTransactionalContext();
+    /**
+     * Factory method to create a transactional context to use in the repositories
+     *
+     * @return
+     */
+    TransactionalContext newTransactionalContext();
 
-	/**
-	 * @param autoTx the transactional context to enroll
-	 *
-	 * @return
-	 */
-	UserRepository users(TransactionalContext autoTx);
+    JobOpeningRepository jobOpenings();
 
-	/**
-	 * repository will be created in auto transaction mode
-	 *
-	 * @return
-	 */
-	UserRepository users();
+    CustomerRepository customers();
 
-	JobOpeningRepository jobOpenings();
+    UserRepository users();
 
-	CustomerRepository customers();
+//	/**
+//	 * @param autoTx the transactional context to enroll
+//	 *
+//	 * @return
+//	 */
+//	UserRepository users(TransactionalContext autoTx);
+//
+//	/**
+//	 * repository will be created in auto transaction mode
+//	 *
+//	 * @return
+//	 */
+//	UserRepository users();
+//
+//	EventConsumptionRepository eventConsumption();
+//
+//	EventRecordRepository eventRecord();
 
-	EventConsumptionRepository eventConsumption();
-
-	EventRecordRepository eventRecord();
 }
