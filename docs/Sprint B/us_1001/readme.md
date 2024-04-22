@@ -82,48 +82,43 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 ### 4.4. Tests
 
-Include here the main tests used to validate the functionality. Focus on how they relate to the acceptance criteria.
+**Test 1:** *Verifies that the Customer has the folling information: Company Code, Company Name, Company Email, Company Address.*
 
-**Test 1:** *Verifies that it is not possible to register a job opening that is already registered*
-
-**Refers to Acceptance Criteria:** G002.1
+**Refers to Acceptance Criteria:** G001.1
 
 
 ```java
+    @Test
+    void ensureCustomerHasFullInformation() {
 
+    }
 
 ````
 
-**Test 2:** *Verifies that the first state of the job opening is "APPLICATION"*
+**Test 2:** *Verifies that the Company Code has a maximum of 10 caracteres*
 
-**Refers to Acceptance Criteria:** G002.2
+**Refers to Acceptance Criteria:** G001.2
 
 ```java
+    @Test
+    void ensureCompanyCodeHasMaxLength() {
+
+    }
 
 ````
 
-**Test 3:** *Verifies that the Job Reference does not exceed maximum characters*
+**Test 3:** *Verifies that the Customer is unique*
 
-**Refers to Acceptance Criteria:** G002.4
+**Refers to Acceptance Criteria:** G001.3
 
 ```java
+    @Test
+    void ensureCustomerIsUnique() {
+
+    }
 
 ````
 
-**Test 4:** *Verifies that the Job Reference uses sequential numbers*
-
-**Refers to Acceptance Criteria:** G002.4
-
-```
-
-**Test 5:** *Verifies that the Number of vacancies is a positive integer*
-
-**Refers to Acceptance Criteria:** G002.5
-
-```java
-
-    
-````
 
 
 ## 5. Implementation

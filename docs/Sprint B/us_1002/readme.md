@@ -103,8 +103,6 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 ### 4.4. Tests
 
-Include here the main tests used to validate the functionality. Focus on how they relate to the acceptance criteria.
-
 **Test 1:** *Verifies that it is not possible to register a job opening that is already registered*
 
 **Refers to Acceptance Criteria:** G002.1
