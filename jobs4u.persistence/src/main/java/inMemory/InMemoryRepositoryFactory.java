@@ -1,6 +1,6 @@
 package inMemory;
 
-import authzManagement.persistence.UserRepository;
+import authzManagement.repositories.UserRepository;
 import eapli.framework.domain.repositories.TransactionalContext;
 import infrastructure.persistance.RepositoryFactory;
 import jobOpeningManagement.repositories.CustomerRepository;

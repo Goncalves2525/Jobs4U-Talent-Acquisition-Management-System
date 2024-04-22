@@ -1,10 +1,9 @@
 package jobOpeningManagement.domain;
 
-import eapli.framework.general.domain.model.EmailAddress;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import userManagement.domain.Email;
+import authzManagement.domain.Email;
 
 public class JobOpeningTest {
     private JobOpening jobOpening;

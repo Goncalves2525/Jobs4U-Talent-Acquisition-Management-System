@@ -10,7 +10,7 @@ import java.util.Iterator;
 
 public class RegisterJobOpeningUI extends AbstractUI{
 
-    RegisterJobOpeningController ctrl = new RegisterJobOpeningController();
+    private RegisterJobOpeningController ctrl = new RegisterJobOpeningController();
 
     @Override
     protected boolean doShow() {

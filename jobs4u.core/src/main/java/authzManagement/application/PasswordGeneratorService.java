@@ -1,4 +1,4 @@
-package userManagement.application;
+package authzManagement.application;
 
 import java.security.SecureRandom;
 

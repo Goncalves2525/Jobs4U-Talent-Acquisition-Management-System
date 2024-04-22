@@ -1,6 +1,6 @@
 package jpa;
 
-import authzManagement.persistence.UserRepository;
+import authzManagement.repositories.UserRepository;
 import eapli.framework.domain.repositories.TransactionalContext;
 import infrastructure.persistance.RepositoryFactory;
 import jobOpeningManagement.repositories.CustomerRepository;
@@ -25,8 +25,9 @@ public class JpaRepositoryFactory implements RepositoryFactory {
 
     @Override
     public UserRepository users() {
-        return null;
+        return new JpaUserRepository();
     }
+
 
 //    @Override
 //    public UserRepository users(TransactionalContext autoTx) {

@@ -1,7 +1,7 @@
 package authzManagement.application;
 
 import authzManagement.domain.Authz;
-import authzManagement.persistence.UserRepository;
+import authzManagement.repositories.UserRepository;
 import infrastructure.persistance.PersistenceContext;
 
 public class AuthzController {

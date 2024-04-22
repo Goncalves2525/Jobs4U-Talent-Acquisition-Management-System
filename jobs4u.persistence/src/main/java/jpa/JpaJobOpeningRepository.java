@@ -17,20 +17,6 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
     }
 
 
-    public JobOpening add(JobOpening jobOpening) {
-        if (jobOpening == null) {
-            throw new IllegalArgumentException();
-        }
-        EntityManager em = getEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        em.persist(jobOpening);
-        tx.commit();
-        em.close();
-
-        return jobOpening;
-    }
-
     @Override
     public <S extends JobOpening> S save(S entity) {
         if(correctJobOpening(entity)){

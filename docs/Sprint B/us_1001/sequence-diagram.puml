@@ -34,9 +34,9 @@ activate CM
             activate CREPO
                 CREPO --> CTRL : return customer
             deactivate CREPO
-                UI --> CM : inform success/failure of Customer registration
-                CTRL --> UI : return customer
+                CTRL --> UI : return true/false
         deactivate CTRL
+                UI --> CM : inform success/failure of Customer registration
                 UI -> SCTRL : signUp(email)
             activate SCTRL
                 SCTRL -> SVC : generatePassword(email)
@@ -51,7 +51,7 @@ activate CM
                 activate UREPO
                     UREPO --> SCTRL : return user
                 deactivate UREPO
-                SCTRL --> UI : return user
+                SCTRL --> UI : return true/false
                 deactivate SCTRL
                 UI --> CM : inform success/failure of User registration
     deactivate UI

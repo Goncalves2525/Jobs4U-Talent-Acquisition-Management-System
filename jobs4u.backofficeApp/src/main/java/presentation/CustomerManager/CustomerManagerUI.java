@@ -15,6 +15,7 @@ public class CustomerManagerUI extends AbstractUI {
         do{
             System.out.println("1. Register Job Opening");
             System.out.println("2. List Job Openings");
+            System.out.println("3. Register Customer");
             System.out.println("0. Exit");
             option = Utils.readIntegerFromConsole("Option: ");
             switch (option){
@@ -25,6 +26,10 @@ public class CustomerManagerUI extends AbstractUI {
                 case 2:
                     ListJobOpeningsUI listJobOpeningsUI = new ListJobOpeningsUI();
                     listJobOpeningsUI.show();
+                    break;
+                case 3:
+                    RegisterCustomerUI registerCustomerUI = new RegisterCustomerUI();
+                    registerCustomerUI.show();
                     break;
                 case 0:
                     return false;
