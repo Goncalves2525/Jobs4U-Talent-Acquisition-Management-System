@@ -71,15 +71,15 @@ After analysing more deeply the Specification Document and asking some questions
 
 ### 4.1. Realization
 
-| Interaction ID                                                                    | Question: Which class is responsible for...                                         | Answer                       | Justification (with patterns)            |
-|:----------------------------------------------------------------------------------|:------------------------------------------------------------------------------------|:-----------------------------|:-----------------------------------------|
-| Step 1 : Customer Manager requests to register a Job Opening                      | 	... requesting Job Opening Info?                                                   | RegisterJobOpeningUI         | Pure Fabrication                         |
-| 		                                                                                | 	... validating Customer Managers inputs?                                           | RegisterJobOpeningUI         | Pure Fabrication                         |
-| 		                                                                                | 	... retrieving available companies?                                                | ListCustomersService         | Service                                  |
-| Step 2 : System registers Job Opening                                             | 	... coordination between users request and saving the Job Opening in the Database? | RegisterJobOpeningController | Controller                               |
-|                                                                                   | 	... creating the Job Opening?                                                      | obOpening                    | Creater                                  |
-|                                                                                   | 	... saving the Job Opening in the Database?                                        | JobOpeningRepository         | Information Expert,<br/>Pure Fabrication |
-| Step 3 : Inform the Customer Manager of Success/insuccess of the operation			  		 | 	... Showing result?                                                                | RegisterJobOpeningUI         | Pure Fabrication                         |
+| Interaction ID                                                                            | Question: Which class is responsible for...                                         | Answer                       | Justification (with patterns)            |
+|:------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------|:-----------------------------|:-----------------------------------------|
+| Step 1 : Customer Manager requests to register a Job Opening                              | 	... requesting Job Opening Info?                                                   | RegisterJobOpeningUI         | Pure Fabrication                         |
+| 		                                                                                        | 	... validating Customer Managers inputs?                                           | JobOpening                   | Information Expert                       |
+| 		                                                                                        | 	... retrieving available companies?                                                | ListCustomersService         | Service                                  |
+| Step 2 : System registers Job Opening                                                     | 	... coordination between users request and saving the Job Opening in the Database? | RegisterJobOpeningController | Controller                               |
+|                                                                                           | 	... creating the Job Opening?                                                      | JobOpening                   | Creater                                  |
+|                                                                                           | 	... persisting the Job Opening?                                                    | JobOpeningRepository         | Information Expert,<br/>Pure Fabrication |
+| Step 3 : System Informs the Customer Manager of Success/insuccess of the operation			  		 | 	... Showing result?                                                                | RegisterJobOpeningUI         | Pure Fabrication                         |
 
 According to the taken rationale, the conceptual classes promoted to software classes are:
 

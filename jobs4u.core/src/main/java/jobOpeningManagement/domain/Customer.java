@@ -1,6 +1,7 @@
 package jobOpeningManagement.domain;
 
 import eapli.framework.domain.model.AggregateRoot;
+import eapli.framework.general.domain.model.EmailAddress;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -21,7 +22,7 @@ public class Customer implements AggregateRoot<CompanyCode> {
     private String name;
     @Getter
     @Column
-    private String email;
+    private EmailAddress email;
     @Getter
     @Embedded
     private Address address;
@@ -32,7 +33,7 @@ public class Customer implements AggregateRoot<CompanyCode> {
         // for ORM
     }
 
-    public Customer(CompanyCode code, String name, String email, Address address) {
+    public Customer(CompanyCode code, String name, EmailAddress email, Address address) {
         this.code = code;
         this.name = name;
         this.email = email;

@@ -1,0 +1,27 @@
+@startuml
+
+package Presentation {
+    class RegisterCustomerUI
+}
+
+package Domain {
+    class Customer
+}
+
+package Persistence {
+    class JpaCustomerRepository
+    interface CustomerRepository
+}
+
+package Application {
+    class RegisterCustomerController
+}
+
+
+
+Presentation.RegisterCustomerUI --> Application.RegisterCustomerController
+Application.RegisterCustomerController --> Persistence.CustomerRepository
+Persistence.CustomerRepository <|-- Persistence.JpaCustomerRepository
+Application.RegisterCustomerController ---> Domain.Customer
+
+@enduml

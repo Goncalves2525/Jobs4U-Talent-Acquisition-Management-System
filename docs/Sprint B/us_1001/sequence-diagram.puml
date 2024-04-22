@@ -1,0 +1,63 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "CustomerManager" as CM
+participant "RegisterCustomerUI" as UI
+participant "RegisterCustomerController" as CTRL
+participant "Customer" as C
+participant "CustomerRepository" as CREPO
+participant "SignUpController" as SCTRL
+participant "PasswordGeneratorService" as SVC
+participant "User" as USR
+participant "UserRepository" as UREPO
+
+
+
+
+
+activate CM
+    activate UI
+        UI --> CM : prompts: company code, name, email, address
+        CM -> UI : inserts: company code, name, email, address
+        UI -> CTRL : registerCustomer()
+        activate CTRL
+            CTRL -> C : new Customer()
+            activate C
+                C --> CTRL : return customer
+            deactivate C
+            CTRL -> CREPO : save(customer)
+            activate CREPO
+                CREPO --> CTRL : return customer
+            deactivate CREPO
+                UI --> CM : inform success/failure of Customer registration
+                CTRL --> UI : return customer
+        deactivate CTRL
+                UI -> SCTRL : signUp(email)
+            activate SCTRL
+                SCTRL -> SVC : generatePassword(email)
+                activate SVC
+                    SVC --> SCTRL : return password
+                deactivate SVC
+                SCTRL -> USR : new User()
+                activate USR
+                    USR --> SCTRL : return user
+                deactivate USR
+                SCTRL -> UREPO : save(user)
+                activate UREPO
+                    UREPO --> SCTRL : return user
+                deactivate UREPO
+                SCTRL --> UI : return user
+                deactivate SCTRL
+                UI --> CM : inform success/failure of User registration
+    deactivate UI
+deactivate CM
+
+
+
+
+@enduml

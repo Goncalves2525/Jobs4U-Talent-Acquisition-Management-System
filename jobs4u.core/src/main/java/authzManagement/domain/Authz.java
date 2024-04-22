@@ -1,5 +1,4 @@
 package authzManagement.domain;
-
 public class Authz {
 
     public Authz() {
