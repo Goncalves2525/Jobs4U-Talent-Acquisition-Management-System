@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <time.h>
 #include "functions.h"
 
 // Variável global para guardar o estado anterior da pasta
@@ -18,7 +19,6 @@ int countChars(char* string){
     }
     return count;
 }
-
 
 returnValues cria_filhos(int n) {
     returnValues values;
@@ -217,11 +217,19 @@ int getApplicationDetails(char* currentPrefix, char* jobReference, char* jobAppl
 		switch (lineCounter){
 			case 1:
 				strcpy(jobReference, lineRead);
-                jobReference[strlen(jobReference) - 1] = '\0';
+				if(jobReference[strlen(jobReference) - 2] == '\r'){ 
+					jobReference[strlen(jobReference) - 2] = '\0'; 
+				} else { 
+					jobReference[strlen(jobReference) - 1] = '\0'; 
+				}
 				break;
 			case 2:
 				strcpy(jobApplicant, lineRead);
-                jobApplicant[strlen(jobApplicant) - 1] = '\0';
+				if(jobApplicant[strlen(jobApplicant) - 2] == '\r'){ 
+					jobApplicant[strlen(jobApplicant) - 2] = '\0'; 
+				} else { 
+					jobApplicant[strlen(jobApplicant) - 1] = '\0'; 
+				}
 				break;
 		}
 	}
@@ -251,13 +259,15 @@ int createDirectory(char* newDirectoryPath) {
 
     // Sendo processo filho, cria um novo diretorio de acordo com o parametro
     if(result.child > 0){
-        int valid = 0;
-        char* parameter;
-        strcpy(parameter, "mkdir ");
-        strcat(parameter, newDirectoryPath);
-        valid = execlp("mkdir", "mkdir", newDirectoryPath, NULL);
-        perror("Error creating directory\n");
-        exit(valid);
+		if(opendir(newDirectoryPath) == NULL){
+			int valid = 0;
+			char parameter[100];
+			strcpy(parameter, "mkdir ");
+			strcat(parameter, newDirectoryPath);
+			valid = execlp("mkdir", "mkdir", newDirectoryPath, NULL);
+			perror("Error creating directory\n");
+			exit(valid);
+		}
     }
 
     // Aguarda o término do filho para encerrar o processo
@@ -265,8 +275,34 @@ int createDirectory(char* newDirectoryPath) {
     return 0;
 }
 
+int countFilesOnDirectory(char* inputPath, char* currentPrefix) {
+	DIR *dir;
+    struct dirent* entry;
+    int fileCount = 0;
+
+    dir = opendir(inputPath);
+
+    if (dir == NULL) {
+        perror("Error opening directory\n");
+        closedir(dir);
+        return -1;
+    }
+
+	size_t prefixLength = strlen(currentPrefix);
+    while ((entry = readdir(dir)) != NULL) {
+        if (strncmp(entry->d_name, currentPrefix, prefixLength) == 0) {
+            fileCount++;
+        }
+    }
+
+    closedir(dir);
+    
+    return fileCount;
+}
+
 int moveFilesToDirectory(char* inputPath, char* jobApplicantPath, char* currentPrefix) {
-    // find [inputPath] -name '[prefix]-%' -exec mv -t [basePathJobApplication] {} +
+    // find [inputPath] -type f -name '[currentPrefix]-*' -exec mv {} [jobApplicantPath] \;
+    // mv [inputPath]/[currentPrefix]-* [jobApplicantPath]/
 
     returnValues result = cria_filhos(1);
 
@@ -277,22 +313,27 @@ int moveFilesToDirectory(char* inputPath, char* jobApplicantPath, char* currentP
 
     // Sendo processo filho, move todos os ficheiros com o prefixo passado em parametro
     if(result.child > 0){
-        int valid = 0;
-
-        char fullExecution[500];
-        strcpy(fullExecution, "find ");
-        strcat(fullExecution, inputPath);
-        strcat(fullExecution, " -name ");
-        strcat(fullExecution, " '");
-        strcat(fullExecution, currentPrefix);
-        strcat(fullExecution, "-%' ");
-        strcat(fullExecution, " -exec mv -t ");
-        strcat(fullExecution, jobApplicantPath);
-        strcat(fullExecution, " {} +");
         
+        char fromPath[200];
+        strcpy(fromPath, inputPath);
+        strcat(fromPath, "/");
+        strcat(fromPath, currentPrefix);
+        strcat(fromPath, "-*");
+        
+        char toPath[200];
+        strcpy(toPath, jobApplicantPath);
+        strcat(toPath, "/");
+        
+        char command[300];
+        strcpy(command, "mv ");
+        strcat(command, fromPath);
+        strcat(command, " ");
+        strcat(command, toPath);
 
-        valid = execlp(fullExecution, "find", NULL);
-        exit(valid);
+		execlp("sh", "sh", "-c", command, NULL);
+        //execlp("mv", "mv", fromPath, toPath, NULL); // cannot use wildcards
+        perror("execlp");
+        exit(EXIT_FAILURE);
     }
 
     // Aguarda o término do filho para encerrar o processo
@@ -300,7 +341,7 @@ int moveFilesToDirectory(char* inputPath, char* jobApplicantPath, char* currentP
     return 0;
 }
 
-void monitor_files(char* inputPath) {
+void monitor_files(char* inputPath, int timeInterval) {
     DIR* dir;
     struct dirent* entry;
     while (1) {
@@ -328,11 +369,50 @@ void monitor_files(char* inputPath) {
             kill(getppid(), SIGUSR1);
         }
         // Atualiza o estado anterior
-        previous_num_files = num_files;
+        //previous_num_files = num_files;
         // Se não houver ficheiros na pasta, coloca o contador a 0
         if (num_files == 0) {
             previous_num_files = 0;
         }
-        sleep(10);
+        sleep(timeInterval);
     }
+}
+
+int createSessionFile(char* sessionFile) {
+	FILE *file = fopen(sessionFile, "w"); // criar ficheiro, apagando algum anterior, caso já exista
+    if (file == NULL) { // testar erro ao criar ficheiro
+        perror("Error creating file");
+        fclose(file);
+        return -1;
+    }
+    fclose(file);
+    return 0;
+}
+
+int updateSessionFile(char* sessionFile, childReport* report) {
+    
+    // #filesqty: X #subdir: ABC
+    
+    char stringRepresentation[12];
+    sprintf(stringRepresentation, "%d", report->filesMoved);
+    char newReportLine[350];
+    strcpy(newReportLine, "#filesqty: ");
+    strcat(newReportLine, stringRepresentation);
+    strcat(newReportLine, " #subdir: ");
+    strcat(newReportLine, report->createdPath);
+    strcat(newReportLine, "\n");
+    
+    FILE *file = fopen(sessionFile, "a"); // abre ficheiro, para adicionar novos dados
+    if (file == NULL) { // testar erro ao abrir ficheiro
+        perror("Error using file");
+        fclose(file);
+        return -1;
+    }
+    
+    printf("vou escrever no %s a frase:\n%s\n", sessionFile, newReportLine); // TODO: apagar depois dos testes
+    fprintf(file, "%s", newReportLine);
+
+    fclose(file);
+    
+    return 0;
 }
