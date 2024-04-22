@@ -70,6 +70,8 @@ public class JpaCustomerRepository implements CustomerRepository {
 
     @Override
     public long count() {
-        return 0;
+        Query query = getEntityManager().createQuery(
+                "SELECT COUNT(e) FROM Customer e");
+        return (long) query.getSingleResult();
     }
 }

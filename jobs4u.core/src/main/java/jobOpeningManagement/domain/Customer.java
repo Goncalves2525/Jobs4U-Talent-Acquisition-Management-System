@@ -34,6 +34,9 @@ public class Customer implements AggregateRoot<CompanyCode> {
     }
 
     public Customer(CompanyCode code, String name, EmailAddress email, Address address) {
+        if (code == null || name == null || email == null || address == null) {
+            throw new IllegalArgumentException();
+        }
         this.code = code;
         this.name = name;
         this.email = email;
