@@ -14,7 +14,7 @@ public class User implements AggregateRoot<EmailAddress> {
     @Getter
     @Embedded
     @Column
-    private Email email;
+    private EmailAddress email;
 
     @Getter
     @Column
@@ -24,18 +24,19 @@ public class User implements AggregateRoot<EmailAddress> {
         //for ORM
     }
 
-    public User(Email email, String password){
+    public User(EmailAddress email, String password){
         this.email = email;
         this.password = password;
     }
 
     @Override
     public boolean sameAs(Object other) {
-        return email.equals(((User) other).email);
+        User user = (User) other;
+        return this.email.equals(user.email);
     }
 
     @Override
-    public Email identity() {
+    public EmailAddress identity() {
         return email;
     }
 }

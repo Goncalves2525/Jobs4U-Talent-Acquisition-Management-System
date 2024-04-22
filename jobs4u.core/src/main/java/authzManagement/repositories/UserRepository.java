@@ -8,7 +8,7 @@ import eapli.framework.general.domain.model.EmailAddress;
 
 public interface UserRepository extends DomainRepository<EmailAddress, User> {
 
-    boolean exists(Email email);
+    boolean exists(EmailAddress email);
 
     /**
      * Creates user and returns a random password.

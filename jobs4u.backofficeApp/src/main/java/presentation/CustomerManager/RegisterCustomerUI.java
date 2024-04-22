@@ -31,9 +31,9 @@ public class RegisterCustomerUI extends AbstractUI {
         }while(code == null);
 
         name = Utils.readLineFromConsole("Name: ");
-
         do{
-            email = new Email(Utils.readLineFromConsole("Email: "));
+            String emailString = Utils.readLineFromConsole("Email: ");
+            email = new Email(emailString);
         }while(email == null);
 
         System.out.println("-ADDRESS-");

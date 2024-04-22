@@ -23,10 +23,10 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public boolean exists(Email email) {
+    public boolean exists(EmailAddress email) {
         Iterable<User> users = findAll();
         for (User user : users) {
-            if (user.sameAs(email)) {
+            if (user.identity().equals(email)) {
                 return true;
             }
         }
