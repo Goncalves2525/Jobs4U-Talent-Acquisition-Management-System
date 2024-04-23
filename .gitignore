@@ -1,4 +1,4 @@
- Operating System Files
+#Operating System Files
 
 *.DS_Store
 Thumbs.db
@@ -7,6 +7,9 @@ Thumbs.db
 *#
 *~
 *.sublime-*
+
+# DB files
+db/
 
 # Build Artifacts
 
