@@ -16,8 +16,9 @@ typedef struct ReturnValues {
 
 typedef struct ChildReport{
     int available;
-    int filesMoved;
+    int qtyFilesMoved;
     char createdPath[100];
+    char filesMoved[500];
 }childReport;
 
 returnValues cria_filhos(int n);
@@ -34,5 +35,6 @@ int countFilesOnDirectory(char* inputPath, char* currentPrefix);
 int moveFilesToDirectory(char* inputPath, char* jobApplicantPath, char* currentPrefix);
 int createSessionFile(char* sessionFile);
 int updateSessionFile(char* sessionFile, childReport* report);
+int getFilesOnDirectory(char* inputPath, char* currentPrefix, char* reportFilesMoved);
 
 #endif

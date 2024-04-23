@@ -56,7 +56,6 @@ int findNewPrefix(char** fileNames, int fileCount, char* currentPrefix, char* ol
                 // Verificar se o prefixo já foi processado
                 if(!(strstr(oldPrefixes, tempPrefix) != NULL)){
                     strcpy(currentPrefix, tempPrefix);
-                    strcat(oldPrefixes, tempPrefix);
                     return 0;
                 }
             }
@@ -391,15 +390,17 @@ int createSessionFile(char* sessionFile) {
 
 int updateSessionFile(char* sessionFile, childReport* report) {
     
-    // #filesqty: X #subdir: ABC
+    // #subdir: ABC \n - FILENAME1 \n - FILENAMEn \n \n 
     
-    char stringRepresentation[12];
-    sprintf(stringRepresentation, "%d", report->filesMoved);
-    char newReportLine[350];
-    strcpy(newReportLine, "#filesqty: ");
-    strcat(newReportLine, stringRepresentation);
-    strcat(newReportLine, " #subdir: ");
+    char qtyFilesMovedString[12];
+    sprintf(qtyFilesMovedString, "%d", report->qtyFilesMoved);
+    char newReportLine[700];
+    strcpy(newReportLine, "#subdir: ");
     strcat(newReportLine, report->createdPath);
+    strcat(newReportLine, " (qty files moved: ");
+    strcat(newReportLine, qtyFilesMovedString);
+    strcat(newReportLine, ")\n");
+    strcat(newReportLine, report->filesMoved);
     strcat(newReportLine, "\n");
     
     FILE *file = fopen(sessionFile, "a"); // abre ficheiro, para adicionar novos dados
@@ -415,4 +416,31 @@ int updateSessionFile(char* sessionFile, childReport* report) {
     fclose(file);
     
     return 0;
+}
+
+int getFilesOnDirectory(char* inputPath, char* currentPrefix, char* reportFilesMoved) {
+	DIR *dir;
+    struct dirent* entry;
+    int fileCount = 0;
+
+    dir = opendir(inputPath);
+
+    if (dir == NULL) {
+        perror("Error opening directory\n");
+        closedir(dir);
+        return -1;
+    }
+
+	size_t prefixLength = strlen(currentPrefix);
+    while ((entry = readdir(dir)) != NULL) {
+        if (strncmp(entry->d_name, currentPrefix, prefixLength) == 0) {
+            fileCount++;
+            strcat(reportFilesMoved, entry->d_name);
+            strcat(reportFilesMoved, "\n");
+        }
+    }
+
+    closedir(dir);
+    
+    return fileCount;
 }
