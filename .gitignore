@@ -9,7 +9,7 @@ Thumbs.db
 *.sublime-*
 
 # DB files
-db/
+# db/
 
 # Build Artifacts
 
