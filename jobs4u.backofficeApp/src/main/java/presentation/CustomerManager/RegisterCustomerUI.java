@@ -17,10 +17,6 @@ public class RegisterCustomerUI extends AbstractUI {
 
     @Override
     protected boolean doShow() {
-        UserRepository repo = PersistenceContext.repositories().users();
-        User user = new User(new Email("user@isep.ipp.pt"), "password");
-        repo.save(user);
-
         CompanyCode code = null;
         String name = "";
         Email email = null;

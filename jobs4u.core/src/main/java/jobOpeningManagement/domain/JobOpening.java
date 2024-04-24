@@ -9,7 +9,7 @@ public class JobOpening implements AggregateRoot<String> {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String jobReference;
 
     @Column

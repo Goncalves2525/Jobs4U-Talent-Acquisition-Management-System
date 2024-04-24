@@ -13,19 +13,24 @@ public class Customer implements AggregateRoot<CompanyCode> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Getter
     @Embedded
     @Column(unique = true)
     private CompanyCode code;
+
     @Getter
     @Column
     private String name;
+
     @Getter
     @Column
     private EmailAddress email;
+
     @Getter
     @Embedded
     private Address address;
+
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<JobOpening> jobOpenings = new ArrayList<JobOpening>();
 
@@ -63,4 +68,5 @@ public class Customer implements AggregateRoot<CompanyCode> {
     public CompanyCode identity() {
         return code;
     }
+
 }

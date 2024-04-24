@@ -22,12 +22,25 @@ public class JpaCustomerRepository implements CustomerRepository {
 
     @Override
     public <S extends Customer> S save(S entity) {
+        if (exists(entity.getCode())) {
+            throw new IllegalArgumentException("Customer already exists");
+        }
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
         em.persist(entity);
         em.getTransaction().commit();
         em.close();
         return entity;
+    }
+
+    private boolean exists(CompanyCode code) {
+        Iterable<Customer> customers = findAll();
+        for (Customer customer : customers) {
+            if (customer.getCode().equals(code)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

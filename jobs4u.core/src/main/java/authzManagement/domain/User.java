@@ -13,7 +13,7 @@ public class User implements AggregateRoot<EmailAddress> {
 
     @Getter
     @Embedded
-    @Column
+    @Column(unique = true)
     private EmailAddress email;
 
     @Getter

@@ -1,6 +1,5 @@
 package jpa;
 
-import authzManagement.domain.Email;
 import authzManagement.domain.Role;
 import authzManagement.domain.User;
 import authzManagement.repositories.UserRepository;

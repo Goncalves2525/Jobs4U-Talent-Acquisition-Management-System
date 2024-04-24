@@ -32,4 +32,12 @@ public class CompanyCode implements ValueObject, Comparable<CompanyCode> {
     public int compareTo(CompanyCode o) {
         return code.compareTo(o.code);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CompanyCode)) return false;
+        CompanyCode that = (CompanyCode) o;
+        return code.equals(that.code);
+    }
 }
