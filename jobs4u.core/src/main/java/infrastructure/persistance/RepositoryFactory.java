@@ -26,6 +26,8 @@ package infrastructure.persistance;
 
 import authzManagement.repositories.UserRepository;
 import eapli.framework.domain.repositories.TransactionalContext;
+import jobOpeningManagement.repositories.ApplicationRepository;
+import jobOpeningManagement.repositories.CandidateRepository;
 import jobOpeningManagement.repositories.CustomerRepository;
 import jobOpeningManagement.repositories.JobOpeningRepository;
 
@@ -46,6 +48,10 @@ public interface RepositoryFactory {
     CustomerRepository customers();
 
     UserRepository users();
+
+    CandidateRepository candidates();
+
+    ApplicationRepository applications();
 
 //	/**
 //	 * @param autoTx the transactional context to enroll

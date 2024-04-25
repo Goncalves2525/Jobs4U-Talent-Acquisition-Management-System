@@ -3,6 +3,8 @@ package jpa;
 import authzManagement.repositories.UserRepository;
 import eapli.framework.domain.repositories.TransactionalContext;
 import infrastructure.persistance.RepositoryFactory;
+import jobOpeningManagement.repositories.ApplicationRepository;
+import jobOpeningManagement.repositories.CandidateRepository;
 import jobOpeningManagement.repositories.CustomerRepository;
 import jobOpeningManagement.repositories.JobOpeningRepository;
 
@@ -26,6 +28,16 @@ public class JpaRepositoryFactory implements RepositoryFactory {
     @Override
     public UserRepository users() {
         return new JpaUserRepository();
+    }
+
+    @Override
+    public ApplicationRepository applications() {
+        return new JpaApplicationRepository();
+    }
+
+    @Override
+    public CandidateRepository candidates() {
+        return new JpaCandidateRepository();
     }
 
 

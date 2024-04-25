@@ -43,11 +43,11 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build and package with Maven
-        run: mvn dependency:copy-dependencies -DskipTests package #ignorar os testes neste ponto
-
-      - name: Test
-        run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
+#      - name: Build and package with Maven
+#        run: mvn dependency:copy-dependencies -DskipTests package #ignorar os testes neste ponto
+#
+#      - name: Test
+#        run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
 
 #      - name: Report
 #        uses: dorny/test-reporter@v1

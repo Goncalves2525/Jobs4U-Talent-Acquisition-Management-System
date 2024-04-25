@@ -1,0 +1,27 @@
+@startuml
+
+package Presentation {
+    class RegisterApplicationUI
+}
+
+package Domain {
+    class Application
+}
+
+package Persistence {
+    class JpaApplicationRepository
+    class JpaCandidateRepository
+    interface ApplicationRepository
+    interface CandidateRepository
+}
+
+package Application {
+    class RegisterApplicationController
+    class ListCandidatesService
+}
+
+
+'TODO
+
+
+@enduml

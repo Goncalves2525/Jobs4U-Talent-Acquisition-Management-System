@@ -1,0 +1,26 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "OPERATOR" as OP
+participant "RegisterApplicationUI" as UI
+participant "RegisterApplicationController" as CTRL
+participant "ListCandidatesService" as LISVC
+participant "CandidatesRepository" as CREPO
+participant "Application" as APP
+participant "ApplicationRepository" as APPREPO
+
+
+
+
+
+
+
+
+
+
+@enduml

@@ -3,6 +3,8 @@ package inMemory;
 import authzManagement.repositories.UserRepository;
 import eapli.framework.domain.repositories.TransactionalContext;
 import infrastructure.persistance.RepositoryFactory;
+import jobOpeningManagement.repositories.ApplicationRepository;
+import jobOpeningManagement.repositories.CandidateRepository;
 import jobOpeningManagement.repositories.CustomerRepository;
 import jobOpeningManagement.repositories.JobOpeningRepository;
 
@@ -24,6 +26,16 @@ public class InMemoryRepositoryFactory implements RepositoryFactory {
 
     @Override
     public UserRepository users() {
+        return null;
+    }
+
+    @Override
+    public ApplicationRepository applications() {
+        return null;
+    }
+
+    @Override
+    public CandidateRepository candidates() {
         return null;
     }
 }
