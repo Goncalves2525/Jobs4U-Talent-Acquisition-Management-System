@@ -1,9 +1,7 @@
 package presentation.CustomerManager;
 
-import authzManagement.domain.User;
-import authzManagement.repositories.UserRepository;
+
 import eapli.framework.presentation.console.AbstractUI;
-import infrastructure.persistance.PersistenceContext;
 import jobOpeningManagement.application.RegisterCustomerController;
 import jobOpeningManagement.domain.Address;
 import jobOpeningManagement.domain.CompanyCode;

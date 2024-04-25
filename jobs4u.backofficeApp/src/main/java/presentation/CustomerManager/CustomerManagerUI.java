@@ -1,9 +1,7 @@
 package presentation.CustomerManager;
 
-import eapli.framework.actions.menu.Menu;
-import eapli.framework.actions.menu.MenuItem;
+
 import eapli.framework.presentation.console.AbstractUI;
-import eapli.framework.presentation.console.ShowUiAction;
 import utils.Utils;
 
 public class CustomerManagerUI extends AbstractUI {
@@ -16,6 +14,7 @@ public class CustomerManagerUI extends AbstractUI {
             System.out.println("1. Register Job Opening");
             System.out.println("2. List Job Openings");
             System.out.println("3. Register Customer");
+            System.out.println("4. Test Plugin");
             System.out.println("0. Exit");
             option = Utils.readIntegerFromConsole("Option: ");
             switch (option){
@@ -30,6 +29,10 @@ public class CustomerManagerUI extends AbstractUI {
                 case 3:
                     RegisterCustomerUI registerCustomerUI = new RegisterCustomerUI();
                     registerCustomerUI.show();
+                    break;
+                case 4:
+                    TestPluginUI testPluginUI = new TestPluginUI();
+                    testPluginUI.show();
                     break;
                 case 0:
                     return false;
