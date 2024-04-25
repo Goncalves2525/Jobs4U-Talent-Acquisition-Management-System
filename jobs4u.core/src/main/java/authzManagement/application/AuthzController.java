@@ -1,16 +1,22 @@
 package authzManagement.application;
 
-import authzManagement.domain.Authz;
+import authzManagement.domain.Role;
 import authzManagement.repositories.UserRepository;
 import infrastructure.persistance.PersistenceContext;
+
+import java.util.Optional;
 
 public class AuthzController {
 
     private final UserRepository repo = PersistenceContext.repositories().users();
-    private final Authz authz = new Authz();
 
     public AuthzController() {}
 
-    public boolean doLogin(String user, String pwd){ return authz.doLogin(user, pwd); };
+    public Optional<String> doLogin(String user, String pwd){ return repo.authenticate(user, pwd); };
 
+    public boolean validateAccess(String sessionToken, Role roleRequired) { return repo.authorized(sessionToken, roleRequired); }
+
+    public Role getValidBackofficeRole(String sessionToken){ return repo.getValidBackofficeRole(sessionToken); }
+
+    public boolean doLogout(String sessionToken) { return repo.endSession(sessionToken); }
 }

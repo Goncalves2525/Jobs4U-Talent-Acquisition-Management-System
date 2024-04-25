@@ -1,22 +1,25 @@
 package authzManagement.repositories;
 
+import authzManagement.domain.AppUser;
 import authzManagement.domain.Email;
+import authzManagement.domain.Password;
 import authzManagement.domain.Role;
-import authzManagement.domain.User;
 import eapli.framework.domain.repositories.DomainRepository;
 import eapli.framework.general.domain.model.EmailAddress;
 
-public interface UserRepository extends DomainRepository<EmailAddress, User> {
+import java.util.Optional;
+
+public interface UserRepository extends DomainRepository<EmailAddress, AppUser> {
 
     boolean exists(EmailAddress email);
 
-    /**
-     * Creates user and returns a random password.
-     * @param name
-     * @param email
-     * @return random password.
-     */
-    String createUser(String name, String email);
+    Optional<String> createAppUser(String email, Role role);
 
-    boolean authenticateUser(String email, String password, Role validRole);
+    Optional<String> authenticate(String email, String password);
+
+    boolean authorized(String sessionToken, Role roleRequired);
+
+    Role getValidBackofficeRole(String sessionToken);
+
+    boolean endSession(String sessionToken);
 }
