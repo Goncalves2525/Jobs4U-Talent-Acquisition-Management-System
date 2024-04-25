@@ -6,7 +6,8 @@ public enum Role {
     CUSTOMERMANAGER("customer manager", 2, true, false, false),
     OPERATOR("operator", 3, true, false, false),
     CUSTOMER("customer", 2, false, true, false),
-    CANDIDATE("candidate", 2, false, false, true);
+    CANDIDATE("candidate", 2, false, false, true),
+    DEFAULT("default", 0, false, false, false);
 
     private final String roleName;
     private final int accessLevel;
