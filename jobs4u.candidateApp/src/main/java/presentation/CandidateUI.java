@@ -2,9 +2,9 @@ package presentation;
 
 import console.ConsoleUtils;
 
-public class CustomerUI {
+public class CandidateUI {
 
-    public CustomerUI() {
+    public CandidateUI() {
     }
 
     public void doShow() {

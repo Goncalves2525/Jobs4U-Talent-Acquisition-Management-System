@@ -1,13 +1,66 @@
+import authzManagement.domain.Role;
+import authzManagement.presentation.AuthzUI;
+import console.ConsoleUtils;
+import presentation.Admin.AdminUI;
 import presentation.CustomerManager.CustomerManagerUI;
+import presentation.Operator.OperatorUI;
+import textformat.AnsiColor;
 import utils.Utils;
 
 public class BackOffice {
+
+    static Role roleInUse;
+    final static boolean BOOTSTRAPMODE = true;
+
     public static void main(String[] args) {
-        System.out.println("Welcome to Jobs4U backoffice");
-        System.out.println("==================================");
-        System.out.println();
-        Utils.readLineFromConsole("Press Enter to continue...");
-        CustomerManagerUI customerManagerUI = new CustomerManagerUI();
-        customerManagerUI.show();
+
+        // if in bootstrap mode, launch bootstrapper
+        if (BOOTSTRAPMODE) {
+            // TODO: launch bootstrapper
+        }
+
+        AuthzUI authzUI = new AuthzUI();
+        if (!authzUI.doLogin()) {
+            ConsoleUtils.showMessageColor("Log in failed.", AnsiColor.RED);
+            return;
+        }
+
+        roleInUse = authzUI.getValidBackofficeRole();
+
+        switch (roleInUse){
+            case ADMIN:
+                ConsoleUtils.showMessageColor("User authorized.", AnsiColor.GREEN);
+                ConsoleUtils.readLineFromConsole("Press enter to continue.");
+                ConsoleUtils.buildUiHeader("Jobs4U Backoffice for Admin");
+                AdminUI adminUI = new AdminUI();
+                adminUI.doShow();
+                break;
+            case CUSTOMERMANAGER:
+                ConsoleUtils.showMessageColor("User authorized.", AnsiColor.GREEN);
+                ConsoleUtils.readLineFromConsole("Press enter to continue.");
+                ConsoleUtils.buildUiHeader("Jobs4U Backoffice for Customer Manager");
+                CustomerManagerUI customerManagerUI = new CustomerManagerUI();
+                // TODO: rever este, em vez de usar o AbstractUI?!
+                customerManagerUI.show();
+                break;
+            case OPERATOR:
+                ConsoleUtils.showMessageColor("User authorized.", AnsiColor.GREEN);
+                ConsoleUtils.readLineFromConsole("Press enter to continue.");
+                ConsoleUtils.buildUiHeader("Jobs4U Backoffice for Operator");
+                OperatorUI operatorUI = new OperatorUI();
+                operatorUI.doShow();
+                break;
+            default:
+                ConsoleUtils.showMessageColor("Unauthorized access.", AnsiColor.RED);
+                authzUI.forceLogout();
+                return;
+        }
+
+        authzUI.doLogout();
+
+        // if in bootstrap mode, then drop all database objects
+        if(BOOTSTRAPMODE) {
+            // DatabaseUtility.dropAllDataBaseObjects();
+        }
     }
 }
