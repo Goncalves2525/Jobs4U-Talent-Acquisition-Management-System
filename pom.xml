@@ -11,7 +11,6 @@
 	<modules>
 		<module>jobs4u.candidateApp</module>
 		<module>jobs4u.customerApp</module>
-		<module>jobs4u.util.ci</module>
         <module>jobs4u.backofficeApp</module>
 		<module>jobs4u.core</module>
 		<module>jobs4u.persistence</module>
