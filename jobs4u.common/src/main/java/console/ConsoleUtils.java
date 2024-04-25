@@ -19,7 +19,7 @@ public class ConsoleUtils {
 
     static public String readLineFromConsole(String prompt) {
         try {
-            System.out.println("\n" + prompt);
+            System.out.println(prompt);
 
             InputStreamReader converter = new InputStreamReader(System.in);
             BufferedReader in = new BufferedReader(converter);
@@ -93,13 +93,14 @@ public class ConsoleUtils {
     }
 
     static public void buildUiHeader(String header){
-        System.out.println(":---------------------------------------------------------:");
+        System.out.println(":----------------------------------------------------------:");
         String postHeader = " ";
-        for (int i = header.length(); i < 30; i++) {
+        for (int i = header.length(); i < 51; i++) {
             postHeader = postHeader.concat("-");
         }
-        postHeader = postHeader.concat(":\n\n");
-        System.out.println(":-----" + header + postHeader);
+        postHeader = postHeader.concat(":");
+        System.out.println(":----- " + header + postHeader);
+        System.out.println(":----------------------------------------------------------:");
     }
 
     static public Object showAndSelectOne(List list, String header, String zeroName) {
