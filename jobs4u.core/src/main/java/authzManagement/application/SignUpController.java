@@ -1,22 +1,24 @@
 package authzManagement.application;
 
 import authzManagement.domain.Email;
-import authzManagement.domain.User;
+import authzManagement.domain.AppUser;
+import authzManagement.domain.Password;
+import authzManagement.domain.Role;
 import authzManagement.repositories.UserRepository;
 import infrastructure.persistance.PersistenceContext;
 
+import java.util.Optional;
+
 public class SignUpController {
     private UserRepository repo = PersistenceContext.repositories().users();
-    private PasswordGeneratorService svc = new PasswordGeneratorService();
 
-    public boolean signUp(Email email){
+    public Optional<String> signUp(Email email, Role role){
         if (repo.exists(email)) {
             System.out.println("Username already exists");
-            return false;
+            return Optional.empty();
         }
-        User user = new User(email, svc.generatePassword(9));
-        repo.save(user);
-        return true;
+        Optional<String> password = repo.createAppUser(email.toString(), role);
+        return password;
     }
 
 

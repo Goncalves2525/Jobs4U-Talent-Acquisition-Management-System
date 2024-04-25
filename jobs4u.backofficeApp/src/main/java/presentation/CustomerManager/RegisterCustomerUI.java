@@ -1,6 +1,6 @@
 package presentation.CustomerManager;
 
-
+import authzManagement.domain.Role;
 import eapli.framework.presentation.console.AbstractUI;
 import jobOpeningManagement.application.RegisterCustomerController;
 import jobOpeningManagement.domain.Address;
@@ -9,9 +9,12 @@ import authzManagement.application.SignUpController;
 import authzManagement.domain.Email;
 import utils.Utils;
 
+import java.util.Optional;
+
 public class RegisterCustomerUI extends AbstractUI {
     private RegisterCustomerController ctrl = new RegisterCustomerController();
     private SignUpController signUpController = new SignUpController();
+    private final Role validRole = Role.CUSTOMER;
 
     @Override
     protected boolean doShow() {
@@ -40,12 +43,11 @@ public class RegisterCustomerUI extends AbstractUI {
         boolean success = ctrl.registerCustomer(code, name, email, address);
         if(success) {
             System.out.println("Customer registered successfully!");
-            success = signUpController.signUp(email);
-            if(success) {
-                System.out.println("User registered successfully!");
+            Optional<String> userSignedUp = signUpController.signUp(email, validRole);
+            if(userSignedUp.isPresent()) {
+                System.out.println("User registered successfully with password: " + userSignedUp.get());
                 return true;
-            }
-            else{
+            } else{
                 System.out.println("User registration failed!");
                 ctrl.deleteCustomer(code);
                 System.out.println("Customer deleted!");
