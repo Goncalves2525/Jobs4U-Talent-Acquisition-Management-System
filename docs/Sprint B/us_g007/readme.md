@@ -69,22 +69,23 @@ From the context and requirements, it was identified the following major feature
 
 ### 4.1. Realization
 
-Authentication made on all apps main entries, by using method *doLogin()*.
-During authentication e-mail and password structure are verified, by using methods *isValidEmail()* and *isValidPassword()*.
-After that, user permission to login is validated, by using the method *startSession()*.
-This method finds a user with the same e-mail and password.
-If is found, then a token is created and assigned, so it can be used during the session, by using method *createSessionToken()*.
-The token will be placed only in a vacant space, and fail if there is a token assigned.
-The token will be used, along with the role required information to authorize user access.
-Authorization must be used, everytime a role boundary area needs to be accessed.  
-If the session is not valid, then an error token is returned, and the authentication UI presents a login error based on one of the scenarios:
+Authentication made on all apps main entries, by using method *doLogin()*. <br>
+During authentication e-mail and password structure are verified, by using methods *isValidEmail()* and *isValidPassword()*. <br>
+After that, user permission to login is validated, by using the method *startSession()*. <br>
+This method finds a user with the same e-mail and password. <br>
+If is found, then a token is created and assigned, so it can be used during the session, by using method *createSessionToken()*. <br>
+The token will be placed only in a vacant space, and fail if there is a token assigned. <br>
+The token will be used, along with the role required information to authorize user access. <br>
+Authorization must be used, everytime a role boundary area needs to be accessed. <br>
+If the session is not valid, then an error token is returned, and the authentication UI presents a login error based on one of the scenarios: 
 - error01 : invalid e-mail;
 - error02 : invalid password;
 - error03 : invalid session;
 - error04 : invalid permissions;
-On session end, the token will be removed from the persistence.
-During app usage, authorizations may be requested. From that point on, the token will be the validation item to be checked.
-If the token doesn't correspond, then the app must return to the main app page.
+
+On session end, the token will be removed from the persistence. <br>
+During app usage, authorizations may be requested. From that point on, the token will be the validation item to be checked. <br>
+If the token doesn't correspond, then the app must return to the main app page. <br>
 
 | Interaction ID                                                                     | Question: Which class is responsible for...                        | Answer                  | Justification (with patterns)       |
 |:-----------------------------------------------------------------------------------|:-------------------------------------------------------------------|:------------------------|:------------------------------------|
@@ -160,17 +161,23 @@ public void isPasswordValidationGuaranteingRules() { ... }
 
 ## 5. Implementation
 
-(TODO: highlight main parts from design to implementation)
+Implementing flow of validating email, password, generating a user session token and keeping it for session usage. <br>
+It was required to develop a special authorization process for the backoffice app. <br>
+Every session requires a logout feature to force it whenever the app closes. <br>
 
-(TODO: list main commits)
+> Commit list (descending)
+> 
+> 9e393327887565f00cd92c5e1daab4133ee1972a
+> 283325730af566f0cb9d51291e169a4352cb37ea
+> 00f9367bc1644c49ba1fa7a5ab8e155c9ed5d9ad
 
 ## 6. Integration/Demonstration
 
-Authentication occurs at every session start for the three apps (main file).
-A session user token will be held and used by all functionalities, to validate function access whenever needed.
-This token is deleted whenever the session ends.
+Authentication occurs at every session start for the three apps (main file). <br>
+A session user token will be held and used by all functionalities, to validate function access whenever needed. <br>
+This token is deleted whenever the session ends. <br>
 
 ## 7. Observations
 
-Passwords are stored "as is".
-Further improvement would be to focus on encrypting the password.
+Passwords are stored "as is". <br>
+Further improvement would be to focus on encrypting the password. <br>
