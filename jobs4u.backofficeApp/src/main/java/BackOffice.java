@@ -5,7 +5,6 @@ import presentation.Admin.AdminUI;
 import presentation.CustomerManager.CustomerManagerUI;
 import presentation.Operator.OperatorUI;
 import textformat.AnsiColor;
-import utils.Utils;
 
 public class BackOffice {
 
@@ -14,18 +13,25 @@ public class BackOffice {
 
     public static void main(String[] args) {
 
+
         // if in bootstrap mode, launch bootstrapper
         if (BOOTSTRAPMODE) {
             // TODO: launch bootstrapper
         }
 
         AuthzUI authzUI = new AuthzUI();
+
+
         if (!authzUI.doLogin()) {
             ConsoleUtils.showMessageColor("Log in failed.", AnsiColor.RED);
             return;
         }
 
         roleInUse = authzUI.getValidBackofficeRole();
+
+
+
+        //roleInUse = Role.CUSTOMERMANAGER;
 
         switch (roleInUse){
             case ADMIN:

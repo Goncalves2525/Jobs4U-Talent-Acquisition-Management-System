@@ -14,17 +14,14 @@ public class TestPluginUI extends AbstractUI {
 
     @Override
     protected boolean doShow() {
-        String pluginsDirectory = "plugins";
+        String pluginsDirectory = "plugins/interview";
         List<Object> plugins = pluginLoader.loadPlugins(pluginsDirectory);
         List<String> pluginInfo = new ArrayList<>();
 
         for (Object plugin : plugins) {
             try {
-                // Assuming the main class name is known or specified in each plugin
                 String jarFileName = plugin.getClass().getProtectionDomain().getCodeSource().getLocation().toString();
                 pluginInfo.add(jarFileName);
-                //Method mainMethod = plugin.getClass().getMethod("main", String[].class);
-                //mainMethod.invoke(null, (Object) new String[]{});
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -44,12 +41,17 @@ public class TestPluginUI extends AbstractUI {
         // Validate the user's choice
         if (choice >= 0 && choice < pluginInfo.size()) {
             String selectedPluginInfo = pluginInfo.get(choice);
-            // Extract the selected plugin and run it
             try {
                 Object plugin = plugins.get(choice);
-                // Assuming the main class name is known or specified in each plugin
-                Method mainMethod = plugin.getClass().getMethod("main", String[].class);
-                mainMethod.invoke(null, (Object) new String[]{}); // Pass any command-line arguments if needed
+                Method exportMethod = plugin.getClass().getMethod("exportFile", String.class);
+                exportMethod.invoke(plugin, "plugins/interview/testInterview.txt");
+
+                Method readMethod = plugin.getClass().getMethod("readFile", String.class);
+                String content = (String) readMethod.invoke(plugin, "plugins/interview/testInterview.txt");
+                System.out.println(content);
+
+                //Method mainMethod = plugin.getClass().getMethod("main", String[].class);
+                //mainMethod.invoke(null, (Object) new String[]{}); // Pass any command-line arguments if needed
             } catch (Exception e) {
                 e.printStackTrace();
             }

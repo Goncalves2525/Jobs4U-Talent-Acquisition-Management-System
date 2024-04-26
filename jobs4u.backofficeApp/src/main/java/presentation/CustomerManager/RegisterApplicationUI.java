@@ -5,7 +5,6 @@ import jobOpeningManagement.application.CandidateController;
 import jobOpeningManagement.application.ListJobOpeningsController;
 import jobOpeningManagement.application.RegisterApplicationController;
 import jobOpeningManagement.domain.*;
-import jobOpeningManagement.domain.dto.ApplicationDTO;
 import utils.Utils;
 
 import java.util.Iterator;
