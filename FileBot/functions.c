@@ -86,22 +86,20 @@ int getDirFileNames(char* inputPath, char** fileNames) {
         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0 || strcmp(entry->d_name, ".DS_Store") == 0) {
             continue;
         }
-        fileNames[i] = malloc(strlen(entry->d_name) + 1); //aloca memória para cada nome de ficheiro
-        strcpy(fileNames[i], entry->d_name); //copia o nome do ficheiro
-        fileCount++;
-        i++;
+        if (strstr(entry->d_name, "candidate_data.txt")) {
+           fileNames[i] = malloc(strlen(entry->d_name) + 1); //aloca memória para cada nome de ficheiro
+            strcpy(fileNames[i], entry->d_name); //copia o nome do ficheiro
+            fileCount++;
+            i++;
+        }
     }
 
     closedir(dir);
-    qsort(fileNames, fileCount, sizeof(char *), compareFileNames);
-
-
-    if (i == 0) {
-        printf("No files found in directory.\n");
-        return -1;
-    } else {
-        return fileCount;
+    if(i > 1){
+        qsort(fileNames, fileCount, sizeof(char *), compareFileNames);
     }
+
+    return fileCount;
 }
 
 int extractArguments(const char* configFile, arglocal* arg) {

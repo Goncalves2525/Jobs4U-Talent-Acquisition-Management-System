@@ -59,7 +59,6 @@ public class TestPluginUI extends AbstractUI {
             System.out.println("Invalid choice. Please enter a number between 0 and " + (pluginInfo.size() - 1) + ".");
         }
 
-
         return true;
     }
 
