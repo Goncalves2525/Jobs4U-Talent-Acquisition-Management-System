@@ -47,7 +47,7 @@ public class BackOffice {
                 ConsoleUtils.buildUiHeader("Jobs4U Backoffice for Customer Manager");
                 CustomerManagerUI customerManagerUI = new CustomerManagerUI();
                 // TODO: rever este, em vez de usar o AbstractUI?!
-                customerManagerUI.show();
+                customerManagerUI.doShow();
                 break;
             case OPERATOR:
                 ConsoleUtils.showMessageColor("User authorized.", AnsiColor.GREEN);

@@ -34,23 +34,19 @@ public class AppUser implements AggregateRoot<EmailAddress> {
     @AttributeOverride(name = "value", column = @Column(name = "token"))
     private Token token;
 
-    protected AppUser(){
+    protected AppUser() {
         //for ORM
     }
 
-    public AppUser(EmailAddress email, Password password, Role role){
+    public AppUser(EmailAddress email, Password password, Role role) {
         this.email = email;
         this.password = password;
         this.role = role;
         this.token = new Token();
     }
 
-    public boolean addToken(Token token) {
-        if (this.token == null){
-            this.token = token;
-            return true;
-        }
-        return false;
+    public void addToken(Token token) {
+        this.token = token;
     }
 
     @Override

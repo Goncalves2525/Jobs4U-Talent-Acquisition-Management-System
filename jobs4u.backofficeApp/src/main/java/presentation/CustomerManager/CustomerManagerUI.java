@@ -1,15 +1,12 @@
 package presentation.CustomerManager;
 
 
-import eapli.framework.presentation.console.AbstractUI;
-import eapli.framework.presentation.console.ShowUiAction;
 import utils.Utils;
 
-public class CustomerManagerUI extends AbstractUI {
+public class CustomerManagerUI{
 
 
-    @Override
-    protected boolean doShow() {
+    public boolean doShow() {
         int option = 0;
         do{
             System.out.println("1. Register Job Opening");
@@ -50,9 +47,4 @@ public class CustomerManagerUI extends AbstractUI {
         return true;
     }
 
-
-    @Override
-    public String headline() {
-        return "Customer Manager UI";
-    }
 }

@@ -30,6 +30,10 @@ public class Token {
         return now.format(formatter);
     }
 
+    public String showToken() {
+        return this.value;
+    }
+
     @Override
     public String toString() {
         return this.value;
