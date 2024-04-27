@@ -4,6 +4,7 @@ import appUserManagement.application.SignUpController;
 import appUserManagement.domain.Email;
 import appUserManagement.domain.Role;
 import console.ConsoleUtils;
+import jpa.JpaUserRepository;
 import textformat.AnsiColor;
 
 import java.util.Optional;
@@ -36,5 +37,11 @@ public class UsersBootsrapper {
         String candEmail = "candidate@mail.pt";
         Optional<String> candPwd = signUpController.signUp(new Email(candEmail), Role.CANDIDATE);
         System.out.println("User: " + candEmail + " | Password: " + candPwd.get());
+
+        String custmanEmailDisabled = "custmanDIS@mail.pt";
+        Optional<String> custmanDisabledPwd = signUpController.signUp(new Email(custmanEmailDisabled), Role.CUSTOMERMANAGER);
+        System.out.println("User: " + custmanEmailDisabled + " | Password: " + custmanDisabledPwd.get());
+        JpaUserRepository repo = new JpaUserRepository();
+        repo.swapAbility(custmanEmailDisabled, Role.ADMIN);
     }
 }

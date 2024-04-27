@@ -22,7 +22,7 @@ public class AuthzUI {
         System.out.println();
 
         this.sessionToken = authzController.doLogin(user, pwd);
-        if (!this.sessionToken.get().isEmpty()) {
+        if (this.sessionToken.isPresent()) {
             return true;
         }
         return false;

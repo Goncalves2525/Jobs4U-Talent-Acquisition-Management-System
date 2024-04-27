@@ -68,19 +68,32 @@ public class JpaUserRepository implements UserRepository {
         }
 
         // Query to get a user with matching email and password:
-        String select = "SELECT tb.token FROM AppUser tb"
-                + " WHERE tb.email.email LIKE '" + email
-                + "' AND tb.password.value LIKE '" + password + "'";
+//        String select = "SELECT tb.token FROM AppUser tb"
+//                + " WHERE tb.email.email LIKE '" + email
+//                + "' AND tb.password.value LIKE '" + password
+//                + "' AND tb.ability. LIKE '" + "ENABLED" + "'";
+//        EntityManager em = getEntityManager();
+//        Query query = em.createQuery(select);
+//        List tokens = query.getResultList();
+//        em.close();
+
+        // Query to get a user with matching email and password, while being enabled:
+        String jpql = "SELECT tb.token FROM AppUser tb WHERE tb.email.email = :email AND tb.password.value = :password AND tb.ability = :ability";
         EntityManager em = getEntityManager();
-        List list = em.createQuery(select).getResultList();
+        Query query = em.createQuery(jpql)
+                .setParameter("email", email)
+                .setParameter("password", password)
+                .setParameter("ability", Ability.ENABLED);
+        List tokens = query.getResultList();
         em.close();
-        if (list.isEmpty()) {
+
+        if (tokens.isEmpty()) {
             ConsoleUtils.showMessageColor("Invalid user or password!", AnsiColor.RED);
             return Optional.empty();
         }
 
         // Validate if there is an existing session:
-        if (list.get(0) != null) {
+        if (tokens.get(0) != null) {
             ConsoleUtils.showMessageColor("Invalid session! User already logged in.", AnsiColor.RED);
         }
 
