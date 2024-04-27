@@ -19,6 +19,7 @@ public class ConsoleUtils {
 
     static public String readLineFromConsole(String prompt) {
         try {
+            System.out.println();
             System.out.println(prompt);
 
             InputStreamReader converter = new InputStreamReader(System.in);
@@ -101,7 +102,6 @@ public class ConsoleUtils {
         System.out.println(":----------------------------------------------------------:");
         System.out.println("+===== " + header + postHeader + "+");
         System.out.println(":----------------------------------------------------------:");
-        System.out.println();
     }
 
     static public void buildUiTitle(String title){
@@ -130,6 +130,7 @@ public class ConsoleUtils {
     }
 
     static public void showList(List list, String header, String zeroName) {
+        System.out.println();
         System.out.println(header);
         int index = 0;
         for (Object o : list) {
@@ -137,17 +138,16 @@ public class ConsoleUtils {
             System.out.println(index + ". " + o.toString());
         }
         System.out.println("0. " + zeroName);
-        System.out.println();
     }
 
     static public void showListNoCancel(List list, String header) {
+        System.out.println();
         System.out.println(header);
         int index = 0;
         for (Object o : list) {
             index++;
             System.out.println(index + ". " + o.toString());
         }
-        System.out.println();
     }
 
     static public Object selectsObject(List list) {
