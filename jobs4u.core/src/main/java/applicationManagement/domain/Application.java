@@ -24,7 +24,7 @@ public class Application implements AggregateRoot<String> {
     @Column
     private String status;
 
-    @Column
+    @Column(columnDefinition = "VARBINARY")
     private Object InterviewModel = null; //"" by omission
 
 
