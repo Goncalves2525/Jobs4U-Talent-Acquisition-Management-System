@@ -1,0 +1,40 @@
+package bootstrap;
+
+import appUserManagement.application.SignUpController;
+import appUserManagement.domain.Email;
+import appUserManagement.domain.Role;
+import console.ConsoleUtils;
+import textformat.AnsiColor;
+
+import java.util.Optional;
+
+public class UsersBootsrapper {
+
+    private final SignUpController signUpController = new SignUpController();
+
+    public UsersBootsrapper() {}
+
+    public void execute() {
+        ConsoleUtils.showMessageColor("** Users created **", AnsiColor.CYAN);
+
+        String adminEmail = "admin@mail.pt";
+        Optional<String> adminPwd = signUpController.signUp(new Email(adminEmail), Role.ADMIN);
+        System.out.println("User: " + adminEmail + " | Password: " + adminPwd.get());
+
+        String custmanEmail = "custman@mail.pt";
+        Optional<String> custmanPwd = signUpController.signUp(new Email(custmanEmail), Role.CUSTOMERMANAGER);
+        System.out.println("User: " + custmanEmail + " | Password: " + custmanPwd.get());
+
+        String operatEmail = "operat@mail.pt";
+        Optional<String> operatPwd = signUpController.signUp(new Email(operatEmail), Role.OPERATOR);
+        System.out.println("User: " + operatEmail + " | Password: " + operatPwd.get());
+
+        String customerEmail = "customer@mail.pt";
+        Optional<String> customerPwd = signUpController.signUp(new Email(customerEmail), Role.CUSTOMER);
+        System.out.println("User: " + customerEmail + " | Password: " + customerPwd.get());
+
+        String candEmail = "candidate@mail.pt";
+        Optional<String> candPwd = signUpController.signUp(new Email(candEmail), Role.CANDIDATE);
+        System.out.println("User: " + candEmail + " | Password: " + candPwd.get());
+    }
+}
