@@ -123,40 +123,40 @@ Other software classes (i.e. Pure Fabrication) identified:
 **Test 1:** *Verifies that only users known by the system can access any of its functionalities.*
 <br> **Refers to Acceptance Criteria:** G007.1.
 
-```
+```java
 @Test
-public void verifyThatOnlyKnownUsersAreAuthorized() { ... }
+public void verifyThatOnlyKnownUsersAreAuthorized() { }
 ````
 **Test 2:** *Verifies that users are identified solely through the e-mail.*
 <br> **Refers to Acceptance Criteria:** G007.2.
 
-```
+```java
 @Test
-public void verifyThatOnlyAnEmailIsValidOnUserField() { ... }
+public void verifyThatOnlyAnEmailIsValidOnUserField() { }
 ````
 
 **Test 3:** *Verifies that login is not possible through an empty password field.*
 <br> **Refers to Acceptance Criteria:** G007.3.
 
-```
+```java
 @Test
-public void checkloginWithEmptyPasswordFails() { ... }
+public void checkloginWithEmptyPasswordFails() { }
 ````
 
 **Test 4:** *Verifies that e-mail follows standard configuration.*
 <br> **Refers to Acceptance Criteria:** G007.4.
 
-```
+```java
 @Test
-public void isValidEmail() { ... }
+public void isValidEmail() { }
 ````
 
 **Test 5:** *Verifies that password validation guarantees a password that has 8+ characters, has caps and small characters, has at least one digit, has at least one symbol character.*
 <br> **Refers to Acceptance Criteria:** G007.5.
 
-```
+```java
 @Test
-public void isPasswordValidationGuaranteingRules() { ... }
+public void isPasswordValidationGuaranteingRules() { }
 ````
 
 ## 5. Implementation
