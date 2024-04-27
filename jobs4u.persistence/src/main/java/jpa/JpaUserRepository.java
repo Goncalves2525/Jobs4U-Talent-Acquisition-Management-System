@@ -1,7 +1,8 @@
 package jpa;
 
-import authzManagement.domain.*;
-import authzManagement.repositories.UserRepository;
+import appUserManagement.domain.*;
+import appUserManagement.domain.dto.AppUserDTO;
+import appUserManagement.repositories.UserRepository;
 import console.ConsoleUtils;
 import eapli.framework.general.domain.model.EmailAddress;
 import jakarta.persistence.EntityManager;
@@ -10,6 +11,7 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 import textformat.AnsiColor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,12 +39,23 @@ public class JpaUserRepository implements UserRepository {
         Email userEmail = new Email(email);
         Password userPwd = new Password();
         String userPwdGenerated = userPwd.generatePassword();
-        if(role.showBackofficeAppAccess() && creatorRole.equals(Role.ADMIN)){
+        if (role.showBackofficeAppAccess() && creatorRole.equals(Role.ADMIN)) {
             AppUser appUser = new AppUser(userEmail, userPwd, role);
             save(appUser);
             return Optional.of(userPwdGenerated);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public boolean swapAbility(String email, Role managerRole) {
+        if (managerRole.equals(Role.ADMIN)) {
+            AppUser appUser = ofIdentity(new Email(email)).get();
+            appUser.swapAbility();
+            update(appUser);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -84,7 +97,7 @@ public class JpaUserRepository implements UserRepository {
     public boolean authorized(String sessionToken, Role roleRequired) {
         Optional<AppUser> sessionUser = withToken(sessionToken);
         if (sessionUser.isPresent()) {
-            if(sessionUser.get().getRole().equals(roleRequired)){
+            if (sessionUser.get().getRole().equals(roleRequired)) {
                 return true;
             }
         }
@@ -94,7 +107,7 @@ public class JpaUserRepository implements UserRepository {
     public Role getValidBackofficeRole(String sessionToken) {
         Optional<AppUser> sessionUser = withToken(sessionToken);
         if (sessionUser.isPresent()) {
-            if(sessionUser.get().getRole().showBackofficeAppAccess()){
+            if (sessionUser.get().getRole().showBackofficeAppAccess()) {
                 return sessionUser.get().getRole();
             }
         }
@@ -164,15 +177,15 @@ public class JpaUserRepository implements UserRepository {
     @Override
     public Optional<AppUser> ofIdentity(EmailAddress id) {
         EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT u FROM AppUser u WHERE u.email.email LIKE '" + id.toString() + "'" );
+        Query query = em.createQuery("SELECT u FROM AppUser u WHERE u.email.email LIKE '" + id.toString() + "'");
         AppUser user = (AppUser) query.getResultList().get(0);
         em.close();
         return Optional.of(user);
     }
 
-    private Optional<AppUser> withToken(String sessionToken){
+    private Optional<AppUser> withToken(String sessionToken) {
         EntityManager em = getEntityManager();
-        Query query = em.createQuery("SELECT u FROM AppUser u WHERE u.token.value LIKE '" + sessionToken + "'" );
+        Query query = em.createQuery("SELECT u FROM AppUser u WHERE u.token.value LIKE '" + sessionToken + "'");
         if (query.getResultList().isEmpty()) {
             return Optional.empty();
         }
@@ -181,22 +194,53 @@ public class JpaUserRepository implements UserRepository {
         return Optional.of(user);
     }
 
+    public Optional<List<AppUserDTO>> buildListByRole(List<Role> requiredRoles, Role managerRole) {
+        EntityManager em = getEntityManager();
+
+        List<AppUser> appUserList = new ArrayList<>();
+        for (Role role : requiredRoles) {
+
+            // validates if a non-manager is trying to build a list with backoffice users
+            if(role.showBackofficeAppAccess() && !managerRole.equals(Role.ADMIN)) {
+                return Optional.empty();
+            }
+
+            // queries for users with role selected
+            Query query = em.createQuery("SELECT u FROM AppUser u WHERE u.role = :role");
+            query.setParameter("role", role);
+            appUserList.addAll(query.getResultList());
+        }
+
+        em.close();
+
+        if (appUserList.isEmpty()) {
+            return Optional.empty();
+        }
+
+        List<AppUserDTO> dtoList = new ArrayList<>();
+        for (AppUser user : appUserList) {
+            AppUserDTO userDto = new AppUserDTO(user.getEmail().toString(),
+                    user.getRole(), user.getAbility());
+            dtoList.add(userDto);
+        }
+
+        return Optional.of(dtoList);
+    }
+
     @Override
     public void delete(AppUser entity) {
-        // TODO
-        ConsoleUtils.showMessageColor("To be implemented", AnsiColor.RED);
+        ConsoleUtils.showMessageColor("It is not allowed to delete AppUsers.", AnsiColor.RED);
     }
 
     @Override
     public void deleteOfIdentity(EmailAddress entityId) {
-        // TODO
-        ConsoleUtils.showMessageColor("To be implemented", AnsiColor.RED);
+        ConsoleUtils.showMessageColor("It is not allowed to delete AppUsers.", AnsiColor.RED);
     }
 
     @Override
     public long count() {
-        // TODO
-        ConsoleUtils.showMessageColor("To be implemented", AnsiColor.RED);
-        return 0;
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT COUNT(u) FROM AppUser u");
+        return query.getFirstResult();
     }
 }

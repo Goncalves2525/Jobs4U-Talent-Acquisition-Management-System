@@ -1,7 +1,6 @@
-import authzManagement.domain.Role;
-import authzManagement.presentation.AuthzUI;
+import appUserManagement.domain.Role;
+import infrastructure.authz.AuthzUI;
 import console.ConsoleUtils;
-import infrastructure.persistance.DatabaseUtility;
 import presentation.CustomerUI;
 import textformat.AnsiColor;
 

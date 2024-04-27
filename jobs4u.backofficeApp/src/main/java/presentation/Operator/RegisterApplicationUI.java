@@ -1,12 +1,12 @@
 package presentation.Operator;
 
 import applicationManagement.domain.Candidate;
+import console.ConsoleUtils;
 import eapli.framework.presentation.console.AbstractUI;
 import applicationManagement.application.CandidateController;
 import jobOpeningManagement.application.ListJobOpeningsController;
 import applicationManagement.application.RegisterApplicationController;
 import jobOpeningManagement.domain.*;
-import utils.Utils;
 
 import java.util.Iterator;
 
@@ -51,7 +51,7 @@ public class RegisterApplicationUI extends AbstractUI{
         for (JobOpening jobOpening : jobOpenings) {
             System.out.println(i + " - " + jobOpening.title());
         }
-        int option = Utils.readIntegerFromConsole("Select a Job Opening: ");
+        int option = ConsoleUtils.readIntegerFromConsole("Select a Job Opening: ");
         Iterator<JobOpening> iterator = jobOpenings.iterator();
         for (int j = 0; j < option - 1; j++) {
             iterator.next();
@@ -70,7 +70,7 @@ public class RegisterApplicationUI extends AbstractUI{
         for (Candidate candidate : candidates) {
             System.out.println(i + " - " + candidate.name());
         }
-        int option = Utils.readIntegerFromConsole("Select a Candidate: ");
+        int option = ConsoleUtils.readIntegerFromConsole("Select a Candidate: ");
         Iterator<Candidate> iterator = candidates.iterator();
         for (int j = 0; j < option - 1; j++) {
             iterator.next();
@@ -90,7 +90,7 @@ public class RegisterApplicationUI extends AbstractUI{
             System.out.println(i + " - " + contractType);
             i++;
         }
-        int option = Utils.readIntegerFromConsole("Select Contract Type: ");
+        int option = ConsoleUtils.readIntegerFromConsole("Select Contract Type: ");
         return ContractType.values()[option - 1];
     }
 
@@ -101,7 +101,7 @@ public class RegisterApplicationUI extends AbstractUI{
             System.out.println(i + " - " + jobMode);
             i++;
         }
-        int option = Utils.readIntegerFromConsole("Select Job Mode: ");
+        int option = ConsoleUtils.readIntegerFromConsole("Select Job Mode: ");
         return JobMode.values()[option - 1];
     }
 
@@ -131,7 +131,7 @@ public class RegisterApplicationUI extends AbstractUI{
             System.out.println(i + " - " + recruitmentState);
             i++;
         }
-        int option = Utils.readIntegerFromConsole("Select Recruitment State: ");
+        int option = ConsoleUtils.readIntegerFromConsole("Select Recruitment State: ");
         return RecruitmentState.values()[option - 1];
     }
 

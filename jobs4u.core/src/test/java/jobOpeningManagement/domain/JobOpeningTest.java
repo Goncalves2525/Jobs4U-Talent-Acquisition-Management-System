@@ -3,7 +3,7 @@ package jobOpeningManagement.domain;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import authzManagement.domain.Email;
+import appUserManagement.domain.Email;
 
 public class JobOpeningTest {
     private JobOpening jobOpening;

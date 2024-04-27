@@ -1,6 +1,6 @@
 package jobOpeningManagement.domain;
 
-import authzManagement.domain.Email;
+import appUserManagement.domain.Email;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

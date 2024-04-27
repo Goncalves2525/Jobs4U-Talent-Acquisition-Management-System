@@ -1,10 +1,10 @@
 package presentation.CustomerManager;
 
+import console.ConsoleUtils;
 import eapli.framework.presentation.console.AbstractUI;
 import jobOpeningManagement.application.RegisterJobOpeningController;
 import jobOpeningManagement.domain.*;
 import jobOpeningManagement.domain.dto.JobOpeningDTO;
-import utils.Utils;
 import java.util.Iterator;
 
 
@@ -17,24 +17,24 @@ public class RegisterJobOpeningUI extends AbstractUI{
         int option = 0;
         String title;
         do{
-            title = Utils.readLineFromConsole("Title: ");
+            title = ConsoleUtils.readLineFromConsole("Title: ");
         }while(title.equals(""));
         ContractType contractType = selectContractType();
         JobMode mode = selectJobMode();
         System.out.println("-ADDRESS-");
         String street, city, postalCode;
         do{
-            street = Utils.readLineFromConsole(" Street: ");
-            city = Utils.readLineFromConsole(" City: ");
-            postalCode = Utils.readLineFromConsole(" Postal Code: ");
+            street = ConsoleUtils.readLineFromConsole(" Street: ");
+            city = ConsoleUtils.readLineFromConsole(" City: ");
+            postalCode = ConsoleUtils.readLineFromConsole(" Postal Code: ");
         }while(street.equals("") || city.equals("") || postalCode.equals(""));
         Address address = new Address(street, city, postalCode);
         Customer company = selectCompany();
         if(company == null){
             return false;
         }
-        int numberOfVacancies = Utils.readIntegerFromConsole("Number of Vacancies: ");
-        String description = Utils.readLineFromConsole("Description: ");
+        int numberOfVacancies = ConsoleUtils.readIntegerFromConsole("Number of Vacancies: ");
+        String description = ConsoleUtils.readLineFromConsole("Description: ");
         Requirements requirements = null;
         RecruitmentState state = RecruitmentState.APPLICATION;
 
@@ -43,7 +43,7 @@ public class RegisterJobOpeningUI extends AbstractUI{
         printJobOpenings(title, contractType, mode, address, company, numberOfVacancies, description, state);
         System.out.println("1 - Confirm");
         System.out.println("0 - Exit");
-        option = Utils.readIntegerFromConsole("Option: ");
+        option = ConsoleUtils.readIntegerFromConsole("Option: ");
         if(option == 0){
             return false;
         }
@@ -73,7 +73,7 @@ public class RegisterJobOpeningUI extends AbstractUI{
             System.out.println(i + " - " + contractType);
             i++;
         }
-        int option = Utils.readIntegerFromConsole("Select Contract Type: ");
+        int option = ConsoleUtils.readIntegerFromConsole("Select Contract Type: ");
         return ContractType.values()[option - 1];
     }
 
@@ -84,7 +84,7 @@ public class RegisterJobOpeningUI extends AbstractUI{
             System.out.println(i + " - " + jobMode);
             i++;
         }
-        int option = Utils.readIntegerFromConsole("Select Job Mode: ");
+        int option = ConsoleUtils.readIntegerFromConsole("Select Job Mode: ");
         return JobMode.values()[option - 1];
     }
 
@@ -99,7 +99,7 @@ public class RegisterJobOpeningUI extends AbstractUI{
         for (Customer customer : customers) {
             System.out.println(i + " - " + customer.getCode());
         }
-        int option = Utils.readIntegerFromConsole("Select Company: ");
+        int option = ConsoleUtils.readIntegerFromConsole("Select Company: ");
         Iterator<Customer> iterator = customers.iterator();
         for (int j = 0; j < option - 1; j++) {
             iterator.next();
@@ -114,7 +114,7 @@ public class RegisterJobOpeningUI extends AbstractUI{
             System.out.println(i + " - " + recruitmentState);
             i++;
         }
-        int option = Utils.readIntegerFromConsole("Select Recruitment State: ");
+        int option = ConsoleUtils.readIntegerFromConsole("Select Recruitment State: ");
         return RecruitmentState.values()[option - 1];
     }
 

@@ -5,7 +5,7 @@ import jobOpeningManagement.domain.Address;
 import jobOpeningManagement.domain.CompanyCode;
 import jobOpeningManagement.domain.Customer;
 import jobOpeningManagement.repositories.CustomerRepository;
-import authzManagement.domain.Email;
+import appUserManagement.domain.Email;
 
 public class RegisterCustomerController {
     private CustomerRepository repo = PersistenceContext.repositories().customers();

@@ -24,7 +24,7 @@
 package infrastructure.persistance;
 
 
-import authzManagement.repositories.UserRepository;
+import appUserManagement.repositories.UserRepository;
 import eapli.framework.domain.repositories.TransactionalContext;
 import applicationManagement.repositories.ApplicationRepository;
 import applicationManagement.repositories.CandidateRepository;

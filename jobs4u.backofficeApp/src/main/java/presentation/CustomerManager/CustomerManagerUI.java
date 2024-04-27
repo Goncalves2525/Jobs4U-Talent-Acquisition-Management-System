@@ -1,8 +1,8 @@
 package presentation.CustomerManager;
 
 
+import console.ConsoleUtils;
 import presentation.Operator.RegisterApplicationUI;
-import utils.Utils;
 
 public class CustomerManagerUI{
 
@@ -17,7 +17,7 @@ public class CustomerManagerUI{
             System.out.println("5. Register Application");
             System.out.println("6. Select Interview Model");
             System.out.println("0. Exit");
-            option = Utils.readIntegerFromConsole("Option: ");
+            option = ConsoleUtils.readIntegerFromConsole("Option: ");
             switch (option){
                 case 1:
                     RegisterJobOpeningUI registerJobOpeningUI = new RegisterJobOpeningUI();

@@ -1,6 +1,6 @@
 package jpa;
 
-import authzManagement.repositories.UserRepository;
+import appUserManagement.repositories.UserRepository;
 import eapli.framework.domain.repositories.TransactionalContext;
 import infrastructure.persistance.RepositoryFactory;
 import applicationManagement.repositories.ApplicationRepository;

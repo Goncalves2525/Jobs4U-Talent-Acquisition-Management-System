@@ -1,7 +1,5 @@
 package presentation.CustomerManager;
 
-import authzManagement.presentation.AuthzUI;
-import eapli.framework.presentation.console.AbstractUI;
 import plugins.PluginLoader;
 
 import java.lang.reflect.Method;
