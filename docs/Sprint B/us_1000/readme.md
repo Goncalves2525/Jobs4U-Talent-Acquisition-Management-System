@@ -176,11 +176,15 @@ public void verifyMultipleEnablingDisabling() {  }
 
 ## 5. Implementation
 
-(TODO) <br>
+Functionalities added to Admin UI. <br>
+It was added Ability value object to AppUser, that led to update on the login process, since only an enabled user can enter the system. <br>
 
 > Commit list (descending)
 >
-> (...)
+> 284a5dcc2bc5b6bd8c6a4c241cf7b0e5aabb3654
+> 6052cd103caf55b828fc1a57f963bfed90de5640
+> 42c2b8bca674c87fd20b7761c002cc469cde34a3
+> 89eba4144710f11ba182e49c664aee174cb6705b
 
 ## 6. Integration/Demonstration
 
