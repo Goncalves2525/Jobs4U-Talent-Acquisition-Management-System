@@ -1,5 +1,6 @@
-package jobOpeningManagement.domain.dto;
+package applicationManagement.domain.dto;
 
+import applicationManagement.domain.Candidate;
 import jobOpeningManagement.domain.*;
 
 public class ApplicationDTO {

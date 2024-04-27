@@ -1,11 +1,8 @@
 package jpa;
 
 import jakarta.persistence.*;
-import jobOpeningManagement.domain.Candidate;
-import jobOpeningManagement.domain.JobOpening;
-import jobOpeningManagement.domain.RecruitmentState;
-import jobOpeningManagement.repositories.CandidateRepository;
-import jobOpeningManagement.repositories.JobOpeningRepository;
+import applicationManagement.domain.Candidate;
+import applicationManagement.repositories.CandidateRepository;
 
 import java.util.List;
 import java.util.Optional;

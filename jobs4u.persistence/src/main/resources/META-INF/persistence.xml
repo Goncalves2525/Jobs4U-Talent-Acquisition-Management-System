@@ -7,8 +7,8 @@
 
     <class>jobOpeningManagement.domain.JobOpening</class>
     <class>jobOpeningManagement.domain.Customer</class>
-    <class>jobOpeningManagement.domain.Application</class>
-    <class>jobOpeningManagement.domain.Candidate</class>
+    <class>applicationManagement.domain.Application</class>
+    <class>applicationManagement.domain.Candidate</class>
     <class>authzManagement.domain.AppUser</class>
 
     <properties>

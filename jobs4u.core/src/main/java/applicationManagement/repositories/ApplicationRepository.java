@@ -1,7 +1,7 @@
-package jobOpeningManagement.repositories;
+package applicationManagement.repositories;
 
 import eapli.framework.domain.repositories.DomainRepository;
-import jobOpeningManagement.domain.Application;
+import applicationManagement.domain.Application;
 
 public interface ApplicationRepository extends DomainRepository<String, Application>{
 

@@ -3,8 +3,8 @@ package jpa;
 import authzManagement.repositories.UserRepository;
 import eapli.framework.domain.repositories.TransactionalContext;
 import infrastructure.persistance.RepositoryFactory;
-import jobOpeningManagement.repositories.ApplicationRepository;
-import jobOpeningManagement.repositories.CandidateRepository;
+import applicationManagement.repositories.ApplicationRepository;
+import applicationManagement.repositories.CandidateRepository;
 import jobOpeningManagement.repositories.CustomerRepository;
 import jobOpeningManagement.repositories.JobOpeningRepository;
 

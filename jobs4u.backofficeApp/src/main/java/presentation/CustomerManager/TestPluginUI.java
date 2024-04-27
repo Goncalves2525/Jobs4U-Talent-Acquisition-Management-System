@@ -14,7 +14,7 @@ public class TestPluginUI extends AbstractUI {
 
     @Override
     protected boolean doShow() {
-        String pluginsDirectory = "plugins/interview";
+        String pluginsDirectory = "plugins/interview/jar";
         List<Object> plugins = pluginLoader.loadPlugins(pluginsDirectory);
         List<String> pluginInfo = new ArrayList<>();
 
@@ -44,10 +44,10 @@ public class TestPluginUI extends AbstractUI {
             try {
                 Object plugin = plugins.get(choice);
                 Method exportMethod = plugin.getClass().getMethod("exportFile", String.class);
-                exportMethod.invoke(plugin, "plugins/interview/testInterview.txt");
+                exportMethod.invoke(plugin, "plugins/interview/txt/testInterview.txt");
 
                 Method readMethod = plugin.getClass().getMethod("readFile", String.class);
-                String content = (String) readMethod.invoke(plugin, "plugins/interview/testInterview.txt");
+                String content = (String) readMethod.invoke(plugin, "plugins/interview/txt/testInterview.txt");
                 System.out.println(content);
 
                 //Method mainMethod = plugin.getClass().getMethod("main", String[].class);

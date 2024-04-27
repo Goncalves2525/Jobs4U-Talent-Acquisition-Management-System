@@ -1,9 +1,9 @@
-package jobOpeningManagement.application;
+package applicationManagement.application;
 
 import eapli.framework.application.ApplicationService;
 import infrastructure.persistance.PersistenceContext;
-import jobOpeningManagement.domain.Candidate;
-import jobOpeningManagement.repositories.CandidateRepository;
+import applicationManagement.domain.Candidate;
+import applicationManagement.repositories.CandidateRepository;
 
 @ApplicationService
 public class ListCandidatesService {

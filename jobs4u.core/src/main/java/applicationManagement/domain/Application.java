@@ -1,7 +1,8 @@
-package jobOpeningManagement.domain;
+package applicationManagement.domain;
 
 import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;
+import jobOpeningManagement.domain.JobOpening;
 
 @Entity
 public class Application implements AggregateRoot<String> {

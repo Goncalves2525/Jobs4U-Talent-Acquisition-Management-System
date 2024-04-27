@@ -1,4 +1,4 @@
-package jobOpeningManagement.domain;
+package applicationManagement.domain;
 
 import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;

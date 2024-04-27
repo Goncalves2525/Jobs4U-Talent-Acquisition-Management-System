@@ -1,9 +1,10 @@
-package presentation.CustomerManager;
+package presentation.Operator;
 
+import applicationManagement.domain.Candidate;
 import eapli.framework.presentation.console.AbstractUI;
-import jobOpeningManagement.application.CandidateController;
+import applicationManagement.application.CandidateController;
 import jobOpeningManagement.application.ListJobOpeningsController;
-import jobOpeningManagement.application.RegisterApplicationController;
+import applicationManagement.application.RegisterApplicationController;
 import jobOpeningManagement.domain.*;
 import utils.Utils;
 

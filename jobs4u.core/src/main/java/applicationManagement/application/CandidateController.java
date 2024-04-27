@@ -1,11 +1,8 @@
-package jobOpeningManagement.application;
+package applicationManagement.application;
 
 import infrastructure.persistance.PersistenceContext;
-import jobOpeningManagement.domain.Application;
-import jobOpeningManagement.domain.Candidate;
-import jobOpeningManagement.domain.dto.ApplicationDTO;
-import jobOpeningManagement.repositories.ApplicationRepository;
-import jobOpeningManagement.repositories.CandidateRepository;
+import applicationManagement.domain.Candidate;
+import applicationManagement.repositories.CandidateRepository;
 
 
 public class CandidateController {

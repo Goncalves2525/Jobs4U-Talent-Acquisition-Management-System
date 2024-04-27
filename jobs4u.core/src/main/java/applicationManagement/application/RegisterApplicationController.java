@@ -1,11 +1,9 @@
-package jobOpeningManagement.application;
+package applicationManagement.application;
 
 import infrastructure.persistance.PersistenceContext;
-import jobOpeningManagement.domain.Application;
-import jobOpeningManagement.domain.Customer;
-import jobOpeningManagement.domain.JobOpening;
-import jobOpeningManagement.domain.dto.ApplicationDTO;
-import jobOpeningManagement.repositories.ApplicationRepository;
+import applicationManagement.domain.Application;
+import applicationManagement.domain.dto.ApplicationDTO;
+import applicationManagement.repositories.ApplicationRepository;
 
 
 public class RegisterApplicationController {
