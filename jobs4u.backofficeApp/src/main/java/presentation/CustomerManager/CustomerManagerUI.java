@@ -15,6 +15,7 @@ public class CustomerManagerUI{
             System.out.println("3. Register Customer");
             System.out.println("4. Test Plugin");
             System.out.println("5. Register Application");
+            System.out.println("6. Select Interview Model");
             System.out.println("0. Exit");
             option = Utils.readIntegerFromConsole("Option: ");
             switch (option){
@@ -37,6 +38,10 @@ public class CustomerManagerUI{
                 case 5:
                     RegisterApplicationUI registerApplicationUI = new RegisterApplicationUI();
                     registerApplicationUI.show();
+                    break;
+                case 6:
+                    SelectInterviewModelUI selectInterviewModelUI = new SelectInterviewModelUI();
+                    selectInterviewModelUI.show();
                     break;
                 case 0:
                     return false;

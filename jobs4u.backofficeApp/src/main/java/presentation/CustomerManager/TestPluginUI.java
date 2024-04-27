@@ -1,5 +1,6 @@
 package presentation.CustomerManager;
 
+import authzManagement.presentation.AuthzUI;
 import eapli.framework.presentation.console.AbstractUI;
 import plugins.PluginLoader;
 
@@ -8,12 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class TestPluginUI extends AbstractUI {
+public class TestPluginUI{
 
     private final PluginLoader pluginLoader = new PluginLoader();
 
-    @Override
-    protected boolean doShow() {
+    protected boolean show(){
         String pluginsDirectory = "plugins/interview/jar";
         List<Object> plugins = pluginLoader.loadPlugins(pluginsDirectory);
         List<String> pluginInfo = new ArrayList<>();
@@ -62,8 +62,4 @@ public class TestPluginUI extends AbstractUI {
         return true;
     }
 
-    @Override
-    public String headline() {
-        return "TEST PLUGIN";
-    }
 }

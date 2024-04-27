@@ -24,7 +24,8 @@ public class Application implements AggregateRoot<String> {
     @Column
     private String status;
 
-
+    @Column
+    private Object InterviewModel = null; //"" by omission
 
 
 
@@ -36,6 +37,7 @@ public class Application implements AggregateRoot<String> {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
+
     }
 
 //    public Application(String title, ContractType contractType, JobMode mode, Address address, Customer company, int numberOfVacancies, String description, Requirements requirements) {
@@ -118,6 +120,18 @@ public class Application implements AggregateRoot<String> {
 //        String companyCode = company.getCode().getCode();
 //        jobReference = companyCode + "-" + counter;
 //    }
+
+    public boolean checkIfApplicationHasInterviewModel(){
+        return InterviewModel != null;
+    }
+
+    public boolean associateInterviewModelToApplication(Object interviewModel){
+        if(!checkIfApplicationHasInterviewModel()){
+            this.InterviewModel = interviewModel;
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public boolean sameAs(Object other) {

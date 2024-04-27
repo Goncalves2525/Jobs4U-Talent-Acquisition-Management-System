@@ -34,7 +34,7 @@ activate CM
                 APP --> CTRL : return true/false
             deactivate APP
             CTRL --> UI : return true/false
-            UI -> CTRL : showAllInterviewModels()
+            UI -> CTRL : getAllInterviewModels()
             CTRL -> PLUG : loadPlugins()
             activate PLUG
                 PLUG --> CTRL : return plugins
@@ -42,8 +42,8 @@ activate CM
             CTRL --> UI : return plugins
             UI -> CM : show all interview models and prompt user to select one
             CM -> UI : inserts Interview Model ID
-            UI -> CTRL : assotiateInterviewModelToApplication(application, interviewModel)
-            CTRL -> APP : assotiateInterviewModelToApplication(application, interviewModel)
+            UI -> CTRL : associateInterviewModelToApplication(application, interviewModel)
+            CTRL -> APP : associateInterviewModelToApplication(application, interviewModel)
             activate APP
                 APP --> CTRL : return true/false
             deactivate APP
