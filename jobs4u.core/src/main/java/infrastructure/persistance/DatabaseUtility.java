@@ -19,6 +19,20 @@ public class DatabaseUtility {
     static public void dropAllDataBaseObjects () {
         dropAllTables();
         dropAllSequences();
+        // add more, if needed.
+    }
+
+    static public void clearAllTables() {
+        List<String> tableNames = listTables();
+        EntityManager em = getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        for (String tableName : tableNames) {
+            String sql = "DELETE FROM " + tableName;
+            em.createNativeQuery(sql).executeUpdate();
+        }
+        tx.commit();
+        em.close();
     }
 
     private static void dropAllTables() {
