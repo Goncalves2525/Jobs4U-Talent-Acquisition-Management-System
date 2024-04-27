@@ -199,15 +199,15 @@ public class Customer implements AggregateRoot<CompanyCode> {
 ```java
 package presentation.CustomerManager;
 
-import authzManagement.domain.User;
-import authzManagement.repositories.UserRepository;
+import appUserManagement.domain.User;
+import appUserManagement.repositories.UserRepository;
 import eapli.framework.presentation.console.AbstractUI;
 import infrastructure.persistance.PersistenceContext;
 import jobOpeningManagement.application.RegisterCustomerController;
 import jobOpeningManagement.domain.Address;
 import jobOpeningManagement.domain.CompanyCode;
-import authzManagement.application.SignUpController;
-import authzManagement.domain.Email;
+import appUserManagement.application.SignUpController;
+import appUserManagement.domain.Email;
 import utils.Utils;
 
 public class RegisterCustomerUI extends AbstractUI {
@@ -227,13 +227,13 @@ public class RegisterCustomerUI extends AbstractUI {
 
         do {
             code = new CompanyCode(Utils.readLineFromConsole("Company Code (10 caracteres max): "));
-        }while(code == null);
+        } while (code == null);
 
         name = Utils.readLineFromConsole("Name: ");
-        do{
+        do {
             String emailString = Utils.readLineFromConsole("Email: ");
             email = new Email(emailString);
-        }while(email == null);
+        } while (email == null);
 
         System.out.println("-ADDRESS-");
         String street, city, postalCode;
@@ -243,14 +243,13 @@ public class RegisterCustomerUI extends AbstractUI {
         address = new Address(street, city, postalCode);
 
         boolean success = ctrl.registerCustomer(code, name, email, address);
-        if(success) {
+        if (success) {
             System.out.println("Customer registered successfully!");
             success = signUpController.signUp(email);
-            if(success) {
+            if (success) {
                 System.out.println("User registered successfully!");
                 return true;
-            }
-            else{
+            } else {
                 System.out.println("User registration failed!");
                 ctrl.deleteCustomer(code);
                 System.out.println("Customer deleted!");
@@ -277,7 +276,7 @@ import jobOpeningManagement.domain.Address;
 import jobOpeningManagement.domain.CompanyCode;
 import jobOpeningManagement.domain.Customer;
 import jobOpeningManagement.repositories.CustomerRepository;
-import authzManagement.domain.Email;
+import appUserManagement.domain.Email;
 
 public class RegisterCustomerController {
     private CustomerRepository repo = PersistenceContext.repositories().customers();
