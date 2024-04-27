@@ -95,29 +95,41 @@ The action only changes the current ability on the user: if it is enabled, it wi
 
 #### List Backoffice User
 
-| Interaction ID | Question: Which class is responsible for... | Answer | Justification (with patterns) |
-|:---------------|:--------------------------------------------|:-------|:------------------------------|
-| Step 1 : ...   | ...                                         | ...    | ...                           |
-| Step 2 : ...   | ...                                         | ...    | ...                           |
+| Interaction ID                                                               | Question: Which class is responsible for... | Answer                         | Justification (with patterns) |
+|:-----------------------------------------------------------------------------|:--------------------------------------------|:-------------------------------|:------------------------------|
+| Step 1 : (uses step 1, 2 and 3 of Register Backoffice User table)            | ...                                         | ...                            | ...                           |
+| Step 2 : System builds a list of backoffice users (e-mail, role and ability) | ... requesting list to be built?            | ManageBackofficeUserUI         | Pure Fabrication              |
+|                                                                              | ... coordinating list capture?              | ManageBackofficeUserController | Controller                    |
+|                                                                              | ... building the backoffice users list?     | UserRepository                 | Information Expert            |
+| Step 3 : System presents the list of users (e-mail, role and ability)        | ... show result?                            | ManageBackofficeUserUI         | Pure Fabrication              |
 
 
 #### Enable/Disable Backoffice User
 
-| Interaction ID | Question: Which class is responsible for... | Answer | Justification (with patterns) |
-|:---------------|:--------------------------------------------|:-------|:------------------------------|
-| Step 1 : ...   | ...                                         | ...    | ...                           |
-| Step 2 : ...   | ...                                         | ...    | ...                           |
+| Interaction ID                                                         | Question: Which class is responsible for... | Answer                         | Justification (with patterns) |
+|:-----------------------------------------------------------------------|:--------------------------------------------|:-------------------------------|:------------------------------|
+| Step 1 : (uses step 1, 2 and 3 of Register Backoffice User table)      | ...                                         | ...                            | ...                           |
+| Step 2 : (uses step 1, 2 and 3 of List Backoffice User table)          | ...                                         | ...                            | ...                           |
+| Step 3 : User selects one backoffice user                              | ... gathering user selected?                | ManageBackofficeUserUI         | Pure Fabrication              |
+| Step 4 : System displays backoffice user selected and managing options | ... display backoffice user selected?       | ManageBackofficeUserUI         | Pure Fabrication              |
+|                                                                        | ... display managing options?               | ManageBackofficeUserUI         | Pure Fabrication              |
+| Step 5 : User selects enable/disable option                            | ... gather option selected?                 | ManageBackofficeUserUI         | Pure Fabrication              |
+|                                                                        | ... coordinating ability swap?              | ManageBackofficeUserController | Controller                    |
+|                                                                        | ... swapping the backoffice user ability?   | UserRepository                 | Information Expert            |
+| Step 6 : System presents feedback                                      | ... show result?                            | ManageBackofficeUserUI         | Pure Fabrication              |
 
 According to the taken rationale, the conceptual classes promoted to software classes are:
 
-* *(Conceptual classes used in this US were already promoted to software classes on other US's)*
+* Ability
 
 Other software classes (i.e. Pure Fabrication) identified:
 
 * AdminUI
 * RegisterBackofficeUI
+* ManageBackofficeUserUI
 * AuthzController
 * SignUpController
+* ManageBackofficeUserController
 * UserRepository
 
 ### 4.2. Sequence Diagram
