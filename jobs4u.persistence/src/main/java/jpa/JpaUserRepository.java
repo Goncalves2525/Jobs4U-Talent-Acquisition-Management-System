@@ -33,6 +33,19 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
+    public Optional<String> createAppUser(String email, Role role, Role creatorRole) {
+        Email userEmail = new Email(email);
+        Password userPwd = new Password();
+        String userPwdGenerated = userPwd.generatePassword();
+        if(role.showBackofficeAppAccess() && creatorRole.equals(Role.ADMIN)){
+            AppUser appUser = new AppUser(userEmail, userPwd, role);
+            save(appUser);
+            return Optional.of(userPwdGenerated);
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public Optional<String> authenticate(String email, String password) {
         // Create a valid session user in memory:
         Optional<AppUser> sessionUser = createSessionUser(email, password);

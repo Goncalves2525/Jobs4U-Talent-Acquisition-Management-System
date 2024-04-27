@@ -21,7 +21,6 @@ public class BackOffice {
 
         AuthzUI authzUI = new AuthzUI();
 
-
         if (!authzUI.doLogin()) {
             ConsoleUtils.showMessageColor("Log in failed.", AnsiColor.RED);
             return;
@@ -29,17 +28,14 @@ public class BackOffice {
 
         roleInUse = authzUI.getValidBackofficeRole();
 
-
-
         //roleInUse = Role.CUSTOMERMANAGER;
 
         switch (roleInUse){
             case ADMIN:
                 ConsoleUtils.showMessageColor("User authorized.", AnsiColor.GREEN);
                 ConsoleUtils.readLineFromConsole("Press enter to continue.");
-                ConsoleUtils.buildUiHeader("Jobs4U Backoffice for Admin");
                 AdminUI adminUI = new AdminUI();
-                adminUI.doShow();
+                adminUI.doShow(authzUI);
                 break;
             case CUSTOMERMANAGER:
                 ConsoleUtils.showMessageColor("User authorized.", AnsiColor.GREEN);

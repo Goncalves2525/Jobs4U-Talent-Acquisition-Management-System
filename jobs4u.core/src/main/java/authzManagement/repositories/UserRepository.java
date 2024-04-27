@@ -15,6 +15,8 @@ public interface UserRepository extends DomainRepository<EmailAddress, AppUser> 
 
     Optional<String> createAppUser(String email, Role role);
 
+    Optional<String> createAppUser(String email, Role role, Role creatorRole);
+
     Optional<String> authenticate(String email, String password);
 
     boolean authorized(String sessionToken, Role roleRequired);
