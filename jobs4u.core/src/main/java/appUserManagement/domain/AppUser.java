@@ -1,4 +1,4 @@
-package authzManagement.domain;
+package appUserManagement.domain;
 
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.general.domain.model.EmailAddress;
@@ -34,6 +34,11 @@ public class AppUser implements AggregateRoot<EmailAddress> {
     @AttributeOverride(name = "value", column = @Column(name = "token"))
     private Token token;
 
+    @Getter
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Ability ability;
+
     protected AppUser() {
         //for ORM
     }
@@ -43,10 +48,19 @@ public class AppUser implements AggregateRoot<EmailAddress> {
         this.password = password;
         this.role = role;
         this.token = new Token();
+        this.ability = Ability.ENABLED;
     }
 
     public void addToken(Token token) {
         this.token = token;
+    }
+
+    public void swapAbility() {
+        if(this.ability.isAbilityValue()){
+            this.ability = Ability.DISABLED;
+        } else {
+            this.ability = Ability.ENABLED;
+        }
     }
 
     @Override

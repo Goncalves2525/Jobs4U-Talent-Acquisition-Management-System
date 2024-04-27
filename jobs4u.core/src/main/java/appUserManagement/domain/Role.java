@@ -1,4 +1,4 @@
-package authzManagement.domain;
+package appUserManagement.domain;
 
 public enum Role {
 

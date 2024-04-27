@@ -1,6 +1,6 @@
-package authzManagement.domain;
+package appUserManagement.domain;
 
-import authzManagement.application.PasswordGeneratorService;
+import appUserManagement.application.PasswordGeneratorService;
 import eapli.framework.domain.model.ValueObject;
 import jakarta.persistence.Embeddable;
 

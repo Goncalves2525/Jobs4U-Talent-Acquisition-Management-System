@@ -1,8 +1,7 @@
-package authzManagement.presentation;
+package infrastructure.authz;
 
-import authzManagement.application.AuthzController;
-import authzManagement.domain.Role;
-import authzManagement.domain.Token;
+import appUserManagement.application.AuthzController;
+import appUserManagement.domain.Role;
 import console.ConsoleUtils;
 import textformat.AnsiColor;
 
@@ -20,24 +19,27 @@ public class AuthzUI {
         ConsoleUtils.buildUiHeader("LOGIN");
         String user = ConsoleUtils.readLineFromConsole("USER:");
         String pwd = ConsoleUtils.readLineFromConsole("PASSWORD:");
+        System.out.println();
+
         this.sessionToken = authzController.doLogin(user, pwd);
-        if(!this.sessionToken.get().isEmpty()) {
+        if (!this.sessionToken.get().isEmpty()) {
             return true;
         }
         return false;
     }
 
-    public boolean validateAccess(Role roleRequired){
-        ConsoleUtils.showMessageColor("Validating access.", AnsiColor.CYAN);
+    public boolean validateAccess(Role roleRequired) {
+        //ConsoleUtils.showMessageColor("Validating access.", AnsiColor.CYAN);
         return authzController.validateAccess(this.sessionToken.get(), roleRequired);
     }
 
-    public Role getValidBackofficeRole(){
-        ConsoleUtils.showMessageColor("Getting role.", AnsiColor.CYAN);
+    public Role getValidBackofficeRole() {
+        //ConsoleUtils.showMessageColor("Getting role.", AnsiColor.CYAN);
         return authzController.getValidBackofficeRole(this.sessionToken.get());
     }
 
     public boolean doLogout() {
+        System.out.println();
         ConsoleUtils.showMessageColor("Goodbye. Hope to see you soon.", AnsiColor.CYAN);
         return authzController.doLogout(this.sessionToken.get());
     }

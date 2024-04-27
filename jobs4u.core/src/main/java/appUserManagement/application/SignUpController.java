@@ -1,10 +1,8 @@
-package authzManagement.application;
+package appUserManagement.application;
 
-import authzManagement.domain.Email;
-import authzManagement.domain.AppUser;
-import authzManagement.domain.Password;
-import authzManagement.domain.Role;
-import authzManagement.repositories.UserRepository;
+import appUserManagement.domain.Email;
+import appUserManagement.domain.Role;
+import appUserManagement.repositories.UserRepository;
 import infrastructure.persistance.PersistenceContext;
 
 import java.util.Optional;
@@ -36,6 +34,4 @@ public class SignUpController {
         Optional<String> password = repo.createAppUser(email.toString(), role, creatorRole);
         return password;
     }
-
-
 }

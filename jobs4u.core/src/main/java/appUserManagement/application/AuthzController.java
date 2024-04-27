@@ -1,7 +1,7 @@
-package authzManagement.application;
+package appUserManagement.application;
 
-import authzManagement.domain.Role;
-import authzManagement.repositories.UserRepository;
+import appUserManagement.domain.Role;
+import appUserManagement.repositories.UserRepository;
 import infrastructure.persistance.PersistenceContext;
 
 import java.util.Optional;
