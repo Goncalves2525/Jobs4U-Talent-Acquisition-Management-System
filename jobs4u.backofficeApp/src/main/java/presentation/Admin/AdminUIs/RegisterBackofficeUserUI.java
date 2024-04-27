@@ -1,14 +1,15 @@
 package presentation.Admin.AdminUIs;
 
-import authzManagement.application.SignUpController;
-import authzManagement.domain.Email;
-import authzManagement.domain.Role;
-import authzManagement.presentation.AuthzUI;
+import appUserManagement.application.SignUpController;
+import appUserManagement.domain.Email;
+import appUserManagement.domain.Role;
+import infrastructure.authz.AuthzUI;
 import console.ConsoleUtils;
 import textformat.AnsiColor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class RegisterBackofficeUserUI {
 
@@ -37,12 +38,15 @@ public class RegisterBackofficeUserUI {
             ConsoleUtils.buildUiTitle("Register Backoffice User");
             String email = ConsoleUtils.readLineFromConsole("Type the user e-mail:");
             Role role = (Role) ConsoleUtils.showAndSelectOneNoCancel(backofficeRoles, message);
-            String password = String.valueOf(signUpController.signUp(new Email(email), role, userRole));
+            Optional<String> password = signUpController.signUp(new Email(email), role, userRole);
             if (password.isEmpty()){
+                System.out.println();
                 ConsoleUtils.showMessageColor("Failed to create user!", AnsiColor.RED);
             } else {
-                ConsoleUtils.showMessageColor("User created with password: " + password, AnsiColor.GREEN);
+                System.out.println();
+                ConsoleUtils.showMessageColor("User created with password: " + password.get(), AnsiColor.GREEN);
             }
-        } while(ConsoleUtils.confirm("Do you wan to register another user? (y/n)"));
+            System.out.println();
+        } while(ConsoleUtils.confirm("Do you want to register another user? (y/n)"));
     }
 }

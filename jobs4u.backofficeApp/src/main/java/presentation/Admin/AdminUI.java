@@ -1,6 +1,6 @@
 package presentation.Admin;
 
-import authzManagement.presentation.AuthzUI;
+import infrastructure.authz.AuthzUI;
 import console.ConsoleUtils;
 import presentation.Admin.AdminUIs.ListBackofficeUserUI;
 import presentation.Admin.AdminUIs.ManageBackofficeUserUI;

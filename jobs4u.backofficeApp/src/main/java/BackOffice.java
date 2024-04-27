@@ -1,6 +1,8 @@
-import authzManagement.domain.Role;
-import authzManagement.presentation.AuthzUI;
+import appUserManagement.domain.Role;
+import bootstrap.Bootstrappers;
+import infrastructure.authz.AuthzUI;
 import console.ConsoleUtils;
+import infrastructure.persistance.DatabaseUtility;
 import presentation.Admin.AdminUI;
 import presentation.CustomerManager.CustomerManagerUI;
 import presentation.Operator.OperatorUI;
@@ -9,26 +11,27 @@ import textformat.AnsiColor;
 public class BackOffice {
 
     static Role roleInUse;
+    static Bootstrappers bootstrappers = new Bootstrappers();
     final static boolean BOOTSTRAPMODE = true;
 
     public static void main(String[] args) {
 
-
         // if in bootstrap mode, launch bootstrapper
         if (BOOTSTRAPMODE) {
-            // TODO: launch bootstrapper
+            DatabaseUtility.dropAllDataBaseObjects();
+            DatabaseUtility.clearAllTables();
+            bootstrappers.execute();
         }
 
+        // perform authorized login
         AuthzUI authzUI = new AuthzUI();
-
         if (!authzUI.doLogin()) {
             ConsoleUtils.showMessageColor("Log in failed.", AnsiColor.RED);
             return;
         }
 
+        // get a valid backoffice role
         roleInUse = authzUI.getValidBackofficeRole();
-
-        //roleInUse = Role.CUSTOMERMANAGER;
 
         switch (roleInUse){
             case ADMIN:
@@ -42,7 +45,6 @@ public class BackOffice {
                 ConsoleUtils.readLineFromConsole("Press enter to continue.");
                 ConsoleUtils.buildUiHeader("Jobs4U Backoffice for Customer Manager");
                 CustomerManagerUI customerManagerUI = new CustomerManagerUI();
-                // TODO: rever este, em vez de usar o AbstractUI?!
                 customerManagerUI.doShow();
                 break;
             case OPERATOR:
@@ -58,11 +60,7 @@ public class BackOffice {
                 return;
         }
 
+        // perform clean logout, clearing user session token
         authzUI.doLogout();
-
-        // if in bootstrap mode, then drop all database objects
-        if(BOOTSTRAPMODE) {
-            // DatabaseUtility.dropAllDataBaseObjects();
-        }
     }
 }
