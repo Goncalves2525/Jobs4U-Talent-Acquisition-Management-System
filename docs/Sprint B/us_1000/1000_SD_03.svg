@@ -114,19 +114,19 @@
       ><path d="M0 0 L431 0 L431 104 L0 104 L0 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath37"
-      ><path d="M284 30 L284 45 L136 45 L136 30 ZM0 0 L0 104 L166 104 L166 91 L259 91 L259 104 L431 104 L431 92 L400 92 L400 77 L431 77 L431 57 L375 57 L375 42 L431 42 L431 0 Z"
+      ><path d="M311 30 L311 45 L105 45 L105 30 ZM0 0 L0 104 L166 104 L166 91 L259 91 L259 104 L431 104 L431 92 L400 92 L400 77 L431 77 L431 57 L345 57 L345 42 L431 42 L431 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath38"
       ><path d="M0 0 L247 0 L247 104 L0 104 L0 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath39"
-      ><path d="M197 30 L197 45 L40 45 L40 30 ZM176 65 L176 80 L65 80 L65 65 ZM0 0 L0 104 L247 104 L247 70 L232 70 L232 55 L247 55 L247 0 Z"
+      ><path d="M226 30 L226 45 L10 45 L10 30 ZM176 65 L176 80 L65 80 L65 65 ZM0 0 L0 104 L247 104 L247 70 L232 70 L232 55 L247 55 L247 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath40"
-      ><path d="M0 0 L0 24 L46 24 L46 39 L0 39 L0 59 L25 59 L25 74 L0 74 L0 124 L134 124 L134 64 L81 64 L81 49 L134 49 L134 0 Z"
+      ><path d="M0 0 L0 24 L75 24 L75 39 L0 39 L0 59 L25 59 L25 74 L0 74 L0 124 L134 124 L134 64 L81 64 L81 49 L134 49 L134 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath41"
-      ><path d="M176 30 L176 45 L65 45 L65 30 ZM0 0 L0 104 L247 104 L247 35 L232 35 L232 20 L247 20 L247 0 L197 0 L197 10 L40 10 L40 0 Z"
+      ><path d="M176 30 L176 45 L65 45 L65 30 ZM0 0 L0 104 L247 104 L247 35 L232 35 L232 20 L247 20 L247 0 L226 0 L226 10 L10 10 L10 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath42"
       ><path d="M259 30 L259 45 L166 45 L166 30 ZM0 0 L0 93 L22 93 L22 104 L431 104 L431 31 L400 31 L400 16 L431 16 L431 0 Z"
@@ -156,10 +156,10 @@
       ><path d="M-123 -15 L246 -15 L246 30 L-123 30 L-123 -15 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath51"
-      ><path d="M-157 -15 L314 -15 L314 30 L-157 30 L-157 -15 Z"
+      ><path d="M-216 -15 L432 -15 L432 30 L-216 30 L-216 -15 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath52"
-      ><path d="M-148 -15 L296 -15 L296 30 L-148 30 L-148 -15 Z"
+      ><path d="M-206 -15 L412 -15 L412 30 L-206 30 L-206 -15 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath53"
       ><path d="M-174 -15 L348 -15 L348 30 L-174 30 L-174 -15 Z"
@@ -447,15 +447,15 @@
       /><text fill="black" x="9" xml:space="preserve" y="12" clip-path="url(#clipPath50)" stroke="none"
       >5.1.1.1: swapAbility()</text
     ></g
-    ><g font-size="11px" transform="translate(809,287)" fill-opacity="1" fill="white" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="white" stroke-opacity="1"
-    ><rect x="0" width="157" height="15" y="0" clip-path="url(#clipPath51)" stroke="none"
-      /><text fill="black" x="10" xml:space="preserve" y="12" clip-path="url(#clipPath51)" stroke="none"
-      >5.1.1: swapAbility(userRole)</text
+    ><g font-size="11px" transform="translate(779,287)" fill-opacity="1" fill="white" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="white" stroke-opacity="1"
+    ><rect x="0" width="216" height="15" y="0" clip-path="url(#clipPath51)" stroke="none"
+      /><text fill="black" x="9" xml:space="preserve" y="12" clip-path="url(#clipPath51)" stroke="none"
+      >5.1.1: swapAbility(e-mail, managerRole)</text
     ></g
-    ><g font-size="11px" transform="translate(570,275)" fill-opacity="1" fill="white" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="white" stroke-opacity="1"
-    ><rect x="0" width="148" height="15" y="0" clip-path="url(#clipPath52)" stroke="none"
+    ><g font-size="11px" transform="translate(539,275)" fill-opacity="1" fill="white" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="white" stroke-opacity="1"
+    ><rect x="0" width="206" height="15" y="0" clip-path="url(#clipPath52)" stroke="none"
       /><text fill="black" x="10" xml:space="preserve" y="12" clip-path="url(#clipPath52)" stroke="none"
-      >5.1: swapAbility(userRole)</text
+      >5.1: swapAbility(e-mail, managerRole)</text
     ></g
     ><g font-size="11px" transform="translate(169,270)" fill-opacity="1" fill="white" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="white" stroke-opacity="1"
     ><rect x="0" width="174" height="15" y="0" clip-path="url(#clipPath53)" stroke="none"
