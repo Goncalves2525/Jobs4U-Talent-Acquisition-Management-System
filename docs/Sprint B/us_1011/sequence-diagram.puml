@@ -1,0 +1,59 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "CustomerManager" as CM
+participant "SelectInterviewModelUI" as UI
+participant "SelectInterviewModelController" as CTRL
+participant "ApplicationRepository" as APPREPO
+participant "Application" as APP
+participant "PluginLoader" as PLUG
+
+
+
+
+
+activate CM
+    UI --> CM : prompt user to select Application ID
+    activate UI
+        CM -> UI : inserts Application ID
+        UI -> CTRL : findApplicationById()
+        activate CTRL
+            CTRL -> APPREPO : ofIdentity()
+            activate APPREPO
+            APPREPO --> CTRL : return application
+            deactivate APPREPO
+            CTRL --> UI : return application
+            UI -> CTRL : checkIfApplicationHasInterviewModel(application)
+            CTRL -> APP : checkIfApplicationHasInterviewModel(application)
+            activate APP
+                APP --> CTRL : return true/false
+            deactivate APP
+            CTRL --> UI : return true/false
+            UI -> CTRL : showAllInterviewModels()
+            CTRL -> PLUG : loadPlugins()
+            activate PLUG
+                PLUG --> CTRL : return plugins
+            deactivate PLUG
+            CTRL --> UI : return plugins
+            UI -> CM : show all interview models and prompt user to select one
+            CM -> UI : inserts Interview Model ID
+            UI -> CTRL : assotiateInterviewModelToApplication(application, interviewModel)
+            CTRL -> APP : assotiateInterviewModelToApplication(application, interviewModel)
+            activate APP
+                APP --> CTRL : return true/false
+            deactivate APP
+            CTRL --> UI : return true/false
+        deactivate CTRL
+        UI -> CM : show success/failure message
+    deactivate UI
+deactivate CM
+
+
+
+
+@enduml

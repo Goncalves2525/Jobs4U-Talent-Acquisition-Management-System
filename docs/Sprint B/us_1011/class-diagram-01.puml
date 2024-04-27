@@ -1,0 +1,30 @@
+@startuml
+
+package Presentation {
+    class SelectInterviewModelUI
+}
+
+package Domain {
+    class Application
+}
+
+package Persistence {
+    class JpaApplicationRepository
+    interface ApplicationRepository
+}
+
+package Application {
+    class SelectInterviewController
+    class PluginLoader
+}
+
+
+
+Presentation.SelectInterviewModelUI --> Application.SelectInterviewController
+Application.SelectInterviewController --> Persistence.ApplicationRepository
+Persistence.ApplicationRepository <|-- Persistence.JpaApplicationRepository
+Application.SelectInterviewController ---> Domain.Application
+Application.SelectInterviewController ---> Application.PluginLoader
+
+
+@enduml
