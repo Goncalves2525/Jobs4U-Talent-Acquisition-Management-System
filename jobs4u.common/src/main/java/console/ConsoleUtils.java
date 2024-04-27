@@ -93,14 +93,25 @@ public class ConsoleUtils {
     }
 
     static public void buildUiHeader(String header){
-        System.out.println(":----------------------------------------------------------:");
         String postHeader = " ";
         for (int i = header.length(); i < 51; i++) {
-            postHeader = postHeader.concat("-");
+            postHeader = postHeader.concat("=");
         }
-        postHeader = postHeader.concat(":");
-        System.out.println(":----- " + header + postHeader);
+        System.out.println();
         System.out.println(":----------------------------------------------------------:");
+        System.out.println("+===== " + header + postHeader + "+");
+        System.out.println(":----------------------------------------------------------:");
+        System.out.println();
+    }
+
+    static public void buildUiTitle(String title){
+        String postHeader = " ";
+        for (int i = title.length(); i < 51; i++) {
+            postHeader = postHeader.concat("=");
+        }
+        System.out.println();
+        System.out.println("+===== " + title + postHeader + "+");
+        System.out.println();
     }
 
     static public Object showAndSelectOne(List list, String header, String zeroName) {
@@ -125,8 +136,8 @@ public class ConsoleUtils {
             index++;
             System.out.println(index + ". " + o.toString());
         }
-        System.out.println();
         System.out.println("0. " + zeroName);
+        System.out.println();
     }
 
     static public void showListNoCancel(List list, String header) {
@@ -179,7 +190,7 @@ public class ConsoleUtils {
                 value = -1;
             }
         } while (value < 0 || value > list.size());
-        return value - 1;
+        return value;
     }
 
     static public final String ANSI_RESET = "\u001B[0m";
