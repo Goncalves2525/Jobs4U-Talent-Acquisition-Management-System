@@ -1,4 +1,4 @@
-package authzManagement.domain;
+package appUserManagement.domain;
 import eapli.framework.general.domain.model.EmailAddress;
 
 public class Email extends EmailAddress implements Comparable<EmailAddress>{
