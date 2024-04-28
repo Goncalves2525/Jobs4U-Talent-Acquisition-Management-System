@@ -39,11 +39,9 @@ public class Candidate implements AggregateRoot<String> {
 
     @Override
     public String toString() {
-        return "Candidate{" +
-                "Name='" + name + '\'' +
-                ", Email='" + email + '\'' +
-                ", PhoneNumber='" + phoneNumber + '\'' +
-                '}';
+        return "NAME: " + name +
+                "\nEmail: " + email +
+                "\nPhoneNumber: " + phoneNumber;
     }
 
     @Override

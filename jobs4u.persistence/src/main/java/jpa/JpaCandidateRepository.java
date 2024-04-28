@@ -1,5 +1,6 @@
 package jpa;
 
+import applicationManagement.domain.dto.CandidateDTO;
 import jakarta.persistence.*;
 import applicationManagement.domain.Candidate;
 import applicationManagement.repositories.CandidateRepository;
@@ -15,6 +16,12 @@ public class JpaCandidateRepository implements CandidateRepository {
         return manager;
     }
 
+    public boolean createCandidate(CandidateDTO dto){
+        Candidate candidate = new Candidate(dto.getEmail(),
+                dto.getPhone(), dto.getName());
+        save(candidate);
+        return true;
+    }
 
     @Override
     public <S extends Candidate> S save(S entity) {
