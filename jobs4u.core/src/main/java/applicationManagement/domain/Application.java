@@ -3,14 +3,19 @@ package applicationManagement.domain;
 import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;
 import jobOpeningManagement.domain.JobOpening;
+import lombok.Getter;
 
+import java.time.LocalDate;
+
+@Getter
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"jobReference", "email"}))
 public class Application implements AggregateRoot<String> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(unique = true)
+    @Column
     private String jobReference;
 
     @ManyToOne
@@ -24,9 +29,11 @@ public class Application implements AggregateRoot<String> {
     @Column
     private String status;
 
+    @Column
+    private LocalDate date;
+
     @Column(columnDefinition = "VARBINARY")
     private Object InterviewModel = null; //"" by omission
-
 
 
     protected Application() {
@@ -37,7 +44,7 @@ public class Application implements AggregateRoot<String> {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
-
+        this.date = LocalDate.now();
     }
 
 //    public Application(String title, ContractType contractType, JobMode mode, Address address, Customer company, int numberOfVacancies, String description, Requirements requirements) {
@@ -121,12 +128,12 @@ public class Application implements AggregateRoot<String> {
 //        jobReference = companyCode + "-" + counter;
 //    }
 
-    public boolean checkIfApplicationHasInterviewModel(){
+    public boolean checkIfApplicationHasInterviewModel() {
         return InterviewModel != null;
     }
 
-    public boolean associateInterviewModelToApplication(Object interviewModel){
-        if(!checkIfApplicationHasInterviewModel()){
+    public boolean associateInterviewModelToApplication(Object interviewModel) {
+        if (!checkIfApplicationHasInterviewModel()) {
             this.InterviewModel = interviewModel;
             return true;
         }
