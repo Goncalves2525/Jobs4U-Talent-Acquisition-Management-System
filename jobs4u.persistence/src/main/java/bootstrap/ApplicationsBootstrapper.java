@@ -3,6 +3,7 @@ package bootstrap;
 import appUserManagement.application.SignUpController;
 import applicationManagement.application.CandidateController;
 import applicationManagement.application.RegisterApplicationController;
+import applicationManagement.domain.ApplicationStatus;
 import applicationManagement.domain.dto.ApplicationDTO;
 import applicationManagement.domain.dto.CandidateDTO;
 import console.ConsoleUtils;
@@ -10,6 +11,7 @@ import jobOpeningManagement.application.ListJobOpeningsController;
 import jobOpeningManagement.domain.JobOpening;
 import textformat.AnsiColor;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Optional;
 
@@ -55,13 +57,13 @@ public class ApplicationsBootstrapper {
         System.out.println("Candidate : " + cand4.getEmail() + " | Password: " + cand4pwd.get());
 
         // create application
-        ApplicationDTO dto1 = new ApplicationDTO(jo1.jobReference(), candidateController.findCandidateByEmail(cand1email).get(), jo1);
+        ApplicationDTO dto1 = new ApplicationDTO(jo1.jobReference(), candidateController.findCandidateByEmail(cand1email).get(), jo1, "comment", new Date(), null, ApplicationStatus.SUBMITTED);
         ctrl.registerApplication(dto1);
 
-        ApplicationDTO dto2 = new ApplicationDTO(jo2.jobReference(), candidateController.findCandidateByEmail(cand3email).get(), jo2);
+        ApplicationDTO dto2 = new ApplicationDTO(jo2.jobReference(), candidateController.findCandidateByEmail(cand3email).get(), jo2, "comment", new Date(), null, ApplicationStatus.SUBMITTED);
         ctrl.registerApplication(dto2);
 
-        ApplicationDTO dto3 = new ApplicationDTO(jo2.jobReference(), candidateController.findCandidateByEmail(cand1email).get(), jo2);
+        ApplicationDTO dto3 = new ApplicationDTO(jo2.jobReference(), candidateController.findCandidateByEmail(cand1email).get(), jo2, "comment", new Date(), null, ApplicationStatus.SUBMITTED);
         ctrl.registerApplication(dto3);
     }
 }
