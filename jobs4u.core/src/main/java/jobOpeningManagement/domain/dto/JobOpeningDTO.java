@@ -81,5 +81,15 @@ public class JobOpeningDTO {
     public RecruitmentState state() {
         return state;
     }
+
+    @Override
+    public String toString() {
+        return "JobOpening [" + jobReference + " : " + title + "] " + company + "\n" +
+                "ContractType: " + contractType + " | Mode: " + mode + " | State: " + state + "\n" +
+                "Vacancies: " + numberOfVacancies + " | Requirements: " + requirements + "\n" +
+                "Address: " + address + "\n" +
+                "Description: " + description;
+
+    }
 }
 
