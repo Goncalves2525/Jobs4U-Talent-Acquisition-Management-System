@@ -2,11 +2,11 @@ package jobOpeningManagement.application;
 
 import eapli.framework.application.ApplicationService;
 import infrastructure.persistance.PersistenceContext;
+import jobOpeningManagement.domain.CompanyCode;
 import jobOpeningManagement.repositories.CustomerRepository;
 import jobOpeningManagement.domain.Customer;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.Optional;
 
 @ApplicationService
 public class ListCustomersService {
@@ -15,4 +15,6 @@ public class ListCustomersService {
     public Iterable<Customer> allCustomers() {
         return customerRepository.findAll();
     }
+
+    public Optional<Customer> customerByCode(CompanyCode code) { return customerRepository.ofIdentity(code); }
 }
