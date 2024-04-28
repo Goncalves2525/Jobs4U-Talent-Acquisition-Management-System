@@ -195,4 +195,4 @@ This layer checks if the role that made the action, has permissions to act on th
 ## 7. Observations
 
 A bootstrap was created to generate base users and other data upon app start. <br>
-Persistence .xml was set do <drop-and-create>. <br>
+A DataUtility class was created in order to clear data upon app start, and avoid conflicts on bootstrapping process. <br>
