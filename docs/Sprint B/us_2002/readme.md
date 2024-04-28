@@ -12,9 +12,12 @@
 
 - 2002.1. It should be possible to register only one application of a candidate for a job opening.
 - 2002.2. The application should have the following attributes:
-  - Candidate
-  - Job Opening
-  - TODO: Add more attributes
+  - A candidate
+  - A job Opening
+  - A date of submission
+  - A status (e.g., "Submitted")
+  - A list of files received
+  - Comments
 - 
 **Dependencies/References:**
 

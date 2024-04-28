@@ -1,19 +1,31 @@
 package applicationManagement.domain.dto;
 
+import applicationManagement.domain.ApplicationStatus;
 import applicationManagement.domain.Candidate;
 import jobOpeningManagement.domain.*;
+
+import java.io.Serializable;
+import java.util.Date;
 
 public class ApplicationDTO {
     private Long id;
     private String jobReference;
     private Candidate candidate;
     private JobOpening jobOpening;
+    private String comment;
+    private Date applicationDate;
+    private Serializable InterviewModel;
+    private ApplicationStatus status;
 
 
-    public ApplicationDTO(String jobReference , Candidate candidate, JobOpening jobOpening) {
+    public ApplicationDTO(String jobReference , Candidate candidate, JobOpening jobOpening, String comment, Date applicationDate, Serializable interviewModel, ApplicationStatus status) {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
+        this.comment = comment;
+        this.applicationDate = applicationDate;
+        this.InterviewModel = interviewModel;
+        this.status = status;
     }
 
 
@@ -31,6 +43,24 @@ public class ApplicationDTO {
         return jobOpening;
     }
 
+    public String comment() {
+        return comment;
+    }
 
+    public Date applicationDate() {
+        return applicationDate;
+    }
+
+    public Serializable interviewModel() {
+        return InterviewModel;
+    }
+
+    public ApplicationStatus status() {
+        return status;
+    }
+
+    public Long id() {
+        return id;
+    }
 }
 

@@ -12,7 +12,7 @@ public class BackOffice {
 
     static Role roleInUse;
     static Bootstrapper bootstrapper = new Bootstrapper();
-    final static boolean BOOTSTRAPMODE = true;
+    final static boolean BOOTSTRAPMODE = false;
 
     public static void main(String[] args) {
 

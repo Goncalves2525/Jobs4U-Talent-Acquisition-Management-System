@@ -4,6 +4,10 @@ import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;
 import jobOpeningManagement.domain.JobOpening;
 import lombok.Getter;
+import org.apache.logging.log4j.core.tools.picocli.CommandLine;
+
+import java.io.Serializable;
+import java.util.Date;
 
 import java.time.LocalDate;
 
@@ -27,114 +31,84 @@ public class Application implements AggregateRoot<String> {
     private JobOpening jobOpening;
 
     @Column
-    private String status;
+    private ApplicationStatus status;
 
     @Column
     private LocalDate date;
 
     @Column(columnDefinition = "VARBINARY")
-    private Object InterviewModel = null; //"" by omission
+    private Serializable InterviewModel = null; //"" by omission
 
+    @Column
+    private String comment;
+
+    @Column
+    private Date applicationDate;
 
     protected Application() {
         // for ORM
     }
 
-    public Application(String jobReference, Candidate candidate, JobOpening jobOpening) {
+    public Application(String jobReference, Candidate candidate, JobOpening jobOpening, ApplicationStatus status, Date applicationDate, String comment
+    , Serializable interviewModel) {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
+        this.status = status;
+        this.applicationDate = applicationDate;
+        this.comment = comment;
+        this.InterviewModel = interviewModel;
         this.date = LocalDate.now();
     }
 
-//    public Application(String title, ContractType contractType, JobMode mode, Address address, Customer company, int numberOfVacancies, String description, Requirements requirements) {
-//        this.title = title;
-//        this.contractType = contractType;
-//        this.mode = mode;
-//        this.address = address;
-//        this.company = company;
-//        //ensure that the number of vacancies is a positive number
-//        if (numberOfVacancies <= 0) {
-//            throw new IllegalArgumentException("Number of vacancies must be a positive number");
-//        }
-//        this.numberOfVacancies = numberOfVacancies;
-//        this.description = description;
-//        this.requirements = requirements;
-//        state = RecruitmentState.APPLICATION;
-//        counter++;
-//        //Company code + sequential number
-//        generateJobReference();
-//    }
-//
-//    public String jobReference() {
-//        return jobReference;
-//    }
-//
-//    public String title() {
-//        return title;
-//    }
-//
-//    public ContractType contractType() {
-//        return contractType;
-//    }
-//
-//    public JobMode mode() {
-//        return mode;
-//    }
-//
-//    public Address address() {
-//        return address;
-//    }
-//
-//    public Customer company() {
-//        return company;
-//    }
-//
-//    public int numberOfVacancies() {
-//        return numberOfVacancies;
-//    }
-//
-//    public String description() {
-//        return description;
-//    }
-//
-//    public Requirements requirements() {
-//        return requirements;
-//    }
-//
-//    public RecruitmentState state() {
-//        return state;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "JobOpening{" +
-//                "jobReference='" + jobReference + '\'' +
-//                ", title='" + title + '\'' +
-//                ", contractType='" + contractType + '\'' +
-//                ", mode='" + mode + '\'' +
-//                ", address='" + address + '\'' +
-//                ", company='" + company + '\'' +
-//                ", numberOfVacancies='" + numberOfVacancies + '\'' +
-//                ", description='" + description + '\'' +
-//                ", requirements='" + requirements + '\'' +
-//                ", state='" + state + '\'' +
-//                '}';
-//    }
-//
-//    @PrePersist
-//    public void generateJobReference() {
-//        String companyCode = company.getCode().getCode();
-//        jobReference = companyCode + "-" + counter;
-//    }
+    public String jobReference() {
+        return jobReference;
+    }
+
+    public Candidate candidate() {
+        return candidate;
+    }
+
+    public JobOpening jobOpening() {
+        return jobOpening;
+    }
+
+    public ApplicationStatus status() {
+        return status;
+    }
+
+    public Date applicationDate() {
+        return applicationDate;
+    }
+
+    public String comment() {
+        return comment;
+    }
+
+    public Serializable interviewModel() {
+        return InterviewModel;
+    }
+
+    @Override
+    public String toString() {
+        return "Application{" +
+                "jobReference='" + jobReference + '\'' +
+                ", candidate=" + candidate +
+                ", jobOpening=" + jobOpening +
+                ", status=" + status +
+                ", InterviewModel=" + InterviewModel +
+                ", comment='" + comment + '\'' +
+                ", applicationDate=" + applicationDate +
+                '}';
+    }
 
     public boolean checkIfApplicationHasInterviewModel() {
         return InterviewModel != null;
     }
 
-    public boolean associateInterviewModelToApplication(Object interviewModel) {
-        if (!checkIfApplicationHasInterviewModel()) {
-            this.InterviewModel = interviewModel;
+    public boolean associateInterviewModelToApplication(Object interviewModel){
+        if(!checkIfApplicationHasInterviewModel()){
+            this.InterviewModel = (Serializable) interviewModel;
             return true;
         }
         return false;
@@ -142,12 +116,12 @@ public class Application implements AggregateRoot<String> {
 
     @Override
     public boolean sameAs(Object other) {
-        Application jobOpening = (Application) other;
-        return jobReference.equals(jobOpening.jobReference);
+        Application application = (Application) other;
+        return jobReference.equals(application.identity());
     }
 
     @Override
     public String identity() {
-        return jobReference;
+        return id.toString();
     }
 }

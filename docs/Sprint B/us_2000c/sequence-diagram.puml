@@ -1,0 +1,42 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "OPERATOR" as OP
+participant "ListCandidatesUI" as UI
+participant "CandidateController" as CTRL
+participant "ListCandidatesService" as LISVC
+participant "CandidateRepository" as CREPO
+participant "Candidate" as APP
+participant "CandidateRepository" as APPREPO
+
+OP -> UI : 1: listCandidates()
+activate UI
+UI -> CTRL : 2: listCandidates()
+activate CTRL
+CTRL -> LISVC : 3: listCandidates()
+activate LISVC
+LISVC -> CREPO : 4: listCandidates()
+activate CREPO
+CREPO -> APP : 5: findAll()
+activate APP
+APP -> APPREPO : 6: findAll()
+activate APPREPO
+APPREPO --> APP : 7: List<Candidate>
+deactivate APPREPO
+APP --> CREPO : 8: List<Candidate>
+deactivate APP
+CREPO --> LISVC : 9: List<Candidate>
+deactivate CREPO
+LISVC --> CTRL : 10: List<Candidate>
+deactivate LISVC
+CTRL --> UI : 11: List<Candidate>
+deactivate CTRL
+UI --> OP : 12: List<Candidate>
+deactivate UI
+
+
+@enduml
