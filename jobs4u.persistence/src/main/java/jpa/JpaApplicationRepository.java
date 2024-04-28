@@ -1,9 +1,11 @@
 package jpa;
 
+import applicationManagement.domain.Candidate;
 import jakarta.persistence.*;
 import applicationManagement.domain.Application;
 import applicationManagement.repositories.ApplicationRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +16,6 @@ public class JpaApplicationRepository implements ApplicationRepository {
         EntityManager manager = factory.createEntityManager();
         return manager;
     }
-
 
     @Override
     public <S extends Application> S save(S entity) {
@@ -75,6 +76,14 @@ public class JpaApplicationRepository implements ApplicationRepository {
         query.setParameter("id", id);
         Application application = (Application) query.getSingleResult();
         return Optional.of(application);
+    }
+
+    @Override
+    public List<Application> ofCandidate(Candidate candidate) {
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM Application e WHERE e.candidate = :candidate");
+        query.setParameter("candidate", candidate);
+        return new ArrayList<>(query.getResultList());
     }
 
     @Override
