@@ -10,6 +10,6 @@
 | **B**  | [US G001](../Sprint%20A/us_g001/readme.md) (update) |
 |        | [US G007](../Sprint%20B/us_g007/readme.md)          |
 |        | [US 1000](../Sprint%20B/us_1000/readme.md)          |
-|        | [US 1006](../Sprint%20B/us_1006/readme.md)          |
+|        | [US 1006(b)](../Sprint%20B/us_1006(b)/readme.md)    |
 |        | [US 2001](../Sprint%20B/us_2001/readme.md)          |
 | **C**  | (...)                                               |
