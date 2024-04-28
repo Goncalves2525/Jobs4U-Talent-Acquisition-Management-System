@@ -63,7 +63,7 @@ public class JpaCandidateRepository implements CandidateRepository {
 
     public List<Candidate> findAll() {
         Query query = getEntityManager().createQuery(
-                "SELECT e FROM JobOpening e");
+                "SELECT e FROM Candidate e");
         List<Candidate> list = query.getResultList();
         return list;
     }
@@ -71,7 +71,7 @@ public class JpaCandidateRepository implements CandidateRepository {
     @Override
     public Optional<Candidate> ofIdentity(String id) {
         Query query = getEntityManager().createQuery(
-                "SELECT e FROM JobOpening e WHERE e.id = :id");
+                "SELECT e FROM Candidate e WHERE e.id = :id");
         query.setParameter("id", id);
         Candidate candidate = (Candidate) query.getSingleResult();
         return Optional.of(candidate);

@@ -30,7 +30,7 @@ public class RegisterApplicationUI extends AbstractUI{
 //        ApplicationDTO applicationDTO = new ApplicationDTO();
 //
 //        boolean success = ctrl.registerApplication(applicationDTO);
-        boolean success =true;
+        boolean success = true;
         if (success){
             System.out.println("Job Opening registered successfully");
             return true;
