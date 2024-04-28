@@ -2,7 +2,9 @@ package jobOpeningManagement.domain;
 
 import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;
+import lombok.Getter;
 
+@Getter
 @Entity
 public class JobOpening implements AggregateRoot<String> {
     @Id
