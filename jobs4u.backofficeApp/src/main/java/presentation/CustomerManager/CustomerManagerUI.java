@@ -2,55 +2,66 @@ package presentation.CustomerManager;
 
 
 import console.ConsoleUtils;
+import infrastructure.authz.AuthzUI;
 import presentation.Operator.RegisterApplicationUI;
+import textformat.AnsiColor;
 
-public class CustomerManagerUI{
+import java.util.ArrayList;
+import java.util.List;
+
+public class CustomerManagerUI {
 
 
-    public boolean doShow() {
-        int option = 0;
-        do{
-            System.out.println("1. Register Job Opening");
-            System.out.println("2. List Job Openings");
-            System.out.println("3. Register Customer");
-            System.out.println("4. Test Plugin");
-            System.out.println("5. Register Application");
-            System.out.println("6. Select Interview Model");
-            System.out.println("0. Exit");
-            option = ConsoleUtils.readIntegerFromConsole("Option: ");
-            switch (option){
+    public void doShow(AuthzUI authzUI) {
+
+        // build UI header:
+        ConsoleUtils.buildUiHeader("Jobs4U Backoffice for Customer Manager");
+
+        // set option variable, list of options, selection message, and exit name (eg.: exit / cancel / etc.)
+        int option;
+        List<String> options = new ArrayList<>();
+        options.add("Register Customer");               // 1
+        options.add("Register Job Opening");            // 2
+        options.add("List Job Openings");               // 3
+        options.add("Select Interview Model");          // 4
+        options.add("List Candidate Personal Data");    // 5
+        options.add("Test Plugin");                     // 6
+        String message = "What do you want to do?";
+        String exit = "Exit";
+
+        // run options menu
+        do {
+            option = ConsoleUtils.showAndSelectIndex(options, message, exit);
+            switch (option) {
+                case 0:
+                    break;
                 case 1:
-                    RegisterJobOpeningUI registerJobOpeningUI = new RegisterJobOpeningUI();
-                    registerJobOpeningUI.show();
-                    break;
-                case 2:
-                    ListJobOpeningsUI listJobOpeningsUI = new ListJobOpeningsUI();
-                    listJobOpeningsUI.show();
-                    break;
-                case 3:
                     RegisterCustomerUI registerCustomerUI = new RegisterCustomerUI();
                     registerCustomerUI.show();
                     break;
+                case 2:
+                    RegisterJobOpeningUI registerJobOpeningUI = new RegisterJobOpeningUI();
+                    registerJobOpeningUI.show();
+                    break;
+                case 3:
+                    ListJobOpeningsUI listJobOpeningsUI = new ListJobOpeningsUI();
+                    listJobOpeningsUI.show();
+                    break;
                 case 4:
-                    TestPluginUI testPluginUI = new TestPluginUI();
-                    testPluginUI.show();
-                    break;
-                case 5:
-                    RegisterApplicationUI registerApplicationUI = new RegisterApplicationUI();
-                    registerApplicationUI.show();
-                    break;
-                case 6:
                     SelectInterviewModelUI selectInterviewModelUI = new SelectInterviewModelUI();
                     selectInterviewModelUI.show();
                     break;
-                case 0:
-                    return false;
+                case 5:
+                    ListCandidatePersonalDataUI listCandidatePersonalDataUI = new ListCandidatePersonalDataUI();
+                    listCandidatePersonalDataUI.doShow(authzUI);
+                    break;
+                case 6:
+                    TestPluginUI testPluginUI = new TestPluginUI();
+                    testPluginUI.show();
+                    break;
                 default:
-                    System.out.println("Invalid option");
+                    ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);
             }
-        }while(option != 0);
-
-        return true;
+        } while (option != 0);
     }
-
 }

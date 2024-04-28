@@ -1,5 +1,5 @@
 import appUserManagement.domain.Role;
-import bootstrap.Bootstrappers;
+import bootstrap.Bootstrapper;
 import infrastructure.authz.AuthzUI;
 import console.ConsoleUtils;
 import infrastructure.persistance.DatabaseUtility;
@@ -11,7 +11,7 @@ import textformat.AnsiColor;
 public class BackOffice {
 
     static Role roleInUse;
-    static Bootstrappers bootstrappers = new Bootstrappers();
+    static Bootstrapper bootstrapper = new Bootstrapper();
     final static boolean BOOTSTRAPMODE = true;
 
     public static void main(String[] args) {
@@ -20,7 +20,7 @@ public class BackOffice {
         if (BOOTSTRAPMODE) {
             DatabaseUtility.dropAllDataBaseObjects();
             DatabaseUtility.clearAllTables();
-            bootstrappers.execute();
+            bootstrapper.execute();
         }
 
         // perform authorized login
@@ -43,9 +43,8 @@ public class BackOffice {
             case CUSTOMERMANAGER:
                 ConsoleUtils.showMessageColor("User authorized.", AnsiColor.GREEN);
                 ConsoleUtils.readLineFromConsole("Press enter to continue.");
-                ConsoleUtils.buildUiHeader("Jobs4U Backoffice for Customer Manager");
                 CustomerManagerUI customerManagerUI = new CustomerManagerUI();
-                customerManagerUI.doShow();
+                customerManagerUI.doShow(authzUI);
                 break;
             case OPERATOR:
                 ConsoleUtils.showMessageColor("User authorized.", AnsiColor.GREEN);
