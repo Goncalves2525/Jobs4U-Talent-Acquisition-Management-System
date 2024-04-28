@@ -23,9 +23,9 @@ public class AdminUI {
         // set option variable, list of options, selection message, and exit name (eg.: exit / cancel / etc.)
         int option;
         List<String> options = new ArrayList<>();
-        options.add("Register Backoffice User");
-        options.add("List All Backoffice Users");
-        options.add("Manage Backoffice User");
+        options.add("Register Backoffice User");        // 1
+        options.add("List All Backoffice Users");       // 2
+        options.add("Manage Backoffice User");          // 3
         String message = "What do you want to do?";
         String exit = "Exit";
 
@@ -49,7 +49,6 @@ public class AdminUI {
                     break;
                 default:
                     ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);
-                    break;
             }
         } while (option != 0);
     }
