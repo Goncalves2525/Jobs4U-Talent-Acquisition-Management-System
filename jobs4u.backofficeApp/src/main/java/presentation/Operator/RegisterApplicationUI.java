@@ -11,6 +11,7 @@ import applicationManagement.application.CandidateController;
 import jobOpeningManagement.application.ListJobOpeningsController;
 import applicationManagement.application.RegisterApplicationController;
 import jobOpeningManagement.domain.*;
+import plugins.Plugin;
 import presentation.CustomerManager.SelectInterviewModelUI;
 
 import java.util.Date;
@@ -45,7 +46,7 @@ public class RegisterApplicationUI extends AbstractUI{
         String comment = ConsoleUtils.readLineFromConsole("Comment: ");
         ApplicationDTO applicationDTO = new ApplicationDTO(jobReference, selectedCandidate, jobOpening, comment, new Date(),null, status);
         boolean success = ctrl.registerApplication(applicationDTO);
-        List<Object> interviewModel = ctrlSelectInterviewModel.getAllInterviewModels();
+        List<Plugin> interviewModel = ctrlSelectInterviewModel.getAllInterviewModels();
         int choice = selectInterviewModel(interviewModel);
         Object selectedInterviewModel = interviewModel.get(choice);
         Application Application = ctrl.findApplicationById(String.valueOf(applicationDTO.id()));
@@ -63,7 +64,7 @@ public class RegisterApplicationUI extends AbstractUI{
         }
     }
 
-    private int selectInterviewModel(List<Object> interviewModels) {
+    private int selectInterviewModel(List<Plugin> interviewModels) {
         int i = 0;
         System.out.println("== INTERVIEW MODELS ==");
         for (Object interviewModel : interviewModels) {

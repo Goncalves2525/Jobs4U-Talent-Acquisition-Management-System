@@ -37,7 +37,7 @@ public class Application implements AggregateRoot<String> {
     private LocalDate date;
 
     @Column(columnDefinition = "VARBINARY")
-    private Serializable InterviewModel = null; //"" by omission
+    private Object InterviewModel = null; //"" by omission
 
     @Column
     private String comment;
@@ -50,7 +50,7 @@ public class Application implements AggregateRoot<String> {
     }
 
     public Application(String jobReference, Candidate candidate, JobOpening jobOpening, ApplicationStatus status, Date applicationDate, String comment
-    , Serializable interviewModel) {
+    , Object interviewModel) {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
@@ -85,7 +85,7 @@ public class Application implements AggregateRoot<String> {
         return comment;
     }
 
-    public Serializable interviewModel() {
+    public Object interviewModel() {
         return InterviewModel;
     }
 
@@ -108,7 +108,7 @@ public class Application implements AggregateRoot<String> {
 
     public boolean associateInterviewModelToApplication(Object interviewModel){
         if(!checkIfApplicationHasInterviewModel()){
-            this.InterviewModel = (Serializable) interviewModel;
+            this.InterviewModel = interviewModel;
             return true;
         }
         return false;

@@ -116,5 +116,15 @@ public class JpaApplicationRepository implements ApplicationRepository {
         return (long) query.getSingleResult();
     }
 
+    @Override
+    public void update(Application entity) {
+        EntityManager em = getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.merge(entity);
+        tx.commit();
+        em.close();
+    }
+
 
 }

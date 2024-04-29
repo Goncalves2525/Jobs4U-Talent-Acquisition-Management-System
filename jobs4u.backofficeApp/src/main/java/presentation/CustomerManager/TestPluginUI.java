@@ -1,5 +1,6 @@
 package presentation.CustomerManager;
 
+import plugins.Plugin;
 import plugins.PluginLoader;
 
 import java.lang.reflect.Method;
@@ -13,7 +14,7 @@ public class TestPluginUI{
 
     protected boolean show(){
         String pluginsDirectory = "plugins/interview/jar";
-        List<Object> plugins = pluginLoader.loadPlugins(pluginsDirectory);
+        List<Plugin> plugins = pluginLoader.loadPlugins(pluginsDirectory);
         List<String> pluginInfo = new ArrayList<>();
 
         for (Object plugin : plugins) {

@@ -3,6 +3,7 @@ package applicationManagement.application;
 import applicationManagement.domain.Application;
 import applicationManagement.repositories.ApplicationRepository;
 import infrastructure.persistance.PersistenceContext;
+import plugins.Plugin;
 import plugins.PluginLoader;
 
 import java.util.List;
@@ -22,12 +23,17 @@ public class SelectInterviewModelController {
         return application.checkIfApplicationHasInterviewModel();
     }
 
-    public List<Object> getAllInterviewModels(){
+    public List<Plugin> getAllInterviewModels(){
         return pluginLoader.loadPlugins(INTERVIEW_PLUGINS_DIRECTORY);
     }
 
     public boolean associateInterviewModelToApplication(Application application, Object interviewModel){
-        return application.associateInterviewModelToApplication(interviewModel);
+        boolean success = false;
+        success = application.associateInterviewModelToApplication(interviewModel);
+        if(success){
+            repo.update(application);
+            return true;
+        }
+        return false;
     }
-
 }

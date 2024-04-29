@@ -3,6 +3,7 @@ package presentation.CustomerManager;
 import applicationManagement.application.SelectInterviewModelController;
 import applicationManagement.domain.Application;
 import console.ConsoleUtils;
+import plugins.Plugin;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class SelectInterviewModelUI {
             System.out.println("Application already has Interview Model");
             return false;
         }
-        List<Object> interviewModels = ctrl.getAllInterviewModels();
+        List<Plugin> interviewModels = ctrl.getAllInterviewModels();
         int choice = selectInterviewModel(interviewModels);
         success = ctrl.associateInterviewModelToApplication(application, interviewModels.get(choice));
         if (success) {
@@ -37,7 +38,7 @@ public class SelectInterviewModelUI {
     }
 
 
-    private int selectInterviewModel(List<Object> interviewModels) {
+    private int selectInterviewModel(List<Plugin> interviewModels) {
         int i = 0;
         System.out.println("== INTERVIEW MODELS ==");
         for (Object interviewModel : interviewModels) {

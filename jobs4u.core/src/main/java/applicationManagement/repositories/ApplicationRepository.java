@@ -10,4 +10,6 @@ public interface ApplicationRepository extends DomainRepository<String, Applicat
 
     List<Application> ofCandidate(Candidate candidate);
 
+    void update(Application entity);
+
 }

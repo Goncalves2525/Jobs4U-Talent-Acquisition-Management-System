@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PluginLoader {
-    public List<Object> loadPlugins(String pluginsDirectory) {
+    public List<Plugin> loadPlugins(String pluginsDirectory) {
         File pluginsDir = new File(pluginsDirectory);
-        List<Object> plugins = new ArrayList<>();
+        List<Plugin> plugins = new ArrayList<>();
         if (pluginsDir.isDirectory()) {
             File[] files = pluginsDir.listFiles((dir, name) -> name.endsWith(".jar"));
             if (files != null) {
@@ -18,8 +18,9 @@ public class PluginLoader {
                         URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{file.toURI().toURL()});
                         Class<?> pluginClass = classLoader.loadClass("lapr4.Main");
                         Object pluginInstance = pluginClass.newInstance();
-                        plugins.add(pluginInstance);
-                        // Invoke methods or execute functionality of the plugin instance
+                        String jarName = file.getName();
+                        Plugin plugin = new Plugin(pluginInstance, jarName);
+                        plugins.add(plugin);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
