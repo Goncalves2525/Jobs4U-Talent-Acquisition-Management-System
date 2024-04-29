@@ -3,21 +3,32 @@ package presentation.CustomerManager;
 import appUserManagement.domain.Role;
 import console.ConsoleUtils;
 import eapli.framework.presentation.console.AbstractUI;
+import infrastructure.authz.AuthzUI;
 import jobOpeningManagement.application.RegisterCustomerController;
 import jobOpeningManagement.domain.Address;
 import jobOpeningManagement.domain.CompanyCode;
 import appUserManagement.application.SignUpController;
 import appUserManagement.domain.Email;
+import textformat.AnsiColor;
 
 import java.util.Optional;
 
-public class RegisterCustomerUI extends AbstractUI {
+public class RegisterCustomerUI{
     private RegisterCustomerController ctrl = new RegisterCustomerController();
     private SignUpController signUpController = new SignUpController();
     private final Role validRole = Role.CUSTOMER;
+    static Role managerRole;
 
-    @Override
-    protected boolean doShow() {
+
+    public void doShow(AuthzUI authzUI) {
+        ConsoleUtils.buildUiHeader("Register Customer");
+
+        // get user role, to be used as parameter on restricted user actions
+        managerRole = authzUI.getValidBackofficeRole();
+        if (!managerRole.showBackofficeAppAccess()) {
+            ConsoleUtils.showMessageColor("You don't have permissions for this action.", AnsiColor.RED);
+        }
+
         CompanyCode code = null;
         String name = "";
         Email email = null;
@@ -46,18 +57,13 @@ public class RegisterCustomerUI extends AbstractUI {
             Optional<String> userSignedUp = signUpController.signUp(email, validRole);
             if (userSignedUp.isPresent()) {
                 System.out.println("User registered successfully with password: " + userSignedUp.get());
-                return true;
             } else {
                 System.out.println("User registration failed!");
                 ctrl.deleteCustomer(code);
                 System.out.println("Customer deleted!");
             }
         }
-        return false;
     }
 
-    @Override
-    public String headline() {
-        return "CUSTOMER REGISTRATION";
-    }
+
 }

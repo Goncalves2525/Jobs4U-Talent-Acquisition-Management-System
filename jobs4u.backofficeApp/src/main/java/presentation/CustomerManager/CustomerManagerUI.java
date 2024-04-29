@@ -37,19 +37,19 @@ public class CustomerManagerUI {
                     break;
                 case 1:
                     RegisterCustomerUI registerCustomerUI = new RegisterCustomerUI();
-                    registerCustomerUI.show();
+                    registerCustomerUI.doShow(authzUI);
                     break;
                 case 2:
                     RegisterJobOpeningUI registerJobOpeningUI = new RegisterJobOpeningUI();
-                    registerJobOpeningUI.show();
+                    registerJobOpeningUI.doShow(authzUI);
                     break;
                 case 3:
                     ListJobOpeningsUI listJobOpeningsUI = new ListJobOpeningsUI();
-                    listJobOpeningsUI.show();
+                    listJobOpeningsUI.doShow(authzUI);
                     break;
                 case 4:
                     SelectInterviewModelUI selectInterviewModelUI = new SelectInterviewModelUI();
-                    selectInterviewModelUI.show();
+                    selectInterviewModelUI.doShow(authzUI);
                     break;
                 case 5:
                     ListCandidatePersonalDataUI listCandidatePersonalDataUI = new ListCandidatePersonalDataUI();
@@ -57,7 +57,7 @@ public class CustomerManagerUI {
                     break;
                 case 6:
                     TestPluginUI testPluginUI = new TestPluginUI();
-                    testPluginUI.show();
+                    testPluginUI.doShow(authzUI);
                     break;
                 default:
                     ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);

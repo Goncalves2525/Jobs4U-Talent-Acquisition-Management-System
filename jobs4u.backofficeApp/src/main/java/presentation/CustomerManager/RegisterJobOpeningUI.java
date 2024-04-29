@@ -1,19 +1,32 @@
 package presentation.CustomerManager;
 
+import appUserManagement.domain.Role;
 import console.ConsoleUtils;
 import eapli.framework.presentation.console.AbstractUI;
+import infrastructure.authz.AuthzUI;
 import jobOpeningManagement.application.RegisterJobOpeningController;
 import jobOpeningManagement.domain.*;
 import jobOpeningManagement.domain.dto.JobOpeningDTO;
+import textformat.AnsiColor;
+
 import java.util.Iterator;
 
 
-public class RegisterJobOpeningUI extends AbstractUI{
+public class RegisterJobOpeningUI{
 
     private RegisterJobOpeningController ctrl = new RegisterJobOpeningController();
+    static Role managerRole;
 
-    @Override
-    protected boolean doShow() {
+    public void doShow(AuthzUI authzUI) {
+        ConsoleUtils.buildUiHeader("Register Job Opening");
+
+        // get user role, to be used as parameter on restricted user actions
+        managerRole = authzUI.getValidBackofficeRole();
+        if (!managerRole.showBackofficeAppAccess()) {
+            ConsoleUtils.showMessageColor("You don't have permissions for this action.", AnsiColor.RED);
+            return;
+        }
+
         int option = 0;
         String title;
         do{
@@ -31,7 +44,8 @@ public class RegisterJobOpeningUI extends AbstractUI{
         Address address = new Address(street, city, postalCode);
         Customer company = selectCompany();
         if(company == null){
-            return false;
+            System.out.println("No company selected");
+            return;
         }
         int numberOfVacancies = ConsoleUtils.readIntegerFromConsole("Number of Vacancies: ");
         String description = ConsoleUtils.readLineFromConsole("Description: ");
@@ -45,7 +59,8 @@ public class RegisterJobOpeningUI extends AbstractUI{
         System.out.println("0 - Exit");
         option = ConsoleUtils.readIntegerFromConsole("Option: ");
         if(option == 0){
-            return false;
+            System.out.println("Job Opening not registered");
+            return;
         }
 
 
@@ -54,17 +69,11 @@ public class RegisterJobOpeningUI extends AbstractUI{
         boolean success = ctrl.registerJobOpening(jobOpeningDTO);
         if (success){
             System.out.println("Job Opening registered successfully");
-            return true;
         }else{
             System.out.println("Error registering Job Opening");
-            return false;
         }
     }
 
-    @Override
-    public String headline() {
-        return "JOB OPENING REGISTRATION";
-    }
 
     private ContractType selectContractType(){
         int i = 1;

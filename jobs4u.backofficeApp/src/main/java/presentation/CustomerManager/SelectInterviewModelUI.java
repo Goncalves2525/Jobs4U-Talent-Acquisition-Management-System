@@ -1,16 +1,29 @@
 package presentation.CustomerManager;
 
+import appUserManagement.domain.Role;
 import applicationManagement.application.SelectInterviewModelController;
 import applicationManagement.domain.Application;
 import console.ConsoleUtils;
+import infrastructure.authz.AuthzUI;
 import plugins.Plugin;
+import textformat.AnsiColor;
 
 import java.util.List;
 
 public class SelectInterviewModelUI {
     private SelectInterviewModelController ctrl = new SelectInterviewModelController();
+    static Role managerRole;
 
-    protected boolean show() {
+    public void doShow(AuthzUI authzUI) {
+        ConsoleUtils.buildUiHeader("Select Interview Model");
+
+        // get user role, to be used as parameter on restricted user actions
+        managerRole = authzUI.getValidBackofficeRole();
+        if (!managerRole.showBackofficeAppAccess()) {
+            ConsoleUtils.showMessageColor("You don't have permissions for this action.", AnsiColor.RED);
+            return;
+        }
+
         boolean success = false;
         String appID = "";
         System.out.println("Insert Application ID: ");
@@ -18,22 +31,18 @@ public class SelectInterviewModelUI {
         Application application = ctrl.findApplicationById(appID);
         if (application == null) {
             System.out.println("Application not found");
-            return false;
         }
         success = ctrl.checkIfApplicationHasInterviewModel(application);
         if (success) {
             System.out.println("Application already has Interview Model");
-            return false;
         }
         List<Plugin> interviewModels = ctrl.getAllInterviewModels();
         int choice = selectInterviewModel(interviewModels);
         success = ctrl.associateInterviewModelToApplication(application, interviewModels.get(choice));
         if (success) {
             System.out.println("Interview Model associated to Application");
-            return true;
         } else {
             System.out.println("Error associating Interview Model to Application");
-            return false;
         }
     }
 

@@ -1,7 +1,11 @@
 package presentation.CustomerManager;
 
+import appUserManagement.domain.Role;
+import console.ConsoleUtils;
+import infrastructure.authz.AuthzUI;
 import plugins.Plugin;
 import plugins.PluginLoader;
+import textformat.AnsiColor;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -11,8 +15,17 @@ import java.util.Scanner;
 public class TestPluginUI{
 
     private final PluginLoader pluginLoader = new PluginLoader();
+    static Role managerRole;
 
-    protected boolean show(){
+    protected boolean doShow(AuthzUI authzUI){
+        ConsoleUtils.buildUiHeader("Test Plugin");
+
+        // get user role, to be used as parameter on restricted user actions
+        managerRole = authzUI.getValidBackofficeRole();
+        if (!managerRole.showBackofficeAppAccess()) {
+            ConsoleUtils.showMessageColor("You don't have permissions for this action.", AnsiColor.RED);
+        }
+
         String pluginsDirectory = "plugins/interview/jar";
         List<Plugin> plugins = pluginLoader.loadPlugins(pluginsDirectory);
         List<String> pluginInfo = new ArrayList<>();
