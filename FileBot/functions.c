@@ -366,7 +366,7 @@ void monitor_files(char* inputPath, int timeInterval) {
             kill(getppid(), SIGUSR1);
         }
         // Atualiza o estado anterior
-        //previous_num_files = num_files;
+        previous_num_files = num_files;
         // Se não houver ficheiros na pasta, coloca o contador a 0
         if (num_files == 0) {
             previous_num_files = 0;
