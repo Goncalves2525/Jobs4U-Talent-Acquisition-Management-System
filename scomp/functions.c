@@ -39,8 +39,8 @@ returnValues cria_filhos(int n) {
     return values;
 }
 
-void sigUsr1Handler(int signal){ //não podemos usar printf
-	printf("Handled SIGUSR1\n");
+void sigUsr1Handler(int signal){ 
+	printf("Handled SIGUSR1\n"); // APAGAR: não podemos usar printf 
 }
 
 int findNewPrefix(char** fileNames, int fileCount, char* currentPrefix, char* oldPrefixes) {
@@ -86,7 +86,7 @@ int getDirFileNames(char* inputPath, char** fileNames) {
         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0 || strcmp(entry->d_name, ".DS_Store") == 0) {
             continue;
         }
-        if (strstr(entry->d_name, "candidate_data.txt")) {
+        if (strstr(entry->d_name, "candidate-data.txt")) {
            fileNames[i] = malloc(strlen(entry->d_name) + 1); //aloca memória para cada nome de ficheiro
             strcpy(fileNames[i], entry->d_name); //copia o nome do ficheiro
             fileCount++;
@@ -328,7 +328,7 @@ int moveFilesToDirectory(char* inputPath, char* jobApplicantPath, char* currentP
         strcat(command, toPath);
 
 		execlp("sh", "sh", "-c", command, NULL);
-        //execlp("mv", "mv", fromPath, toPath, NULL); // cannot use wildcards
+        //execlp("mv", "mv", fromPath, toPath, NULL); // Não pode usar wildcards
         perror("execlp");
         exit(EXIT_FAILURE);
     }
@@ -367,6 +367,7 @@ void monitor_files(char* inputPath, int timeInterval) {
         }
         // Atualiza o estado anterior
         previous_num_files = num_files;
+        
         // Se não houver ficheiros na pasta, coloca o contador a 0
         if (num_files == 0) {
             previous_num_files = 0;

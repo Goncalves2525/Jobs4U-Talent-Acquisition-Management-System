@@ -147,11 +147,13 @@ public void candidateEmailIsDisplayed() {  }
 
 ## 5. Implementation
 
-(TODO)
+Implementation was done as an option to list candidate details by providing the e-mail. <br>
+Still pending the integration of listing details after selecting one application on a job opening search. <br>
+The functionality is implemented though, and available for integration.
 
 > Commit list (descending)
 >
-> ...
+> c2e078e4277fb64f7340efe4ce0b82c6dd41a4ef
 
 ## 6. Integration/Demonstration
 
