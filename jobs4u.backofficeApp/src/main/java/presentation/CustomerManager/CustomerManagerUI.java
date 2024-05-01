@@ -27,6 +27,7 @@ public class CustomerManagerUI {
         options.add("List Candidate Personal Data");    // 5
         options.add("Test Plugin");                     // 6
         options.add("List Applications For Job Opening");// 7
+        options.add("Generate Answer Collection File");// 8
         String message = "What do you want to do?";
         String exit = "Exit";
 
@@ -63,6 +64,10 @@ public class CustomerManagerUI {
                 case 7:
                     ListApplicationsUI listApplicationsUI = new ListApplicationsUI();
                     listApplicationsUI.doShow(authzUI);
+                    break;
+                case 8:
+                    GenerateAnswerCollectionFileUI generateAnswerCollectionFileUI = new GenerateAnswerCollectionFileUI();
+                    generateAnswerCollectionFileUI.doShow(authzUI);
                     break;
                 default:
                     ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);

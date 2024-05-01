@@ -53,7 +53,7 @@ public class BackOffice {
                 ConsoleUtils.readLineFromConsole("Press enter to continue.");
                 ConsoleUtils.buildUiHeader("Jobs4U Backoffice for Operator");
                 OperatorUI operatorUI = new OperatorUI();
-                operatorUI.doShow();
+                operatorUI.doShow(authzUI);
                 break;
             default:
                 ConsoleUtils.showMessageColor("Unauthorized access.", AnsiColor.RED);
