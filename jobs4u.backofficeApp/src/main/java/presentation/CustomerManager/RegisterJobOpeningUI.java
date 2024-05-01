@@ -28,6 +28,11 @@ public class RegisterJobOpeningUI{
         }
 
         int option = 0;
+        Customer company = selectCompany();
+        if(company == null){
+            System.out.println("No company selected or there are no companies registered. Job Opening not registered.");
+            return;
+        }
         String title;
         do{
             title = ConsoleUtils.readLineFromConsole("Title: ");
@@ -42,11 +47,6 @@ public class RegisterJobOpeningUI{
             postalCode = ConsoleUtils.readLineFromConsole(" Postal Code: ");
         }while(street.equals("") || city.equals("") || postalCode.equals(""));
         Address address = new Address(street, city, postalCode);
-        Customer company = selectCompany();
-        if(company == null){
-            System.out.println("No company selected");
-            return;
-        }
         int numberOfVacancies = ConsoleUtils.readIntegerFromConsole("Number of Vacancies: ");
         String description = ConsoleUtils.readLineFromConsole("Description: ");
         Requirements requirements = null;
@@ -104,6 +104,7 @@ public class RegisterJobOpeningUI{
         System.out.println("COMPANIES");
         for (Customer customer : customers) {
             System.out.println(i + " - " + customer.getCode());
+            i++;
         }
         int option = ConsoleUtils.readIntegerFromConsole("Select Company: ");
         Iterator<Customer> iterator = customers.iterator();
