@@ -12,8 +12,6 @@
 
 - 2000c.1. It should be possible to list all existing candidates.
 - 2000c.2. The listing should contain the Name and Email of each candidate.
-- 2000c.3. The listing should be ordered alphabetically by the candidate's name.
-- 
 
 **Dependencies/References:**
 
@@ -32,6 +30,8 @@
 
 ### 3.3. Other Remarks
 
+* N/A
+
 ## 4. Design
 
 ### 4.1. Realization
@@ -46,7 +46,7 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 ### 4.2. Sequence Diagram
 
-TODO
+![Sequence Diagram](sequence-diagram.svg)
 
 ### 4.3. Tests
 
@@ -59,6 +59,7 @@ TODO
 @Test
     void TODOtest(){
         
+    
     }
 ````
 

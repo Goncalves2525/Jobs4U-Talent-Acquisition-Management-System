@@ -16,8 +16,10 @@
   - A job Opening
   - A date of submission
   - A status (e.g., "Submitted")
-  - A list of files received
+  - A path to the interview model (if any)
+  - A path to the files received
   - Comments
+- 2002.3. The application should be associated with a candidate and a job opening.
 - 
 **Dependencies/References:**
 
