@@ -7,7 +7,7 @@ public class SelectInterviewModelTest {
     @Test
     void ensureApplicationDoesNotHaveInterviewModel() {
         // Arrange
-        Application application = new Application("jobReference", null, null, null, null, null, null);
+        Application application = new Application("jobReference", null, null, null, null, null, null,"","");
         // Act
         boolean result = application.checkIfApplicationHasInterviewModel();
         // Assert

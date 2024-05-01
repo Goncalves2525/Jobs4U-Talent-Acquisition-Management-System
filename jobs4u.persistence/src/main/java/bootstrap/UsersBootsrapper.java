@@ -30,18 +30,18 @@ public class UsersBootsrapper {
         Optional<String> operatPwd = signUpController.signUp(new Email(operatEmail), Role.OPERATOR);
         System.out.println("User: " + operatEmail + " | Password: " + operatPwd.get());
 
-        String customerEmail = "customer@mail.pt";
-        Optional<String> customerPwd = signUpController.signUp(new Email(customerEmail), Role.CUSTOMER);
-        System.out.println("User: " + customerEmail + " | Password: " + customerPwd.get());
+//        String customerEmail = "customer@mail.pt";
+//        Optional<String> customerPwd = signUpController.signUp(new Email(customerEmail), Role.CUSTOMER);
+//        System.out.println("User: " + customerEmail + " | Password: " + customerPwd.get());
 
         String candEmail = "candidate@mail.pt";
         Optional<String> candPwd = signUpController.signUp(new Email(candEmail), Role.CANDIDATE);
         System.out.println("User: " + candEmail + " | Password: " + candPwd.get());
 
-        String custmanEmailDisabled = "custmanDIS@mail.pt";
-        Optional<String> custmanDisabledPwd = signUpController.signUp(new Email(custmanEmailDisabled), Role.CUSTOMERMANAGER);
-        System.out.println("User: " + custmanEmailDisabled + " | Password: " + custmanDisabledPwd.get());
-        JpaUserRepository repo = new JpaUserRepository();
-        repo.swapAbility(custmanEmailDisabled, Role.ADMIN);
+//        String custmanEmailDisabled = "custmanDIS@mail.pt";
+//        Optional<String> custmanDisabledPwd = signUpController.signUp(new Email(custmanEmailDisabled), Role.CUSTOMERMANAGER);
+//        System.out.println("User: " + custmanEmailDisabled + " | Password: " + custmanDisabledPwd.get());
+//        JpaUserRepository repo = new JpaUserRepository();
+//        repo.swapAbility(custmanEmailDisabled, Role.ADMIN);
     }
 }
