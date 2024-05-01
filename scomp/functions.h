@@ -17,9 +17,10 @@ typedef struct ReturnValues {
 typedef struct ChildReport{
     int available;
     int qtyFilesMoved;
+    pid_t pid;
     char createdPath[100];
     char filesMoved[500];
-}childReport;
+} childReport;
 
 returnValues cria_filhos(int n);
 void sigUsr1Handler(int signal);
