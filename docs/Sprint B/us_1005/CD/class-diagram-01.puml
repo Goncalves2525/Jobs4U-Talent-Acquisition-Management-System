@@ -7,20 +7,30 @@ package Presentation {
 package Application {
     class ListApplicationsController
 }
+package JobOpening {
+    class ListJobOpeningController
+}
 
 package Persistence {
     interface ApplicationRepository
+    interface JobOpeningRepository
     class JpaApplicationRepository
+    class JpaJobOpeningRepository
 }
 
 package Domain {
     class Application
+    class JobOpening
 }
 
 Presentation.ListApplicationsUI --> Application.ListApplicationsController
-Application.ListApplicationsController -> Domain.Application
+Presentation.ListApplicationsUI --> JobOpening.ListJobOpeningController
+Application.ListApplicationsController ---> Domain.Application
+JobOpening.ListJobOpeningController --> Domain.JobOpening
+
 Persistence.ApplicationRepository <|-- Persistence.JpaApplicationRepository
 Application.ListApplicationsController ---> Persistence.ApplicationRepository
-
+Persistence.JobOpeningRepository <|-- Persistence.JpaJobOpeningRepository
+JobOpening.ListJobOpeningController --> Persistence.JobOpeningRepository
 
 @enduml

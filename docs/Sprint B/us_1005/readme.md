@@ -46,13 +46,18 @@ a identificação do candidato e o seu nome."
 
 ### 4.1. Realization
 
-| Interaction ID                                                            | Question: Which class is responsible for... | Answer                | Justification (with patterns) |
-|:--------------------------------------------------------------------------|:--------------------------------------------|:----------------------|:------------------------------|
-| Step 1 : Customer Manager requests to list applications for a job opening | ... requesting Info?                        | ListApplicationsUI    | Pure Fabrication              |
-| Step 2 : System builds list of applications                               | ... requesting list to be built?            | ListApplicationsUI    | Pure Fabrication              |
-|                                                                           | ... coordinating list capture?              | ApplicationController | Controller                    |
-|                                                                           | ... building the applications list?         | ApplicationRepository | Information Expert            |
-| Step 3 : System presents the list of applications                         | ... show result?                            | ListApplicationUI     | Pure Fabrication              |
+| Interaction ID                                                            | Question: Which class is responsible for... | Answer                                     | Justification (with patterns) |
+|:--------------------------------------------------------------------------|:--------------------------------------------|:-------------------------------------------|:------------------------------|
+| Step 1 : Customer Manager requests to list applications for a job opening |                                             |                                            |                               |
+| Step 2 : System builds list of Job Openings                               | ... requesting list to be built?            | ListApplicationsUI                         | Pure Fabrication              |
+|                                                                           | ... coordinating list capture?              | ListJobOpeningController                   | Controller                    |
+|                                                                           | ... building the applications list?         | JobOpeningRepository                       | Information Expert            |
+| Step 3 : System presents the list of Job Openings                         | ... show result?                            | ListApplicationUI                          | Pure Fabrication              |
+| Step 4 : Customer manager chooses Job Opening from list                   | ... requesting info?                        | ListApplicationUI                          | Pure Fabrication              |
+| Step 4 : System builds list of applications                               | ... requesting list to be built?            | ListApplicationsUI                         | Pure Fabrication              |
+|                                                                           | ... coordinating list capture?              | ListApplicationController                  | Controller                    |
+|                                                                           | ... building the applications list?         | ApplicationRepository                      | Information Expert            |                                          |                      |                               |
+|                                                                           | ... show list?                              | ListApplicationsUI                         | Pure Fabrication              |
 
 
 ### 4.2. Class Diagram
@@ -76,7 +81,163 @@ void ensureJobReferenceNotNull() {
 
 ## 5. Implementation
 
->
+**ListApplicationsUI**
+
+```java
+package presentation.CustomerManager;
+
+import appUserManagement.domain.Role;
+import applicationManagement.application.ListApplicationsController;
+import applicationManagement.domain.Application;
+import console.ConsoleUtils;
+import infrastructure.authz.AuthzUI;
+import jobOpeningManagement.application.ListJobOpeningsController;
+import jobOpeningManagement.domain.JobOpening;
+import textformat.AnsiColor;
+
+public class ListApplicationsUI {
+
+    ListApplicationsController ctrl = new ListApplicationsController();
+    ListJobOpeningsController ctrlJobOpening = new ListJobOpeningsController();
+
+    static Role managerRole;
+
+    protected void doShow(AuthzUI authzUI) {
+        ConsoleUtils.buildUiHeader("List Applications");
+
+        // get user role, to be used as parameter on restricted user actions
+        managerRole = authzUI.getValidBackofficeRole();
+        if (!managerRole.showBackofficeAppAccess()) {
+            ConsoleUtils.showMessageColor("You don't have permissions for this action.", AnsiColor.RED);
+            return;
+        }
+
+        System.out.println("Job Openings:");
+        Iterable<JobOpening> jobOpenings = ctrlJobOpening.listJobOpenings();
+
+        // Check if jobOpenings is empty
+        if (!jobOpenings.iterator().hasNext()) {
+            System.out.println("No job openings found.");
+        } else {
+            // Iterate over jobOpenings if it's not empty
+            for (JobOpening jobOpening : jobOpenings) {
+                System.out.println(jobOpening.toString());
+            }
+        }
+
+        String jobReference = ConsoleUtils.readLineFromConsole("Insert the Job Reference:");
+
+        System.out.println("Applications for the Job Reference inserted:");
+        Iterable<Application> applications = ctrl.listApplications();
+
+        // Check if application is empty
+        if (!applications.iterator().hasNext()) {
+            System.out.println("No applications found.");
+        } else {
+            // Iterate over applications if it's not empty
+            for (Application application : applications) {
+                if (application.getJobReference().equals(jobReference))
+                    System.out.println(application.toString());
+            }
+        }
+    }
+}
+```
+
+**ListApplicationsController**
+
+```java
+package applicationManagement.application;
+
+import applicationManagement.domain.Application;
+import applicationManagement.repositories.ApplicationRepository;
+import infrastructure.persistance.PersistenceContext;
+
+public class ListApplicationsController {
+    private ApplicationRepository repo = PersistenceContext.repositories().applications();
+
+    public Iterable<Application> listApplications() {
+        return repo.findAll();
+    }
+}
+```
+
+**CustomerManagerUI**
+
+```java
+package presentation.CustomerManager;
+
+
+import console.ConsoleUtils;
+import infrastructure.authz.AuthzUI;
+import presentation.Operator.RegisterApplicationUI;
+import textformat.AnsiColor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CustomerManagerUI {
+
+
+    public void doShow(AuthzUI authzUI) {
+
+        // build UI header:
+        ConsoleUtils.buildUiHeader("Jobs4U Backoffice for Customer Manager");
+
+        // set option variable, list of options, selection message, and exit name (eg.: exit / cancel / etc.)
+        int option;
+        List<String> options = new ArrayList<>();
+        options.add("Register Customer");               // 1
+        options.add("Register Job Opening");            // 2
+        options.add("List Job Openings");               // 3
+        options.add("Select Interview Model");          // 4
+        options.add("List Candidate Personal Data");    // 5
+        options.add("Test Plugin");                     // 6
+        options.add("List Applications For Job Opening");// 7
+        String message = "What do you want to do?";
+        String exit = "Exit";
+
+        // run options menu
+        do {
+            option = ConsoleUtils.showAndSelectIndex(options, message, exit);
+            switch (option) {
+                case 0:
+                    break;
+                case 1:
+                    RegisterCustomerUI registerCustomerUI = new RegisterCustomerUI();
+                    registerCustomerUI.doShow(authzUI);
+                    break;
+                case 2:
+                    RegisterJobOpeningUI registerJobOpeningUI = new RegisterJobOpeningUI();
+                    registerJobOpeningUI.doShow(authzUI);
+                    break;
+                case 3:
+                    ListJobOpeningsUI listJobOpeningsUI = new ListJobOpeningsUI();
+                    listJobOpeningsUI.doShow(authzUI);
+                    break;
+                case 4:
+                    SelectInterviewModelUI selectInterviewModelUI = new SelectInterviewModelUI();
+                    selectInterviewModelUI.doShow(authzUI);
+                    break;
+                case 5:
+                    ListCandidatePersonalDataUI listCandidatePersonalDataUI = new ListCandidatePersonalDataUI();
+                    listCandidatePersonalDataUI.doShow(authzUI);
+                    break;
+                case 6:
+                    TestPluginUI testPluginUI = new TestPluginUI();
+                    testPluginUI.doShow(authzUI);
+                    break;
+                case 7:
+                    ListApplicationsUI listApplicationsUI = new ListApplicationsUI();
+                    listApplicationsUI.doShow(authzUI);
+                    break;
+                default:
+                    ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);
+            }
+        } while (option != 0);
+    }
+}
+```
 
 ## 6. Integration/Demonstration
 

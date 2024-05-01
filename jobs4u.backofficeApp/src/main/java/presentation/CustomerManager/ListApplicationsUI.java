@@ -9,8 +9,6 @@ import jobOpeningManagement.application.ListJobOpeningsController;
 import jobOpeningManagement.domain.JobOpening;
 import textformat.AnsiColor;
 
-import java.util.Scanner;
-
 public class ListApplicationsUI {
 
     ListApplicationsController ctrl = new ListApplicationsController();
@@ -30,21 +28,31 @@ public class ListApplicationsUI {
 
         System.out.println("Job Openings:");
         Iterable<JobOpening> jobOpenings = ctrlJobOpening.listJobOpenings();
-        for(JobOpening jobOpening : jobOpenings){
-            System.out.println(jobOpening.toString());
+
+        // Check if jobOpenings is empty
+        if (!jobOpenings.iterator().hasNext()) {
+            System.out.println("No job openings found.");
+        } else {
+            // Iterate over jobOpenings if it's not empty
+            for (JobOpening jobOpening : jobOpenings) {
+                System.out.println(jobOpening.toString());
+            }
         }
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Insert the Job Reference:");
-        String jobReference = scanner.nextLine();
-        scanner.close();
+        String jobReference = ConsoleUtils.readLineFromConsole("Insert the Job Reference:");
 
         System.out.println("Applications for the Job Reference inserted:");
         Iterable<Application> applications = ctrl.listApplications();
-        for(Application application : applications){
-            if (application.getJobReference().equals(jobReference))
-           System.out.println(application.toString());
+
+        // Check if application is empty
+        if (!applications.iterator().hasNext()) {
+            System.out.println("No applications found.");
+        } else {
+            // Iterate over applications if it's not empty
+            for (Application application : applications) {
+                if (application.getJobReference().equals(jobReference))
+                    System.out.println(application.toString());
+            }
         }
     }
-
 }
