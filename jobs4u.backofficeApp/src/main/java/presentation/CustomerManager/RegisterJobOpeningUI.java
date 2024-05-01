@@ -63,8 +63,6 @@ public class RegisterJobOpeningUI{
             return;
         }
 
-
-
         JobOpeningDTO jobOpeningDTO = new JobOpeningDTO(title, contractType, mode, address, company, numberOfVacancies, description, requirements, state);
         boolean success = ctrl.registerJobOpening(jobOpeningDTO);
         if (success){
@@ -73,7 +71,6 @@ public class RegisterJobOpeningUI{
             System.out.println("Error registering Job Opening");
         }
     }
-
 
     private ContractType selectContractType(){
         int i = 1;
