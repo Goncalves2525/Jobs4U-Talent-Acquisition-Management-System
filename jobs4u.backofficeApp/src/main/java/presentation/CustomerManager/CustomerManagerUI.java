@@ -26,6 +26,7 @@ public class CustomerManagerUI {
         options.add("Select Interview Model");          // 4
         options.add("List Candidate Personal Data");    // 5
         options.add("Test Plugin");                     // 6
+        options.add("List Applications For Job Opening");// 7
         String message = "What do you want to do?";
         String exit = "Exit";
 
@@ -58,6 +59,10 @@ public class CustomerManagerUI {
                 case 6:
                     TestPluginUI testPluginUI = new TestPluginUI();
                     testPluginUI.doShow(authzUI);
+                    break;
+                case 7:
+                    ListApplicationsUI listApplicationsUI = new ListApplicationsUI();
+                    listApplicationsUI.doShow(authzUI);
                     break;
                 default:
                     ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);

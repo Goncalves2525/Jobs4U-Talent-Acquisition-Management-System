@@ -1,0 +1,26 @@
+@startuml
+
+package Presentation {
+    class ListApplicationsUI
+}
+
+package Application {
+    class ListApplicationsController
+}
+
+package Persistence {
+    interface ApplicationRepository
+    class JpaApplicationRepository
+}
+
+package Domain {
+    class Application
+}
+
+Presentation.ListApplicationsUI --> Application.ListApplicationsController
+Application.ListApplicationsController -> Domain.Application
+Persistence.ApplicationRepository <|-- Persistence.JpaApplicationRepository
+Application.ListApplicationsController ---> Persistence.ApplicationRepository
+
+
+@enduml

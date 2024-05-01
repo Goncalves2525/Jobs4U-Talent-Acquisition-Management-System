@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title US 1005 - System Sequence Diagram
+
+autonumber
+
+actor "Customer Manager" as CM
+participant ":System" as sys
+
+activate CM
+
+    CM -> sys : asks to list all applications to a job opening
+    activate sys
+
+        sys --> CM : shows a list of the job openings
+    deactivate sys
+
+    CM -> sys : selects a job opening
+    activate sys
+
+        sys --> CM : shows the list of applications to the selected job opening
+    deactivate sys
+
+@enduml

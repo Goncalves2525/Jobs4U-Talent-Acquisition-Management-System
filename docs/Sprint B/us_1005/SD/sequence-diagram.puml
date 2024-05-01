@@ -1,0 +1,39 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "CustomerManager" as CM
+participant "ListApplicationsUI" as UI
+participant "ListApplicationsController" as CTRL
+participant "ApplicationRepository" as APPREPO
+
+
+
+
+
+
+activate CM
+        CM -> UI : list applications for job opening
+        activate UI
+            UI --> CM : requests job opening identification
+            CM -> UI : inserts job opening identification
+            UI -> CTRL : listApplicationsByJobOpening()
+            activate CTRL
+                CTRL -> APPREPO : listApplicationsByJobOpening()
+                activate APPREPO
+                    APPREPO --> CTRL : return list of applications
+                deactivate APPREPO
+                CTRL --> UI : return list of applications
+            deactivate CTRL
+            UI --> CM : shows list of applications
+        deactivate UI
+deactivate CM
+
+
+
+
+@enduml
