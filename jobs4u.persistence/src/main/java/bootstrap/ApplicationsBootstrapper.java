@@ -56,6 +56,16 @@ public class ApplicationsBootstrapper {
         Optional<String> cand4pwd = candidateController.registerCandidate(cand4);
         System.out.println("Candidate : " + cand4.getEmail() + " | Password: " + cand4pwd.get());
 
+        String cand5email = "zulmira@mail.pt";
+        CandidateDTO cand5 = new CandidateDTO("Zulmira", cand5email, "999");
+        Optional<String> cand5pwd = candidateController.registerCandidate(cand5);
+        System.out.println("Candidate : " + cand5.getEmail() + " | Password: " + cand5pwd.get());
+
+        String cand6email = "marante@mail.pt";
+        CandidateDTO cand6 = new CandidateDTO("Marante", cand6email, "777");
+        Optional<String> cand6pwd = candidateController.registerCandidate(cand6);
+        System.out.println("Candidate : " + cand6.getEmail() + " | Password: " + cand6pwd.get());
+
         // create application
         ApplicationDTO dto1 = new ApplicationDTO(jo1.jobReference(), candidateController.findCandidateByEmail(cand1email).get(), jo1, "comment", new Date(), null, ApplicationStatus.SUBMITTED, "", "");
         ctrl.registerApplication(dto1);
