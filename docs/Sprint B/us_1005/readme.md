@@ -12,62 +12,76 @@
 
 **Acceptance Criteria:**
 
-- 1005.1. 
-
-
+- 1005.1. Each application must have the candidate identification and the state of his application.
 
 **Dependencies/References:**
 
-*Regarding this requirement we understand that it relates to...*
+*Regarding this requirement we understand that it relates to:*
+
+> 1002-  As Customer Manager, I want to register a job opening
+> 
+> 2002 - As Operator, I want to register an application of a candidate for a job opening and import all files received.
 
 ## 3. Analysis
 
-*In this section, the team should report the study/analysis/comparison that was done in order to take the best design decisions for the requirement. This section should also include supporting diagrams/artifacts (such as domain model; use case diagrams, etc.),*
+**Questions/Answers:**
+
+>"Q63:  Relativamente aos critérios para a listagem das candidaturas: Devem aparecer candidaturas que estão a decorrer ou podem aparecer candidaturas feitas no passado? 
+Podem aparecer quaisquer candidaturas ou apenas as que tenham sido aceites? Que informação deverá ser mostrada em cada candidatura?"
+> 
+>"A63. Tal como refere a descrição da US, devem ser listadas todas as candidaturas para um job opening. Faz sentido mostrar todas as candidaturas,
+independentemente do seu estado. Assim, para cada cada candidatura deve ser identificado o candidato e o estado da sua candidatura."
+> 
+> "Q129 Pinto – US1005- O customer manager vai receber a lista de todas as job Openings e selecionará uma, feito isto deve aparecer 
+as job applications correspondentes. Que informações das job applications tem que ser mostradas ao listar?"
+> 
+> "A129. As candidaturas são de um candidato (pessoa), pelo acho que deve aparecer a identificação da candidatura (application), assim como 
+a identificação do candidato e o seu nome."
+
+### 3.1. System Sequence Diagram
+
+![System Sequence Diagram - US1005](SSD/system_sequence_diagram_1005.svg)
 
 ## 4. Design
 
-*In this sections, the team should present the solution design that was adopted to solve the requirement. This should include, at least, a diagram of the realization of the functionality (e.g., sequence diagram), a class diagram (presenting the classes that support the functionality), the identification and rational behind the applied design patterns and the specification of the main tests used to validade the functionality.*
-
 ### 4.1. Realization
+
+| Interaction ID                                                            | Question: Which class is responsible for... | Answer                | Justification (with patterns) |
+|:--------------------------------------------------------------------------|:--------------------------------------------|:----------------------|:------------------------------|
+| Step 1 : Customer Manager requests to list applications for a job opening | ... requesting Info?                        | ListApplicationsUI    | Pure Fabrication              |
+| Step 2 : System builds list of applications                               | ... requesting list to be built?            | ListApplicationsUI    | Pure Fabrication              |
+|                                                                           | ... coordinating list capture?              | ApplicationController | Controller                    |
+|                                                                           | ... building the applications list?         | ApplicationRepository | Information Expert            |
+| Step 3 : System presents the list of applications                         | ... show result?                            | ListApplicationUI     | Pure Fabrication              |
+
 
 ### 4.2. Class Diagram
 
-![a class diagram](class-diagram-01.svg "A Class Diagram")
+![Class diagram](CD\class-diagram-01.svg "Class Diagram")
 
-### 4.3. Applied Patterns
+### 4.3. Sequence Diagram
+
+![Sequence Diagram](SD\sequence-diagram.svg "Sequence Diagram")
 
 ### 4.4. Tests
 
-Include here the main tests used to validate the functionality. Focus on how they relate to the acceptance criteria.
+**Test 1:** *Verifies that the job opening ID exists*
 
-**Test 1:** *Verifies that it is not possible to ...*
-
-**Refers to Acceptance Criteria:** G002.1
-
-
-```
-@Test(expected = IllegalArgumentException.class)
-public void ensureXxxxYyyy() {
-	...
+```java
+@Test
+void ensureJobReferenceNotNull() {
+    assert (application.getJobReference() != null);
 }
 ````
 
 ## 5. Implementation
 
-*In this section the team should present, if necessary, some evidencies that the implementation is according to the design. It should also describe and explain other important artifacts necessary to fully understand the implementation like, for instance, configuration files.*
-
-*It is also a best practice to include a listing (with a brief summary) of the major commits regarding this requirement.*
+>
 
 ## 6. Integration/Demonstration
 
-*In this section the team should describe the efforts realized in order to integrate this functionality with the other parts/components of the system*
-
-*It is also important to explain any scripts or instructions required to execute an demonstrate this functionality*
+>
 
 ## 7. Observations
 
-*This section should be used to include any content that does not fit any of the previous sections.*
-
-*The team should present here, for instance, a critical prespective on the developed work including the analysis of alternative solutioons or related works*
-
-*The team should include in this section statements/references regarding third party works that were used in the development this work.*
+>
