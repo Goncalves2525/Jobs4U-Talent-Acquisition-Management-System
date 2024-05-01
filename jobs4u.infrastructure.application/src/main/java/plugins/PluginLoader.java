@@ -19,7 +19,8 @@ public class PluginLoader {
                         Class<?> pluginClass = classLoader.loadClass("lapr4.Main");
                         Object pluginInstance = pluginClass.newInstance();
                         String jarName = file.getName();
-                        Plugin plugin = new Plugin(pluginInstance, jarName);
+                        String jarPath = file.getPath();
+                        Plugin plugin = new Plugin(pluginInstance, jarName, jarPath);
                         plugins.add(plugin);
                     } catch (Exception e) {
                         e.printStackTrace();

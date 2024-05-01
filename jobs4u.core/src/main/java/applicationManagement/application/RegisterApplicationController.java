@@ -13,7 +13,7 @@ public class RegisterApplicationController {
 
 
     public boolean registerApplication(ApplicationDTO dto) {
-        Application application = new Application(dto.jobReference(),dto.candidate(),dto.jobOpening(), dto.status(),dto.applicationDate(),dto.comment(),dto.interviewModel());
+        Application application = new Application(dto.jobReference(),dto.candidate(),dto.jobOpening(), dto.status(),dto.applicationDate(),dto.comment(),dto.interviewModel(),dto.filePath(),dto.applicationFilesPath());
         application = repo.save(application);
         return application != null;
     }

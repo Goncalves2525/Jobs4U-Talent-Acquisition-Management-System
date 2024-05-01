@@ -3,6 +3,7 @@ package applicationManagement.domain;
 import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;
 import jobOpeningManagement.domain.JobOpening;
+import lombok.Cleanup;
 import lombok.Getter;
 import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 
@@ -10,6 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Getter
 @Entity
@@ -37,7 +39,8 @@ public class Application implements AggregateRoot<String> {
     private LocalDate date;
 
     @Column(columnDefinition = "VARBINARY")
-    private Object InterviewModel = null; //"" by omission
+    //private Object InterviewModel = null; //"" by omission
+    private Serializable InterviewModel = null; //"" by omission
 
     @Column
     private String comment;
@@ -45,20 +48,29 @@ public class Application implements AggregateRoot<String> {
     @Column
     private Date applicationDate;
 
+    @Column
+    private String filePath;
+
+    @Column
+    private String applicationFilesPath;
+
+
     protected Application() {
         // for ORM
     }
 
     public Application(String jobReference, Candidate candidate, JobOpening jobOpening, ApplicationStatus status, Date applicationDate, String comment
-    , Object interviewModel) {
+    , Object interviewModel, String filePath, String applicationFilesPath) {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
         this.status = status;
         this.applicationDate = applicationDate;
         this.comment = comment;
-        this.InterviewModel = interviewModel;
+        this.InterviewModel = (Serializable) interviewModel;
         this.date = LocalDate.now();
+        this.filePath = filePath;
+        this.applicationFilesPath = applicationFilesPath;
     }
 
     public String jobReference() {
@@ -89,16 +101,26 @@ public class Application implements AggregateRoot<String> {
         return InterviewModel;
     }
 
+    public String filePath() {
+        return filePath;
+    }
+
+    public String applicationFilesPath() {
+        return applicationFilesPath;
+    }
+
     @Override
     public String toString() {
         return "Application{" +
-                "jobReference='" + jobReference + '\'' +
-                ", candidate=" + candidate +
-                ", jobOpening=" + jobOpening +
-                ", status=" + status +
-                ", InterviewModel=" + InterviewModel +
-                ", comment='" + comment + '\'' +
-                ", applicationDate=" + applicationDate +
+                "Job Reference='" + jobReference + '\'' +
+                ", Candidate =" + candidate +
+                ", Job Opening=" + jobOpening +
+                ", Status=" + status +
+                //", InterviewModel=" + InterviewModel +
+                ", Commend='" + comment + '\'' +
+                ", Application Date=" + applicationDate +
+                ", Interview Model Path='" + filePath + '\'' +
+                ", Application Files Path='" + applicationFilesPath + '\'' +
                 '}';
     }
 
@@ -106,9 +128,21 @@ public class Application implements AggregateRoot<String> {
         return InterviewModel != null;
     }
 
+    public boolean checkIfApplicationHasFilePath() {
+        return !Objects.equals(filePath, "");
+    }
+
     public boolean associateInterviewModelToApplication(Object interviewModel){
         if(!checkIfApplicationHasInterviewModel()){
-            this.InterviewModel = interviewModel;
+            this.InterviewModel = (Serializable) interviewModel;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean associateInterviewModelPathToApplication(String interviewModelPath){
+        if(!checkIfApplicationHasInterviewModel()){
+            this.filePath = interviewModelPath;
             return true;
         }
         return false;

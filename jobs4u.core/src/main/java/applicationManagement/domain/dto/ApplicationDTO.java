@@ -16,9 +16,12 @@ public class ApplicationDTO {
     private Date applicationDate;
     private Serializable InterviewModel;
     private ApplicationStatus status;
+    private String filePath;
+    private String applicationFilesPath;
 
 
-    public ApplicationDTO(String jobReference , Candidate candidate, JobOpening jobOpening, String comment, Date applicationDate, Serializable interviewModel, ApplicationStatus status) {
+    public ApplicationDTO(String jobReference , Candidate candidate, JobOpening jobOpening, String comment, Date applicationDate, Serializable interviewModel, ApplicationStatus status
+    , String filePath, String applicationFilesPath) {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
@@ -26,6 +29,8 @@ public class ApplicationDTO {
         this.applicationDate = applicationDate;
         this.InterviewModel = interviewModel;
         this.status = status;
+        this.filePath = filePath;
+        this.applicationFilesPath = applicationFilesPath;
     }
 
 
@@ -57,6 +62,14 @@ public class ApplicationDTO {
 
     public ApplicationStatus status() {
         return status;
+    }
+
+    public String filePath() {
+        return filePath;
+    }
+
+    public String applicationFilesPath() {
+        return applicationFilesPath;
     }
 
     public Long id() {

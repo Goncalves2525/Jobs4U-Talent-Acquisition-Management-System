@@ -38,7 +38,8 @@ public class SelectInterviewModelUI {
         }
         List<Plugin> interviewModels = ctrl.getAllInterviewModels();
         int choice = selectInterviewModel(interviewModels);
-        success = ctrl.associateInterviewModelToApplication(application, interviewModels.get(choice));
+        //success = ctrl.associateInterviewModelToApplication(application, interviewModels.get(choice));
+        success = ctrl.associateInterviewModelPathToApplication(application, interviewModels.get(choice).getPath());
         if (success) {
             System.out.println("Interview Model associated to Application");
         } else {

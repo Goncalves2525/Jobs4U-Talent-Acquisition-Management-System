@@ -8,12 +8,16 @@ import applicationManagement.domain.dto.ApplicationDTO;
 import console.ConsoleUtils;
 import eapli.framework.presentation.console.AbstractUI;
 import applicationManagement.application.CandidateController;
+import infrastructure.authz.AuthzUI;
 import jobOpeningManagement.application.ListJobOpeningsController;
 import applicationManagement.application.RegisterApplicationController;
 import jobOpeningManagement.domain.*;
 import plugins.Plugin;
 import presentation.CustomerManager.SelectInterviewModelUI;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -29,12 +33,6 @@ public class RegisterApplicationUI extends AbstractUI{
     @Override
     protected boolean doShow() {
         Candidate selectedCandidate = selectCandidate();
-//        //adicionar opção para criar candidate, se um não existir
-//        if(selectedCandidate == null){
-//            System.out.println("Candidate not found in the system; creating a new one");
-//            CreateCandidateUI createCandidateUI = new CreateCandidateUI();
-//            createCandidateUI.show();
-//        }
 
         JobOpening jobOpening = selectJobOpening();
         if(jobOpening == null){
@@ -44,16 +42,30 @@ public class RegisterApplicationUI extends AbstractUI{
         String jobReference = jobOpening.jobReference();
         ApplicationStatus status = ApplicationStatus.SUBMITTED;
         String comment = ConsoleUtils.readLineFromConsole("Comment: ");
-        ApplicationDTO applicationDTO = new ApplicationDTO(jobReference, selectedCandidate, jobOpening, comment, new Date(),null, status);
-        boolean success = ctrl.registerApplication(applicationDTO);
-        List<Plugin> interviewModel = ctrlSelectInterviewModel.getAllInterviewModels();
-        int choice = selectInterviewModel(interviewModel);
-        Object selectedInterviewModel = interviewModel.get(choice);
-        Application Application = ctrl.findApplicationById(String.valueOf(applicationDTO.id()));
-        ctrlSelectInterviewModel.associateInterviewModelToApplication(Application, selectedInterviewModel);
 
-        //get files in filebot/output
-        
+        String filePathString = "scomp/output/" + jobReference + "/" + selectedCandidate.email();
+        String folderPath = "";
+        Path path = Paths.get(filePathString);
+
+        if (Files.exists(path)) {
+            folderPath = "scomp/output/" + jobReference + "/" + selectedCandidate.email();
+        }
+
+        ApplicationDTO applicationDTO = new ApplicationDTO(jobReference, selectedCandidate, jobOpening, comment, new Date(),null, status,"", folderPath);
+        boolean success = ctrl.registerApplication(applicationDTO);
+
+        System.out.println("Deseja associar um interview model a esta candidatura?");
+        boolean associateInterviewModel = ConsoleUtils.confirm("Associar Interview Model? (Y/N)");
+        if(associateInterviewModel){
+            AuthzUI authzUI = new AuthzUI();
+            SelectInterviewModelUI selectInterviewModelUI = new SelectInterviewModelUI();
+            selectInterviewModelUI.doShow(authzUI);
+        }
+//        List<Plugin> interviewModel = ctrlSelectInterviewModel.getAllInterviewModels();
+//        int choice = selectInterviewModel(interviewModel);
+//        Object selectedInterviewModel = interviewModel.get(choice);
+//        Application Application = ctrl.findApplicationById(String.valueOf(applicationDTO.id()));
+//        ctrlSelectInterviewModel.associateInterviewModelToApplication(Application, selectedInterviewModel);
 
         if (success){
             System.out.println("Application registered successfully");
