@@ -35,7 +35,7 @@ public class ListApplicationsUI {
         } else {
             // Iterate over jobOpenings if it's not empty
             for (JobOpening jobOpening : jobOpenings) {
-                System.out.println(jobOpening.toString());
+                System.out.println("Job Opening: " + jobOpening.getId() + " | Job reference: " + jobOpening.getJobReference() + " | Title: " + jobOpening.getTitle() + " | Description: " + jobOpening.getDescription() + " | State: " + jobOpening.getState() );
             }
 
             String jobReference = ConsoleUtils.readLineFromConsole("Insert the Job Reference:");
@@ -50,7 +50,7 @@ public class ListApplicationsUI {
                 // Iterate over applications if it's not empty
                 for (Application application : applications) {
                     if (application.getJobReference().equals(jobReference))
-                        System.out.println(application.toString());
+                        System.out.println("Application ID: " + application.getId() + " | Candidate Name: " + application.getCandidate() + " | Application Status: " + application.getStatus());
                 }
             }
         }
