@@ -37,21 +37,21 @@ public class ListApplicationsUI {
             for (JobOpening jobOpening : jobOpenings) {
                 System.out.println(jobOpening.toString());
             }
-        }
 
-        String jobReference = ConsoleUtils.readLineFromConsole("Insert the Job Reference:");
+            String jobReference = ConsoleUtils.readLineFromConsole("Insert the Job Reference:");
 
-        System.out.println("Applications for the Job Reference inserted:");
-        Iterable<Application> applications = ctrl.listApplications();
+            System.out.println("Applications for the Job Reference inserted:");
+            Iterable<Application> applications = ctrl.listApplications();
 
-        // Check if application is empty
-        if (!applications.iterator().hasNext()) {
-            System.out.println("No applications found.");
-        } else {
-            // Iterate over applications if it's not empty
-            for (Application application : applications) {
-                if (application.getJobReference().equals(jobReference))
-                    System.out.println(application.toString());
+            // Check if application is empty
+            if (!applications.iterator().hasNext()) {
+                System.out.println("No applications found.");
+            } else {
+                // Iterate over applications if it's not empty
+                for (Application application : applications) {
+                    if (application.getJobReference().equals(jobReference))
+                        System.out.println(application.toString());
+                }
             }
         }
     }
