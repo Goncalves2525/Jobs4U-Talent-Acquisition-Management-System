@@ -159,6 +159,8 @@ int extractArguments(const char* configFile, arglocal* arg) {
                 arg->timeInterval = atoi(token);
 			}
         }
+        // Fechar o ficheiro
+		fclose(file);
     }
     return 0;
 }
