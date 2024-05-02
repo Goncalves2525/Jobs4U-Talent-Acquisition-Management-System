@@ -54,7 +54,7 @@ public class TestPluginUI{
         if (choice >= 0 && choice < pluginInfo.size()) {
             String selectedPluginInfo = pluginInfo.get(choice);
             try {
-                Object plugin = plugins.get(choice);
+                Object plugin = plugins.get(choice).getPluginInstance();
                 Method exportMethod = plugin.getClass().getMethod("exportFile", String.class);
                 exportMethod.invoke(plugin, "plugins/interview/txt/testInterview.txt");
 

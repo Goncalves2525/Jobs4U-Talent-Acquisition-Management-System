@@ -38,8 +38,8 @@ public class SelectInterviewModelUI {
         }
         List<Plugin> interviewModels = ctrl.getAllInterviewModels();
         int choice = selectInterviewModel(interviewModels);
-        //success = ctrl.associateInterviewModelToApplication(application, interviewModels.get(choice));
-        success = ctrl.associateInterviewModelPathToApplication(application, interviewModels.get(choice).getPath());
+        success = ctrl.associateInterviewModelToApplication(application, interviewModels.get(choice).getPluginInstance());
+        //success = ctrl.associateInterviewModelPathToApplication(application, interviewModels.get(choice).getPath());
         if (success) {
             System.out.println("Interview Model associated to Application");
         } else {
@@ -51,7 +51,7 @@ public class SelectInterviewModelUI {
     private int selectInterviewModel(List<Plugin> interviewModels) {
         int i = 0;
         System.out.println("== INTERVIEW MODELS ==");
-        for (Object interviewModel : interviewModels) {
+        for (Plugin interviewModel : interviewModels) {
             System.out.println(i + ". " + interviewModel.toString());
             i++;
         }
