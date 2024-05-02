@@ -107,7 +107,7 @@ int extractArguments(const char* configFile, arglocal* arg) {
     FILE *file = fopen(configFile, "r"); // abrir ficheiro
     if (file == NULL) { // testar erro ao abrir ficheiro
         perror("Error opening file");
-        fclose(file);
+        //fclose(file);
         return -1;
     }
 

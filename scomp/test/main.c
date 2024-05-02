@@ -138,10 +138,10 @@ void test_extractArguments() {
     fprintf(file, "#time-interval: 10\r\n");
     fclose(file);
 
-    // Chama a função 
+    // Chama a função para o ficheiro
     arglocal arg;
     int result = extractArguments("test_config.txt", &arg);
-
+		
     // Verificar os resultados
     TEST_ASSERT_EQUAL_INT(0, result);
     TEST_ASSERT_EQUAL_STRING("input", arg.inputPath);
@@ -149,9 +149,13 @@ void test_extractArguments() {
     TEST_ASSERT_EQUAL_STRING("report", arg.reportPath);
     TEST_ASSERT_EQUAL_INT(4, arg.nWorkers);
     TEST_ASSERT_EQUAL_INT(10, arg.timeInterval);
-
+	
+	
     // Apagar ficheiro 
     system("rm test_config.txt");
+    //Testar com ficheiro inexistente
+    result = extractArguments("test_config.txt", &arg);
+    TEST_ASSERT_EQUAL_INT(-1, result);
 }
 
 void test_validateAllArgumentsAvailable() {
