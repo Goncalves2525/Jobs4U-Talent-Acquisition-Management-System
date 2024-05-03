@@ -361,7 +361,7 @@ int getApplicationDetails(char* currentPrefix, char* jobReference, char* jobAppl
  *			-1 erro.
  */
 int createDirectory(char* newDirectoryPath) {
-	/ Cria um processo filho para executar a criação do diretório
+	// Cria um processo filho para executar a criação do diretório
     returnValues result = cria_filhos(1);
 
     // Lança erro de criação de filho
