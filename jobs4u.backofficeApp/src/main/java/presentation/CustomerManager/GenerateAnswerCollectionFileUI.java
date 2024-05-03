@@ -1,6 +1,7 @@
 package presentation.CustomerManager;
 
 import appUserManagement.domain.Role;
+import applicationManagement.application.GenerateAnswerCollectionFileController;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
 import plugins.Plugin;
@@ -16,6 +17,7 @@ public class GenerateAnswerCollectionFileUI{
 
     private final PluginLoader pluginLoader = new PluginLoader();
     static Role csutomerManagerRole;
+    GenerateAnswerCollectionFileController generateAnswerCollectionFileController = new GenerateAnswerCollectionFileController();
 
     protected boolean doShow(AuthzUI authzUI){
         ConsoleUtils.buildUiHeader("Generate a text file to collect the answers of an interview");
@@ -26,8 +28,7 @@ public class GenerateAnswerCollectionFileUI{
             ConsoleUtils.showMessageColor("You don't have permissions for this action.", AnsiColor.RED);
         }
 
-        String pluginsDirectory = "plugins/answerCollection/jar";
-        List<Plugin> plugins = pluginLoader.loadPlugins(pluginsDirectory);
+        List<Plugin> plugins = generateAnswerCollectionFileController.loadPlugins();
         List<String> pluginInfo = new ArrayList<>();
         List<String> pluginNames = new ArrayList<>();
 
@@ -56,11 +57,8 @@ public class GenerateAnswerCollectionFileUI{
 
         // Validate the user's choice
         if (choice >= 0 && choice < pluginInfo.size()) {
-            String selectedPluginInfo = pluginInfo.get(choice);
             try {
-                Object plugin = plugins.get(choice).getPluginInstance();
-                Method exportMethod = plugin.getClass().getMethod("exportTemplateFile", String.class);
-                exportMethod.invoke(plugin, "plugins/answerCollection/txt/answerSheet.txt");
+                generateAnswerCollectionFileController.generateAnswerCollectionFile(choice);
             } catch (Exception e) {
                 e.printStackTrace();
             }
