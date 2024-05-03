@@ -25,8 +25,7 @@
 
 ## Um diagrama que explique os diversos componentes usados e as suas interacções
 
-(TODO)
-![diagrama](diagrama.svg)
+![diagrama](diagram.png)
 
 ## Outros aspetos que entendam ser importante referir
 
