@@ -14,9 +14,16 @@
 | 4 – Correct |	The engineering process is correct. Code and design are completely aligned. Failures in the application of good practices and techniques are almost meaningless. |
 | 5 - Exceptional |	The engineering process is correct (order of activities). Code and design are completely aligned. Very good justification of the process followed/applied. Application of good practices and techniques is exemplary. |
 
-**Selected Level:** 
+**Selected Level:** 5
 
 **Justification and Evidences:** 
+
+In the documentation of my US's, I always:
+- Identify Requirements based on the clients answers
+- Make the necessary changes to the Domain Model
+- Explain why I chose to create every new class
+- Implement the US following the US Sequence Diagram
+- Implement the US using good practices
 
 ## Issues and Version Control
 
@@ -31,9 +38,9 @@
 
 **Selected Level:** 5
 
-**Justification and Evidences:** I always connected the commits to the issues using the issue number in the commit message. [Commits](https://github.com/Departamento-de-Engenharia-Informatica/sem4pi-23-24-2nb1/commits/main/)
+**Justification and Evidences:** 
 
-Example: 
+I always connected the commits to the issues using the issue number in the commit message. [Commits](https://github.com/Departamento-de-Engenharia-Informatica/sem4pi-23-24-2nb1/commits/main/)
 
 ## Team Work
 
@@ -46,11 +53,15 @@ Example:
 | 4 – Correct	| There is evidence of a team decision-making process in which students actively participate and which results in the assignment of tasks in a clear and timely manner. |
 | 5 - Exceptional |	There is evidence of a team decision-making process in which students actively participate and which results in the assignment of tasks in a clear and timely manner. There is evidence of group tasks such as integration and deployment activities. |
 
-**Selected Level:** 
+**Selected Level:** 5
 
 **Justification and Evidences:** 
 
-Example: 
+- I particpated in the configuration of H2 database and assigining JPA annotations to the classes.
+- In order to complete US2001 (SCOMP) we had to arrange several meetings to discuss how the work of each element of the group whould connect with each other.
+- I helped integrate the plugin interface with our project. (US1008)
+- I helped debug many issues that other elements of the group had with their code.
+- I reviewd all of Rafael Carolo's code and gave him feedback on how to improve it.
 
 ## Deployment
 
@@ -63,7 +74,7 @@ Example:
 | 4 – Correct	| The system runs outside the IDE, distributed across two or more local virtual environments (machines or containers). The group was able to demonstrate the system without any execution failures during the demonstration. The correct version was used. |
 | 5 - Exceptional |	The system runs outside the IDE, distributed across two or more remote virtual environments (machines or containers) (e.g. in the cloud). The group was able to demonstrate the system without any execution failures during the demonstration. The correct version was used. |
 
-**Selected Level:** 
+**Selected Level:** 5
 
 **Justification and Evidences:** 
 
@@ -78,7 +89,7 @@ Example:
 | 4 – Correct	| There is integration between most components/functionalities without any type of incoherence and/or unnecessary coupling. |
 | 5 - Exceptional	| The previous item is true and this integration is perfectly documented. |
 
-**Selected Level:** 
+**Selected Level:** 4
 
 **Justification and Evidences:** 
 
@@ -93,7 +104,8 @@ Example:
 | 4 – Correct	| All requirements have been met in full, and any options related to the interpretation/analysis of the problem are correctly justified and are evidence of your understanding of the problem domain. Very complete definition of acceptance criteria. Most criteria are reflected in tests. |
 | 5 - Exceptional	| The above is true and alternatives are also discussed that are supported by a rich understanding of the problem domain. These alternatives may be related to the problem domain or the high-level architecture of the solution. Exemplary acceptance criteria and excellent connection to testing. |
 
-**Selected Level:** 
+**Selected Level:** 5
 
 **Justification and Evidences:** 
 
+Already justified in the Engineering Process section.
