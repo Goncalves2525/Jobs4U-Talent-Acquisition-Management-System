@@ -17,7 +17,8 @@ public class ListCandidatesUI extends AbstractUI{
 
     @Override
     protected boolean doShow() {
-        Iterable<Candidate> candidates = ctrlCandidate.allCandidates();
+        Iterable<Candidate> candidates = ctrlCandidate.allCandidatesSortedByName();
+
         System.out.println("== CANDIDATES ==");
         if(candidates == null){
             System.out.println("No candidates present in the system!");
