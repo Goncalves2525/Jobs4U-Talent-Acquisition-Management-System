@@ -506,8 +506,8 @@ void monitor_files(char* inputPath, int timeInterval) {
         closedir(dir); // Fechar o diretório
         // Verificar se o número de ficheiros alterou
         if (num_files > previous_num_files) {
-            // Se encontrar novos ficheiros enviar um sinal para o processo pai
-            printf("FILHO: enviei sinal para o pai\n");
+            // Se encontrar novos ficheiros envia um sinal para o processo pai
+            // printf("FILHO: enviei sinal para o pai\n");
             kill(getppid(), SIGUSR1);
         }
         // Atualiza o estado anterior
@@ -570,7 +570,7 @@ int updateSessionFile(char* sessionFile, childReport* report) {
         return -1;
     }
     
-    printf("vou escrever no %s a frase:\n%s\n", sessionFile, newReportLine); // TODO: apagar depois dos testes
+    //printf("vou escrever no %s a frase:\n%s\n", sessionFile, newReportLine);
     fprintf(file, "%s", newReportLine);
 
     fclose(file);

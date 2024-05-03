@@ -187,11 +187,11 @@ void test_validateAllArgumentsAvailable() {
 
 void test_getApplicationDetails() {
     // Copia um ficheiro para o diretorio");
-    //system("cp ./4-candidate-data.txt ../test-candidate-data.txt" );
+    //system("cp ./4-candidate-data.txt ../99-candidate-data.txt" );
     //Cria o diretorio
     system("mkdir input");
     //Cria o ficheiro candidate-data
-    FILE *file = fopen("./input/test-candidate-data.txt", "w");
+    FILE *file = fopen("./input/99-candidate-data.txt", "w");
     fprintf(file, "Isep2024\n");
     fprintf(file, "aluno.scomp@isep.ipp.pt\n");
     fprintf(file, "aluno doe\n");
@@ -203,7 +203,7 @@ void test_getApplicationDetails() {
     char jobApplicant[250] = "";
 
     // Chama a função 
-    int result = getApplicationDetails("test", jobReference, jobApplicant);
+    int result = getApplicationDetails("99", jobReference, jobApplicant);
 
     // Verificar resultados
     TEST_ASSERT_EQUAL_INT(0, result);
@@ -211,7 +211,7 @@ void test_getApplicationDetails() {
     TEST_ASSERT_EQUAL_STRING("aluno.scomp@isep.ipp.pt", jobApplicant);
 
     // Eliminar o diretorio
-    system("rm -rf ./input/test-candidate-data.txt");
+    system("rm -rf ./input/99-candidate-data.txt");
 }
 void test_createDirectory() {
     // diretorio a criar
