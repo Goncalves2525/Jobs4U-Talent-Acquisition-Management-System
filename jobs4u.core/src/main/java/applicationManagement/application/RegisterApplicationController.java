@@ -5,9 +5,6 @@ import applicationManagement.domain.Application;
 import applicationManagement.domain.dto.ApplicationDTO;
 import applicationManagement.repositories.ApplicationRepository;
 
-import java.util.Date;
-
-
 public class RegisterApplicationController {
     private ApplicationRepository repo = PersistenceContext.repositories().applications();
 

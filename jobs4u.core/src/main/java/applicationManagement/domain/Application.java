@@ -191,4 +191,8 @@ public class Application implements AggregateRoot<String>, Serializable {
         }
         return false;
     }
+
+    public void changeStatus(ApplicationStatus status) {
+        this.status = status;
+    }
 }

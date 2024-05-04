@@ -10,18 +10,21 @@ package Domain {
 
 package Persistence {
     class JpaApplicationRepository
-    class JpaCandidateRepository
     interface ApplicationRepository
-    interface CandidateRepository
 }
 
 package Application {
     class RegisterApplicationController
-    class ListCandidatesService
+    class CandidateController
+    class ListJobOpeningsController
 }
 
-
-'TODO
-
+Presentation.RegisterApplicationUI --> Application.RegisterApplicationController
+Application.RegisterApplicationController --> Persistence.ApplicationRepository
+Persistence.ApplicationRepository <|-- Persistence.JpaApplicationRepository
+Application.RegisterApplicationController ---> Domain.Application
+Application.RegisterApplicationController ---> Domain.ApplicationDTO
+Application.RegisterApplicationController ---> Application.CandidateController
+Application.RegisterApplicationController ---> Application.ListJobOpeningsController
 
 @enduml

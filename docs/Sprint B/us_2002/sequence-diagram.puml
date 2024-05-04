@@ -1,25 +1,42 @@
 @startuml
-skinparam monochrome true
-skinparam packageStyle rectangle
-skinparam shadowing false
 
-autonumber
+actor Operator
+participant RegisterApplicationUI
+participant RegisterApplicationController
+database ApplicationRepository
+participant CandidateController
+participant ListJobOpeningsController
 
-'hide footbox
-actor "OPERATOR" as OP
-participant "RegisterApplicationUI" as UI
-participant "RegisterApplicationController" as CTRL
-participant "ListCandidatesService" as LISVC
-participant "CandidatesRepository" as CREPO
-participant "Application" as APP
+activate Operator
+Operator -> RegisterApplicationUI: Start Application Registration
+activate RegisterApplicationUI
 
+RegisterApplicationUI -> CandidateController: Retrieve Candidate List
+activate CandidateController
+CandidateController -> ApplicationRepository: Get all candidates
+activate ApplicationRepository
+ApplicationRepository --> CandidateController: Candidate List
+deactivate ApplicationRepository
+CandidateController --> RegisterApplicationUI: Candidates
 
+RegisterApplicationUI -> ListJobOpeningsController: Retrieve Job Openings
+activate ListJobOpeningsController
+ListJobOpeningsController -> ApplicationRepository: Get all job openings
+activate ApplicationRepository
+ApplicationRepository --> ListJobOpeningsController: Job Openings
+deactivate ApplicationRepository
+ListJobOpeningsController --> RegisterApplicationUI: Job Openings
 
+RegisterApplicationUI -> RegisterApplicationController: Register Application
+activate RegisterApplicationController
+RegisterApplicationController -> ApplicationRepository: Save Application
+activate ApplicationRepository
+ApplicationRepository --> RegisterApplicationController: Application saved
+deactivate ApplicationRepository
+RegisterApplicationController --> RegisterApplicationUI: Success/Failure
 
-
-
-
-
-
+RegisterApplicationUI --> Operator: Application registered successfully/Error registering Job Opening
+deactivate RegisterApplicationUI
+deactivate Operator
 
 @enduml

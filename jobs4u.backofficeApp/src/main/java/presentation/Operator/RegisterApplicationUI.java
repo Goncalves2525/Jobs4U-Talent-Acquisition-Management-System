@@ -1,7 +1,5 @@
 package presentation.Operator;
 
-import applicationManagement.application.SelectInterviewModelController;
-import applicationManagement.domain.Application;
 import applicationManagement.domain.ApplicationStatus;
 import applicationManagement.domain.Candidate;
 import applicationManagement.domain.dto.ApplicationDTO;
@@ -12,7 +10,6 @@ import infrastructure.authz.AuthzUI;
 import jobOpeningManagement.application.ListJobOpeningsController;
 import applicationManagement.application.RegisterApplicationController;
 import jobOpeningManagement.domain.*;
-import plugins.Plugin;
 import presentation.CustomerManager.SelectInterviewModelUI;
 
 import java.nio.file.Files;
@@ -20,7 +17,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 
 
 public class RegisterApplicationUI extends AbstractUI{
@@ -28,7 +24,6 @@ public class RegisterApplicationUI extends AbstractUI{
     private RegisterApplicationController ctrl = new RegisterApplicationController();
     private ListJobOpeningsController ctrlListJobOpening = new ListJobOpeningsController();
     private CandidateController ctrlCandidate = new CandidateController();
-    private SelectInterviewModelController ctrlSelectInterviewModel = new SelectInterviewModelController();
 
     @Override
     protected boolean doShow() {
@@ -61,12 +56,6 @@ public class RegisterApplicationUI extends AbstractUI{
             SelectInterviewModelUI selectInterviewModelUI = new SelectInterviewModelUI();
             selectInterviewModelUI.doShow(authzUI);
         }
-//        List<Plugin> interviewModel = ctrlSelectInterviewModel.getAllInterviewModels();
-//        int choice = selectInterviewModel(interviewModel);
-//        Object selectedInterviewModel = interviewModel.get(choice);
-//        Application Application = ctrl.findApplicationById(String.valueOf(applicationDTO.id()));
-//        ctrlSelectInterviewModel.associateInterviewModelToApplication(Application, selectedInterviewModel);
-
         if (success){
             System.out.println("Application registered successfully");
             return true;
@@ -74,20 +63,6 @@ public class RegisterApplicationUI extends AbstractUI{
             System.out.println("Error registering Job Opening");
             return false;
         }
-    }
-
-    private int selectInterviewModel(List<Plugin> interviewModels) {
-        int i = 0;
-        System.out.println("== INTERVIEW MODELS ==");
-        for (Object interviewModel : interviewModels) {
-            System.out.println(i + ". " + interviewModel.toString());
-            i++;
-        }
-        int choice;
-        do {
-            choice = ConsoleUtils.readIntegerFromConsole("Choose a model (enter the number): ");
-        } while (choice < 0 || choice >= interviewModels.size());
-        return choice;
     }
 
     private JobOpening selectJobOpening() {
@@ -133,17 +108,4 @@ public class RegisterApplicationUI extends AbstractUI{
         return "APPLICATION REGISTRATION";
     }
 
-
-
-    private void printJobOpenings(String title, ContractType contractType, JobMode mode, Address address, Customer company, int numberOfVacancies, String description, RecruitmentState state){
-        System.out.println("Title: " + title);
-        System.out.println("Contract Type: " + contractType);
-        System.out.println("Mode: " + mode);
-        System.out.println(address);
-        System.out.println("Company: " + company.getCode());
-        System.out.println("Number of Vacancies: " + numberOfVacancies);
-        System.out.println("Description: " + description);
-        System.out.println("State: " + state);
-        System.out.println();
-    }
 }
