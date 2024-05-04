@@ -21,12 +21,6 @@ public class CandidateController {
     private final ApplicationRepository applicationRepo = PersistenceContext.repositories().applications();
 
 
-//    public boolean registerApplication(ApplicationDTO dto) {
-//        Application application = new Application(dto.jobReference(),dto.candidate(),dto.jobOpening());
-//        application = repo.save(application);
-//        return application != null;
-//    }
-
     public Optional<String> registerCandidate(CandidateDTO dto) {
         if(repo.createCandidate(dto)){
             Optional<String> pwd = signUpController.signUp(new Email(dto.getEmail()), Role.CANDIDATE);
