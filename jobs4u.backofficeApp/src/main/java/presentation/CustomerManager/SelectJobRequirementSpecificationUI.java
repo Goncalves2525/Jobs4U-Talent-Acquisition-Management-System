@@ -34,21 +34,21 @@ public class SelectJobRequirementSpecificationUI {
         }
         success = ctrl.checkIfApplicationHasJobRequirementSpecification(application);
         if (success) {
-            System.out.println("Application already has Interview Model");
+            System.out.println("Application already has Job Requirement Specification");
         }
         List<Plugin> allJobRequirementSpecification = ctrl.getAllJobRequirementSpecification();
         int choice = selectJobRequirementSpecification(allJobRequirementSpecification);
         success = ctrl.associateJobRequirementSpecificationToApplication(application, allJobRequirementSpecification.get(choice).getPath());
         if (success) {
-            System.out.println("Interview Model associated to Application");
+            System.out.println("Job Requirement Specification associated to Application");
         } else {
-            System.out.println("Error associating Interview Model to Application");
+            System.out.println("Error associating Job Requirement Specification to Application");
         }
     }
 
     private int selectJobRequirementSpecification(List<Plugin> interviewModels) {
         int i = 0;
-        System.out.println("== INTERVIEW MODELS ==");
+        System.out.println("== JOB REQUIREMENT SPECIFICATIONS ==");
         for (Plugin interviewModel : interviewModels) {
             System.out.println(i + ". " + interviewModel.toString());
             i++;
