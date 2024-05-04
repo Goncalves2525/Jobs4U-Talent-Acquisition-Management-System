@@ -12,7 +12,7 @@ public class SelectJobRequirementSpecificationController {
 
     ApplicationRepository repo = PersistenceContext.repositories().applications();
     PluginLoader pluginLoader = new PluginLoader();
-    String JOBREQUIREMENTSPECIFICATION_PLUGINS_DIRECTORY = "plugins/jar";
+    String JOBREQUIREMENTSPECIFICATION_PLUGINS_DIRECTORY = "plugins/JobRequirements/jar";
 
     public Application findApplicationById(String id){
         return repo.ofIdentity(id).get();
