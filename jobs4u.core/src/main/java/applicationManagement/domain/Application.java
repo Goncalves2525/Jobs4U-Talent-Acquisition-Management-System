@@ -39,7 +39,7 @@ public class Application implements AggregateRoot<String>, Serializable {
     private LocalDate date;
 
     @Column
-    private String JobRequirementSpecification = null;
+    private String JobRequirementSpecification;
 
     @Column
     private String InterviewModel;
