@@ -12,10 +12,12 @@ public class GenerateAnswerCollectionFileController {
     private final PluginLoader pluginLoader = new PluginLoader();
     private final String pluginsDirectory = "plugins/answerCollection/jar";
 
-    public void generateAnswerCollectionFile(int choice) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public void generateAnswerCollectionFile(String pluginPath) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         try {
-            List<Plugin> plugins = loadPlugins();
-            Object plugin = plugins.get(choice).getPluginInstance();
+//            List<Plugin> plugins = loadPlugins();
+//            Object plugin = plugins.get(choice).getPluginInstance();
+
+            Plugin plugin = pluginLoader.loadPlugin(pluginPath);
             Method exportMethod = plugin.getClass().getMethod("exportTemplateFile", String.class);
             exportMethod.invoke(plugin, "plugins/answerCollection/txt/answerSheet.txt");
         } catch (Exception e) {
