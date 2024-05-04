@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title US 1005 - System Sequence Diagram
+
+autonumber
+
+actor "Operator" as OP
+participant ":System" as sys
+
+activate OP
+
+   OP -> sys : requests to register a candidate
+    activate sys
+
+        sys --> OP : requests information of the candidate (email, name, phone)
+    deactivate sys
+
+    OP -> sys : inserts info requested
+    activate sys
+
+        sys --> OP : shows info inserted and requests confirmation
+    deactivate sys
+
+    OP -> sys : confirms information
+    activate sys
+
+        sys --> OP : shows operation success
+
+@enduml
