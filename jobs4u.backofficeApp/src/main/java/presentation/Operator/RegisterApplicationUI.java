@@ -101,7 +101,7 @@ public class RegisterApplicationUI extends AbstractUI{
         }
         System.out.println("0 - To Cancel the Application Registration");
         int option = ConsoleUtils.readIntegerFromConsole("Select a Candidate: ");
-        if (i==0){
+        if (option==0){
             return null;
         }
         Iterator<Candidate> iterator = candidates.iterator();
