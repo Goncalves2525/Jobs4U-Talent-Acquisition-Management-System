@@ -83,10 +83,6 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 ### 4.4. Tests
 
-**Test 1:** **
-
-**Refers to Acceptance Criteria:**
-
 
 ```java
  @Test

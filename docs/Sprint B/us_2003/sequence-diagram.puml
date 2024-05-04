@@ -1,0 +1,51 @@
+@startuml
+
+actor Operator
+
+participant "GenerateCandidateFieldsFileUI" as UI
+participant "GenerateCandidateFieldsFileController" as Controller
+participant "PluginLoader" as Loader
+participant "Plugin" as Plugin
+participant "ApplicationRepository" as Repository
+participant "JpaApplicationRepository" as JpaRepository
+participant "Application" as Application
+
+activate Operator
+Operator -> UI: Use case trigger
+activate UI
+UI -> Repository: Request application list
+activate Repository
+Repository -> JpaRepository: Retrieve applications
+activate JpaRepository
+JpaRepository --> Repository: Return applications
+deactivate JpaRepository
+Repository --> UI: Return applications
+deactivate Repository
+UI -> Operator: Display application list
+Operator -> UI: Selects an application
+UI -> Controller: Call generateAnswerCollectionFile()
+activate Controller
+Controller -> Loader: Call loadPlugins()
+activate Loader
+Loader -> Repository: Load selected application's plugin
+activate Repository
+Repository -> JpaRepository: Retrieve plugin path
+activate JpaRepository
+JpaRepository --> Repository: Return plugin path
+deactivate JpaRepository
+Repository --> Loader: Return plugin path
+deactivate Repository
+Loader --> Controller: Return plugin path
+deactivate Loader
+Controller -> Plugin: Load plugin from path
+activate Plugin
+Plugin -> Plugin: Export candidate file
+Plugin --> Controller: File exported
+deactivate Plugin
+Controller --> UI: File generated
+deactivate Controller
+UI --> Operator: Display success message
+deactivate UI
+deactivate Operator
+
+@enduml

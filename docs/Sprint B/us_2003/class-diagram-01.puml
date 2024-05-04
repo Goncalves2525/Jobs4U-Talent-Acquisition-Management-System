@@ -1,7 +1,7 @@
 @startuml
 
 package Presentation {
-    class RegisterApplicationUI
+    class GenerateCandidateFieldsFileUI
 }
 
 package Domain {
@@ -10,18 +10,20 @@ package Domain {
 
 package Persistence {
     class JpaApplicationRepository
-    class JpaCandidateRepository
     interface ApplicationRepository
-    interface CandidateRepository
 }
 
 package Application {
-    class RegisterApplicationController
-    class ListCandidatesService
+    class GenerateCandidateFieldsFileController
+    class PluginLoader
+    interface Plugin
 }
 
-
-'TODO
-
+Presentation.GenerateCandidateFieldsFileUI --> Application.GenerateCandidateFieldsFileController
+Application.GenerateCandidateFieldsFileController --> Application.PluginLoader
+Application.GenerateCandidateFieldsFileController --> Persistence.ApplicationRepository
+Persistence.ApplicationRepository <|-- Persistence.JpaApplicationRepository
+Application.GenerateCandidateFieldsFileController --> Domain.Application
+Application.GenerateCandidateFieldsFileController --> Application.Plugin
 
 @enduml
