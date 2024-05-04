@@ -42,6 +42,10 @@ public class CandidateController {
         return svc.allCandidates();
     }
 
+    public Iterable<Candidate> allCandidatesSortedByName() {
+        return svc.allCandidatesSortedByName();
+    }
+
     public Optional<Candidate> findCandidateByEmail(String email) { return repo.ofIdentity(email); }
 
     public List<Application> buildApplicationList(Candidate candidate) { return applicationRepo.ofCandidate(candidate); }

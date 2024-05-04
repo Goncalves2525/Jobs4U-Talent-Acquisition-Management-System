@@ -15,12 +15,12 @@ volatile sig_atomic_t nChildren;
 void sigIntHandler(int signal){
 	//kill(pid, SIGTERM);
 	waitpid(pid, NULL, 0);
-	printf("Killed monitor child\n"); //APAGAR
+	//printf("Killed monitor child\n");
 
 	int i;
 	for(i=0; i<nChildren; i++){
 		wait(NULL);
-		printf("Killed worker child %d\n", i+1); //APAGAR
+		//printf("Killed worker child %d\n", i+1);
 	}
 
 	exit(EXIT_SUCCESS);
@@ -161,7 +161,7 @@ int main(int argc, char *argv[]) {
 			char jobReference[250];
 			char jobApplicant[250];
 			if(getApplicationDetails(currentPrefix, jobReference, jobApplicant) == -1){
-				printf("Failed to get application details from prefix: %s.\n", currentPrefix); // TODO: apagar depois de testes
+				//printf("Failed to get application details from prefix: %s.\n", currentPrefix);
 				report.available = 0;
 			}
 			
@@ -270,12 +270,12 @@ int main(int argc, char *argv[]) {
 
 		// Aguardar sinal do filho monitorizador
 		pause();
-		printf("PAI: Recebi sinal do filho monitorizador.\n"); // TODO: apagar depois de testes
+		//("PAI: Recebi sinal do filho monitorizador.\n");
 		
 		// Repor o valor de end, contar os ficheiros que constam da pasta input, e guardar os nomes dos ficheiros que constam neste momento: 
 		end = 0;
 		fileCount = getDirFileNames(arg.inputPath, fileNames);
-		printf("filecount: %d\n", fileCount); // TODO: apagar depois de testes
+		//printf("filecount: %d\n", fileCount);
 		if(fileCount == -1){
 			perror("Error opening directory\n");
 			end = 1;
@@ -289,14 +289,13 @@ int main(int argc, char *argv[]) {
 
 			// Encontrar um novo prefixo:
 			end = findNewPrefix(fileNames, fileCount, currentPrefix, oldPrefixes);
-			printf("o valor de end é: %d\n", end); // TODO: apagar depois de testes
+			//printf("o valor de end é: %d\n", end);
 			
 			// Se for encontrado um novo prefixo, entregar trabalho ao filho trabalhador na fila:
 			if(end == 0) {
-				printf("PAI: Hey filho %d, vou dar-te o prefixo %s.\n", child+1, currentPrefix); // TODO: apagar depois de testes
+				//printf("PAI: Hey filho %d, vou dar-te o prefixo %s.\n", child+1, currentPrefix);
 				write(pipeDown[child][WRITE], currentPrefix, strlen(currentPrefix));
 				taskTable[child][1]++;
-				//kill(report.pid, SIGUSR1); // REVER NO CODIGO ANTERIOR
 				strcat(oldPrefixes, currentPrefix);
 
 			// Se não for encontrado prefixo, fazer reset ao currentPrefix:
@@ -316,15 +315,15 @@ int main(int argc, char *argv[]) {
 		//childReport report = childReports[child] // APAGAR?!
 		int reportProcessed = 0;
 		while(reportProcessed < fileCount) {
-			printf("\nPAI: Tenho %d relatórios para recolher\n\n", fileCount); // TODO: apagar depois de testes
+			//printf("\nPAI: Tenho %d relatórios para recolher\n\n", fileCount);
 			if(taskTable[child][1] > 0) {
-				printf("PAI: O filho %d deverá enviar-me um relatório. Vou verificar.\n", child+1); // TODO: apagar depois de testes
+				//printf("PAI: O filho %d deverá enviar-me um relatório. Vou verificar.\n", child+1);
 				read(pipeUp[child][READ], &childReports[child], sizeof(childReport));
 				if(childReports[child].qtyFilesMoved > 0){
-					printf("PAI: O filho %d tem dados para o relatório. A tratar.\n", child+1); // TODO: apagar depois de testes
+					//printf("PAI: O filho %d tem dados para o relatório. A tratar.\n", child+1);
 					updateSessionFile(sessionFile, &childReports[child]);
 				} else {
-					printf("PAI: O filho %d NÃO tem dados para o relatório.\n", child+1); // TODO: apagar depois de testes
+					//printf("PAI: O filho %d NÃO tem dados para o relatório.\n", child+1);
 				}
 				taskTable[child][1]--;
 				reportProcessed++;

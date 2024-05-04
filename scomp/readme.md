@@ -21,12 +21,13 @@
 
 ### Nos casos em que uma funcionalidade não esteja 100% implementada de acordo com o previsto, devem ser indicadas todas as situações que determinam essa percentagem
 
-(TODO)
+N/A
 
 ## Um diagrama que explique os diversos componentes usados e as suas interacções
 
-![diagrama](diagram.png)
+![diagrama](Diagram.png)
 
 ## Outros aspetos que entendam ser importante referir
 
-(TODO)
+* No documento de especificações é solicitado para copiar do diretório input para o diretório output. <br>
+Contudo, após termos questionado o cliente, este apenas exigiu que fosse garantida a consistência dos dados.
