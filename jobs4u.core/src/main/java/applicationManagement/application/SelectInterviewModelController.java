@@ -27,9 +27,9 @@ public class SelectInterviewModelController {
         return pluginLoader.loadPlugins(INTERVIEW_PLUGINS_DIRECTORY);
     }
 
-    public boolean associateInterviewModelToApplication(Application application, Object interviewModel){
+    public boolean associateInterviewModelToApplication(Application application, String interviewModelPath){
         boolean success = false;
-        success = application.associateInterviewModelToApplication(interviewModel);
+        success = application.associateInterviewModelToApplication(interviewModelPath);
         if(success){
             repo.update(application);
             return true;

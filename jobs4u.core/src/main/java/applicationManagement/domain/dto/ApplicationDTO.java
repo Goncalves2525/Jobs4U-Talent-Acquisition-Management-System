@@ -14,19 +14,21 @@ public class ApplicationDTO {
     private JobOpening jobOpening;
     private String comment;
     private Date applicationDate;
-    private Serializable InterviewModel;
+    private String JobRequirementSpecification;
+    private String InterviewModel;
     private ApplicationStatus status;
     private String filePath;
     private String applicationFilesPath;
 
 
-    public ApplicationDTO(String jobReference , Candidate candidate, JobOpening jobOpening, String comment, Date applicationDate, Serializable interviewModel, ApplicationStatus status
+    public ApplicationDTO(String jobReference , Candidate candidate, JobOpening jobOpening, String comment, Date applicationDate, String JobRequirementSpecification, String interviewModel, ApplicationStatus status
     , String filePath, String applicationFilesPath) {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
         this.comment = comment;
         this.applicationDate = applicationDate;
+        this.JobRequirementSpecification = JobRequirementSpecification;
         this.InterviewModel = interviewModel;
         this.status = status;
         this.filePath = filePath;
@@ -56,7 +58,11 @@ public class ApplicationDTO {
         return applicationDate;
     }
 
-    public Serializable interviewModel() {
+    public String jobRequirementSpecification() {
+        return JobRequirementSpecification;
+    }
+
+    public String interviewModel() {
         return InterviewModel;
     }
 

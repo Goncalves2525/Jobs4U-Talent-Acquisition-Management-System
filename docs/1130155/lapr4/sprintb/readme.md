@@ -1,4 +1,4 @@
-# 1212039 - Diogo Santo - Sprint B - Self Assessment
+# 1130155 - Ana Silva - Sprint B - Self Assessment
 
 **This section is mandatory for students of LAPR4**
 
@@ -13,9 +13,9 @@
 | 4 – Correct      | The engineering process is correct. Code and design are completely aligned. Failures in the application of good practices and techniques are almost meaningless.                                                                                                                                                               |
 | 5 - Exceptional  | The engineering process is correct (order of activities). Code and design are completely aligned. Very good justification of the process followed/applied. Application of good practices and techniques is exemplary.                                                                                                          |
 
-**Selected Level:** -
+**Selected Level:** - 3
 
-**Justification and Evidences:** -
+**Justification and Evidences:** - Globally, the team developed a consistent engineering process. There are some known insufficient documentation regarding testing and US knowledge depth.
 
 ## Issues and Version Control
 
@@ -28,9 +28,9 @@
 | 4 – Correct      | Frequent use of the repository: messages that are mostly significant but sometimes fail to connect to issues/tasks. Use task/issue management boards correctly.                   |
 | 5 - Exceptional  | Frequent use of the repository: mostly significant messages and (virtually) no failures in connection to issues/tasks. They use task/issue management boards in an exemplary way. |
 
-**Selected Level:** -
+**Selected Level:** - 5
 
-**Justification and Evidences:** -
+**Justification and Evidences:** - The use of issues and version control as been improving from week to week, even more when comparing to previous semesters.
 
 ## Team Work
 
@@ -43,9 +43,9 @@
 | 4 – Correct      | There is evidence of a team decision-making process in which students actively participate and which results in the assignment of tasks in a clear and timely manner.                                                                                 |
 | 5 - Exceptional  | There is evidence of a team decision-making process in which students actively participate and which results in the assignment of tasks in a clear and timely manner. There is evidence of group tasks such as integration and deployment activities. |
 
-**Selected Level:** -
+**Selected Level:** - 4
 
-**Justification and Evidences:** -
+**Justification and Evidences:** - Good team work.
 
 ## Deployment
 
@@ -58,9 +58,9 @@
 | 4 – Correct      | The system runs outside the IDE, distributed across two or more local virtual environments (machines or containers). The group was able to demonstrate the system without any execution failures during the demonstration. The correct version was used.                                      |
 | 5 - Exceptional  | The system runs outside the IDE, distributed across two or more remote virtual environments (machines or containers) (e.g. in the cloud). The group was able to demonstrate the system without any execution failures during the demonstration. The correct version was used.                 |
 
-**Selected Level:** -
+**Selected Level:** - 3
 
-**Justification and Evidences:* -
+**Justification and Evidences:* - The system presents failure to run within some team members IDEs without managing known situations. Resolutions are being found while there's ongoing development.
 
 ## Integration
 
@@ -73,9 +73,9 @@
 | 4 – Correct      | There is integration between most components/functionalities without any type of incoherence and/or unnecessary coupling.                                    |
 | 5 - Exceptional  | The previous item is true and this integration is perfectly documented.                                                                                      |
 
-**Selected Level:** -
+**Selected Level:** - 4
 
-**Justification and Evidences:** -
+**Justification and Evidences:** - All the parts that are integrated rarely fail. General positive outcomes due to consistent communication and code sharing.
 
 ## Req. Satisfaction
 
@@ -88,6 +88,6 @@
 | 4 – Correct      | All requirements have been met in full, and any options related to the interpretation/analysis of the problem are correctly justified and are evidence of your understanding of the problem domain. Very complete definition of acceptance criteria. Most criteria are reflected in tests.         |
 | 5 - Exceptional  | The above is true and alternatives are also discussed that are supported by a rich understanding of the problem domain. These alternatives may be related to the problem domain or the high-level architecture of the solution. Exemplary acceptance criteria and excellent connection to testing. |
 
-**Selected Level:** -
+**Selected Level:** - 3
 
-**Justification and Evidences:** -
+**Justification and Evidences:** - Not all requirements are being met yet. The team keeps on working to guarantee all the client requirements. The one's that have been achieved are well documented and solutions well known by the team.

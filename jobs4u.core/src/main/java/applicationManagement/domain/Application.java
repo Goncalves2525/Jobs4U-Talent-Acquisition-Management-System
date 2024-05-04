@@ -16,7 +16,7 @@ import java.util.Objects;
 @Getter
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"jobReference", "email"}))
-public class Application implements AggregateRoot<String> {
+public class Application implements AggregateRoot<String>, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -38,12 +38,11 @@ public class Application implements AggregateRoot<String> {
     @Column
     private LocalDate date;
 
-    @Column(columnDefinition = "VARBINARY")
-    private Serializable JobRequirementSpecification = null;
+    @Column
+    private String JobRequirementSpecification;
 
-    @Column(columnDefinition = "VARBINARY")
-    //private Object InterviewModel = null; //"" by omission
-    private Serializable InterviewModel = null; //"" by omission
+    @Column
+    private String InterviewModel;
 
     @Column
     private String comment;
@@ -63,29 +62,29 @@ public class Application implements AggregateRoot<String> {
     }
 
     public Application(String jobReference, Candidate candidate, JobOpening jobOpening, ApplicationStatus status, Date applicationDate, String comment
-    , Object interviewModel, String filePath, String applicationFilesPath) {
+    , String interviewModel, String filePath, String applicationFilesPath) {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
         this.status = status;
         this.applicationDate = applicationDate;
         this.comment = comment;
-        this.InterviewModel = (Serializable) interviewModel;
+        this.InterviewModel = interviewModel;
         this.date = LocalDate.now();
         this.filePath = filePath;
         this.applicationFilesPath = applicationFilesPath;
     }
 
     public Application(String jobReference, Candidate candidate, JobOpening jobOpening, ApplicationStatus status, Date applicationDate, String comment
-            ,Object jobRequirementSpecification, Object interviewModel, String filePath, String applicationFilesPath) {
+            ,String jobRequirementSpecification, String interviewModel, String filePath, String applicationFilesPath) {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
         this.status = status;
         this.applicationDate = applicationDate;
         this.comment = comment;
-        this.JobRequirementSpecification = (Serializable) jobRequirementSpecification;
-        this.InterviewModel = (Serializable) interviewModel;
+        this.JobRequirementSpecification = jobRequirementSpecification;
+        this.InterviewModel = interviewModel;
         this.date = LocalDate.now();
         this.filePath = filePath;
         this.applicationFilesPath = applicationFilesPath;
@@ -115,11 +114,11 @@ public class Application implements AggregateRoot<String> {
         return comment;
     }
 
-    public Object jobRequirementSpecification() {
+    public String jobRequirementSpecification() {
         return JobRequirementSpecification;
     }
 
-    public Object interviewModel() {
+    public String interviewModel() {
         return InterviewModel;
     }
 
@@ -158,9 +157,9 @@ public class Application implements AggregateRoot<String> {
         return !Objects.equals(filePath, "");
     }
 
-    public boolean associateInterviewModelToApplication(Object interviewModel){
+    public boolean associateInterviewModelToApplication(String interviewModel){
         if(!checkIfApplicationHasInterviewModel()){
-            this.InterviewModel = (Serializable) interviewModel;
+            this.InterviewModel = interviewModel;
             return true;
         }
         return false;
@@ -185,9 +184,9 @@ public class Application implements AggregateRoot<String> {
         return id.toString();
     }
 
-    public boolean associateJobRequirementSpecificationToApplication(Object allJobRequirementSpecification) {
+    public boolean associateJobRequirementSpecificationToApplication(String allJobRequirementSpecification) {
         if(!checkIfApplicationHasJobRequirementSpecification()){
-            this.JobRequirementSpecification = (Serializable) allJobRequirementSpecification;
+            this.JobRequirementSpecification = allJobRequirementSpecification;
             return true;
         }
         return false;

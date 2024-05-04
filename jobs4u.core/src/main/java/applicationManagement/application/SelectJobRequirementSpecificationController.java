@@ -27,7 +27,7 @@ public class SelectJobRequirementSpecificationController {
         return pluginLoader.loadPlugins(JOBREQUIREMENTSPECIFICATION_PLUGINS_DIRECTORY);
     }
 
-    public boolean associateJobRequirementSpecificationToApplication(Application application, Object allJobRequirementSpecification){
+    public boolean associateJobRequirementSpecificationToApplication(Application application, String allJobRequirementSpecification){
         boolean success = false;
         success = application.associateJobRequirementSpecificationToApplication(allJobRequirementSpecification);
         if(success){

@@ -10,14 +10,17 @@ import java.util.List;
 public class GenerateAnswerCollectionFileController {
 
     private final PluginLoader pluginLoader = new PluginLoader();
-    private final String pluginsDirectory = "plugins/answerCollection/jar";
+    private final String pluginsDirectory = "plugins/interview/jar";
 
-    public void generateAnswerCollectionFile(int choice) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public void generateAnswerCollectionFile(String pluginPath) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         try {
-            List<Plugin> plugins = loadPlugins();
-            Object plugin = plugins.get(choice).getPluginInstance();
-            Method exportMethod = plugin.getClass().getMethod("exportTemplateFile", String.class);
-            exportMethod.invoke(plugin, "plugins/answerCollection/txt/answerSheet.txt");
+//            List<Plugin> plugins = loadPlugins();
+//            Object plugin = plugins.get(choice).getPluginInstance();
+
+            Plugin plugin = pluginLoader.loadPlugin(pluginPath);
+            Object pluginFinal = plugin.getPluginInstance();
+            Method exportMethod = pluginFinal.getClass().getMethod("exportTemplateFile", String.class);
+            exportMethod.invoke(pluginFinal, "plugins/interview/txt/answerSheet.txt");
         } catch (Exception e) {
             e.printStackTrace();
         }
