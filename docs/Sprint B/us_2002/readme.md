@@ -45,10 +45,32 @@
 ## 4. Design
 
 ### 4.1. Realization
-TODO
+
+### 4.1. Realization
+
+| Interaction ID                                                                           | Question: Which class is responsible for...                           | Answer                    | Justification (with patterns) |
+|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------|---------------------------|--------------------------------|
+| Step 1 : Operator selects a candidate for a job opening                                   | ... displaying the list of available candidates?                     | RegisterApplicationUI     | Pure Fabrication              |
+|                                                                                         | ... displaying the list of available job openings?                   | RegisterApplicationUI     | Pure Fabrication              |
+|                                                                                         | ... capturing user input for candidate selection?                    | RegisterApplicationUI     | Controller                    |
+| Step 2 : Operator registers the application for the selected candidate                   | ... coordinating between user input and application registration?    | RegisterApplicationController | Controller                    |
+|                                                                                         | ... accessing the repository for job openings?                       | ListJobOpeningsController | Controller                    |
+|                                                                                         | ... accessing the repository for candidates?                         | CandidateController       | Controller                    |
+|                                                                                         | ... saving the application to the repository?                        | ApplicationRepository     | Information Expert            |
+| Step 3 : System confirms the success/failure of the registration operation              | ... displaying success/failure messages?                             | RegisterApplicationUI     | Pure Fabrication              |
+
 According to the taken rationale, the conceptual classes promoted to software classes are:
 
-TODO
+* Application
+
+Other software classes (i.e. Pure Fabrication) identified:
+
+* RegisterApplicationUI
+* RegisterApplicationController
+* ListJobOpeningsController
+* CandidateController
+* ApplicationRepository
+
 
 
 ### 4.2. Class Diagram
