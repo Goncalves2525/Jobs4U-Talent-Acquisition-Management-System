@@ -39,6 +39,9 @@ public class Application implements AggregateRoot<String> {
     private LocalDate date;
 
     @Column(columnDefinition = "VARBINARY")
+    private Serializable JobRequirementSpecification = null;
+
+    @Column(columnDefinition = "VARBINARY")
     //private Object InterviewModel = null; //"" by omission
     private Serializable InterviewModel = null; //"" by omission
 
@@ -73,6 +76,21 @@ public class Application implements AggregateRoot<String> {
         this.applicationFilesPath = applicationFilesPath;
     }
 
+    public Application(String jobReference, Candidate candidate, JobOpening jobOpening, ApplicationStatus status, Date applicationDate, String comment
+            ,Object jobRequirementSpecification, Object interviewModel, String filePath, String applicationFilesPath) {
+        this.jobReference = jobReference;
+        this.candidate = candidate;
+        this.jobOpening = jobOpening;
+        this.status = status;
+        this.applicationDate = applicationDate;
+        this.comment = comment;
+        this.JobRequirementSpecification = (Serializable) jobRequirementSpecification;
+        this.InterviewModel = (Serializable) interviewModel;
+        this.date = LocalDate.now();
+        this.filePath = filePath;
+        this.applicationFilesPath = applicationFilesPath;
+    }
+
     public String jobReference() {
         return jobReference;
     }
@@ -95,6 +113,10 @@ public class Application implements AggregateRoot<String> {
 
     public String comment() {
         return comment;
+    }
+
+    public Object jobRequirementSpecification() {
+        return JobRequirementSpecification;
     }
 
     public Object interviewModel() {
@@ -128,6 +150,10 @@ public class Application implements AggregateRoot<String> {
         return InterviewModel != null;
     }
 
+    public boolean checkIfApplicationHasJobRequirementSpecification() {
+        return JobRequirementSpecification != null;
+    }
+
     public boolean checkIfApplicationHasFilePath() {
         return !Objects.equals(filePath, "");
     }
@@ -157,5 +183,13 @@ public class Application implements AggregateRoot<String> {
     @Override
     public String identity() {
         return id.toString();
+    }
+
+    public boolean associateJobRequirementSpecificationToApplication(Object allJobRequirementSpecification) {
+        if(!checkIfApplicationHasJobRequirementSpecification()){
+            this.JobRequirementSpecification = (Serializable) allJobRequirementSpecification;
+            return true;
+        }
+        return false;
     }
 }
