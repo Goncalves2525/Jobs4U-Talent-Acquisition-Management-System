@@ -29,7 +29,7 @@ public class RegisterCandidateUI extends AbstractUI {
             return false;
         } else {
             System.out.println("Candidate registered successfully");
-            System.out.println("Candidate name: " + candidateDTO.getName() + ", email: " + candidateDTO.getEmail() + ", phone: " + candidateDTO.getPhone() + "password: " + pwd.get());
+            System.out.println("Candidate name: " + candidateDTO.getName() + " | email: " + candidateDTO.getEmail() + " | phone: " + candidateDTO.getPhone() + " | password: " + pwd.get());
             return true;
         }
     }

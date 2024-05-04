@@ -28,7 +28,10 @@ public class RegisterApplicationUI extends AbstractUI{
     @Override
     protected boolean doShow() {
         Candidate selectedCandidate = selectCandidate();
-
+        if(selectedCandidate == null){
+            System.out.println("Candidate not available in the system!");
+            return false;
+        }
         JobOpening jobOpening = selectJobOpening();
         if(jobOpening == null){
             System.out.println("No Job Openings Available at the time!");
@@ -94,8 +97,13 @@ public class RegisterApplicationUI extends AbstractUI{
         int i = 1;
         for (Candidate candidate : candidates) {
             System.out.println(i + " - " + candidate.name() + " | " + candidate.email());
+            i++;
         }
+        System.out.println("0 - To Cancel the Application Registration");
         int option = ConsoleUtils.readIntegerFromConsole("Select a Candidate: ");
+        if (i==0){
+            return null;
+        }
         Iterator<Candidate> iterator = candidates.iterator();
         for (int j = 0; j < option - 1; j++) {
             iterator.next();
