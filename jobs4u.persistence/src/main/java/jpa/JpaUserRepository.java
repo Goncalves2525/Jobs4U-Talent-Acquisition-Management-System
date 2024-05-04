@@ -95,6 +95,7 @@ public class JpaUserRepository implements UserRepository {
         // Validate if there is an existing session:
         if (tokens.get(0) != null) {
             ConsoleUtils.showMessageColor("Invalid session! User already logged in.", AnsiColor.RED);
+            return Optional.empty();
         }
 
         // Generate a session token:
