@@ -43,7 +43,7 @@ public class GenerateAnswerCollectionFileUI{
         Scanner scanner = new Scanner(System.in);
         int i = 0;
         for (Application app : applications) {
-            System.out.println(i + ". " + app.getId() + " - " + app.jobReference());
+            System.out.println(i + ". ID:" + app.getId() + " - " + app.jobReference());
             applicationList.add(app);
             i++;
         }
@@ -57,7 +57,14 @@ public class GenerateAnswerCollectionFileUI{
             try {
                 Application app = registerApplicationController.findApplicationById(String.valueOf(applicationList.get(choice).getId()));
                 String pluginPath = app.getInterviewModel();
-                generateAnswerCollectionFileController.generateAnswerCollectionFile(pluginPath);
+                if(pluginPath == null){
+                    System.out.println("No Interview Model associated with this application");
+                    return false;
+                }
+                else{
+                    generateAnswerCollectionFileController.generateAnswerCollectionFile(pluginPath);
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
