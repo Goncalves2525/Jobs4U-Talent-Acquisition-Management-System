@@ -22,6 +22,7 @@ public class PluginLoader {
                         String jarPath = file.getPath();
                         Plugin plugin = new Plugin(pluginInstance, jarName, jarPath);
                         plugins.add(plugin);
+                        classLoader.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -29,5 +30,22 @@ public class PluginLoader {
             }
         }
         return plugins;
+    }
+
+    public Plugin loadPlugin(String pluginPath){
+        Plugin plugin = null;
+        try {
+            File file = new File(pluginPath);
+            URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{file.toURI().toURL()});
+            Class<?> pluginClass = classLoader.loadClass("lapr4.Main");
+            Object pluginInstance = pluginClass.newInstance();
+            String jarName = file.getName();
+            String jarPath = file.getPath();
+            plugin = new Plugin(pluginInstance, jarName, jarPath);
+            classLoader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return plugin;
     }
 }

@@ -15,7 +15,7 @@ public class SelectJobRequirementSpecificationUI {
     static Role managerRole;
 
     public void doShow(AuthzUI authzUI) {
-        ConsoleUtils.buildUiHeader("Select Interview Model");
+        ConsoleUtils.buildUiHeader("Select Job Requirement Specification");
 
         // get user role, to be used as parameter on restricted user actions
         managerRole = authzUI.getValidBackofficeRole();
@@ -38,7 +38,7 @@ public class SelectJobRequirementSpecificationUI {
         }
         List<Plugin> allJobRequirementSpecification = ctrl.getAllJobRequirementSpecification();
         int choice = selectJobRequirementSpecification(allJobRequirementSpecification);
-        success = ctrl.associateJobRequirementSpecificationToApplication(application, allJobRequirementSpecification.get(choice).getPluginInstance());
+        success = ctrl.associateJobRequirementSpecificationToApplication(application, allJobRequirementSpecification.get(choice).getPath());
         if (success) {
             System.out.println("Interview Model associated to Application");
         } else {

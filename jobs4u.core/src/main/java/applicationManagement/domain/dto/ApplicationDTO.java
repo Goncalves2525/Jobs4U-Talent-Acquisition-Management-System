@@ -14,13 +14,13 @@ public class ApplicationDTO {
     private JobOpening jobOpening;
     private String comment;
     private Date applicationDate;
-    private Serializable InterviewModel;
+    private String InterviewModel;
     private ApplicationStatus status;
     private String filePath;
     private String applicationFilesPath;
 
 
-    public ApplicationDTO(String jobReference , Candidate candidate, JobOpening jobOpening, String comment, Date applicationDate, Serializable interviewModel, ApplicationStatus status
+    public ApplicationDTO(String jobReference , Candidate candidate, JobOpening jobOpening, String comment, Date applicationDate, String interviewModel, ApplicationStatus status
     , String filePath, String applicationFilesPath) {
         this.jobReference = jobReference;
         this.candidate = candidate;
@@ -56,7 +56,7 @@ public class ApplicationDTO {
         return applicationDate;
     }
 
-    public Serializable interviewModel() {
+    public String interviewModel() {
         return InterviewModel;
     }
 
