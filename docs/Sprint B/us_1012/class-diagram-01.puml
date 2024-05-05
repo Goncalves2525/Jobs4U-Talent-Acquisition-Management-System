@@ -1,0 +1,20 @@
+@startuml
+
+package Presentation {
+    class GenerateAnswerCollectionFileUI
+}
+
+package Application {
+    class GenerateAnswerCollectionFileController
+}
+
+package plugins {
+    class Plugin
+    class PluginLoader
+}
+
+GenerateAnswerCollectionFileUI --> GenerateAnswerCollectionFileController
+GenerateAnswerCollectionFileController --> plugins.PluginLoader
+GenerateAnswerCollectionFileController --> plugins.Plugin
+
+@enduml
