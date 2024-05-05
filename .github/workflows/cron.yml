@@ -48,6 +48,9 @@ jobs:
       - name: Build and test with Maven
         run: mvn clean verify -Dmaven.test.failure.ignore=true
 
+      - name: Debug JUnit XML files
+        run: ls -la reports/surefire-reports/
+
       - name: Save JUnit XML test results
         if: always()  # Ensure it runs even if previous steps fail
         run: |
