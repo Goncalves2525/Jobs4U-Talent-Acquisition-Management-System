@@ -38,18 +38,14 @@ jobs:
           ref: 'main'
           fetch-depth: 0
 
-      - name: Clean Maven cache
-        run: mvn dependency:purge-local-repository
+      - name: Enable verbose output for Maven
+        run: mvn clean verify -X -Dmaven.test.failure.ignore=true
 
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'temurin'
-          cache: maven
+      - name: Retry failed Maven dependencies
+        run: mvn clean verify -Dmaven.test.failure.ignore=true -U
 
-      - name: Build and test with Maven
-        run: mvn clean verify -Dmaven.test.failure.ignore=true
+      - name: Update dependencies to their latest versions
+        run: mvn versions:update-properties versions:display-plugin-updates versions:display-dependency-updates -Dmaven.test.failure.ignore=true
 
       - name: Debug JUnit XML files
         run: ls -la reports/surefire-reports/
