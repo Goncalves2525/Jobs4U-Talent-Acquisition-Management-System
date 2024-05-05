@@ -27,7 +27,7 @@
 
 The folowing screenshot was taken from https://blog.sapiensworks.com/post/2016/07/29/DDD-Entities-Value-Objects-Explained.
 
-![analysis](study/entities_definition.png)
+![analysis](/docs/Sprint A/us_g006/study/entities_definition.png)
 
 So, entities need to be single identifiable items that matter to the buisness.
 Based on this information, we defined the following entities inside the business domain:
@@ -49,30 +49,30 @@ On the other hand, value objects are objects that are not defined by their ident
 We associated each entity with it´s respective value objects.
 
 For example:
-![analysis](study/valueObject_example.png)
+![analysis](/docs/Sprint A/us_g006/study/valueObject_example.png)
 
 ### 3.2. Aggregates
 The folowing screenshot was taken from https://moodle.isep.ipp.pt/ (Author: Prof. Pedro Gandra Sousa)
 
-![analysis](study/aggregate_definition.png)
+![analysis](/docs/Sprint A/us_g006/study/aggregate_definition.png)
 
 Based on this definition, we aggregated the entities with their respective value objects since they are related.
 
 For example:
 
-![analysis](study/aggregate_example.png)
+![analysis](/docs/Sprint A/us_g006/study/aggregate_example.png)
 
 ### 3.3. Services
 The follwing screenshot was taken from https://enterprisecraftsmanship.com/posts/domain-vs-application-services/
 
-![analysis](study/services_definition.png)
+![analysis](/docs/Sprint A/us_g006/study/services_definition.png)
 
 When the responsibility attribution of a task is not clear, a service can be created for executing it.
 There were also some tasks that we identified as services because they would overwelm the entities if they were included in them.
 For example, the evaluation of an interview could have been included in the Interview entity, but it would make it too complex.
 
 Example:
-![analysis](study/services_example.png)
+![analysis](/docs/Sprint A/us_g006/study/services_example.png)
 
 
 
@@ -82,7 +82,7 @@ Example:
 ### 4.1. Realization
 
 ### Domain Model 1
-![domain model](domain_model_attemps/domain_model1.jpeg)
+![domain model](/docs/Sprint A/us_g006/domain_model_attemps/domain_model1.jpeg)
 
 *This was the first domain model aproach.*
 
@@ -104,7 +104,7 @@ Example:
 
 
 ### Domain Model 2
-![domain model](domain_model_attemps/domain_model2.png)
+![domain model](/docs/Sprint A/us_g006/domain_model_attemps/domain_model2.png)
 
 *In our second approach, we started to distinguish entities from value objects and added services.*
 
@@ -119,10 +119,10 @@ Example:
 By the end of Sprint A we had two alternatives for the domain model.
 
 #### Domain Model 3.1
-![domain model](domain_model_attemps/domain_model3.1.jpg)
+![domain model](/docs/Sprint A/us_g006/domain_model_attemps/domain_model3.1.jpg)
 
 #### Domain Model 3.2
-![domain model](domain_model_attemps/domain_model3.2.jpg)
+![domain model](/docs/Sprint A/us_g006/domain_model_attemps/domain_model3.2.jpg)
 
 In domain model 3.1, the Application Result connects to the Job Opening and the Interview to the Candidate.
 On the other hand, in domain model 3.2, the Application Result and the Interview Result both connect to the Application which connects to the Job Opening.
