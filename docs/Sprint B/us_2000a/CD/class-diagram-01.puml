@@ -1,0 +1,35 @@
+@startuml
+
+package Presentation {
+    class RegisterCandidateUI
+}
+
+package Application {
+    class CandidateController
+    class SignUpController
+}
+
+package Persistence {
+    interface CandidateRepository
+    class JpaCandidateRepository
+    interface UserRepository
+    class JpaUserRepository
+}
+
+package Domain {
+    class Candidate
+}
+
+Presentation.RegisterCandidateUI --> Application.CandidateController
+Persistence.CandidateRepository <|-- Persistence.JpaCandidateRepository
+Persistence.UserRepository <|-- Persistence.JpaUserRepository
+Application.CandidateController ---> Persistence.CandidateRepository
+Application.SignUpController ---> Persistence.UserRepository
+Application.CandidateController -> Application.SignUpController
+Application.CandidateController -> Domain.Candidate
+
+
+
+
+
+@enduml
