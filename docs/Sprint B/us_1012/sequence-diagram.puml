@@ -1,0 +1,29 @@
+@startuml
+actor "Customer Manager" as CM
+participant "GenerateAnswerCollectionFileUI" as UI
+participant "GenerateAnswerCollectionFileController" as CTRL
+participant "PluginLoader" as LOADER
+participant "Plugin" as PLG
+
+activate UI
+UI -> CM : Select an Application
+deactivate UI
+activate CM
+CM -> CTRL : generateAnswerCollectionFile()
+activate CTRL
+CTRL -> LOADER : loadPlugin(pluginPath)
+activate LOADER
+LOADER -> PLG : pluginInstance
+activate PLG
+PLG --> LOADER : Plugin
+deactivate PLG
+deactivate LOADER
+CTRL --> PLG : exportTemplateFile()
+activate PLG
+PLG --> CTRL : Exported
+deactivate PLG
+CTRL --> UI : Exported
+deactivate CTRL
+UI --> CM : Exported
+deactivate CM
+@enduml
