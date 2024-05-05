@@ -38,6 +38,9 @@ jobs:
           ref: 'main'
           fetch-depth: 0
 
+      - name: Delete Maven local repository cache
+        run: rm -rf ~/.m2/repository
+
       - name: Clean Maven cache
         run: mvn dependency:purge-local-repository
 
