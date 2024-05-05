@@ -38,30 +38,26 @@ jobs:
           ref: 'main'
           fetch-depth: 0
 
+      - name: Use Maven Cache (optional)
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
+      - name: Delete Maven local repository cache (fallback)
+        run: rm -rf ~/.m2/repository
+
       - name: Clean Maven cache
         run: mvn dependency:purge-local-repository
 
-      - name: Run tests with exit on failure (debug)
-        run: mvn test -e  # Force exit on test failures
+      - name: Run tests in all modules (multi-module project)
+        run: mvn clean verify  # Existing configuration should trigger tests in all modules
 
-      - name: Retry failed Maven dependencies (optional)
-        run: |
-          set +e  # Disable exit on first failure
-          for i in {1..3}; do
-            mvn clean verify -Dmaven.test.failure.ignore=true -U && break
-            echo "Maven build failed, retrying ($i/3)" || true
-          done
-          set -e  # Re-enable exit on failure
-
-      - name: Check for JUnit XML files (debug)
-        run: |
-          if [ ! -f reports/surefire-reports/*.xml ]; then
-            echo "JUnit XML files not found!"
-            exit 1
-          fi
-
-      - name: Debug JUnit XML files
-        run: ls -la reports/surefire-reports/
+      - name: Debug JUnit XML files (debug)
+        # Temporarily uncomment for troubleshooting
+        # run: ls -la reports/surefire-reports/
 
       - name: Save JUnit XML test results
         if: always()  # Ensure it runs even if previous steps fail
