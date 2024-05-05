@@ -28,7 +28,7 @@
 | 4 – Correct      | Frequent use of the repository: messages that are mostly significant but sometimes fail to connect to issues/tasks. Use task/issue management boards correctly.                   |
 | 5 - Exceptional  | Frequent use of the repository: mostly significant messages and (virtually) no failures in connection to issues/tasks. They use task/issue management boards in an exemplary way. |
 
-**Selected Level:** 5
+**Selected Level:** 4
 
 **Justification and Evidences:** The use of issues and version control as been improving from week to week, even more when comparing to previous semesters.
 
@@ -43,7 +43,7 @@
 | 4 – Correct      | There is evidence of a team decision-making process in which students actively participate and which results in the assignment of tasks in a clear and timely manner.                                                                                 |
 | 5 - Exceptional  | There is evidence of a team decision-making process in which students actively participate and which results in the assignment of tasks in a clear and timely manner. There is evidence of group tasks such as integration and deployment activities. |
 
-**Selected Level:** 4
+**Selected Level:** 3
 
 **Justification and Evidences:** The teamwork has been generally good. Even with the additional team members that joined us on sprint B. Minor blockages are registered regarding meeting attendances and tasks commitment.
 

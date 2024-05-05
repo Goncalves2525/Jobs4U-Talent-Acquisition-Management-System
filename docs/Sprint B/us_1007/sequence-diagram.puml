@@ -1,0 +1,34 @@
+@startuml
+actor "CustomerManager" as CM
+participant "SelectInterviewModelUI" as UI
+participant "SelectInterviewModelController" as CTRL
+participant "ApplicationRepository" as APPREPO
+participant "Application" as APP
+participant "JobOpening" as JO
+participant "PluginLoader" as PLUG
+
+
+
+
+
+activate CM
+    activate UI
+        activate CTRL
+            UI -> CM : show all interview models and prompt user to select one
+            CM -> UI : inserts Interview Model ID
+            UI -> CTRL : associateInterviewModelToApplication(application, interviewModel)
+            CTRL -> JO : application.changeJobOpeningRecruitmentState(RecruitmentState.INTERVIEWS);
+            CTRL -> APP : associateInterviewModelToApplication(application, interviewModel)
+            activate APP
+                APP --> CTRL : return true/false
+            deactivate APP
+            CTRL --> UI : return true/false
+        deactivate CTRL
+        UI -> CM : show success/failure message
+    deactivate UI
+deactivate CM
+
+
+
+
+@enduml

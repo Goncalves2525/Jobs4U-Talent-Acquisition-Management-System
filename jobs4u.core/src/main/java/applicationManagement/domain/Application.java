@@ -3,6 +3,7 @@ package applicationManagement.domain;
 import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;
 import jobOpeningManagement.domain.JobOpening;
+import jobOpeningManagement.domain.RecruitmentState;
 import lombok.Cleanup;
 import lombok.Getter;
 import org.apache.logging.log4j.core.tools.picocli.CommandLine;
@@ -157,5 +158,9 @@ public class Application implements AggregateRoot<String>, Serializable {
 
     public void changeStatus(ApplicationStatus status) {
         this.status = status;
+    }
+
+    public void changeJobOpeningRecruitmentState(RecruitmentState newState) {
+            jobOpening.setState(newState);
     }
 }
