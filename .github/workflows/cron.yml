@@ -44,6 +44,9 @@ jobs:
       - name: Clean Maven cache
         run: mvn dependency:purge-local-repository
 
+      - name: Run tests in all modules (multi-module project)
+        run: mvn clean verify -U
+
       - name: Retry failed Maven dependencies
         run: |
           set +e  # Disable exit on first failure
