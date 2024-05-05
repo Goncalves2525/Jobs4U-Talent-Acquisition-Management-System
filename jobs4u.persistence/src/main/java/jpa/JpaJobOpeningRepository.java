@@ -109,4 +109,8 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
     }
 
 
+    @Override
+    public void update(JobOpening jobOpening) {
+
+    }
 }

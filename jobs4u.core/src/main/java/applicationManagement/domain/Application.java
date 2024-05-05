@@ -39,9 +39,6 @@ public class Application implements AggregateRoot<String>, Serializable {
     private LocalDate date;
 
     @Column
-    private String JobRequirementSpecification;
-
-    @Column
     private String InterviewModel;
 
     @Column
@@ -75,21 +72,6 @@ public class Application implements AggregateRoot<String>, Serializable {
         this.applicationFilesPath = applicationFilesPath;
     }
 
-    public Application(String jobReference, Candidate candidate, JobOpening jobOpening, ApplicationStatus status, Date applicationDate, String comment
-            ,String jobRequirementSpecification, String interviewModel, String filePath, String applicationFilesPath) {
-        this.jobReference = jobReference;
-        this.candidate = candidate;
-        this.jobOpening = jobOpening;
-        this.status = status;
-        this.applicationDate = applicationDate;
-        this.comment = comment;
-        this.JobRequirementSpecification = jobRequirementSpecification;
-        this.InterviewModel = interviewModel;
-        this.date = LocalDate.now();
-        this.filePath = filePath;
-        this.applicationFilesPath = applicationFilesPath;
-    }
-
     public String jobReference() {
         return jobReference;
     }
@@ -112,10 +94,6 @@ public class Application implements AggregateRoot<String>, Serializable {
 
     public String comment() {
         return comment;
-    }
-
-    public String jobRequirementSpecification() {
-        return JobRequirementSpecification;
     }
 
     public String interviewModel() {
@@ -149,13 +127,6 @@ public class Application implements AggregateRoot<String>, Serializable {
         return InterviewModel != null;
     }
 
-    public boolean checkIfApplicationHasJobRequirementSpecification() {
-        return JobRequirementSpecification != null;
-    }
-
-    public boolean checkIfApplicationHasFilePath() {
-        return !Objects.equals(filePath, "");
-    }
 
     public boolean associateInterviewModelToApplication(String interviewModel){
         if(!checkIfApplicationHasInterviewModel()){
@@ -182,14 +153,6 @@ public class Application implements AggregateRoot<String>, Serializable {
     @Override
     public String identity() {
         return id.toString();
-    }
-
-    public boolean associateJobRequirementSpecificationToApplication(String allJobRequirementSpecification) {
-        if(!checkIfApplicationHasJobRequirementSpecification()){
-            this.JobRequirementSpecification = allJobRequirementSpecification;
-            return true;
-        }
-        return false;
     }
 
     public void changeStatus(ApplicationStatus status) {
