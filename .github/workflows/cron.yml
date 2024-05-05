@@ -25,7 +25,6 @@ jobs:
           else
             echo "::set-output name=changes::false"
           fi
-
   build:
     needs: check-for-changes
     if: ${{ needs.check-for-changes.outputs.changes == 'true' }}
@@ -44,9 +43,6 @@ jobs:
       - name: Clean Maven cache
         run: mvn dependency:purge-local-repository
 
-      - name: Run tests in all modules (multi-module project)
-        run: mvn clean verify -U
-
       - name: Retry failed Maven dependencies
         run: |
           set +e  # Disable exit on first failure
@@ -55,7 +51,6 @@ jobs:
             echo "Maven build failed, retrying ($i/3)" || true
           done
           set -e  # Re-enable exit on failure
-
       - name: Debug JUnit XML files
         run: ls -la reports/surefire-reports/
 
@@ -64,7 +59,6 @@ jobs:
         run: |
           mkdir -p test-results
           cp reports/surefire-reports/*.xml test-results/
-
       - name: Upload JUnit XML test results
         uses: actions/upload-artifact@v2
         with:
