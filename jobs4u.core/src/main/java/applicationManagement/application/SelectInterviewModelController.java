@@ -3,6 +3,7 @@ package applicationManagement.application;
 import applicationManagement.domain.Application;
 import applicationManagement.repositories.ApplicationRepository;
 import infrastructure.persistance.PersistenceContext;
+import jobOpeningManagement.domain.RecruitmentState;
 import plugins.Plugin;
 import plugins.PluginLoader;
 
@@ -31,6 +32,7 @@ public class SelectInterviewModelController {
         boolean success = false;
         success = application.associateInterviewModelToApplication(interviewModelPath);
         if(success){
+            application.changeJobOpeningRecruitmentState(RecruitmentState.INTERVIEWS);
             repo.update(application);
             return true;
         }

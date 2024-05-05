@@ -1,0 +1,22 @@
+@startuml
+
+package Presentation {
+    class SelectInterviewModelUI
+}
+
+package Domain {
+    class JobOpening
+}
+
+
+package Application {
+    class SelectInterviewController
+}
+
+
+Presentation.SelectInterviewModelUI --> Application.SelectInterviewController
+Application.SelectInterviewController ---> Domain.JobOpening
+
+
+
+@enduml

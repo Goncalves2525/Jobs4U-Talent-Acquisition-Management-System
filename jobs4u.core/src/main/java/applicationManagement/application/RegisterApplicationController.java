@@ -4,6 +4,7 @@ import infrastructure.persistance.PersistenceContext;
 import applicationManagement.domain.Application;
 import applicationManagement.domain.dto.ApplicationDTO;
 import applicationManagement.repositories.ApplicationRepository;
+import jobOpeningManagement.domain.RecruitmentState;
 
 public class RegisterApplicationController {
     private ApplicationRepository repo = PersistenceContext.repositories().applications();

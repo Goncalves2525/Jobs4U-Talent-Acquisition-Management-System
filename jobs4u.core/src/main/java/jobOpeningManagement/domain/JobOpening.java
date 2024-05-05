@@ -142,6 +142,10 @@ public class JobOpening implements AggregateRoot<String> {
         return state;
     }
 
+    public void setState(RecruitmentState state) {
+        this.state = state;
+    }
+
     @Override
     public String toString() {
         return "JobOpening{" +

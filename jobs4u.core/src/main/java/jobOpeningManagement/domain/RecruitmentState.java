@@ -6,11 +6,7 @@ public enum RecruitmentState {
     INTERVIEWS("InterviewS"),
     ANALYSIS("Analysis"),
     RESULT("Result");
-
-
-
-
-
+    
     private final String state;
 
     RecruitmentState(String state){
