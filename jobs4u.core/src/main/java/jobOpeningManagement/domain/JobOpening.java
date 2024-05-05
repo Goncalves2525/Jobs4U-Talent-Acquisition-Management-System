@@ -37,6 +37,9 @@ public class JobOpening implements AggregateRoot<String> {
     private int numberOfVacancies;
 
     @Column
+    private String jobSpecifications;
+
+    @Column
     private String description;
 
     @Embedded
@@ -75,6 +78,26 @@ public class JobOpening implements AggregateRoot<String> {
         generateJobReference();
     }
 
+    public JobOpening(String title, ContractType contractType, JobMode mode, Address address, Customer company, int numberOfVacancies, String jobSpecifications, String description, Requirements requirements) {
+        this.title = title;
+        this.contractType = contractType;
+        this.mode = mode;
+        this.address = address;
+        this.company = company;
+        //ensure that the number of vacancies is a positive number
+        if (numberOfVacancies <= 0) {
+            throw new IllegalArgumentException("Number of vacancies must be a positive number");
+        }
+        this.numberOfVacancies = numberOfVacancies;
+        this.jobSpecifications = jobSpecifications;
+        this.description = description;
+        this.requirements = requirements;
+        state = RecruitmentState.APPLICATION;
+        counter++;
+        //Company code + sequential number
+        generateJobReference();
+    }
+
     public String jobReference() {
         return jobReference;
     }
@@ -101,6 +124,10 @@ public class JobOpening implements AggregateRoot<String> {
 
     public int numberOfVacancies() {
         return numberOfVacancies;
+    }
+
+    public String jobSpecifications() {
+        return jobSpecifications;
     }
 
     public String description() {
@@ -146,5 +173,17 @@ public class JobOpening implements AggregateRoot<String> {
     @Override
     public String identity() {
         return jobReference;
+    }
+
+    public boolean checkIfJobOpeningHasJobRequirementSpecification() {
+        return jobSpecifications != null;
+    }
+
+    public boolean associateJobRequirementSpecificationToJobOpening(String allJobRequirementSpecification) {
+        if(!checkIfJobOpeningHasJobRequirementSpecification()){
+            this.jobSpecifications = allJobRequirementSpecification;
+            return true;
+        }
+        return false;
     }
 }

@@ -1,0 +1,59 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "CustomerManager" as CM
+participant "SelectJobRequirementSpecificationUI" as UI
+participant "SelectJobRequirementSpecificationController" as CTRL
+participant "JobOpeningsRepository" as JOREPO
+participant "JobOpening" as JO
+participant "PluginLoader" as PLUG
+
+
+
+
+
+activate CM
+    UI --> CM : prompt user to select JobOpening ID
+    activate UI
+        CM -> UI : inserts JobOpening ID
+        UI -> CTRL : findJobOpeningById()
+        activate CTRL
+            CTRL -> JOREPO : ofIdentity()
+            activate JOREPO
+            JOREPO --> CTRL : return jobOpening
+            deactivate JOREPO
+            CTRL --> UI : return jobOpening
+            UI -> CTRL : checkIfJobOpeningHasJobRequirementSpecification(jobOpening)
+            CTRL -> JO : checkIfJobOpeningHasJobRequirementSpecification(jobOpening)
+            activate JO
+                JO --> CTRL : return true/false
+            deactivate JO
+            CTRL --> UI : return true/false
+            UI -> CTRL : getAllJobRequirementSpecification()
+            CTRL -> PLUG : loadPlugins()
+            activate PLUG
+                PLUG --> CTRL : return plugins
+            deactivate PLUG
+            CTRL --> UI : return plugins
+            UI -> CM : show all Job Requirements Specifications and prompt user to select one
+            CM -> UI : inserts Job Requirements Specifications ID
+            UI -> CTRL : associateJobRequirementSpecificationToJobOpening(jobOpening, allJobRequirementSpecification)
+            CTRL -> JO : associateJobRequirementSpecificationToJobOpening(jobOpening, allJobRequirementSpecification)
+            activate JO
+                JO --> CTRL : return true/false
+            deactivate JO
+            CTRL --> UI : return true/false
+        deactivate CTRL
+        UI -> CM : show success/failure message
+    deactivate UI
+deactivate CM
+
+
+
+
+@enduml

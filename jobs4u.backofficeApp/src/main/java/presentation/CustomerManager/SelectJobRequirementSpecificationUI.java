@@ -1,10 +1,10 @@
 package presentation.CustomerManager;
 
 import appUserManagement.domain.Role;
-import applicationManagement.application.SelectJobRequirementSpecificationController;
-import applicationManagement.domain.Application;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import jobOpeningManagement.application.SelectJobRequirementSpecificationController;
+import jobOpeningManagement.domain.JobOpening;
 import plugins.Plugin;
 import textformat.AnsiColor;
 
@@ -25,38 +25,38 @@ public class SelectJobRequirementSpecificationUI {
         }
 
         boolean success = false;
-        String appID = "";
-        System.out.println("Insert Application ID: ");
-        appID = ConsoleUtils.readLineFromConsole("Application ID: ");
-        Application application = ctrl.findApplicationById(appID);
-        if (application == null) {
-            System.out.println("Application not found");
+        String jobID = "";
+        System.out.println("Insert Job Opening ID: ");
+        jobID = ConsoleUtils.readLineFromConsole("Job Opening ID: ");
+        JobOpening jobOpening = ctrl.findJobOpeningById(jobID);
+        if (jobOpening == null) {
+            System.out.println("Job Opening not found");
         }
-        success = ctrl.checkIfApplicationHasJobRequirementSpecification(application);
+        success = ctrl.checkIfJobOpeningHasJobRequirementSpecification(jobOpening);
         if (success) {
-            System.out.println("Application already has Job Requirement Specification");
+            System.out.println("Job Opening already has Job Requirement Specification");
         }
         List<Plugin> allJobRequirementSpecification = ctrl.getAllJobRequirementSpecification();
         int choice = selectJobRequirementSpecification(allJobRequirementSpecification);
-        success = ctrl.associateJobRequirementSpecificationToApplication(application, allJobRequirementSpecification.get(choice).getPath());
+        success = ctrl.associateJobRequirementSpecificationToJobOpening(jobOpening, allJobRequirementSpecification.get(choice).getPath());
         if (success) {
-            System.out.println("Job Requirement Specification associated to Application");
+            System.out.println("Job Requirement Specification associated to Job Opening");
         } else {
-            System.out.println("Error associating Job Requirement Specification to Application");
+            System.out.println("Error associating Job Requirement Specification to Job Opening");
         }
     }
 
-    private int selectJobRequirementSpecification(List<Plugin> interviewModels) {
+    private int selectJobRequirementSpecification(List<Plugin> jobRequirements) {
         int i = 0;
         System.out.println("== JOB REQUIREMENT SPECIFICATIONS ==");
-        for (Plugin interviewModel : interviewModels) {
+        for (Plugin interviewModel : jobRequirements) {
             System.out.println(i + ". " + interviewModel.toString());
             i++;
         }
         int choice;
         do {
             choice = ConsoleUtils.readIntegerFromConsole("Choose a model (enter the number): ");
-        } while (choice < 0 || choice >= interviewModels.size());
+        } while (choice < 0 || choice >= jobRequirements.size());
         return choice;
     }
 }

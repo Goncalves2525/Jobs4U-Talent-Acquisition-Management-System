@@ -1,0 +1,30 @@
+@startuml
+
+package Presentation {
+    class SelectJobRequirementSpecificationUI
+}
+
+package Domain {
+    class Application
+}
+
+package Persistence {
+    class JpaApplicationRepository
+    interface ApplicationRepository
+}
+
+package Application {
+    class SelectJobRequirementSpecificationController
+    class PluginLoader
+}
+
+
+
+Presentation.SelectJobRequirementSpecificationUI --> Application.SelectJobRequirementSpecificationController
+Application.SelectJobRequirementSpecificationController --> Persistence.ApplicationRepository
+Persistence.ApplicationRepository <|-- Persistence.JpaApplicationRepository
+Application.SelectJobRequirementSpecificationController ---> Domain.Application
+Application.SelectJobRequirementSpecificationController ---> Application.PluginLoader
+
+
+@enduml
