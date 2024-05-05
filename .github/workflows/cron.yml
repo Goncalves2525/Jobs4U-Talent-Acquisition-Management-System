@@ -38,14 +38,11 @@ jobs:
           ref: 'main'
           fetch-depth: 0
 
-      - name: Enable verbose output for Maven
-        run: mvn clean verify -X -Dmaven.test.failure.ignore=true
+      - name: Clean Maven cache
+        run: mvn dependency:purge-local-repository
 
       - name: Retry failed Maven dependencies
         run: mvn clean verify -Dmaven.test.failure.ignore=true -U
-
-      - name: Update dependencies to their latest versions
-        run: mvn versions:update-properties versions:display-plugin-updates versions:display-dependency-updates -Dmaven.test.failure.ignore=true
 
       - name: Debug JUnit XML files
         run: ls -la reports/surefire-reports/
