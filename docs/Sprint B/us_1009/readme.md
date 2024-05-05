@@ -51,8 +51,8 @@ According to the taken rationale, the conceptual classes promoted to software cl
 
 Other software classes (i.e. Pure Fabrication) identified:
 
-* SelectInterviewModelUI
-* SelectInterviewController
+* SelectJobRequirementSpecificationUI
+* SelectJobRequirementSpecificationController
 * PluginLoader
 
 
@@ -67,7 +67,7 @@ Other software classes (i.e. Pure Fabrication) identified:
 ## 5. Implementation
 ****
 
-**SelectInterviewModelUI**
+**SelectJobRequirementSpecificationUI**
 
 ```java
 package presentation.CustomerManager;
@@ -134,7 +134,7 @@ public class SelectJobRequirementSpecificationUI {
 }
 
 ```
-**SelectInterviewModelController**
+**SelectJobRequirementSpecificationController**
 
 ```java
 package jobOpeningManagement.application;

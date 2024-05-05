@@ -5,26 +5,26 @@ package Presentation {
 }
 
 package Domain {
-    class Application
+    class JobOpening
 }
 
 package Persistence {
-    class JpaApplicationRepository
-    interface ApplicationRepository
+    class JpaJobOpeningRepository
+    interface JobOpeningRepository
 }
 
-package Application {
+package JobOpening {
     class SelectJobRequirementSpecificationController
     class PluginLoader
 }
 
 
 
-Presentation.SelectJobRequirementSpecificationUI --> Application.SelectJobRequirementSpecificationController
-Application.SelectJobRequirementSpecificationController --> Persistence.ApplicationRepository
-Persistence.ApplicationRepository <|-- Persistence.JpaApplicationRepository
-Application.SelectJobRequirementSpecificationController ---> Domain.Application
-Application.SelectJobRequirementSpecificationController ---> Application.PluginLoader
+Presentation.SelectJobRequirementSpecificationUI --> JobOpening.SelectJobRequirementSpecificationController
+JobOpening.SelectJobRequirementSpecificationController --> Persistence.JobOpeningRepository
+Persistence.JobOpeningRepository <|-- Persistence.JpaJobOpeningRepository
+JobOpening.SelectJobRequirementSpecificationController ---> Domain.JobOpening
+JobOpening.SelectJobRequirementSpecificationController ---> JobOpening.PluginLoader
 
 
 @enduml
