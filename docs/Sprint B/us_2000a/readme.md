@@ -4,7 +4,7 @@
 
 ## 1. Context
 
-*Whenever a Operator intends to, he should be able to register a candidate and create the corresponding user*
+*Whenever an Operator intends to, he should be able to register a candidate and create the corresponding user*
 
 ## 2. Requirements
 
@@ -12,15 +12,14 @@
 
 **Acceptance Criteria:**
 
-*N/A
+>N/A
 
 **Dependencies/References:**
 
 *Regarding this requirement we understand that it relates to:*
 
-> 1002-  As Customer Manager, I want to register a job opening
-> 
-> 2002 - As Operator, I want to register an application of a candidate for a job opening and import all files received.
+> "1000 - As Administrator, I want to be able to register, disable/enable, and list users of the backoffice."
+
 
 ## 3. Analysis
 
@@ -50,20 +49,19 @@ do ficheiro com os dados do candidato?"
 
 ### 4.1. Realization
 
-| Interaction ID                                                            | Question: Which class is responsible for... | Answer                                     | Justification (with patterns) |
-|:--------------------------------------------------------------------------|:--------------------------------------------|:-------------------------------------------|:------------------------------|
-| Step 1 : Customer Manager requests to list applications for a job opening |                                             |                                            |                               |
-| Step 2 : System builds list of Job Openings                               | ... requesting list to be built?            | ListApplicationsUI                         | Pure Fabrication              |
-|                                                                           | ... coordinating list capture?              | ListJobOpeningController                   | Controller                    |
-|                                                                           | ... building the applications list?         | JobOpeningRepository                       | Information Expert            |
-| Step 3 : System presents the list of Job Openings                         | ... show result?                            | ListApplicationUI                          | Pure Fabrication              |
-| Step 4 : Customer manager chooses Job Opening from list                   | ... requesting info?                        | ListApplicationUI                          | Pure Fabrication              |
-| Step 4 : System builds list of applications                               | ... requesting list to be built?            | ListApplicationsUI                         | Pure Fabrication              |
-|                                                                           | ... coordinating list capture?              | ListApplicationController                  | Controller                    |
-|                                                                           | ... building the applications list?         | ApplicationRepository                      | Information Expert            |                                          |                      |                               |
-|                                                                           | ... show list?                              | ListApplicationsUI                         | Pure Fabrication              |
+| Interaction ID                                                                    | Question: Which class is responsible for...                                       | Answer              | Justification (with patterns) |
+|:----------------------------------------------------------------------------------|:----------------------------------------------------------------------------------|:--------------------|:------------------------------|
+| Step 1 : Operator requests to register a Candidate                                | 	... requesting Candidate Info?                                                   | RegisterCandidateUI | Pure Fabrication              |
+| 		                                                                                | 	... validating Operator inputs?                                                  | RegisterCandidateUI | Pure Fabrication              |
+| Step 2 : System registers Candidate                                               | 	... coordination between users request and saving the Candidate in the Database? | CandidateController | Controller                    |
+|                                                                                   | 	... creating the Candidate?                                                      | Candidate           | Creater                       |
+|                                                                                   | 	... persisting the Candidate?                                                    | CandidateRepository | Information Expert            |
+| Step 3 : System automatically creates a user                                      | 	... creating a user?                                                             | SignUpController    | Controller                    |
+|                                                                                   | 	... persisting the user?                                                         | UserRepository      | Information Expert            |
+| Step 4 : System informs the Operator of Success/insuccess of the operation			  		 | 	... Showing result?                                                              | RegisterCandidateUI | Pure Fabrication              |
 
 
+* 
 ### 4.2. Class Diagram
 
 ![Class diagram](CD\class-diagram-01.svg "Class Diagram")
@@ -74,10 +72,21 @@ do ficheiro com os dados do candidato?"
 
 ### 4.4. Tests
 
-**Test 1:** **
+**Test 1: Verifies if the candidate is registered correctly**
 
 ```java
 @Test
+void testValidCandidateRegistration() {
+    String name = "John Doe";
+    String email = "john@example.com";
+    String phone = "1234567890";
+
+    CandidateDTO candidateDTO = new CandidateDTO(name, email, phone);
+
+    assertEquals(name, candidateDTO.getName());
+    assertEquals(email, candidateDTO.getEmail());
+    assertEquals(phone, candidateDTO.getPhone());
+}
 ````
 
 ## 5. Implementation

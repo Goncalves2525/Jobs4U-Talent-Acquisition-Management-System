@@ -3,7 +3,7 @@ import applicationManagement.domain.Candidate;
 import applicationManagement.domain.dto.CandidateDTO;
 import applicationManagement.repositories.CandidateRepository;
 import infrastructure.persistance.PersistenceContext;
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class CandidateTest {
@@ -23,5 +23,18 @@ public class CandidateTest {
         ListCandidatesService listCandidatesService = new ListCandidatesService();
         Iterable<Candidate> candidates = listCandidatesService.allCandidates();
 
+    }
+
+    @Test
+    void testValidCandidateRegistration() {
+        String name = "John Doe";
+        String email = "john@example.com";
+        String phone = "1234567890";
+
+        CandidateDTO candidateDTO = new CandidateDTO(name, email, phone);
+
+        assertEquals(name, candidateDTO.getName());
+        assertEquals(email, candidateDTO.getEmail());
+        assertEquals(phone, candidateDTO.getPhone());
     }
 }

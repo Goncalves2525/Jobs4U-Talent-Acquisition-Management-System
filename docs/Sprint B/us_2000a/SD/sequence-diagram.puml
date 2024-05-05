@@ -1,0 +1,66 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Operator" as OP
+participant "RegisterCandidateUI" as UI
+participant "CandidateController" as CANCTRL
+participant "SignUpController" as SUPCTRL
+participant "CandidateRepository" as CANREPO
+participant "UserRepository" as USEREPO
+
+
+activate OP
+
+        OP -> UI : register candidate
+        activate UI
+
+            UI --> OP : requests candidate information
+            OP -> UI : inserts candidate information
+            UI -> CANCTRL : registerCandidate()
+            activate CANCTRL
+
+                CANCTRL -> CANREPO : createCandidate()
+                activate CANREPO
+
+                    CANREPO --> CANCTRL : return operation success information
+                deactivate CANREPO
+                CANCTRL --> SUPCTRL : signUp()
+                activate SUPCTRL
+
+                    SUPCTRL -> USEREPO : emailExists()
+                    activate USEREPO
+
+                    USEREPO --> SUPCTRL : returns true or false
+                    deactivate USEREPO
+
+                    alt in case of false
+                    SUPCTRL -> USEREPO : createAppUser()
+                    activate USEREPO
+
+                    USEREPO --> SUPCTRL : return password
+                    SUPCTRL --> CANCTRL : return password
+                    CANCTRL --> UI : return password
+                    UI --> OP : show the Candidate info and password assigned
+
+                    else in case of true
+
+                    SUPCTRL --> CANCTRL : return failed operation
+                    deactivate SUPCTRL
+
+                    CANCTRL -> USEREPO : deleteCandidate()
+                    CANCTRL --> UI : return failed operation
+                    deactivate CANCTRL
+
+                    UI --> OP : show operation failed
+                    end
+deactivate OP
+
+
+
+
+@enduml
