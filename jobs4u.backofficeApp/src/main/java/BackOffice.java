@@ -13,6 +13,7 @@ public class BackOffice {
     static Role roleInUse;
     static Bootstrapper bootstrapper = new Bootstrapper();
     static boolean bootstrapmode = true;
+    static final String BOOTSTRAP_FILE = "bootstrap.txt";
 
     public static void main(String[] args) {
 
