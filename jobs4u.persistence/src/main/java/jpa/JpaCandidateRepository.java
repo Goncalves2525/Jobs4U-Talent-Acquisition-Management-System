@@ -1,5 +1,6 @@
 package jpa;
 
+import appUserManagement.domain.Ability;
 import applicationManagement.domain.dto.CandidateDTO;
 import jakarta.persistence.*;
 import applicationManagement.domain.Candidate;
@@ -76,11 +77,19 @@ public class JpaCandidateRepository implements CandidateRepository {
     }
 
     @Override
-    public Optional<Candidate> ofIdentity(String id) {
-        Query query = getEntityManager().createQuery(
-                "SELECT e FROM Candidate e WHERE e.id = :id");
-        query.setParameter("id", id);
+    public Optional<Candidate> ofIdentity(String email) {
+//        Query query = getEntityManager().createQuery(
+//                "SELECT e FROM Candidate e WHERE e.id = :id");
+//        query.setParameter("id", id);
+//        Candidate candidate = (Candidate) query.getSingleResult();
+//        return Optional.of(candidate);
+
+        String jpql = "SELECT e FROM Candidate e WHERE e.email = :email";
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery(jpql)
+                .setParameter("email", email);
         Candidate candidate = (Candidate) query.getSingleResult();
+        em.close();
         return Optional.of(candidate);
     }
 

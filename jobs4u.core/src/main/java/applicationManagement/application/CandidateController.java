@@ -23,7 +23,7 @@ public class CandidateController {
 
     public Optional<String> registerCandidate(CandidateDTO dto) {
         if(repo.createCandidate(dto)){
-            Optional<String> pwd = signUpController.signUp(new Email(dto.getEmail()), Role.CANDIDATE);
+            Optional<String> pwd = signUpController.signUp(Email.valueOf(dto.getEmail()), Role.CANDIDATE);
             if(pwd.isPresent()){
                 return pwd;
             }

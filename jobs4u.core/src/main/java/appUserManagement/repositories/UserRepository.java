@@ -1,17 +1,17 @@
 package appUserManagement.repositories;
 
 import appUserManagement.domain.AppUser;
+import appUserManagement.domain.Email;
 import appUserManagement.domain.Role;
 import appUserManagement.domain.dto.AppUserDTO;
 import eapli.framework.domain.repositories.DomainRepository;
-import eapli.framework.general.domain.model.EmailAddress;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends DomainRepository<EmailAddress, AppUser> {
+public interface UserRepository extends DomainRepository<Email, AppUser> {
 
-    boolean exists(EmailAddress email);
+    boolean exists(Email email);
 
     Optional<String> createAppUser(String email, Role role);
 
@@ -24,6 +24,8 @@ public interface UserRepository extends DomainRepository<EmailAddress, AppUser> 
     boolean authorized(String sessionToken, Role roleRequired);
 
     Role getValidBackofficeRole(String sessionToken);
+
+    Optional<AppUser> ofIdentity(Email id);
 
     public Optional<List<AppUserDTO>> buildListByRole(List<Role> requiredRoles, Role managerRole);
 

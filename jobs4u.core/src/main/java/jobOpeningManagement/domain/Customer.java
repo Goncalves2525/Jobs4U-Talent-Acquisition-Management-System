@@ -1,7 +1,7 @@
 package jobOpeningManagement.domain;
 
+import appUserManagement.domain.Email;
 import eapli.framework.domain.model.AggregateRoot;
-import eapli.framework.general.domain.model.EmailAddress;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 public class Customer implements AggregateRoot<CompanyCode> {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Getter
@@ -25,7 +25,7 @@ public class Customer implements AggregateRoot<CompanyCode> {
 
     @Getter
     @Column
-    private EmailAddress email;
+    private Email email;
 
     @Getter
     @Embedded
@@ -38,7 +38,7 @@ public class Customer implements AggregateRoot<CompanyCode> {
         // for ORM
     }
 
-    public Customer(CompanyCode code, String name, EmailAddress email, Address address) {
+    public Customer(CompanyCode code, String name, Email email, Address address) {
         if (code == null || name == null || email == null || address == null) {
             throw new IllegalArgumentException();
         }

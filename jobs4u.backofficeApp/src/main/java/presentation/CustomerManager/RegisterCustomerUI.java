@@ -41,7 +41,7 @@ public class RegisterCustomerUI{
         name = ConsoleUtils.readLineFromConsole("Name: ");
         do {
             String emailString = ConsoleUtils.readLineFromConsole("Email: ");
-            email = new Email(emailString);
+            email = Email.valueOf(emailString);
         } while (email == null);
 
         System.out.println("-ADDRESS-");

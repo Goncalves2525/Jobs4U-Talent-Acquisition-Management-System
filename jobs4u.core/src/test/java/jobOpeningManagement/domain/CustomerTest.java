@@ -11,7 +11,7 @@ public class CustomerTest {
 
     @BeforeEach
     public void setUp() {
-        customer = new Customer(new CompanyCode("TEST"), "UNIT TEST", new Email("user@isep.ipp.pt"), new Address("Rua Dr. António Bernardino de Almeida", "Porto", "4200-072"));
+        customer = new Customer(new CompanyCode("TEST"), "UNIT TEST", Email.valueOf("user@isep.ipp.pt"), new Address("Rua Dr. António Bernardino de Almeida", "Porto", "4200-072"));
     }
 
     @Test

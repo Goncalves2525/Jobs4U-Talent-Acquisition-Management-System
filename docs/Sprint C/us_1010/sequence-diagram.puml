@@ -1,0 +1,48 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "CustomerManager" as CM
+participant "DefineRecruitmentPhaseUI" as UI
+participant "DefineRecruitmentPhaseController" as CTRL
+participant "JobOpeningRepository" as JOREPO
+participant "JobOpening" as JO
+
+
+activate CM
+    UI --> CM : prompt user to select JobOpening ID
+    activate UI
+        CM -> UI : inserts JobOpening ID
+        UI -> CTRL : findJobOpeningByID()
+        activate CTRL
+            CTRL -> JOREPO : ofIdentity()
+            activate JOREPO
+            JOREPO --> CTRL : return jobOpening
+            deactivate JOREPO
+            CTRL --> UI : return jobOpening
+            UI -> CTRL : checkJobOpeningPhase(jobOpening)
+            CTRL -> JO : checkJobOpeningPhase(jobOpening)
+            activate JO
+                JO --> CTRL : return RecruitmentState
+            deactivate JO
+            CTRL --> UI : return RecruitmentState
+            UI -> CM : show all the recruitment state and ask the user if it wants to close the current one and activate the next one, or go back in a phase
+            CM -> UI : inserts yes/no/back (phase)
+            UI -> CTRL : updateJobOpeningRecruitmentState(jobOpening, phase)
+            CTRL -> JO : associateInterviewModelToApplication(jobOpening, phase)
+            activate JO
+                JO --> CTRL : return true/false
+            deactivate JO
+            CTRL --> UI : return true/false
+        deactivate CTRL
+        UI -> CM : show success/failure message
+    deactivate UI
+deactivate CM
+
+
+
+
+@enduml

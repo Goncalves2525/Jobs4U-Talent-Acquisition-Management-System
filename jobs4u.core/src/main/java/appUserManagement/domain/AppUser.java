@@ -1,12 +1,11 @@
 package appUserManagement.domain;
 
 import eapli.framework.domain.model.AggregateRoot;
-import eapli.framework.general.domain.model.EmailAddress;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
-public class AppUser implements AggregateRoot<EmailAddress> {
+public class AppUser implements AggregateRoot<Email> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -15,7 +14,7 @@ public class AppUser implements AggregateRoot<EmailAddress> {
     @Embedded
     @Column(unique = true)
     @AttributeOverride(name = "email", column = @Column(name = "email"))
-    private EmailAddress email;
+    private Email email;
 
     @Getter
     @Embedded
@@ -43,7 +42,7 @@ public class AppUser implements AggregateRoot<EmailAddress> {
         //for ORM
     }
 
-    public AppUser(EmailAddress email, Password password, Role role) {
+    public AppUser(Email email, Password password, Role role) {
         this.email = email;
         this.password = password;
         this.role = role;
@@ -70,7 +69,7 @@ public class AppUser implements AggregateRoot<EmailAddress> {
     }
 
     @Override
-    public EmailAddress identity() {
+    public Email identity() {
         return email;
     }
 }

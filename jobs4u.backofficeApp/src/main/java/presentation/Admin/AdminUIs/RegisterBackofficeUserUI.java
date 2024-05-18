@@ -38,7 +38,7 @@ public class RegisterBackofficeUserUI {
             ConsoleUtils.buildUiTitle("Register Backoffice User");
             String email = ConsoleUtils.readLineFromConsole("Type the user e-mail:");
             Role role = (Role) ConsoleUtils.showAndSelectOneNoCancel(backofficeRoles, message);
-            Optional<String> password = signUpController.signUp(new Email(email), role, userRole);
+            Optional<String> password = signUpController.signUp(Email.valueOf(email), role, userRole);
             if (password.isEmpty()){
                 System.out.println();
                 ConsoleUtils.showMessageColor("Failed to create user!", AnsiColor.RED);

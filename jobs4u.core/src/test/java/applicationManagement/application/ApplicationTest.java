@@ -1,7 +1,9 @@
-package applicationManagement.domain;
+package applicationManagement.application;
 
 import appUserManagement.domain.Email;
-import eapli.framework.general.domain.model.EmailAddress;
+import applicationManagement.domain.Application;
+import applicationManagement.domain.ApplicationStatus;
+import applicationManagement.domain.Candidate;
 import jobOpeningManagement.domain.*;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +19,7 @@ public class ApplicationTest {
         Candidate candidate = new Candidate("joao@email.com", "123456789", "Joao Silva");
         CompanyCode companyCode = new CompanyCode("123");
         Address companyAddress = new Address("Rua dos Testes", "Test", "1234");
-        EmailAddress companyEmail = new Email("geral@company.com");
+        Email companyEmail = Email.valueOf("geral@company.com");
         Customer company = new Customer(companyCode, "Company",companyEmail ,companyAddress);
         Requirements requirements = new Requirements("DevOps");
         JobOpening jobOpening = new JobOpening("DevOps", ContractType.FULL_TIME, JobMode.HYBRID, companyAddress, company, 1, "teste", requirements);
