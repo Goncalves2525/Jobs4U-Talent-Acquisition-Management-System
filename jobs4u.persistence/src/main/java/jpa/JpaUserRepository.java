@@ -4,7 +4,6 @@ import appUserManagement.domain.*;
 import appUserManagement.domain.dto.AppUserDTO;
 import appUserManagement.repositories.UserRepository;
 import console.ConsoleUtils;
-import eapli.framework.general.domain.model.EmailAddress;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -26,7 +25,7 @@ public class JpaUserRepository implements UserRepository {
 
     @Override
     public Optional<String> createAppUser(String email, Role role) {
-        Email userEmail = new Email(email);
+        Email userEmail = Email.valueOf(email);
         Password userPwd = new Password();
         String userPwdGenerated = userPwd.generatePassword();
         AppUser appUser = new AppUser(userEmail, userPwd, role);
@@ -36,7 +35,7 @@ public class JpaUserRepository implements UserRepository {
 
     @Override
     public Optional<String> createAppUser(String email, Role role, Role creatorRole) {
-        Email userEmail = new Email(email);
+        Email userEmail = Email.valueOf(email);
         Password userPwd = new Password();
         String userPwdGenerated = userPwd.generatePassword();
         if (role.showBackofficeAppAccess() && creatorRole.equals(Role.ADMIN)) {
@@ -50,7 +49,7 @@ public class JpaUserRepository implements UserRepository {
     @Override
     public boolean swapAbility(String email, Role managerRole) {
         if (managerRole.equals(Role.ADMIN)) {
-            AppUser appUser = ofIdentity(new Email(email)).get();
+            AppUser appUser = ofIdentity(Email.valueOf(email)).get();
             appUser.swapAbility();
             update(appUser);
             return true;
@@ -66,16 +65,6 @@ public class JpaUserRepository implements UserRepository {
             ConsoleUtils.showMessageColor("Bad user or password!", AnsiColor.RED);
             return Optional.empty();
         }
-
-        // Query to get a user with matching email and password:
-//        String select = "SELECT tb.token FROM AppUser tb"
-//                + " WHERE tb.email.email LIKE '" + email
-//                + "' AND tb.password.value LIKE '" + password
-//                + "' AND tb.ability. LIKE '" + "ENABLED" + "'";
-//        EntityManager em = getEntityManager();
-//        Query query = em.createQuery(select);
-//        List tokens = query.getResultList();
-//        em.close();
 
         // Query to get a user with matching email and password, while being enabled:
         String jpql = "SELECT tb.token FROM AppUser tb WHERE tb.email.email = :email AND tb.password.value = :password AND tb.ability = :ability";
@@ -129,7 +118,7 @@ public class JpaUserRepository implements UserRepository {
     }
 
     private Optional<AppUser> createSessionUser(String email, String password) {
-        EmailAddress userEmail = new Email(email);
+        Email userEmail = Email.valueOf(email);
         Password userPassword = new Password();
         boolean valid = userPassword.createPassword(password);
         AppUser sessionUser = new AppUser(userEmail, userPassword, Role.DEFAULT);
@@ -150,7 +139,7 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public boolean exists(EmailAddress email) {
+    public boolean exists(Email email) {
         Iterable<AppUser> users = findAll();
         for (AppUser appUser : users) {
             if (appUser.identity().equals(email)) {
@@ -189,7 +178,7 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public Optional<AppUser> ofIdentity(EmailAddress id) {
+    public Optional<AppUser> ofIdentity(Email id) {
         EntityManager em = getEntityManager();
         Query query = em.createQuery("SELECT u FROM AppUser u WHERE u.email.email LIKE '" + id.toString() + "'");
         AppUser user = (AppUser) query.getResultList().get(0);
@@ -247,7 +236,7 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public void deleteOfIdentity(EmailAddress entityId) {
+    public void deleteOfIdentity(Email entityId) {
         ConsoleUtils.showMessageColor("It is not allowed to delete AppUsers.", AnsiColor.RED);
     }
 

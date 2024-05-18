@@ -28,8 +28,8 @@ public class JobOpeningsBootstrapper {
         ConsoleUtils.showMessageColor("** Job Openings created **", AnsiColor.CYAN);
 
         // creater customer email
-        Email email1 = new Email("company1@mail.pt");
-        Email email2 = new Email("company2@mail.pt");
+        Email email1 = Email.valueOf("company1@mail.pt");
+        Email email2 = Email.valueOf("company2@mail.pt");
 
         // create customer user
         Optional<String> pwd1 = signUpController.signUp(email1, Role.CUSTOMER);

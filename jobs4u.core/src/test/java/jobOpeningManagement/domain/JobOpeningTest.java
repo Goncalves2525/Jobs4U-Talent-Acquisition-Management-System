@@ -15,7 +15,7 @@ public class JobOpeningTest {
         ContractType contractType = ContractType.FULL_TIME;
         JobMode mode = JobMode.REMOTE;
         Address address = new Address("Rua do Ouro", "Porto", "4000-000");
-        Customer company = new Customer(new CompanyCode("ISEP"), "ISEP", new Email("000@isep.ipp.pt"), new Address("Rua Dr. António Bernardino de Almeida", "Porto", "4200-072"));
+        Customer company = new Customer(new CompanyCode("ISEP"), "ISEP", Email.valueOf("000@isep.ipp.pt"), new Address("Rua Dr. António Bernardino de Almeida", "Porto", "4200-072"));
         int numberOfVacancies = 5;
         String description = "Software Engineer to work on a new project";
         jobOpening = new JobOpening(title, contractType, mode, address, company, numberOfVacancies, description, null);
@@ -29,7 +29,7 @@ public class JobOpeningTest {
         ContractType contractType = ContractType.FULL_TIME;
         JobMode mode = JobMode.REMOTE;
         Address address = new Address("Rua do Ouro", "Porto", "4000-000");
-        Customer company = new Customer(new CompanyCode("ISEP"), "ISEP", new Email("000@isep.ipp.pt"), new Address("Rua Dr. António Bernardino de Almeida", "Porto", "4200-072"));
+        Customer company = new Customer(new CompanyCode("ISEP"), "ISEP", Email.valueOf("000@isep.ipp.pt"), new Address("Rua Dr. António Bernardino de Almeida", "Porto", "4200-072"));
         int numberOfVacancies = 5;
         String description = "Software Engineer to work on a new project";
         JobOpening jobOpening2 = new JobOpening(title, contractType, mode, address, company, numberOfVacancies, description, null);
@@ -74,7 +74,7 @@ public class JobOpeningTest {
         assert(jobOpening.numberOfVacancies() > 0);
 
         //Failure
-        Customer company = new Customer(new CompanyCode("ISEP"), "ISEP", new Email("000@isep.ipp.pt"), new Address("Rua Dr. António Bernardino de Almeida", "Porto", "4200-072"));
+        Customer company = new Customer(new CompanyCode("ISEP"), "ISEP", Email.valueOf("000@isep.ipp.pt"), new Address("Rua Dr. António Bernardino de Almeida", "Porto", "4200-072"));
         Assertions.assertThrows(IllegalArgumentException.class, () -> new JobOpening("test", ContractType.FULL_TIME, JobMode.ON_SITE, new Address("test", "test", "test"), company, -1, "test", null));
     }
 
