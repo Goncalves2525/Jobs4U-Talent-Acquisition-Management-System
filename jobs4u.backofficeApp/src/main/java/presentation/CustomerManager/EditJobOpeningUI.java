@@ -36,8 +36,8 @@ public class EditJobOpeningUI {
             for (JobOpening jobOpening : jobOpenings) {
                 System.out.println("Job Opening: " + jobOpening.getId() + " | Job reference: " + jobOpening.getJobReference() + " | Title: " + jobOpening.getTitle() + " | Description: " + jobOpening.getDescription() + " | State: " + jobOpening.getState());
             }
-            String jobReference = ConsoleUtils.readLineFromConsole("Insert the Job Reference:");
-            JobOpening jobOpening = ctrlEdit.getJobOpening(jobReference);
+            String id = ConsoleUtils.readLineFromConsole("Insert the Job ID");
+            JobOpening jobOpening = ctrlEdit.getJobOpening(id);
             if (jobOpening == null) {
                 ConsoleUtils.showMessageColor("Job Opening not found.", AnsiColor.RED);
             } else {
@@ -47,7 +47,7 @@ public class EditJobOpeningUI {
                     System.out.println("1 - Title: " + jobOpening.title());
                     System.out.println("2 - Address : " + jobOpening.address());
                     System.out.println("3 - Number of vacancies: " + jobOpening.numberOfVacancies());
-                    System.out.println("0 - Exit\n");
+                    System.out.println("0 - Save\n");
 
                     int option = ConsoleUtils.readIntegerFromConsole("Option: ");
                     switch (option) {

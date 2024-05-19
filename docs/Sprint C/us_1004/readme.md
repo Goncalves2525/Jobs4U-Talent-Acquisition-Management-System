@@ -159,6 +159,20 @@ while(!end){
 
    boolean success = ctrlEdit.updateJobOpening(jobOpening);
 ````
+
+**EditJobOpeningController**
+
+*I used "id" instead of "job reference" because that was what the repository was expecting*
+
+```java
+public class EditJobOpeningController {
+    JobOpeningRepository repo = PersistenceContext.repositories().jobOpenings();
+
+    public JobOpening getJobOpening(String id) {
+        JobOpening jobOpening = repo.ofIdentity(id).get();
+        return jobOpening;
+    }
+````   
 ## 6. Integration/Demonstration
 
 n/a

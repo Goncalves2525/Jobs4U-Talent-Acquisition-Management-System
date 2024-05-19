@@ -7,8 +7,8 @@ import jobOpeningManagement.repositories.JobOpeningRepository;
 public class EditJobOpeningController {
     JobOpeningRepository repo = PersistenceContext.repositories().jobOpenings();
 
-    public JobOpening getJobOpening(String jobReference) {
-        JobOpening jobOpening = repo.ofIdentity(jobReference).get();
+    public JobOpening getJobOpening(String id) {
+        JobOpening jobOpening = repo.ofIdentity(id).get();
         return jobOpening;
     }
 
