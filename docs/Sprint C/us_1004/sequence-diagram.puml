@@ -1,0 +1,64 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "CustomerManager" as CM
+participant "EditJobOpeningUI" as UI
+participant "EditJobOpeningController" as CTRL
+participant "JobOpeningRepository" as JOREPO
+participant "JobOpening" as JO
+
+
+
+
+
+activate CM
+    activate UI
+        UI --> CM : prompt job reference
+        CM -> UI : insert jobReference
+        activate CTRL
+            UI -> CTRL : getJobOpening(jobReference)
+            activate JOREPO
+                CTRL -> JOREPO : byIdentity(jobReference)
+                activate JO
+                    JOREPO -> JO : getSingleResult()
+                    JO --> JOREPO : return jobOpening
+                deactivate JO
+                JOREPO --> CTRL : return jobOpening
+            deactivate JOREPO
+            CTRL --> UI : return jobOpening
+        deactivate CTRL
+        UI --> CM : display jobOpening
+        loop edit JobOpening fields
+            UI --> CM : prompt field to edit
+            CM -> UI : select field to edit
+            UI --> CM : prompt new value
+            CM -> UI : insert new value
+            UI --> CM : prompt confirmation
+        end
+        CM -> UI : confirm changes
+        activate CTRL
+            UI -> CTRL : updateJobOpening(jobOpeningDTO)
+            activate JO
+                CTRL -> JO : new JobOpening(jobOpeningDTO)
+                JO --> CTRL : return jobOpening
+            deactivate JO
+            CTRL -> JOREPO : update(jobOpening)
+            activate JOREPO
+                JOREPO -> JOREPO : merge(jobOpening)
+                JOREPO --> CTRL : return true
+            deactivate JOREPO
+            CTRL --> UI : return true
+        deactivate CTRL
+        UI --> CM : display success message
+    deactivate UI
+deactivate CM
+
+
+
+
+@enduml

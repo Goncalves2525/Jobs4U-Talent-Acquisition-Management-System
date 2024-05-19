@@ -45,7 +45,7 @@
 |:------------------------------------|:-------------------------------------------------|:-------------------------|:------------------------------|
 | Step 1 : Select job opening to edit | 	... prompting the job reference?                | EditJobOepningUI         | Pure Fabrication              |
 |                                     | 	... displaying job opening details?             | EditJobOepningUI         | Pure Fabrication              |
-|                                     | 	... prompting which detail is to be edited?     | EditJobOepningUI         | Pure Fabrication              |
+|                                     | 	... prompting which field is to be edited?      | EditJobOepningUI         | Pure Fabrication              |
 | Step 2 : Edit job opening           | 	... coordination between user input and domain? | EditJobOpeningController | Controller                    |
 |                                     | 	... validating the job opening details?         | Job Opening              | Information Expert            |
 |                                     | 	... retrieving the selected job opening?        | JobOpeningRepository     | Information Expert            |
@@ -67,11 +67,11 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 ### 4.2. Class Diagram
 
-![a class diagram](class-diagram-01.svg "A Class Diagram")
+![a class diagram](class-diagram.png "A Class Diagram")
 
 ### 4.3. Sequence Diagram
 
-![a sequence diagram](sequence-diagram.svg "A Sequence Diagram")
+![a sequence diagram](sequence-diagram.png "A Sequence Diagram")
 
 ### 4.4. Tests
 
