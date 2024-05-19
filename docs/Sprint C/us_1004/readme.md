@@ -88,14 +88,77 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 
 ## 5. Implementation
-**Customer**
+**EditJobOpeningUI**
 
+*I ended up showing the existing job openings first to make it more simple for the Customer Manager to choose.*
 ```java
+protected void doShow(AuthzUI authzUI) {
+        ConsoleUtils.buildUiHeader("Edit Job Opening");
 
+        // get user role, to be used as parameter on restricted user actions
+        managerRole = authzUI.getValidBackofficeRole();
+        if (!managerRole.showBackofficeAppAccess()) {
+            ConsoleUtils.showMessageColor("You don't have permissions for this action.", AnsiColor.RED);
+            return;
+        }
+
+        System.out.println("Job Openings:");
+        Iterable<JobOpening> jobOpenings = ctrlList.listJobOpenings();
+
+        // Check if jobOpenings is empty
+        if (!jobOpenings.iterator().hasNext()) {
+            System.out.println("No job openings found.");
+        }else {
+            // Iterate over jobOpenings if it's not empty
+            for (JobOpening jobOpening : jobOpenings) {
+                System.out.println("Job Opening: " + jobOpening.getId() + " | Job reference: " + jobOpening.getJobReference() + " | Title: " + jobOpening.getTitle() + " | Description: " + jobOpening.getDescription() + " | State: " + jobOpening.getState());
+            }
+            String jobReference = ConsoleUtils.readLineFromConsole("Insert the Job Reference:");
+        }
 
 ````
 
+*Instead of using a DTO for updating a Job Opening, update the object using setters and use that object to update. Despite doing this in the UI, I considered that i whould be more simple this way.*
 
+```java
+while(!end){
+       System.out.println("Which field do you want to edit?");
+       System.out.println("1 - Title: " + jobOpening.title());
+       System.out.println("2 - Address : " + jobOpening.address());
+       System.out.println("3 - Number of vacancies: " + jobOpening.numberOfVacancies());
+       System.out.println("0 - Exit\n");
+
+       int option = ConsoleUtils.readIntegerFromConsole("Option: ");
+       switch (option) {
+           case 1:
+               String title = ConsoleUtils.readLineFromConsole("Insert the new title:");
+               jobOpening.setTitle(title);
+               break;
+           case 2:
+               Address address = setAddress();
+               if (address != null){
+                   jobOpening.setAddress(address);
+                   break;
+               }
+               else{
+                   System.out.println("Address not updated.");
+                   break;
+               }
+           case 3:
+               int numberOfVacancies = ConsoleUtils.readIntegerFromConsole("Insert the new number of vacancies:");
+               jobOpening.setNumberOfVacancies(numberOfVacancies);
+               break;
+           case 0:
+               end = true;
+               break;
+           default:
+               System.out.println("Invalid option.");
+               break;
+       }
+   }
+
+   boolean success = ctrlEdit.updateJobOpening(jobOpening);
+````
 ## 6. Integration/Demonstration
 
 n/a
