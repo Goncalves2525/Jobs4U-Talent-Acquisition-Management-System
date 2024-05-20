@@ -1,32 +1,28 @@
-Interview Questions:
+Job Requirements Specification:
 
-Company Name: [Company Name]
+1. Technical Skills:
+   - Programming Languages: [Enter programming languages required]
+   - Frameworks/Libraries: [Enter frameworks/libraries required]
+   - Databases: [Enter database technologies required]
 
-Job Opening: [Job Title]
+2. Experience:
+   - Years of Experience: [Enter number of years required]
+   - Previous Projects: [Describe previous project experience]
 
-Candidate: [Candidate Name]
+3. Soft Skills:
+   - Communication Skills: [Rate communication skills from 1 to 10]
+   - Teamwork: [Describe teamwork abilities]
 
-Application Date: [Application Date]
+4. Education:
+   - Degree: [Select degree type]
+   - Certifications: [List required certifications]
 
-1. Tell us about yourself:
+5. Additional Requirements:
+   - Location: [Enter preferred location]
+   - Availability: [Specify availability]
 
-------------------------------------------------------------------
-
-2. What interests you about this position?
-
-------------------------------------------------------------------
-
-3. Describe a challenging problem you faced in your previous role and how you solved it:
-
-------------------------------------------------------------------
-
-4. How do you handle tight deadlines and pressure?
-
-------------------------------------------------------------------
-
-5. What are your strengths and weaknesses?
-
-------------------------------------------------------------------
-
-6. Do you have any questions for us?
+Evaluation Criteria:
+   - Syntax Check: [Approved/Rejected]
+   - Compliance Check: [Approved/Rejected]
+   - Justification (if rejected): [Provide justification]
 
