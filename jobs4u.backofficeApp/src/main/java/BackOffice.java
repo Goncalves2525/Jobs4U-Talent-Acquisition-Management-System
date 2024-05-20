@@ -20,7 +20,7 @@ public class BackOffice {
 
         // if in bootstrap mode, launch bootstrapper
         if (bootstrapmode) {
-            //DatabaseUtility.dropAllDataBaseObjects();
+            DatabaseUtility.dropAllDataBaseObjects();
             DatabaseUtility.clearAllTables();
             bootstrapper.execute();
         }

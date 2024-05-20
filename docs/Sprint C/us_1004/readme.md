@@ -10,8 +10,7 @@
 
 **Acceptance Criteria:**
 
-- 1004.1. It should not be possible to edit a job reference.
-- 1004.2 It should not be possible to edit the contract type and the mode of the job opening.
+- 1004.1 It should not be possible to edit the contract type and the mode of the job opening.
 
 **Dependencies/References:**
 
@@ -75,15 +74,11 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 ### 4.4. Tests
 
-**Test 1:** *  *
+**Test 1:** 
 
 **Refers to Acceptance Criteria:** 1004.1
 
-
-```java
-
-
-````
+There is no need to test this acceptance criteria because the contract type and the mode of the job opening are not editable.
 
 
 
