@@ -39,13 +39,4 @@ public class SelectInterviewModelController {
         return false;
     }
 
-    public boolean associateInterviewModelPathToApplication(Application application, String interviewModelPath){
-        boolean success = false;
-        success = application.associateInterviewModelPathToApplication(interviewModelPath);
-        if(success){
-            repo.update(application);
-            return true;
-        }
-        return false;
-    }
 }
