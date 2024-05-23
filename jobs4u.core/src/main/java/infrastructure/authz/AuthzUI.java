@@ -28,6 +28,14 @@ public class AuthzUI {
         return false;
     }
 
+    public boolean fusLogin(String user, String pwd) {
+        this.sessionToken = authzController.doLogin(user, pwd);
+        if (this.sessionToken.isPresent()) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean validateAccess(Role roleRequired) {
         //ConsoleUtils.showMessageColor("Validating access.", AnsiColor.CYAN);
         return authzController.validateAccess(this.sessionToken.get(), roleRequired);
