@@ -104,7 +104,9 @@ New methods were added to Application and JobOpening Repositories, in order to a
 
 > Commit list (descending)
 >
-> ...
+> f0cbfe620ff38e4262cfdffcc65ff85fd5f68a3c
+> 645dfcbd4d30e2bd5a7b5e7b38a5162c05b1becd
+> 63bd5b070e4dbcd9d8342ef800fb30ad0e7a5f56
 
 ## 6. Integration/Demonstration
 
