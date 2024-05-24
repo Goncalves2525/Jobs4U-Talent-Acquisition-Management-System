@@ -55,4 +55,11 @@ public class AuthzUI {
     public boolean forceLogout() {
         return authzController.doLogout(this.sessionToken.get());
     }
+
+    public String findCurrentUserEmail() {
+        if (this.sessionToken.isEmpty()) {
+            return null;
+        }
+        return authzController.findCurrentUserEmail(this.sessionToken.get());
+    }
 }

@@ -175,4 +175,18 @@ public class TcpMessage {
         // Construct the full message array
         return buildTcpMessage(messages, messagesLengthAndQuantity, 5);
     }
+
+    static public byte[] buildTcpMessageREQUESTCandidateApplicationStatus(){
+        ArrayList<String> messages = new ArrayList<>();
+        int[] messagesLengthAndQuantity = new int[]{0,0};
+        // Construct the full message array
+        return buildTcpMessage(messages, messagesLengthAndQuantity, 6);
+    }
+
+    static public byte[] buildTcpMessageRESPONSECandidateApplicationStatus(ArrayList<String> messages){
+        // Get full messages length
+        int[] messagesLengthAndQuantity = measureMessagesLengthAndQuantity(messages);
+        // Construct the full message array
+        return buildTcpMessage(messages, messagesLengthAndQuantity, 7);
+    }
 }

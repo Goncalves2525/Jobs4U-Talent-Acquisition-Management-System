@@ -19,4 +19,6 @@ public class AuthzController {
     public Role getValidBackofficeRole(String sessionToken){ return repo.getValidBackofficeRole(sessionToken); }
 
     public boolean doLogout(String sessionToken) { return repo.endSession(sessionToken); }
+
+    public String findCurrentUserEmail(String sessionToken) { return repo.findCurrentUserEmail(sessionToken); }
 }

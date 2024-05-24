@@ -53,7 +53,7 @@ public class Candidate {
                     header = TcpMessage.readTcpMessageHeader(inputStream);
                     if (header[1] == 2) {
                         // Run Candidate UI
-                        new CandidateUI().doShow();
+                        new CandidateUI().doShow(inputStream, outputStream, ROLE_REQUIRED);
                         // Request logout
                         outputStream.write(TcpMessage.buildTcpMessageLOGOUT());
                         break;
@@ -61,7 +61,7 @@ public class Candidate {
                         // Decrement login attempts
                         loginAttempts--;
                         ArrayList<String> authError = TcpMessage.readTcpMessageContent(inputStream, header[2], header[3]);
-                        authError.add("You have " + loginAttempts + " left.");
+                        authError.add("You have " + loginAttempts + " attempts left.");
                         TcpMessage.printErrorMessages(authError);
                     } else {
                         ConsoleUtils.showMessageColor("Unknown server response!", AnsiColor.RED);

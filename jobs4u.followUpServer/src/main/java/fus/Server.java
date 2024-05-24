@@ -1,7 +1,11 @@
 package fus;
 
+import applicationManagement.domain.Application;
+import applicationManagement.domain.Candidate;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import jpa.JpaApplicationRepository;
+import jpa.JpaCandidateRepository;
 import tcpMessage.TcpMessage;
 import textformat.AnsiColor;
 
@@ -9,6 +13,8 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class Server {
     public static synchronized void run() {
@@ -74,10 +80,31 @@ public class Server {
                 }
                 break;
             case (5):
-                if(authzUI.doLogout()){
+                if (authzUI.doLogout()) {
                     outputStream.write(TcpMessage.buildTcpMessageACK());
                 } else {
                     ConsoleUtils.showMessageColor("Logout failed!", AnsiColor.RED);
+                }
+                break;
+            case (6):
+                String currentUserEmail = authzUI.findCurrentUserEmail();
+                Optional<Candidate> candidate = new JpaCandidateRepository().ofIdentity(currentUserEmail);
+                if (candidate.isPresent()) {
+                    List<Application> listApplications = new JpaApplicationRepository().ofCandidate(candidate.get());
+                    ArrayList<String> applicationsStatus = new ArrayList<>();
+                    for (Application application : listApplications) {
+                        String jobReference = application.getJobReference();
+                        String applicationStatus = application.getStatus().getDisplayName();
+                        String qtyApplicants = new JpaApplicationRepository().countApplicants(jobReference);
+                        applicationsStatus.add("Job Opening Reference: " + jobReference + "\n"
+                                + "Current Status: " + applicationStatus + "\n"
+                                + "# Applicants: " + qtyApplicants + " candidates applied\n");
+                    }
+                    outputStream.write(TcpMessage.buildTcpMessageRESPONSECandidateApplicationStatus(applicationsStatus));
+                } else {
+                    ArrayList<String> invalidCandidate = new ArrayList<>();
+                    invalidCandidate.add("You have not yet enrolled as a candidate in any job opening.");
+                    outputStream.write(TcpMessage.buildTcpMessageERR(invalidCandidate));
                 }
                 break;
             case (99):
