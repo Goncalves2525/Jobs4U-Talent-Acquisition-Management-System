@@ -1,30 +1,36 @@
-# US 1014
+# US 1021 - As a Customer Manager, I want to display all the data of an application
 
 ## 1. Context
 
-* *
+* * The customer manager needs to have access to the imported files and generated data, such as interviews, from a job application of a candidate.
 
 ## 2. Requirements
 
-**US 1021** 
+** **
 
 **Acceptance Criteria:**
 
-- 1021.1. 
+- The client didn't give any acceptance criteria in the system specification pdf file. 
 
 **Dependencies/References:**
 
-*Regarding this requirement we understand that it relates to *
+*Regarding the requirements we understand that it relates to:
+
+- 2002: As Operator, I want to register an application of a candidate for a job opening and import all files received.
 
 
 ## 3. Analysis
 ### 3.1. Relevant Domain Model Excerpt
-![Domain Model](domain_model.png)
+![Domain Model](DM_US1021.JPG)
 
 ### 3.2. Questions and Answers
-> **Question:** 
+> **Question 36: O que é "all data of an application? O que é uma job application?** 
 > 
-> **Answer:** 
+> **Answer 36: Uma job application é uma candidatura (de um candidato) a uma job opening. 
+Relativamente ao “all data of an application” refere-se a todos os dados de uma candidatura, nomeadamente, 
+os ficheiros submetidos pelos candidato assim como dados recolhidos ou gerados durante o processo 
+(como as entrevistas e processamento de requisitos).** 
+>
 
 
 
@@ -48,7 +54,7 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 ### 4.2. Class Diagram
 
-![a class diagram](class-diagram-01.svg "A Class Diagram")
+![a class diagram](class-diagram.svg "US 1021 - Class Diagram")
 
 ### 4.3. Sequence Diagram
 
