@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Instant;
+import java.util.Date;
+
 @Getter
 @Entity
 public class JobOpening implements AggregateRoot<String> {
@@ -52,7 +55,18 @@ public class JobOpening implements AggregateRoot<String> {
 
     @Enumerated(EnumType.STRING)
     @Column
+    @Getter
+    @Setter
     private RecruitmentState state;
+
+    @Column
+    @Getter
+    private Date startDate;
+
+    @Column
+    @Getter
+    @Setter
+    private Date endDate;
 
     @Transient
     private static int counter = 0;
@@ -76,7 +90,9 @@ public class JobOpening implements AggregateRoot<String> {
         this.numberOfVacancies = numberOfVacancies;
         this.description = description;
         this.requirements = requirements;
-        state = RecruitmentState.APPLICATION;
+        this.state = RecruitmentState.APPLICATION;
+        this.startDate = Date.from(Instant.now());
+        this.endDate = null;
         counter++;
         //Company code + sequential number
         generateJobReference();
@@ -96,7 +112,9 @@ public class JobOpening implements AggregateRoot<String> {
         this.jobSpecifications = jobSpecifications;
         this.description = description;
         this.requirements = requirements;
-        state = RecruitmentState.APPLICATION;
+        this.state = RecruitmentState.APPLICATION;
+        this.startDate = Date.from(Instant.now());
+        this.endDate = null;
         counter++;
         //Company code + sequential number
         generateJobReference();
@@ -145,12 +163,6 @@ public class JobOpening implements AggregateRoot<String> {
     public RecruitmentState state() {
         return state;
     }
-
-    public void setState(RecruitmentState state) {
-        this.state = state;
-    }
-
-
 
     @Override
     public String toString() {
