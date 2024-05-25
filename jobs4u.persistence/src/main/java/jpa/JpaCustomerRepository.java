@@ -87,4 +87,13 @@ public class JpaCustomerRepository implements CustomerRepository {
                 "SELECT COUNT(e) FROM Customer e");
         return (long) query.getSingleResult();
     }
+
+    @Override
+    public Optional<Customer> withEmail(String email) {
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM Customer e WHERE e.email.email LIKE :email");
+        query.setParameter("email", email);
+        Customer customer = (Customer) query.getSingleResult();
+        return Optional.of(customer);
+    }
 }
