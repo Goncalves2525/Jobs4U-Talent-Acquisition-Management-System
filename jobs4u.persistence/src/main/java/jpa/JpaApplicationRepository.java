@@ -126,5 +126,14 @@ public class JpaApplicationRepository implements ApplicationRepository {
         em.close();
     }
 
-
+    @Override
+    public String countApplicants(String jobReference) {
+        Query query = getEntityManager().createQuery(
+                "SELECT COUNT(e) FROM Application e WHERE e.jobReference LIKE :jobReference");
+        query.setParameter("jobReference", jobReference);
+        if(query.getSingleResult().toString().isEmpty()){
+            return "0";
+        }
+        return query.getSingleResult().toString();
+    }
 }

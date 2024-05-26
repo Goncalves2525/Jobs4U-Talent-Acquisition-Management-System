@@ -30,4 +30,6 @@ public interface UserRepository extends DomainRepository<Email, AppUser> {
     public Optional<List<AppUserDTO>> buildListByRole(List<Role> requiredRoles, Role managerRole);
 
     boolean endSession(String sessionToken);
+
+    String findCurrentUserEmail(String sessionToken);
 }

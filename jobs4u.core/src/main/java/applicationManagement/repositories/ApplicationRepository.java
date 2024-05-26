@@ -12,4 +12,6 @@ public interface ApplicationRepository extends DomainRepository<String, Applicat
 
     void update(Application entity);
 
+    String countApplicants(String jobReference);
+
 }
