@@ -1,6 +1,7 @@
 package presentation.Operator;
 
 import applicationManagement.application.CandidateController;
+import applicationManagement.domain.CandidateAbility;
 import applicationManagement.domain.dto.CandidateDTO;
 import console.ConsoleUtils;
 import eapli.framework.presentation.console.AbstractUI;
@@ -34,7 +35,7 @@ public class RegisterCandidateUI extends AbstractUI {
             phone = ConsoleUtils.readLineFromConsole("Insert the Candidate phone: ");
         } while (!isValidInput(phone) || !isValidPhone(phone));
 
-        CandidateDTO candidateDTO = new CandidateDTO(name, email, phone);
+        CandidateDTO candidateDTO = new CandidateDTO(name, email, phone, CandidateAbility.ENABLED);
         Optional<String> pwd = ctrlCandidate.registerCandidate(candidateDTO);
 
         if (pwd.isEmpty()) {
@@ -42,7 +43,7 @@ public class RegisterCandidateUI extends AbstractUI {
             return false;
         } else {
             System.out.println("Candidate registered successfully");
-            System.out.println("Candidate name: " + candidateDTO.getName() + " | email: " + candidateDTO.getEmail() + " | phone: " + candidateDTO.getPhone() + " | password: " + pwd.get());
+            System.out.println("Candidate name: " + candidateDTO.getName() + " | email: " + candidateDTO.getEmail() + " | phone: " + candidateDTO.getPhone() + " | password: " + pwd.get() + " | ability: " +candidateDTO.getAbility());
             return true;
         }
     }

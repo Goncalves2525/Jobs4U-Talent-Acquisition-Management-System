@@ -4,6 +4,7 @@ import appUserManagement.application.SignUpController;
 import applicationManagement.application.CandidateController;
 import applicationManagement.application.RegisterApplicationController;
 import applicationManagement.domain.ApplicationStatus;
+import applicationManagement.domain.CandidateAbility;
 import applicationManagement.domain.dto.ApplicationDTO;
 import applicationManagement.domain.dto.CandidateDTO;
 import console.ConsoleUtils;
@@ -37,32 +38,32 @@ public class ApplicationsBootstrapper {
 
         // create candidates
         String cand1email = "duarte@mail.pt";
-        CandidateDTO cand1 = new CandidateDTO("Duarte", cand1email, "987");
+        CandidateDTO cand1 = new CandidateDTO("Duarte", cand1email, "987", CandidateAbility.ENABLED);
         Optional<String> cand1pwd = candidateController.registerCandidate(cand1);
         System.out.println("Candidate : " + cand1.getEmail() + " | Password: " + cand1pwd.get());
 
         String cand2email = "elsa@mail.pt";
-        CandidateDTO cand2 = new CandidateDTO("Elsa", cand2email, "654");
+        CandidateDTO cand2 = new CandidateDTO("Elsa", cand2email, "654",CandidateAbility.ENABLED);
         Optional<String> cand2pwd = candidateController.registerCandidate(cand2);
         System.out.println("Candidate : " + cand2.getEmail() + " | Password: " + cand2pwd.get());
 
         String cand3email = "felisberto@mail.pt";
-        CandidateDTO cand3 = new CandidateDTO("Felisberto", cand3email, "321");
+        CandidateDTO cand3 = new CandidateDTO("Felisberto", cand3email, "321",CandidateAbility.ENABLED);
         Optional<String> cand3pwd = candidateController.registerCandidate(cand3);
         System.out.println("Candidate : " + cand3.getEmail() + " | Password: " + cand3pwd.get());
 
         String cand4email = "genoveva@mail.pt";
-        CandidateDTO cand4 = new CandidateDTO("Genoveva", cand4email, "001");
+        CandidateDTO cand4 = new CandidateDTO("Genoveva", cand4email, "001",CandidateAbility.ENABLED);
         Optional<String> cand4pwd = candidateController.registerCandidate(cand4);
         System.out.println("Candidate : " + cand4.getEmail() + " | Password: " + cand4pwd.get());
 
         String cand5email = "zulmira@mail.pt";
-        CandidateDTO cand5 = new CandidateDTO("Zulmira", cand5email, "999");
+        CandidateDTO cand5 = new CandidateDTO("Zulmira", cand5email, "999",CandidateAbility.ENABLED);
         Optional<String> cand5pwd = candidateController.registerCandidate(cand5);
         System.out.println("Candidate : " + cand5.getEmail() + " | Password: " + cand5pwd.get());
 
         String cand6email = "marante@mail.pt";
-        CandidateDTO cand6 = new CandidateDTO("Marante", cand6email, "777");
+        CandidateDTO cand6 = new CandidateDTO("Marante", cand6email, "777",CandidateAbility.ENABLED);
         Optional<String> cand6pwd = candidateController.registerCandidate(cand6);
         System.out.println("Candidate : " + cand6.getEmail() + " | Password: " + cand6pwd.get());
 

@@ -1,11 +1,15 @@
 package jpa;
 
-import appUserManagement.domain.Ability;
+import appUserManagement.domain.AppUser;
+import appUserManagement.domain.dto.AppUserDTO;
+import applicationManagement.application.ManageCandidateController;
+import applicationManagement.domain.Candidate;
+import appUserManagement.domain.Role;
 import applicationManagement.domain.dto.CandidateDTO;
 import jakarta.persistence.*;
-import applicationManagement.domain.Candidate;
 import applicationManagement.repositories.CandidateRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +29,17 @@ public class JpaCandidateRepository implements CandidateRepository {
     }
 
     @Override
+    public boolean swapAbility(String email, Role managerRole) {
+        if (managerRole.equals(Role.OPERATOR)) {
+            Candidate candidate = ofIdentity(email).get();
+            candidate.swapAbility();
+            update(candidate);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public <S extends Candidate> S save(S entity) {
         if(correctCandidate(entity)){
             EntityManager em = getEntityManager();
@@ -37,6 +52,15 @@ public class JpaCandidateRepository implements CandidateRepository {
             return entity;
         }
         return null;
+    }
+
+    public <S extends Candidate> S update(S entity) {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        entity = em.merge(entity);
+        em.getTransaction().commit();
+        em.close();
+        return entity;
     }
 
     private boolean correctCandidate(Candidate candidate) {

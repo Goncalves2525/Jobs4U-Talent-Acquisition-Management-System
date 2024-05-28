@@ -3,6 +3,7 @@ package presentation.Operator;
 import applicationManagement.application.CandidateController;
 import applicationManagement.application.RegisterApplicationController;
 import applicationManagement.domain.Candidate;
+import applicationManagement.domain.CandidateAbility;
 import console.ConsoleUtils;
 import eapli.framework.presentation.console.AbstractUI;
 import jobOpeningManagement.application.ListJobOpeningsController;
@@ -25,7 +26,7 @@ public class ListCandidatesUI extends AbstractUI{
             return false;
         }
         for (Candidate candidate : candidates) {
-            printCandidates(candidate.name(), candidate.email(), candidate.phoneNumber());
+            printCandidates(candidate.name(), candidate.email(), candidate.phoneNumber(),candidate.getAbility());
         }
         return true;
     }
@@ -56,10 +57,11 @@ public class ListCandidatesUI extends AbstractUI{
         return "CANDIDATE LISTING";
     }
 
-    private void printCandidates(String name, String email, String phone){
+    private void printCandidates(String name, String email, String phone, CandidateAbility ability){
         System.out.println("Name: " + name);
         System.out.println("Email: " + email);
         System.out.println("Phone: " + phone);
+        System.out.println("Ability: " + ability);
         System.out.println();
     }
 
