@@ -1,8 +1,8 @@
-# US 1014
+# US 1014 - Record the date and time of an Interview with a candidate
 
 ## 1. Context
 
-* *
+* Customer Managers are required to record the date and time of an interview with a candidate. This information is important for the Customer Manager to be able to schedule the interview with the candidate and to be able to follow up on the interview. 
 
 ## 2. Requirements
 
@@ -10,7 +10,8 @@
 
 **Acceptance Criteria:**
 
-- 1014.1. 
+- 1014.1. The system should allow the Customer Manager to record the date and time of an interview with a candidate.
+- 1014.2. The date and time of the interview should be valid.
 
 **Dependencies/References:**
 
