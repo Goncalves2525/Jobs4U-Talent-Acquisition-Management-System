@@ -50,7 +50,7 @@ public class ListApplicationsUI {
                 // Iterate over applications if it's not empty
                 for (Application application : applications) {
                     if (application.getJobReference().equals(jobReference))
-                        System.out.println("Application ID: " + application.getId() + " | Candidate Name: " + application.getCandidate() + " | Application Status: " + application.getStatus());
+                        System.out.println("Application ID: " + application.getId() + " | Candidate Name: " + application.getCandidate() + " | Application Status: " + application.getStatus() + " | Application Rank: " + application.getRankNumber());
                 }
             }
         }

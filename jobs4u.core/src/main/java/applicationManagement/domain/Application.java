@@ -51,6 +51,8 @@ public class Application implements AggregateRoot<String>, Serializable {
     @Column
     private String applicationFilesPath;
 
+    @Column
+    private Ranking rankNumber;
 
     protected Application() {
         // for ORM
@@ -68,6 +70,7 @@ public class Application implements AggregateRoot<String>, Serializable {
         this.date = LocalDate.now();
         this.filePath = filePath;
         this.applicationFilesPath = applicationFilesPath;
+        this.rankNumber = new Ranking();
     }
 
     public String jobReference() {
@@ -105,6 +108,8 @@ public class Application implements AggregateRoot<String>, Serializable {
     public String applicationFilesPath() {
         return applicationFilesPath;
     }
+
+    public Ranking rankNumber() { return rankNumber; }
 
     @Override
     public String toString() {
@@ -150,4 +155,6 @@ public class Application implements AggregateRoot<String>, Serializable {
     public void changeJobOpeningRecruitmentState(RecruitmentState newState) {
             jobOpening.setState(newState);
     }
+
+    public void changeRankingNumber(int i) { rankNumber.setOrdinal(i); }
 }

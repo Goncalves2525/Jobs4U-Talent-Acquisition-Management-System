@@ -10,4 +10,8 @@ public class ListApplicationsController {
     public Iterable<Application> listApplications() {
         return repo.findAll();
     }
+
+    public Iterable<Application> listApplicationsOfJobRefence(String jobReference) {
+        return repo.ofJobReference(jobReference);
+    }
 }

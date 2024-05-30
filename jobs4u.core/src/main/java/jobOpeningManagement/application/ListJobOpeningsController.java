@@ -10,4 +10,6 @@ public class ListJobOpeningsController {
     public Iterable<JobOpening> listJobOpenings() {
         return repo.findAll();
     }
+
+    public Iterable<JobOpening> listJobOpeningsResultPhase() { return repo.findAllActiveJobOpeningsResultPhase(); }
 }

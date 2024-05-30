@@ -27,6 +27,7 @@ public class CustomerManagerUI {
         options.add("Generate Answer Collection File");         // 8
         options.add("Select Job Requirements Specifications");  // 9
         options.add("Edit Job Opening");                        // 10
+        options.add("Notification Menu");                       // 11
         String message = "What do you want to do?";
         String exit = "Exit";
 
@@ -79,6 +80,9 @@ public class CustomerManagerUI {
                     EditJobOpeningUI editJobOpeningUI = new EditJobOpeningUI();
                     editJobOpeningUI.doShow(authzUI);
                     break;
+                case 11:
+                    NotificationUI notificationUI = new NotificationUI();
+                    notificationUI.doShow(authzUI);
                 default:
                     ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);
             }

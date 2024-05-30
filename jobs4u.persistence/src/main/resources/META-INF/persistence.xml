@@ -11,6 +11,7 @@
     <class>applicationManagement.domain.Application</class>
     <class>applicationManagement.domain.Candidate</class>
     <class>appUserManagement.domain.AppUser</class>
+    <class>notificationManagement.domain.Notification</class>
 
     <properties>
       <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
