@@ -68,7 +68,9 @@ The information will be kept only during runtime, to ensure that only the most u
 Data will then be displayed as:
 
 *[other application details to be displayed as per US 1005]*
+
 *| APPLICATION TOP 20 WORDS |*
+
 *[word index ascending] | [word] | [times found] | [files separated by semicolon] |* <br>
 
 #### List top 20 most referenced words
@@ -133,7 +135,9 @@ public void displayOnlyKnownFiles() {  }
 
 Functionality added to Backoffice App, Customer Manager UI. <br>
 It was implemented with thread concurrency. <br>
-Critical data was assured using synchronization methods.
+Critical data was assured using synchronization methods. <br>
+
+The implementation had minor changes, since the UI already had access to a list of Applications, thus making it irrelevant to collect that data from the repository.
 
 > Commit list (descending)
 >
