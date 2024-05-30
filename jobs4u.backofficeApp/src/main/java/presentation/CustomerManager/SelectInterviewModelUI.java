@@ -34,12 +34,11 @@ public class SelectInterviewModelUI {
         }
         success = ctrl.checkIfApplicationHasInterviewModel(application);
         if (success) {
-            System.out.println("Application already has Interview Model");
+            System.out.println("Application already has Interview Model. You are about to replace it.");
         }
         List<Plugin> interviewModels = ctrl.getAllInterviewModels();
         int choice = selectInterviewModel(interviewModels);
         success = ctrl.associateInterviewModelToApplication(application, interviewModels.get(choice - 1).getPath());
-        //success = ctrl.associateInterviewModelPathToApplication(application, interviewModels.get(choice).getPath());
         if (success) {
             System.out.println("Interview Model associated to Application");
         } else {

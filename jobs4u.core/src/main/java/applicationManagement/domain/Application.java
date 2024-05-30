@@ -4,15 +4,12 @@ import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;
 import jobOpeningManagement.domain.JobOpening;
 import jobOpeningManagement.domain.RecruitmentState;
-import lombok.Cleanup;
 import lombok.Getter;
-import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Getter
 @Entity
@@ -129,21 +126,11 @@ public class Application implements AggregateRoot<String>, Serializable {
     }
 
 
-    public boolean associateInterviewModelToApplication(String interviewModel){
-        if(!checkIfApplicationHasInterviewModel()){
-            this.InterviewModel = interviewModel;
-            return true;
-        }
-        return false;
+    public boolean associateInterviewModelToApplication(String interviewModel) {
+        this.InterviewModel = interviewModel;
+        return true;
     }
 
-    public boolean associateInterviewModelPathToApplication(String interviewModelPath){
-        if(!checkIfApplicationHasInterviewModel()){
-            this.filePath = interviewModelPath;
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public boolean sameAs(Object other) {
