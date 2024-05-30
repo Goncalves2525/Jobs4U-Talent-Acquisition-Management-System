@@ -21,7 +21,7 @@
 
 ## 3. Analysis
 ### 3.1. Relevant Domain Model Excerpt
-![Domain Model](DM_US1021.JPG)
+![Domain Model](Partial_DM/DM_US1021.JPG)
 
 ### 3.2. Questions and Answers
 > **Question 36: O que é "all data of an application? O que é uma job application?** 
@@ -38,27 +38,35 @@ os ficheiros submetidos pelos candidato assim como dados recolhidos ou gerados d
 
 ### 4.1. Realization
 
-| Interaction ID                | Question: Which class is responsible for... | Answer | Justification (with patterns) |
-|:------------------------------|:--------------------------------------------|:-------|:------------------------------|
-| Step 1 :                      | 	...                                        |        |                               |
-
+| Interaction ID                               | Question: Which class is responsible for... | Answer                     | Justification (with patterns) |
+|:---------------------------------------------|:--------------------------------------------|:---------------------------|:------------------------------|
+| Step 1 : ask to show application information | ... interacting with the user?              | CheckApplicationDataUI     | No reason to delegate         |
+|                                              | ... coordinating the us?                    | ListApplicationsController | Controller                    |
+| Step 2 : request application id              | ... requesting data?                        | CheckApplicationDataUI     | Pure Fabrication              |                               |
+| Step 3 : insert information                  | ... store information?                      | CheckApplicationDataUI     | Pure Fabrication              |                               |
+|                                              | ... get list of applications?               | ListApplicationsController | Controller                    |
+|                                              | ... having the list of applications?        | ApplicationRepository      | Information Expert            |
+|                                              | ... knowing the data of the applications?   | Application                | Information Expert            |
+| Step 4 : show the application data           | ... show the data of the application?       | CheckApplicationDataUI     | Pure Fabrication              |
 
 According to the taken rationale, the conceptual classes promoted to software classes are:
 
-* 
+* CheckApplicationDataUI
 
 Other software classes (i.e. Pure Fabrication) identified:
 
-* 
+* Application
+* ApplicationRepository
+* ListApplicationsController
 
 
 ### 4.2. Class Diagram
 
-![a class diagram](class-diagram.svg "US 1021 - Class Diagram")
+![a class diagram](CD/class-diagram.svg "US 1021 - Class Diagram")
 
 ### 4.3. Sequence Diagram
 
-![a sequence diagram](sequence-diagram.svg "A Sequence Diagram")
+![a sequence diagram](SD/sequence-diagram.svg "A Sequence Diagram")
 
 ### 4.4. Tests
 

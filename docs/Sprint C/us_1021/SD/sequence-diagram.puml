@@ -1,0 +1,43 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "CustomerManager" as CM
+participant "CheckApplicationDataUI" as UI
+participant "ListApplicationsController" as CTRL
+participant "ApplicationRepository" as APPREPO
+
+
+
+
+
+
+activate CM
+
+        CM -> UI : show all the application information
+        activate UI
+
+            UI --> CM : requests application identification
+            CM -> UI : inserts application identification
+            UI -> CTRL : listApplications()
+            activate CTRL
+
+                CTRL -> APPREPO : findAll()
+                activate APPREPO
+
+                    APPREPO --> CTRL : return list of applications
+                deactivate APPREPO
+                CTRL --> UI : return list of applications
+            deactivate CTRL
+            UI --> CM : shows all the information stored in application chosen
+        deactivate UI
+deactivate CM
+
+
+
+
+@enduml
