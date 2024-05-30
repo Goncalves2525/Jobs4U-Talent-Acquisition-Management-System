@@ -113,17 +113,10 @@ public class Application implements AggregateRoot<String>, Serializable {
 
     @Override
     public String toString() {
-        return "Application{" +
-                "Job Reference='" + jobReference + '\'' +
-                ", Candidate =" + candidate +
-                ", Job Opening=" + jobOpening +
-                ", Status=" + status +
-                //", InterviewModel=" + InterviewModel +
-                ", Commend='" + comment + '\'' +
-                ", Application Date=" + applicationDate +
-                ", Interview Model Path='" + filePath + '\'' +
-                ", Application Files Path='" + applicationFilesPath + '\'' +
-                '}';
+        return "Application ID: " + this.getId()
+                + " | Candidate Name: " + this.getCandidate()
+                + " | Application Status: " + this.getStatus()
+                + " | Application Rank: " + this.getRankNumber();
     }
 
     public boolean checkIfApplicationHasInterviewModel() {
