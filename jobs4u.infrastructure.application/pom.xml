@@ -9,6 +9,7 @@
         <version>0.1.0</version>
     </parent>
 
+    <groupId>lapr4</groupId>
     <artifactId>jobs4u.infrastructure.application</artifactId>
 
     <properties>
@@ -18,8 +19,6 @@
     </properties>
 
     <dependencies>
-
-
     </dependencies>
 
 </project>

@@ -3,6 +3,7 @@ package jobOpeningManagement.domain;
 import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Entity
@@ -15,6 +16,7 @@ public class JobOpening implements AggregateRoot<String> {
     private String jobReference;
 
     @Column
+    @Setter
     private String title;
 
     @Enumerated(EnumType.STRING)
@@ -27,6 +29,7 @@ public class JobOpening implements AggregateRoot<String> {
 
     @Embedded
     @Column
+    @Setter
     private Address address;
 
     @ManyToOne
@@ -34,6 +37,7 @@ public class JobOpening implements AggregateRoot<String> {
     private Customer company;
 
     @Column
+    @Setter
     private int numberOfVacancies;
 
     @Column
@@ -145,6 +149,8 @@ public class JobOpening implements AggregateRoot<String> {
     public void setState(RecruitmentState state) {
         this.state = state;
     }
+
+
 
     @Override
     public String toString() {

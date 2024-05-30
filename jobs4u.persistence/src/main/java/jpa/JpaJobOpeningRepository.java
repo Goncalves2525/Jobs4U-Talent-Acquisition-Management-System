@@ -110,7 +110,14 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
 
 
     @Override
-    public void update(JobOpening jobOpening) {
+    public boolean update(JobOpening jobOpening) {
+        EntityManager em = getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.merge(jobOpening);
+        tx.commit();
+        em.close();
 
+        return true;
     }
 }
