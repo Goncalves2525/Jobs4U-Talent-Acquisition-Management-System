@@ -1,5 +1,8 @@
-package applicationManagement.application;
+package jobOpeningManagement.application;
 
+import infrastructure.persistance.PersistenceContext;
+import jobOpeningManagement.domain.JobOpening;
+import jobOpeningManagement.repositories.JobOpeningRepository;
 import plugins.Plugin;
 import plugins.PluginLoader;
 
@@ -11,6 +14,7 @@ public class GenerateAnswerCollectionFileController {
 
     private final PluginLoader pluginLoader = new PluginLoader();
     private final String pluginsDirectory = "plugins/interview/jar";
+    private final JobOpeningRepository jobOpeningRepository = PersistenceContext.repositories().jobOpenings();
 
     public void generateAnswerCollectionFile(String pluginPath) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         try {
@@ -29,6 +33,10 @@ public class GenerateAnswerCollectionFileController {
     public List<Plugin> loadPlugins() {
         List<Plugin> plugins = pluginLoader.loadPlugins(pluginsDirectory);
         return plugins;
+    }
+
+    public JobOpening findJobOpeningById(String id){
+        return jobOpeningRepository.ofIdentity(id).get();
     }
 
 }

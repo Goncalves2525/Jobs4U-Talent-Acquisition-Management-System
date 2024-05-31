@@ -1,5 +1,6 @@
 package applicationManagement.application;
 
+import jobOpeningManagement.application.GenerateCandidateFieldsFileController;
 import org.junit.jupiter.api.Test;
 import plugins.Plugin;
 

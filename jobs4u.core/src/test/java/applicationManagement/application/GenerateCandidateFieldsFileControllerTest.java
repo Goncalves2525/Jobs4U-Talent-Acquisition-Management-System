@@ -1,8 +1,8 @@
 package applicationManagement.application;
+import jobOpeningManagement.application.GenerateCandidateFieldsFileController;
 import org.junit.jupiter.api.Test;
 import plugins.Plugin;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
