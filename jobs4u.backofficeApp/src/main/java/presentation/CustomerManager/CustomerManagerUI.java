@@ -26,6 +26,7 @@ public class CustomerManagerUI {
         options.add("List Applications For Job Opening");       // 7
         options.add("Generate Answer Collection File");         // 8
         options.add("Select Job Requirements Specifications");  // 9
+        options.add("Define the job opening recruitment phase");// 10
         String message = "What do you want to do?";
         String exit = "Exit";
 
@@ -73,6 +74,10 @@ public class CustomerManagerUI {
                 case 9:
                     SelectJobRequirementSpecificationUI selectJobRequirementSpecificationUI = new SelectJobRequirementSpecificationUI();
                     selectJobRequirementSpecificationUI.doShow(authzUI);
+                    break;
+                case 10:
+                    DefineRecruitmentPhaseUI defineRecruitmentPhaseUI = new DefineRecruitmentPhaseUI();
+                    defineRecruitmentPhaseUI.doShow(authzUI);
                     break;
                 default:
                     ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);
