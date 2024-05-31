@@ -78,4 +78,5 @@ public class JobOpeningTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new JobOpening("test", ContractType.FULL_TIME, JobMode.ON_SITE, new Address("test", "test", "test"), company, -1, "test", null));
     }
 
+
 }
