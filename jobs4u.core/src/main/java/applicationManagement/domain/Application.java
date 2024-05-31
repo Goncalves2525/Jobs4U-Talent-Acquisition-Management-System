@@ -51,13 +51,17 @@ public class Application implements AggregateRoot<String>, Serializable {
     @Column
     private String applicationFilesPath;
 
+    @Column
+    @Enumerated(EnumType.STRING)
+    private RequirementsResult requirementsResult;
+
 
     protected Application() {
         // for ORM
     }
 
     public Application(String jobReference, Candidate candidate, JobOpening jobOpening, ApplicationStatus status, Date applicationDate, String comment
-    , String interviewModel, String filePath, String applicationFilesPath) {
+    , String interviewModel, String filePath, String applicationFilesPath, RequirementsResult requirementsResult) {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
@@ -68,6 +72,7 @@ public class Application implements AggregateRoot<String>, Serializable {
         this.date = LocalDate.now();
         this.filePath = filePath;
         this.applicationFilesPath = applicationFilesPath;
+        this.requirementsResult = requirementsResult;
     }
 
     public String jobReference() {
@@ -106,6 +111,10 @@ public class Application implements AggregateRoot<String>, Serializable {
         return applicationFilesPath;
     }
 
+    public RequirementsResult requirementsResult() {
+        return requirementsResult;
+    }
+
     @Override
     public String toString() {
         return "Application{" +
@@ -118,6 +127,7 @@ public class Application implements AggregateRoot<String>, Serializable {
                 ", Application Date=" + applicationDate +
                 ", Interview Model Path='" + filePath + '\'' +
                 ", Application Files Path='" + applicationFilesPath + '\'' +
+                ", Requirements Result='" + requirementsResult + '\'' +
                 '}';
     }
 
