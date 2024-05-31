@@ -75,7 +75,7 @@
 package presentation.Operator;
 
 import appUserManagement.domain.Role;
-import applicationManagement.application.GenerateCandidateFieldsFileController;
+import jobOpeningManagement.application.GenerateCandidateFieldsFileController;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
 import plugins.Plugin;

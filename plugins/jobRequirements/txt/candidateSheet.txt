@@ -1,0 +1,44 @@
+# Enter the number of years of experience (integer) 
+
+Experience-years: 
+
+# Select one degree (None; Bachelor; Master; PhD) 
+
+Academic-degree: 
+
+# Select one or more programming languages (Java; Python; C#) (seperate the options with a comma) 
+
+Programming-languages: 
+
+# Is this your first job? (True/False) 
+
+First-job: 
+
+# Describe your experience with [programmingLanguage] (Short text answer) 
+
+Experience-[programmingLanguage]: 
+
+# Choose one of the following options (Junior; Mid-level; Senior) to describe your experience level 
+
+Experience-level: 
+
+# Select one or more of the following options (Team-player; Problem-solver; Fast-learner) to describe your skills 
+
+Skills: 
+
+# On a scale from 1 to 5, how would you rate your communication skills? 
+
+Communication-skills: 
+
+# Date of birth (YYYY-MM-DD) 
+
+Date-of-birth: 
+
+# Enter your full name 
+
+Full-name: 
+
+# At what time do you prefer to be contacted? (HH:MM) 
+
+Contact-time: 
+

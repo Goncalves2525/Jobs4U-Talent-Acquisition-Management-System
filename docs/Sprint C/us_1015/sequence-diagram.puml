@@ -1,0 +1,105 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "CustomerManager" as CM
+participant "RequirementVerificationUI " as UI
+participant "RequirementVerificationController" as CTRL
+participant "ApplicationRepository" as APPREPO
+participant "JobOpeningRepository" as JOBREPO
+participant "Job Opening" as JOB
+participant "PluginLoader" as PLUGLD
+participant "Plugin" as PLUG
+participant "PluginInstance" as PLUGINST
+participant "Application" as APP
+
+
+
+
+
+
+
+activate CM
+    CM -> UI : requests to start verification of Job Requirements
+    activate UI
+        UI -> CTRL : getAllApplications()
+        activate CTRL
+            CTRL -> APPREPO : getAllApplications()
+            activate APPREPO
+                APPREPO -> APPREPO : findAll()
+                APPREPO --> CTRL : List<Application>
+            deactivate APPREPO
+            CTRL --> UI : List<Application>
+        deactivate CTRL
+        UI --> CM : shows all applications and prompts to select application ID
+        CM -> UI : selects application ID
+        UI -> CTRL : getApplicationById()
+        activate CTRL
+            CTRL -> APPREPO : getApplicationById()
+            activate APPREPO
+                APPREPO -> APPREPO : ofIdentity()
+                APPREPO --> CTRL : application
+            deactivate APPREPO
+            CTRL --> UI : application
+        deactivate CTRL
+        UI -> CTRL : getJobOpeningById(application)
+        activate CTRL
+            CTRL -> JOBREPO : getJobOpeningById(application)
+            activate JOBREPO
+                JOBREPO -> JOBREPO : ofIdentity()
+                JOBREPO --> CTRL : jobOpening
+            deactivate JOBREPO
+            CTRL --> UI : jobOpening
+        deactivate CTRL
+        UI -> CTRL : getRequirementsSpecification(jobOpening)
+        activate CTRL
+            CTRL -> JOB : getRequirementsSpecification()
+            activate JOB
+                JOB -> JOB : getRequirementsSpecification()
+                JOB --> CTRL : requirementsSpecification
+            deactivate JOB
+            CTRL --> UI : requirementsSpecification
+        deactivate CTRL
+        UI -> CTRL : verifyRequirements(requirementsSpecification)
+        activate CTRL
+            CTRL -> PLUGLD : loadPlugin(requirementsSpecification)
+            activate PLUGLD
+                PLUGLD -> PLUG : new Plugin()
+                activate PLUG
+                    PLUG --> PLUGLD : plugin
+                deactivate PLUG
+                    PLUGLD --> CTRL : plugin
+            deactivate PLUGLD
+            CTRL -> PLUG : getPluginInstance(plugin)
+            activate PLUG
+                PLUG -> PLUG : getPluginInstance()
+                PLUG --> CTRL : pluginInstance
+            deactivate PLUG
+            CTRL -> PLUGINST : verifyRequirements()
+            activate PLUGINST
+                PLUGINST -> PLUGINST : verifyRequirements()
+                PLUGINST --> CTRL : verificationResult
+            deactivate PLUGINST
+            CTRL --> UI : verificationResult
+        deactivate CTRL
+        UI -> CTRL : assotiateRequirementResultToApplication(verificationResult, application)
+        activate CTRL
+             CTRL -> APP : assotiateRequirementResultToApplication(verificationResult, application)
+             activate APP
+                  APP -> APP : assotiateRequirementResultToApplication(verificationResult, application)
+                  APP --> CTRL : return true/false
+             deactivate APP
+             CTRL --> UI : return true/false
+        deactivate CTRL
+        UI -> CM : shows verification result
+    deactivate UI
+deactivate CM
+
+
+
+
+@enduml
