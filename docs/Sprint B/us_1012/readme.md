@@ -81,7 +81,7 @@ Other software classes (i.e. Pure Fabrication) identified:
 package presentation.CustomerManager;
 
 import appUserManagement.domain.Role;
-import applicationManagement.application.GenerateAnswerCollectionFileController;
+import jobOpeningManagement.application.GenerateAnswerCollectionFileController;
 import applicationManagement.application.ListApplicationsController;
 import applicationManagement.application.RegisterApplicationController;
 import applicationManagement.domain.Application;

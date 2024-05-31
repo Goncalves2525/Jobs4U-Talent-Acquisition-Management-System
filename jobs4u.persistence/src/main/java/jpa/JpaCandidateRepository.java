@@ -1,15 +1,10 @@
 package jpa;
 
-import appUserManagement.domain.AppUser;
-import appUserManagement.domain.dto.AppUserDTO;
-import applicationManagement.application.ManageCandidateController;
 import applicationManagement.domain.Candidate;
 import appUserManagement.domain.Role;
 import applicationManagement.domain.dto.CandidateDTO;
 import jakarta.persistence.*;
 import applicationManagement.repositories.CandidateRepository;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +16,7 @@ public class JpaCandidateRepository implements CandidateRepository {
         return manager;
     }
 
-    public boolean createCandidate(CandidateDTO dto){
+    public boolean createCandidate(CandidateDTO dto) {
         Candidate candidate = new Candidate(dto.getEmail(),
                 dto.getPhone(), dto.getName());
         save(candidate);
@@ -41,7 +36,7 @@ public class JpaCandidateRepository implements CandidateRepository {
 
     @Override
     public <S extends Candidate> S save(S entity) {
-        if(correctCandidate(entity)){
+        if (correctCandidate(entity)) {
             EntityManager em = getEntityManager();
             EntityTransaction tx = em.getTransaction();
             tx.begin();
@@ -102,19 +97,17 @@ public class JpaCandidateRepository implements CandidateRepository {
 
     @Override
     public Optional<Candidate> ofIdentity(String email) {
-//        Query query = getEntityManager().createQuery(
-//                "SELECT e FROM Candidate e WHERE e.id = :id");
-//        query.setParameter("id", id);
-//        Candidate candidate = (Candidate) query.getSingleResult();
-//        return Optional.of(candidate);
-
-        String jpql = "SELECT e FROM Candidate e WHERE e.email = :email";
-        EntityManager em = getEntityManager();
-        Query query = em.createQuery(jpql)
-                .setParameter("email", email);
-        Candidate candidate = (Candidate) query.getSingleResult();
-        em.close();
-        return Optional.of(candidate);
+        try {
+            String jpql = "SELECT e FROM Candidate e WHERE e.email = :email";
+            EntityManager em = getEntityManager();
+            Query query = em.createQuery(jpql)
+                    .setParameter("email", email);
+            Candidate candidate = (Candidate) query.getSingleResult();
+            em.close();
+            return Optional.of(candidate);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @Override
