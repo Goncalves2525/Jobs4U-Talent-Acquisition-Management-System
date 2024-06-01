@@ -96,7 +96,7 @@ void ensureApplicationDoesNotHaveInterviewModel() {
 package presentation.CustomerManager;
 
 import appUserManagement.domain.Role;
-import applicationManagement.application.SelectInterviewModelController;
+import jobOpeningManagement.application.SelectInterviewModelController;
 import applicationManagement.domain.Application;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;

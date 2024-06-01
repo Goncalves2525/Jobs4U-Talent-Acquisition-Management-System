@@ -34,9 +34,9 @@ public class EditJobOpeningUI {
         }else {
             // Iterate over jobOpenings if it's not empty
             for (JobOpening jobOpening : jobOpenings) {
-                System.out.println("Job Opening: " + jobOpening.getId() + " | Job reference: " + jobOpening.getJobReference() + " | Title: " + jobOpening.getTitle() + " | Description: " + jobOpening.getDescription() + " | State: " + jobOpening.getState());
+                System.out.println("Job Opening ID: " + jobOpening.getId() + " | Job reference: " + jobOpening.getJobReference() + " | Title: " + jobOpening.getTitle() + " | Description: " + jobOpening.getDescription() + " | State: " + jobOpening.getState());
             }
-            String id = ConsoleUtils.readLineFromConsole("Insert the Job ID");
+            String id = ConsoleUtils.readLineFromConsole("Insert the Job Opening ID");
             JobOpening jobOpening = ctrlEdit.getJobOpening(id);
             if (jobOpening == null) {
                 ConsoleUtils.showMessageColor("Job Opening not found.", AnsiColor.RED);
