@@ -1,11 +1,10 @@
 package applicationManagement.application;
 
 import applicationManagement.domain.dto.WordCount;
-
-import java.util.HashMap;
+import applicationManagement.domain.dto.WordCountMap;
 
 public class OrderingService {
-    public static WordCount[] makeTopList(int topNumber, HashMap<String, WordCount> map) {
+    public WordCount[] makeTopList(int topNumber, WordCountMap map) {
         WordCount[] list = new WordCount[topNumber];
 
         // TODO: JORGE
@@ -16,6 +15,4 @@ public class OrderingService {
 
         return list;
     }
-
-    // IMPLEMENTAR INFRA OS MÉTODOS QUE DEVERÃO SER synchronized
 }

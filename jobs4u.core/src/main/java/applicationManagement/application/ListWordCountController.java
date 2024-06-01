@@ -2,10 +2,10 @@ package applicationManagement.application;
 
 import applicationManagement.domain.Application;
 import applicationManagement.domain.dto.WordCount;
+import applicationManagement.domain.dto.WordCountMap;
 import applicationManagement.repositories.ApplicationRepository;
+import console.ConsoleUtils;
 import infrastructure.persistance.PersistenceContext;
-
-import java.util.HashMap;
 
 public class ListWordCountController {
 
@@ -13,7 +13,14 @@ public class ListWordCountController {
 
     public WordCount[] findTopWordCountMap(int topNumber, Application application) {
         String path = application.getApplicationFilesPath();
-        HashMap<String, WordCount> map = CountingWordsService.countWordsOnFiles(path);
-        return OrderingService.makeTopList(topNumber, map);
+        WordCountMap map = new CountingWordsService().countWordsOnFiles(path);
+
+        // TESTING COUNTING WORDS SERVICE BLOCK
+        ConsoleUtils.readLineFromConsole("Map created. I will now print all the words.\nPress ENTER to continue...");
+        map.printWordCountMap();
+        ConsoleUtils.readLineFromConsole("Press ENTER to continue...");
+        // TESTING COUNTING WORDS SERVICE BLOCK
+
+        return new OrderingService().makeTopList(topNumber, map);
     }
 }

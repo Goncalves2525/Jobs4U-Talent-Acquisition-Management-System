@@ -27,7 +27,17 @@ public class WordCount {
         this.wordCount = this.wordCount + qty;
     }
 
-    public void addToFilesList(String fileName) {
-        this.files.add(fileName);
+    public void addToFilesList(String fileName) { this.files.add(fileName); }
+
+    public void addManyToFilesList(ArrayList<String> files) {
+        for(String file : files) {
+            if(!this.files.contains(file)){
+                addToFilesList(file);
+            }
+        }
+    }
+
+    public void printWord(){
+        System.out.printf(" | %30s | %5d | %s\n", this.word, this.wordCount, this.files);
     }
 }

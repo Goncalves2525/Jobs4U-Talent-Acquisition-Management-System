@@ -64,17 +64,21 @@ public class ListApplicationsUI {
                     if (applicationOfJobReference != null) {
                         int topNumber = 20;
                         WordCount[] wordCountList = ctrlWordCount.findTopWordCountMap(topNumber, applicationOfJobReference);
-                        if(wordCountList == null){
+                        if (wordCountList == null) {
                             ConsoleUtils.showMessageColor("There are no files for the application.", AnsiColor.RED);
                         } else {
                             ConsoleUtils.showMessageColor("***** APPLICATION TOP " + topNumber + " WORDS *****", AnsiColor.CYAN);
                             int i = 0;
                             for (WordCount wc : wordCountList) {
-                                i++;
-                                System.out.printf("%3d | ", i);
-                                System.out.printf("%15s | ", wc.getWord());
-                                System.out.printf("%4d | ", wc.getWordCount());
-                                System.out.printf("%s ", wc.getFiles());
+                                try {
+                                    i++;
+                                    System.out.printf("%3d | ", i);
+                                    System.out.printf("%15s | ", wc.getWord());
+                                    System.out.printf("%4d | ", wc.getWordCount());
+                                    System.out.printf("%s ", wc.getFiles());
+                                } catch (NullPointerException isNull){
+                                    ConsoleUtils.showMessageColor("Word object is null. I will skip it.", AnsiColor.PURPLE);
+                                }
                             }
                         }
                     }
