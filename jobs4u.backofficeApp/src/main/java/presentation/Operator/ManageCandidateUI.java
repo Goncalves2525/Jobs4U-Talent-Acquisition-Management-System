@@ -4,7 +4,6 @@ import applicationManagement.application.ListCandidatesService;
 import applicationManagement.application.ManageCandidateController;
 import appUserManagement.domain.Role;
 import applicationManagement.domain.Candidate;
-import applicationManagement.domain.dto.CandidateDTO;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
 import textformat.AnsiColor;
@@ -15,7 +14,7 @@ import java.util.List;
 
 public class ManageCandidateUI {
 
-    static Role managerRole;
+    static Role operatorRole;
     ListCandidatesService svc = new ListCandidatesService();
     ManageCandidateController ctrl = new ManageCandidateController();
 
@@ -25,8 +24,8 @@ public class ManageCandidateUI {
     public void doShow(AuthzUI authzUI) {
 
         // get user role, to be used as parameter on restricted user actions
-        managerRole = authzUI.getValidBackofficeRole();
-        if (!managerRole.equals(Role.OPERATOR)) {
+        operatorRole = authzUI.getValidBackofficeRole();
+        if (!operatorRole.equals(Role.OPERATOR)) {
             ConsoleUtils.showMessageColor("You don't have permissions to enable/disable a candidate.", AnsiColor.RED);
             return;
         }
@@ -34,9 +33,10 @@ public class ManageCandidateUI {
         int action;
         List<String> managementActions = new ArrayList<>();
         managementActions.add("Enable/Disable");
-        Iterable<Candidate> candidates = svc.allCandidatesSortedByName();
+
 
         do {
+            Iterable<Candidate> candidates = svc.allCandidatesSortedByName();
             if (candidates==null) {
                 ConsoleUtils.showMessageColor("No users to be presented.", AnsiColor.RED);
                 return;
@@ -69,7 +69,7 @@ public class ManageCandidateUI {
                 case 0:
                     break;
                 case 1:
-                    if(ctrl.swapAbility(email, managerRole)){
+                    if(ctrl.swapAbility(email, operatorRole)){
                         System.out.println();
                         ConsoleUtils.showMessageColor("Success!", AnsiColor.GREEN);
                     } else {
