@@ -2,7 +2,7 @@
 
 ## 1. Context
 
-*Each Job Opening has certain requirements that are previously defined before being open for applications. The Customer Manager must be able to use a plugin (created by the language engineer) that verifies if a candidate's application meets the requirements for that specific job opening or not. *
+*Each Job Opening has certain requirements that are previously defined before being open for applications. The Customer Manager must be able to use a plugin (created by the language engineer) that verifies if a candidate's application meets the requirements for that specific job opening or not.*
 
 ## 2. Requirements
 
