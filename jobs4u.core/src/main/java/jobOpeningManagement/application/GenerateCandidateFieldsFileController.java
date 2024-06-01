@@ -13,15 +13,20 @@ import java.util.List;
 public class GenerateCandidateFieldsFileController {
 
     private final PluginLoader pluginLoader = new PluginLoader();
-    private final String pluginsDirectory = "plugins/interview/jar";
+    private final String pluginsDirectory = "plugins/jobRequirements/jar";
     private final JobOpeningRepository jobOpeningRepository = PersistenceContext.repositories().jobOpenings();
 
     public void generateAnswerCollectionFile(int choice) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         try {
             List<Plugin> plugins = loadPlugins();
             Object plugin = plugins.get(choice).getPluginInstance();
-            Method exportMethod = plugin.getClass().getMethod("exportCandidateFile", String.class);
-            exportMethod.invoke(plugin, "plugins/jobRequirements/txt/candidateSheet.txt");
+            String pluginName = "plugins/jobRequirements/txt/";
+            String jarName = plugins.get(choice).getJarName();
+            pluginName += jarName;
+            pluginName = pluginName.substring(0, pluginName.length() - 4);
+            pluginName += ".txt";
+            Method exportMethod = plugin.getClass().getMethod("generateJobRequirementsFile", String.class);
+            exportMethod.invoke(plugin, pluginName);
         } catch (Exception e) {
             e.printStackTrace();
         }

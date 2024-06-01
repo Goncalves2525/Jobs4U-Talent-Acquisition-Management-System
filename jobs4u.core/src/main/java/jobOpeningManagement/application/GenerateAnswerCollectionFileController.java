@@ -13,7 +13,7 @@ import java.util.List;
 public class GenerateAnswerCollectionFileController {
 
     private final PluginLoader pluginLoader = new PluginLoader();
-    private final String pluginsDirectory = "plugins/interview/jar";
+    private final String pluginsDirectory = "plugins/interviews/jar";
     private final JobOpeningRepository jobOpeningRepository = PersistenceContext.repositories().jobOpenings();
 
     public void generateAnswerCollectionFile(String pluginPath) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {

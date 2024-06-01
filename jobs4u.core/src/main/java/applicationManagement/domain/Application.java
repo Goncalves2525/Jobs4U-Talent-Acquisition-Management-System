@@ -160,4 +160,12 @@ public class Application implements AggregateRoot<String>, Serializable {
     public void changeJobOpeningRecruitmentState(RecruitmentState newState) {
             jobOpening.setState(newState);
     }
+
+    public void assotiateRequirementResultToApplication(int passed){
+        if(passed == 1){
+            this.requirementsResult = RequirementsResult.APPROVED;
+        }else{
+            this.requirementsResult = RequirementsResult.REJECTED;
+        }
+    }
 }

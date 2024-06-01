@@ -11,7 +11,7 @@ import java.util.List;
 public class CustomerManagerUI {
 
 
-    public void doShow(AuthzUI authzUI) {
+    public void doShow(AuthzUI authzUI) throws Exception {
 
         // set option variable, list of options, selection message, and exit name (eg.: exit / cancel / etc.)
         int option;
@@ -26,7 +26,8 @@ public class CustomerManagerUI {
         options.add("Generate Interview File");         // 8
         options.add("Select Job Requirements Specifications");  // 9
         options.add("Edit Job Opening");                        // 10
-        options.add("Generate Job Requirement Specification File");  // 11
+        options.add("Generate Job Requirements Specification File");  // 11
+        options.add("Verify Job Requirements Specification");  // 12
         String message = "What do you want to do?";
         String exit = "Exit";
 
@@ -82,6 +83,10 @@ public class CustomerManagerUI {
                 case 11:
                     GenerateJobRequirementSpecificationQuestionsFileUI generateJobRequirementSpecificationFileUI = new GenerateJobRequirementSpecificationQuestionsFileUI();
                     generateJobRequirementSpecificationFileUI.doShow(authzUI);
+                    break;
+                case 12:
+                    RequirementsVerificationUI requirementsVerificationUI = new RequirementsVerificationUI();
+                    requirementsVerificationUI.doShow(authzUI);
                     break;
                 default:
                     ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);

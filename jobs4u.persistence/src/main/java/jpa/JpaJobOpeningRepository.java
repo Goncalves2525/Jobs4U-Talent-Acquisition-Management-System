@@ -79,6 +79,17 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
     }
 
     @Override
+    public JobOpening findByJobReference(String jobReference) {
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM JobOpening e WHERE e.jobReference = :jobReference");
+        query.setParameter("jobReference", jobReference);
+        JobOpening jobOpening = (JobOpening) query.getSingleResult();
+        return jobOpening;
+    }
+
+
+
+    @Override
     public void delete(JobOpening entity) {
         EntityManager em = getEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -120,4 +131,6 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
 
         return true;
     }
+
+
 }
