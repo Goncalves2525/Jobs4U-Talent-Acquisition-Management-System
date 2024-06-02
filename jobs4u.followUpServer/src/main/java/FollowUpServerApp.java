@@ -9,7 +9,6 @@ import java.util.List;
 
 public class FollowUpServerApp {
 
-    // NO MENU VERSION
     public static void main(String[] args) {
 
         // Initialize array of threads
