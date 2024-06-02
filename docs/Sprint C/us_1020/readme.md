@@ -93,8 +93,6 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 ### 4.2. Sequence Diagram
 
--- REVER --
-
 ![1020 SD-01 Publish Results of Applications](1020_SD_01.svg)
 
 ![1020 SD-02 Send e-mail to pending notifications](1020_SD_02.svg)
