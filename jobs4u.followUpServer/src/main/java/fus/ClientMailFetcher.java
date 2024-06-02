@@ -20,7 +20,7 @@ public class ClientMailFetcher implements Runnable {
 
         String hostname = "frodo.dei.isep.ipp.pt";
         int port = 25;
-        int sleepingTime = 10000; // 30sec (minimum)
+        int sleepingTime = 30000; // 30sec (minimum)
 
         while (!Thread.interrupted()) {
 
