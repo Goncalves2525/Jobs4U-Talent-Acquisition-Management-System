@@ -116,7 +116,7 @@ public class Application implements AggregateRoot<String>, Serializable {
         return "Application ID: " + this.getId()
                 + " | Candidate Name: " + this.getCandidate()
                 + " | Application Status: " + this.getStatus()
-                + " | Application Rank: " + this.getRankNumber();
+                + " | Application Rank: " + this.getRankNumber().getOrdinal();
     }
 
     public boolean checkIfApplicationHasInterviewModel() {

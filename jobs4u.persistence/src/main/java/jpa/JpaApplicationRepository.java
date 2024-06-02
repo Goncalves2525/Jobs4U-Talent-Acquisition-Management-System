@@ -81,8 +81,8 @@ public class JpaApplicationRepository implements ApplicationRepository {
     @Override
     public List<Application> ofCandidate(Candidate candidate) {
         Query query = getEntityManager().createQuery(
-                "SELECT e FROM Application e WHERE e.candidate = :candidate");
-        query.setParameter("candidate", candidate);
+                "SELECT e FROM Application e WHERE e.candidate.email LIKE :candidate");
+        query.setParameter("candidate", candidate.email());
         return new ArrayList<>(query.getResultList());
     }
 
