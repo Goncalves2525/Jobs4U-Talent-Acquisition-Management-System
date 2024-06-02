@@ -63,9 +63,10 @@ Being a positive response, it will trigger the notification service:
     - If it doesn't exist at all, the notification is created and set to "Ready to be sent".
         - It also updates Customer notification record to "Ready to be sent".
 
-On the FUS side, every 30 seconds, it collects a list of "Ready to be sent" notifications.
-It opens a thread for each notification on the list and executes the SMTP connection to send the e-mails.
-After sending each e-mail, it updates the status of the notification.
+On the FUS side, a thread is created to be focused on finding new e-mail notifications to be sent. <br>
+Every 30 seconds, it collects a list of "Ready to be sent" notifications. <br>
+It executes the SMTP connection to send the e-mails.
+After sending each e-mail, the status of the notification is updates, accordingly to the outcome of the previous task (SENT or FAILED).
 
 #### Publish Results of Applications
 
@@ -126,7 +127,7 @@ public void optionToNotifyIsOnlyAvailableForRankedJobOpening() {  }
 
 ## 5. Implementation
 
-Functionality added to Backoffice App, Customer Manager UI.
+Functionality added to Backoffice App, Customer Manager UI. <br>
 Functionality added to Follow-Up Server App, Client thread.
 
 > Commit list (descending)
@@ -135,8 +136,8 @@ Functionality added to Follow-Up Server App, Client thread.
 
 ## 6. Integration/Demonstration
 
-SMTP communication with DEI server was implemented, by using the FUS as client.
-Action chain was ensured to guarantee a periodic execution of notifications identification and e-mail requests sent to DEI server.
+SMTP communication with DEI server was implemented, by using the FUS as client. <br>
+Action chain was ensured to guarantee a periodic execution of notifications identification and e-mail requests sent to DEI server. <br>
 Threads were applied, so that multiple requests can interact with DEI server.
 
 ## 7. Observations
