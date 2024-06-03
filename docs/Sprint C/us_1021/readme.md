@@ -71,8 +71,7 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 ### 4.4. Tests
 
-**Test 1:** * Application Not Found  *
-
+**Test 1:** * Test that an application cant be found  *
 
 ```java
 public void applicationNotFound (){
