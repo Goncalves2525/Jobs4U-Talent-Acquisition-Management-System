@@ -2,7 +2,8 @@
 
 ## 1. Context
 
-* * The customer manager needs to have access to the imported files and generated data, such as interviews, from a job application of a candidate.
+* * With this user story the customer manager wants to be able to access the imported files and all generated data, 
+such as interviews, from a job application of a candidate.
 
 ## 2. Requirements
 
@@ -70,26 +71,98 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 ### 4.4. Tests
 
-**Test 1:** *  *
-
-**Refers to Acceptance Criteria:** 1021.1
+**Test 1:** * Application Not Found  *
 
 
 ```java
-
+public void applicationNotFound (){
+    ListApplicationsController ctrl = new ListApplicationsController();
+    assertEquals("Applications not found!\n", ctrl.getApplication(1000));
+}
 
 ````
-
 
 
 ## 5. Implementation
-**Customer**
+**CustomerManagerUI**
+
+It was necessary to add an option in the customer manager UI so that he can access the UI created. 
 
 ```java
 
+(...)
 
+public void doShow(AuthzUI authzUI) {
+
+    // set option variable, list of options, selection message, and exit name (eg.: exit / cancel / etc.)
+    int option;
+    List<String> options = new ArrayList<>();
+    options.add("Register Customer");                       // 1
+    options.add("Register Job Opening");                    // 2
+    options.add("List Job Openings");                       // 3
+    options.add("Select Interview Model");                  // 4
+    options.add("List Candidate Personal Data");            // 5
+    options.add("Test Plugin");                             // 6
+    options.add("List Applications For Job Opening");       // 7
+    options.add("Generate Answer Collection File");         // 8
+    options.add("Select Job Requirements Specifications");  // 9
+    options.add("Check Application Data");                  // 10
+    String message = "What do you want to do?";
+    String exit = "Exit";
+    
+    (...)
+
+    case 10:
+    CheckApplicationDataUI checkApplicationDataUI = new CheckApplicationDataUI();
+    checkApplicationDataUI.doShow(authzUI);
+    break;
+    default:
+    ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);
+
+    (...)
 ````
+**ListApplicationsController**
 
+Instead of creating a new controller to do the checking of an application we used the existing controller that list all the applications and implemented a function that returns the data from a single application
+
+```java
+
+(...)
+
+public void getApplication(Long applicationID) {
+    Iterable<Application> applications = listApplications();
+
+    // Check if application is empty
+    if (!applications.iterator().hasNext()) {
+        System.out.println("Applications not found!");
+    } else {
+        // Iterate over applications if it's not empty
+        for (Application application : applications) {
+            if (applicationID == application.getId())
+                System.out.println("Application ID: " + application.getId() +
+                        "\nApplication Status: " + application.getStatus() +
+                        "\n\n\u001B[4mCandidate Information\u001B[0m \n" + application.getCandidate() +
+                        "\n\n\u001B[4mJob Opening Information\u001B[0m" +
+                        "\nJob Reference: " + application.getJobOpening().getJobReference() +
+                        "\nTitle: " + application.getJobOpening().getTitle() +
+                        "\nContract Type: " + application.getJobOpening().getContractType() +
+                        "\nMode: " + application.getJobOpening().getMode() +
+                        "\n" + application.getJobOpening().getAddress() +
+                        "\nCompany: " + application.getJobOpening().getCompany().getName() +
+                        "\nNumber of Vacancies: " + application.getJobOpening().getNumberOfVacancies() +
+                        "\nJob Specifications: " + application.getJobOpening().getJobSpecifications() +
+                        "\nJob Description: " + application.getJobOpening().getDescription() +
+                        "\nJob Requirements: " + application.getJobOpening().getRequirements() +
+                        "\nJob Recruitment State: " +application.getJobOpening().getState() +
+                        "\n\nApplication Date: " + application.getApplicationDate() +
+                        "\nInterview Model: " + application.getInterviewModel() +
+                        "\nInterview Model Path: " + application.filePath() +
+                        "\nApplication Files Path: " + application.applicationFilesPath());
+        }
+    }
+}
+    (...)
+````
 
 ## 6. Integration/Demonstration
 

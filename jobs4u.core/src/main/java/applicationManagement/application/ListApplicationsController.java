@@ -10,4 +10,37 @@ public class ListApplicationsController {
     public Iterable<Application> listApplications() {
         return repo.findAll();
     }
+
+    public void getApplication(Long applicationID) {
+        Iterable<Application> applications = listApplications();
+
+        // Check if application is empty
+        if (!applications.iterator().hasNext()) {
+            System.out.println("Applications not found!");
+        } else {
+            // Iterate over applications if it's not empty
+            for (Application application : applications) {
+                if (applicationID == application.getId())
+                    System.out.println("Application ID: " + application.getId() +
+                            "\nApplication Status: " + application.getStatus() +
+                            "\n\n\u001B[4mCandidate Information\u001B[0m \n" + application.getCandidate() +
+                            "\n\n\u001B[4mJob Opening Information\u001B[0m" +
+                            "\nJob Reference: " + application.getJobOpening().getJobReference() +
+                            "\nTitle: " + application.getJobOpening().getTitle() +
+                            "\nContract Type: " + application.getJobOpening().getContractType() +
+                            "\nMode: " + application.getJobOpening().getMode() +
+                            "\n" + application.getJobOpening().getAddress() +
+                            "\nCompany: " + application.getJobOpening().getCompany().getName() +
+                            "\nNumber of Vacancies: " + application.getJobOpening().getNumberOfVacancies() +
+                            "\nJob Specifications: " + application.getJobOpening().getJobSpecifications() +
+                            "\nJob Description: " + application.getJobOpening().getDescription() +
+                            "\nJob Requirements: " + application.getJobOpening().getRequirements() +
+                            "\nJob Recruitment State: " +application.getJobOpening().getState() +
+                            "\n\nApplication Date: " + application.getApplicationDate() +
+                            "\nInterview Model: " + application.getInterviewModel() +
+                            "\nInterview Model Path: " + application.filePath() +
+                            "\nApplication Files Path: " + application.applicationFilesPath());
+            }
+        }
+    }
 }
