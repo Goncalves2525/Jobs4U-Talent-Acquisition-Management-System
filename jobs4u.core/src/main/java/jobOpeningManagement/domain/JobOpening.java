@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Instant;
+import java.util.Date;
+
 @Getter
 @Entity
 public class JobOpening implements AggregateRoot<String> {
@@ -44,6 +47,9 @@ public class JobOpening implements AggregateRoot<String> {
     private String jobSpecifications;
 
     @Column
+    private String interviewModel;
+
+    @Column
     private String description;
 
     @Embedded
@@ -52,7 +58,18 @@ public class JobOpening implements AggregateRoot<String> {
 
     @Enumerated(EnumType.STRING)
     @Column
+    @Getter
+    @Setter
     private RecruitmentState state;
+
+    @Column
+    @Getter
+    private Date startDate;
+
+    @Column
+    @Getter
+    @Setter
+    private Date endDate;
 
     @Transient
     private static int counter = 0;
@@ -76,13 +93,15 @@ public class JobOpening implements AggregateRoot<String> {
         this.numberOfVacancies = numberOfVacancies;
         this.description = description;
         this.requirements = requirements;
-        state = RecruitmentState.APPLICATION;
+        this.state = RecruitmentState.APPLICATION;
+        this.startDate = Date.from(Instant.now());
+        this.endDate = null;
         counter++;
         //Company code + sequential number
         generateJobReference();
     }
 
-    public JobOpening(String title, ContractType contractType, JobMode mode, Address address, Customer company, int numberOfVacancies, String jobSpecifications, String description, Requirements requirements) {
+    public JobOpening(String title, ContractType contractType, JobMode mode, Address address, Customer company, int numberOfVacancies, String jobSpecifications, String interviewModel, String description, Requirements requirements) {
         this.title = title;
         this.contractType = contractType;
         this.mode = mode;
@@ -94,9 +113,12 @@ public class JobOpening implements AggregateRoot<String> {
         }
         this.numberOfVacancies = numberOfVacancies;
         this.jobSpecifications = jobSpecifications;
+        this.interviewModel = interviewModel;
         this.description = description;
         this.requirements = requirements;
-        state = RecruitmentState.APPLICATION;
+        this.state = RecruitmentState.APPLICATION;
+        this.startDate = Date.from(Instant.now());
+        this.endDate = null;
         counter++;
         //Company code + sequential number
         generateJobReference();
@@ -134,6 +156,10 @@ public class JobOpening implements AggregateRoot<String> {
         return jobSpecifications;
     }
 
+    public String interviewModel() {
+        return interviewModel;
+    }
+
     public String description() {
         return description;
     }
@@ -146,12 +172,6 @@ public class JobOpening implements AggregateRoot<String> {
         return state;
     }
 
-    public void setState(RecruitmentState state) {
-        this.state = state;
-    }
-
-
-
     @Override
     public String toString() {
         return "JobOpening{" +
@@ -162,6 +182,8 @@ public class JobOpening implements AggregateRoot<String> {
                 ", address='" + address + '\'' +
                 ", company='" + company + '\'' +
                 ", numberOfVacancies='" + numberOfVacancies + '\'' +
+                ", jobSpecifications='" + jobSpecifications + '\'' +
+                ", interviewModel='" + interviewModel + '\'' +
                 ", description='" + description + '\'' +
                 ", requirements='" + requirements + '\'' +
                 ", state='" + state + '\'' +
@@ -189,9 +211,21 @@ public class JobOpening implements AggregateRoot<String> {
         return jobSpecifications != null;
     }
 
+    public boolean checkIfJobOpeningHasInterviewModel() {
+        return interviewModel != null;
+    }
+
     public boolean associateJobRequirementSpecificationToJobOpening(String allJobRequirementSpecification) {
         if(!checkIfJobOpeningHasJobRequirementSpecification()){
             this.jobSpecifications = allJobRequirementSpecification;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean associateInterviewModelToJobOpening(String interviewModel) {
+        if(!checkIfJobOpeningHasInterviewModel()){
+            this.interviewModel = interviewModel;
             return true;
         }
         return false;

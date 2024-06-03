@@ -1,14 +1,13 @@
 package presentation.Operator;
 
 import appUserManagement.domain.Role;
-import applicationManagement.application.GenerateCandidateFieldsFileController;
+import jobOpeningManagement.application.GenerateCandidateFieldsFileController;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
 import plugins.Plugin;
 import plugins.PluginLoader;
 import textformat.AnsiColor;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

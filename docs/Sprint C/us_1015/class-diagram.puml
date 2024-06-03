@@ -1,0 +1,30 @@
+@startuml
+
+package Presentation {
+    class RequirementVerificationUI
+}
+
+package Domain {
+    class Application
+}
+
+package Persistence {
+    class JpaApplicationRepository
+    interface ApplicationRepository
+}
+
+package Application {
+    class RequirementVerificationController
+    class PluginLoader
+}
+
+
+
+Presentation.RequirementVerificationUI --> Application.RequirementVerificationController
+Application.RequirementVerificationController --> Persistence.ApplicationRepository
+Persistence.ApplicationRepository <|-- Persistence.JpaApplicationRepository
+Application.RequirementVerificationController ---> Domain.Application
+Application.RequirementVerificationController ---> Application.PluginLoader
+
+
+@enduml
