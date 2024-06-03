@@ -1,10 +1,10 @@
 package presentation.CustomerManager;
 
 import appUserManagement.domain.Role;
-import applicationManagement.application.SelectInterviewModelController;
-import applicationManagement.domain.Application;
+import jobOpeningManagement.application.SelectInterviewModelController;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import jobOpeningManagement.domain.JobOpening;
 import plugins.Plugin;
 import textformat.AnsiColor;
 
@@ -25,24 +25,24 @@ public class SelectInterviewModelUI {
         }
 
         boolean success = false;
-        String appID = "";
-        System.out.println("Insert Application ID: ");
-        appID = ConsoleUtils.readLineFromConsole("Application ID: ");
-        Application application = ctrl.findApplicationById(appID);
-        if (application == null) {
-            System.out.println("Application not found");
+        String jobID = "";
+        System.out.println("Insert Job Opening ID: ");
+        jobID = ConsoleUtils.readLineFromConsole("Job Opening ID: ");
+        JobOpening jobOpening = ctrl.findJobOpeningById(jobID);
+        if (jobOpening == null) {
+            System.out.println("Job Opening not found");
         }
-        success = ctrl.checkIfApplicationHasInterviewModel(application);
+        success = ctrl.checkIfJobOpeningHasInterviewModel(jobOpening);
         if (success) {
-            System.out.println("Application already has Interview Model. You are about to replace it.");
+            System.out.println("Job Opening already has Interview Model. You are about to replace it.");
         }
         List<Plugin> interviewModels = ctrl.getAllInterviewModels();
         int choice = selectInterviewModel(interviewModels);
-        success = ctrl.associateInterviewModelToApplication(application, interviewModels.get(choice - 1).getPath());
+        success = ctrl.associateInterviewModelToJobOpening(jobOpening, interviewModels.get(choice - 1).getPath());
         if (success) {
-            System.out.println("Interview Model associated to Application");
+            System.out.println("Interview Model associated to Job Opening");
         } else {
-            System.out.println("Error associating Interview Model to Application");
+            System.out.println("Error associating Interview Model to Job Opening");
         }
     }
 
