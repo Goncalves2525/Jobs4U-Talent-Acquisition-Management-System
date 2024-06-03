@@ -1,6 +1,8 @@
 package jpa;
 
 import jakarta.persistence.*;
+import jobOpeningManagement.domain.CompanyCode;
+import jobOpeningManagement.domain.Customer;
 import jobOpeningManagement.domain.JobOpening;
 import jobOpeningManagement.domain.RecruitmentState;
 import jobOpeningManagement.repositories.JobOpeningRepository;
@@ -110,7 +112,23 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
 
 
     @Override
-    public void update(JobOpening jobOpening) {
+    public boolean update(JobOpening jobOpening) {
+        EntityManager em = getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.merge(jobOpening);
+        tx.commit();
+        em.close();
 
+        return true;
+    }
+
+    @Override
+    public List<JobOpening> findAllActiveJobOpenings(Customer company) {
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM JobOpening e WHERE e.company = :company AND e.endDate is null");
+        query.setParameter("company", company);
+        List<JobOpening> list = query.getResultList();
+        return list;
     }
 }

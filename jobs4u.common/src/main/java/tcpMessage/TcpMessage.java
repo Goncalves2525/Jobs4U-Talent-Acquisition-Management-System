@@ -131,48 +131,76 @@ public class TcpMessage {
         // Get full messages length
         int[] messagesLengthAndQuantity = measureMessagesLengthAndQuantity(messages);
         // Construct the full message array
-        return buildTcpMessage(messages, messagesLengthAndQuantity, 99);
+        return buildTcpMessage(messages, messagesLengthAndQuantity, TcpCode.TESTING.getCode());
     }
 
     static public byte[] buildTcpMessageCOMMTEST(){
         ArrayList<String> messages = new ArrayList<>();
         int[] messagesLengthAndQuantity = new int[]{0,0};
         // Construct the full message array
-        return buildTcpMessage(messages, messagesLengthAndQuantity, 0);
+        return buildTcpMessage(messages, messagesLengthAndQuantity, TcpCode.COMMTEST.getCode());
     }
 
     static public byte[] buildTcpMessageDISCONN(){
         ArrayList<String> messages = new ArrayList<>();
         int[] messagesLengthAndQuantity = new int[]{0,0};
         // Construct the full message array
-        return buildTcpMessage(messages, messagesLengthAndQuantity, 1);
+        return buildTcpMessage(messages, messagesLengthAndQuantity, TcpCode.DISCONN.getCode());
     }
 
     static public byte[] buildTcpMessageACK(){
         ArrayList<String> messages = new ArrayList<>();
         int[] messagesLengthAndQuantity = new int[]{0,0};
         // Construct the full message array
-        return buildTcpMessage(messages, messagesLengthAndQuantity, 2);
+        return buildTcpMessage(messages, messagesLengthAndQuantity, TcpCode.ACK.getCode());
     }
 
     static public byte[] buildTcpMessageERR(ArrayList<String> messages){
         // Get full messages length
         int[] messagesLengthAndQuantity = measureMessagesLengthAndQuantity(messages);
         // Construct the full message array
-        return buildTcpMessage(messages, messagesLengthAndQuantity, 3);
+        return buildTcpMessage(messages, messagesLengthAndQuantity, TcpCode.ERR.getCode());
     }
 
     static public byte[] buildTcpMessageAUTH(ArrayList<String> messages){
         // Get full messages length
         int[] messagesLengthAndQuantity = measureMessagesLengthAndQuantity(messages);
         // Construct the full message array
-        return buildTcpMessage(messages, messagesLengthAndQuantity, 4);
+        return buildTcpMessage(messages, messagesLengthAndQuantity, TcpCode.AUTH.getCode());
     }
 
     static public byte[] buildTcpMessageLOGOUT(){
         ArrayList<String> messages = new ArrayList<>();
         int[] messagesLengthAndQuantity = new int[]{0,0};
         // Construct the full message array
-        return buildTcpMessage(messages, messagesLengthAndQuantity, 5);
+        return buildTcpMessage(messages, messagesLengthAndQuantity, TcpCode.LOGOUT.getCode());
+    }
+
+    static public byte[] buildTcpMessageREQUESTCandidateApplicationStatus(){
+        ArrayList<String> messages = new ArrayList<>();
+        int[] messagesLengthAndQuantity = new int[]{0,0};
+        // Construct the full message array
+        return buildTcpMessage(messages, messagesLengthAndQuantity, TcpCode.REQUEST_CAND_APP_STAT.getCode());
+    }
+
+    static public byte[] buildTcpMessageRESPONSECandidateApplicationStatus(ArrayList<String> messages){
+        // Get full messages length
+        int[] messagesLengthAndQuantity = measureMessagesLengthAndQuantity(messages);
+        // Construct the full message array
+        return buildTcpMessage(messages, messagesLengthAndQuantity, TcpCode.RESPONSE_CAND_APP_STAT.getCode());
+    }
+
+    static public byte[] buildTcpMessageREQUESTCustomerAssignedJobOpenings(){
+        ArrayList<String> messages = new ArrayList<>();
+        int[] messagesLengthAndQuantity = new int[]{0,0};
+        // Construct the full message array
+        return buildTcpMessage(messages, messagesLengthAndQuantity, TcpCode.REQUEST_CUST_ASSIG_JO.getCode());
+    }
+
+    static public byte[] buildTcpMessageRESPONSECustomerAssignedJobOpenings(ArrayList<String> messages){
+        // Get full messages length
+        int[] messagesLengthAndQuantity = measureMessagesLengthAndQuantity(messages);
+        // Construct the full message array
+        return buildTcpMessage(messages, messagesLengthAndQuantity, TcpCode.RESPONSE_CUST_ASSIG_JO.getCode());
     }
 }

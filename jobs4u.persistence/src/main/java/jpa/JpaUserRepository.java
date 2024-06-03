@@ -246,4 +246,12 @@ public class JpaUserRepository implements UserRepository {
         Query query = em.createQuery("SELECT COUNT(u) FROM AppUser u");
         return query.getFirstResult();
     }
+
+    @Override
+    public String findCurrentUserEmail(String sessionToken) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT u.email.email FROM AppUser u WHERE u.token.value LIKE :sessionToken");
+        query.setParameter("sessionToken", sessionToken);
+        return query.getSingleResult().toString();
+    }
 }

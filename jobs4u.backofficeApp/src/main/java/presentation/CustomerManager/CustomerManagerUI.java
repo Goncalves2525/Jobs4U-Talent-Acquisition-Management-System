@@ -3,7 +3,6 @@ package presentation.CustomerManager;
 
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
-import presentation.Operator.RegisterApplicationUI;
 import textformat.AnsiColor;
 
 import java.util.ArrayList;
@@ -24,9 +23,10 @@ public class CustomerManagerUI {
         options.add("List Candidate Personal Data");            // 5
         options.add("Test Plugin");                             // 6
         options.add("List Applications For Job Opening");       // 7
-        options.add("Generate Answer Collection File");         // 8
+        options.add("Generate Interview File");         // 8
         options.add("Select Job Requirements Specifications");  // 9
-        options.add("Check Application Data");                  // 10
+        options.add("Edit Job Opening");                        // 10
+        options.add("Generate Job Requirement Specification File");  // 11
         String message = "What do you want to do?";
         String exit = "Exit";
 
@@ -68,7 +68,7 @@ public class CustomerManagerUI {
                     listApplicationsUI.doShow(authzUI);
                     break;
                 case 8:
-                    GenerateAnswerCollectionFileUI generateAnswerCollectionFileUI = new GenerateAnswerCollectionFileUI();
+                    GenerateInterviewQuestionsFileUI generateAnswerCollectionFileUI = new GenerateInterviewQuestionsFileUI();
                     generateAnswerCollectionFileUI.doShow(authzUI);
                     break;
                 case 9:
@@ -76,8 +76,12 @@ public class CustomerManagerUI {
                     selectJobRequirementSpecificationUI.doShow(authzUI);
                     break;
                 case 10:
-                    CheckApplicationDataUI checkApplicationDataUI = new CheckApplicationDataUI();
-                    checkApplicationDataUI.doShow(authzUI);
+                    EditJobOpeningUI editJobOpeningUI = new EditJobOpeningUI();
+                    editJobOpeningUI.doShow(authzUI);
+                    break;
+                case 11:
+                    GenerateJobRequirementSpecificationQuestionsFileUI generateJobRequirementSpecificationFileUI = new GenerateJobRequirementSpecificationQuestionsFileUI();
+                    generateJobRequirementSpecificationFileUI.doShow(authzUI);
                     break;
                 default:
                     ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);
