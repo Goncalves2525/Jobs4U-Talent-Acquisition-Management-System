@@ -13,14 +13,16 @@ public class ListApplicationsController {
 
     public void getApplication(Long applicationID) {
         Iterable<Application> applications = listApplications();
+        boolean appNotFound = false;
 
         // Check if application is empty
         if (!applications.iterator().hasNext()) {
-            System.out.println("Applications not found!");
+            System.out.println("No Applications found.");
         } else {
             // Iterate over applications if it's not empty
             for (Application application : applications) {
-                if (applicationID == application.getId())
+                if (applicationID == application.getId()) {
+                    appNotFound = true;
                     System.out.println("Application ID: " + application.getId() +
                             "\nApplication Status: " + application.getStatus() +
                             "\n\n\u001B[4mCandidate Information\u001B[0m \n" + application.getCandidate() +
@@ -35,11 +37,15 @@ public class ListApplicationsController {
                             "\nJob Specifications: " + application.getJobOpening().getJobSpecifications() +
                             "\nJob Description: " + application.getJobOpening().getDescription() +
                             "\nJob Requirements: " + application.getJobOpening().getRequirements() +
-                            "\nJob Recruitment State: " +application.getJobOpening().getState() +
+                            "\nJob Recruitment State: " + application.getJobOpening().getState() +
                             "\n\nApplication Date: " + application.getApplicationDate() +
                             "\nInterview Model: " + application.getInterviewModel() +
                             "\nInterview Model Path: " + application.filePath() +
                             "\nApplication Files Path: " + application.applicationFilesPath());
+                }
+            }
+            if (!appNotFound) {
+                System.out.println("Application with ID " + applicationID + " not found.");
             }
         }
     }

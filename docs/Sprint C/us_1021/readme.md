@@ -32,6 +32,19 @@ Relativamente ao “all data of an application” refere-se a todos os dados de 
 os ficheiros submetidos pelos candidato assim como dados recolhidos ou gerados durante o processo 
 (como as entrevistas e processamento de requisitos).** 
 >
+> **Question 179: Relativamente à US1021, como é que a Application a exibir é escolhida? 
+O utilizador pode começar por selecionar uma Job Reference e depois o e-mail de um dos candidatos? 
+Ou recomenda uma outra abordagem?**
+> 
+> **Answer 179: Devem aplicar melhores práticas de UX/UI.
+Já houve perguntas anteriores sobre assuntos similares (ex: Q150).
+Note que existe uma US para listar todas as candidaturas a um job opening, por exemplo.**
+> 
+>**Answer 150:  A questão refere-se um pouco a boas práticas de UI/UX.
+O contexto indicado na pergunta refere-se a uma situação em que o utilizador tem de identificar a 
+entidade/objeto que deseja editar. Pode-se assumir que o utilizador sabe esse identificador.
+Mas, em termos de UX/UI deve ser possível obter esse identificar por outras vias 
+(até porque é um identificar gerado pelo sistema). Penso que, para este caso particular, existe já uma US que permite fazer isso.**
 
 
 
@@ -129,7 +142,7 @@ public void doShow(AuthzUI authzUI) {
 ````
 **ListApplicationsController**
 
-Instead of creating a new controller to do the checking of an application we used the existing controller that list all the applications and implemented a function that returns the data from a single application
+Instead of creating a new controller to do the checking of an application we used the existing controller that list all the applications and implemented a function that returns the data from a single application.
 
 ```java
 
@@ -137,14 +150,16 @@ Instead of creating a new controller to do the checking of an application we use
 
 public void getApplication(Long applicationID) {
     Iterable<Application> applications = listApplications();
+    boolean appNotFound = false;
 
     // Check if application is empty
     if (!applications.iterator().hasNext()) {
-        System.out.println("Applications not found!");
+        System.out.println("No Applications found.");
     } else {
         // Iterate over applications if it's not empty
         for (Application application : applications) {
-            if (applicationID == application.getId())
+            if (applicationID == application.getId()) {
+                appNotFound = true;
                 System.out.println("Application ID: " + application.getId() +
                         "\nApplication Status: " + application.getStatus() +
                         "\n\n\u001B[4mCandidate Information\u001B[0m \n" + application.getCandidate() +
@@ -159,11 +174,15 @@ public void getApplication(Long applicationID) {
                         "\nJob Specifications: " + application.getJobOpening().getJobSpecifications() +
                         "\nJob Description: " + application.getJobOpening().getDescription() +
                         "\nJob Requirements: " + application.getJobOpening().getRequirements() +
-                        "\nJob Recruitment State: " +application.getJobOpening().getState() +
+                        "\nJob Recruitment State: " + application.getJobOpening().getState() +
                         "\n\nApplication Date: " + application.getApplicationDate() +
                         "\nInterview Model: " + application.getInterviewModel() +
                         "\nInterview Model Path: " + application.filePath() +
                         "\nApplication Files Path: " + application.applicationFilesPath());
+            }
+        }
+        if (!appNotFound) {
+            System.out.println("Application with ID " + applicationID + " not found.");
         }
     }
 }
