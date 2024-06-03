@@ -77,7 +77,12 @@ Other software classes (i.e. Pure Fabrication) identified:
 ```java
 public void applicationNotFound (){
     ListApplicationsController ctrl = new ListApplicationsController();
-    assertEquals("Applications not found!\n", ctrl.getApplication(1000));
+
+    ByteArrayOutputStream result = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(result));
+    ctrl.getApplication(1000L);
+
+    assertEquals("Applications not found!\n", result.toString());
 }
 
 ````
