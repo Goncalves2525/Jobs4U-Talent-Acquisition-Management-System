@@ -109,15 +109,17 @@ public void doShow(AuthzUI authzUI) {
     options.add("List Candidate Personal Data");            // 5
     options.add("Test Plugin");                             // 6
     options.add("List Applications For Job Opening");       // 7
-    options.add("Generate Answer Collection File");         // 8
+    options.add("Generate Interview File");         // 8
     options.add("Select Job Requirements Specifications");  // 9
-    options.add("Check Application Data");                  // 10
+    options.add("Edit Job Opening");                        // 10
+    options.add("Generate Job Requirement Specification File");  // 11
+    options.add("Check Application Data");                  //12
     String message = "What do you want to do?";
     String exit = "Exit";
     
     (...)
 
-    case 10:
+    case 12:
     CheckApplicationDataUI checkApplicationDataUI = new CheckApplicationDataUI();
     checkApplicationDataUI.doShow(authzUI);
     break;

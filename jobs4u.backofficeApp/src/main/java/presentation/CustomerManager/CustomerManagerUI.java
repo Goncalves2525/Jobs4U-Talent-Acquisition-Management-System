@@ -27,6 +27,7 @@ public class CustomerManagerUI {
         options.add("Select Job Requirements Specifications");  // 9
         options.add("Edit Job Opening");                        // 10
         options.add("Generate Job Requirement Specification File");  // 11
+        options.add("Check Application Data");                  //12
         String message = "What do you want to do?";
         String exit = "Exit";
 
@@ -82,6 +83,10 @@ public class CustomerManagerUI {
                 case 11:
                     GenerateJobRequirementSpecificationQuestionsFileUI generateJobRequirementSpecificationFileUI = new GenerateJobRequirementSpecificationQuestionsFileUI();
                     generateJobRequirementSpecificationFileUI.doShow(authzUI);
+                    break;
+                case 12:
+                    CheckApplicationDataUI checkApplicationDataUI = new CheckApplicationDataUI();
+                    checkApplicationDataUI.doShow(authzUI);
                     break;
                 default:
                     ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);
