@@ -51,6 +51,9 @@ public class Application implements AggregateRoot<String>, Serializable {
     @Column
     private String applicationFilesPath;
 
+    @Column
+    private Date interviewDate;
+
 
     protected Application() {
         // for ORM
@@ -106,6 +109,10 @@ public class Application implements AggregateRoot<String>, Serializable {
         return applicationFilesPath;
     }
 
+    public Date interviewDate() {
+        return interviewDate;
+    }
+
     @Override
     public String toString() {
         return "Application{" +
@@ -125,9 +132,18 @@ public class Application implements AggregateRoot<String>, Serializable {
         return InterviewModel != null;
     }
 
+    public boolean checkIfApplicationHasInterviewDate() {
+        return interviewDate != null;
+    }
+
 
     public boolean associateInterviewModelToApplication(String interviewModel) {
         this.InterviewModel = interviewModel;
+        return true;
+    }
+
+    public boolean registerInterviewDateToApplication(Date interviewDate) {
+        this.interviewDate = interviewDate;
         return true;
     }
 
