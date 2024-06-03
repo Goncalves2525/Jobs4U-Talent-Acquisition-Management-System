@@ -18,7 +18,7 @@ participant "ApplicationRepository" as APPREPO
 
 activate CM
 
-        CM -> UI : show all the application information
+        CM -> UI : ask to show all the application information
         activate UI
 
             UI --> CM : requests application identification
