@@ -12,6 +12,4 @@ import java.util.Optional;
 public interface CandidateRepository extends DomainRepository<String, Candidate>{
 
     boolean createCandidate(CandidateDTO dto);
-
-    boolean swapAbility(String email, Role managerRole);
 }

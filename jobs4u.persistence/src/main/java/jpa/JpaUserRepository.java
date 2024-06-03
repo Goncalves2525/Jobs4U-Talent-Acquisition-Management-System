@@ -58,6 +58,17 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
+    public boolean swapCandidateAbility(String email, Role operatorRole) {
+        if (operatorRole.equals(Role.OPERATOR)) {
+            AppUser appUser = ofIdentity(Email.valueOf(email)).get();
+            appUser.swapAbility();
+            update(appUser);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public Optional<String> authenticate(String email, String password) {
         // Create a valid session user in memory:
         Optional<AppUser> sessionUser = createSessionUser(email, password);

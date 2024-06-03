@@ -19,6 +19,8 @@ public interface UserRepository extends DomainRepository<Email, AppUser> {
 
     boolean swapAbility(String email, Role managerRole);
 
+    boolean swapCandidateAbility(String email, Role operatorRole);
+
     Optional<String> authenticate(String email, String password);
 
     boolean authorized(String sessionToken, Role roleRequired);

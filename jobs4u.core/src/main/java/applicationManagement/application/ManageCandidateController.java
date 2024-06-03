@@ -1,13 +1,13 @@
 package applicationManagement.application;
 
 import appUserManagement.domain.Role;
-import applicationManagement.repositories.CandidateRepository;
+import appUserManagement.repositories.UserRepository;
 import infrastructure.persistance.PersistenceContext;
 
 public class ManageCandidateController {
-    private final CandidateRepository repo = PersistenceContext.repositories().candidates();
+    private final UserRepository repo = PersistenceContext.repositories().users();
     public ManageCandidateController() {}
 
-    public boolean swapAbility(String email, Role managerRole) {
-        return repo.swapAbility(email, managerRole); }
+    public boolean swapCandidateAbility(String email, Role operatorRole) {
+        return repo.swapCandidateAbility(email, operatorRole); }
 }

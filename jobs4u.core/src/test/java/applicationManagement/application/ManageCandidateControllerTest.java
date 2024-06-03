@@ -1,21 +1,29 @@
 package applicationManagement.application;
 
-import applicationManagement.domain.Candidate;
+import appUserManagement.domain.AppUser;
+import appUserManagement.domain.Email;
+import appUserManagement.domain.Password;
+import appUserManagement.domain.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ManageCandidateControllerTest {
-    private Candidate c;
+    private AppUser candidateUser;
+    private AppUser operatorUser;
 
     @BeforeEach
     public void setup() {
-        c=new Candidate("ana@mail.pt","123456789","Ana");
+        candidateUser=new AppUser(Email.valueOf("ana@mail.pt"),new Password(),Role.CANDIDATE);
+        operatorUser=new AppUser(Email.valueOf("sofia@mail.pt"),new Password(),Role.OPERATOR);
     }
 
     @Test
-    public void verifyAbilityIsSetAsEnabledWhenCandidateIsRegistered(){
-        assertTrue(c.getAbility().isAbilityValue());
+    public void verifyOnlyOperatorsCanEnableDisableCandidates(){
+
     }
+
+    @Test
+    public void verifyAccessOnlyToEnabledCandidates(){}
 }

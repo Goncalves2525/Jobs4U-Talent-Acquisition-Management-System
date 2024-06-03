@@ -24,17 +24,6 @@ public class JpaCandidateRepository implements CandidateRepository {
     }
 
     @Override
-    public boolean swapAbility(String email, Role managerRole) {
-        if (managerRole.equals(Role.OPERATOR)) {
-            Candidate candidate = ofIdentity(email).get();
-            candidate.swapAbility();
-            update(candidate);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public <S extends Candidate> S save(S entity) {
         if (correctCandidate(entity)) {
             EntityManager em = getEntityManager();

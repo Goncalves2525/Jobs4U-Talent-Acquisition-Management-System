@@ -1,6 +1,8 @@
 package presentation.Operator;
 
-import applicationManagement.application.ListCandidatesService;
+import appUserManagement.application.ManageBackofficeUserController;
+import appUserManagement.domain.dto.AppUserDTO;
+import applicationManagement.application.CandidateController;
 import applicationManagement.application.ManageCandidateController;
 import appUserManagement.domain.Role;
 import applicationManagement.domain.Candidate;
@@ -11,12 +13,13 @@ import textformat.AnsiColor;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 public class ManageCandidateUI {
 
     static Role operatorRole;
-    ListCandidatesService svc = new ListCandidatesService();
-    ManageCandidateController ctrl = new ManageCandidateController();
+    CandidateController candidateController = new CandidateController();
+    ManageCandidateController manageCandidateController = new ManageCandidateController();
 
     public ManageCandidateUI() {
     }
@@ -36,7 +39,7 @@ public class ManageCandidateUI {
 
 
         do {
-            Iterable<Candidate> candidates = svc.allCandidatesSortedByName();
+            Iterable<Candidate> candidates = candidateController.allCandidatesSortedByName();
             if (candidates==null) {
                 ConsoleUtils.showMessageColor("No users to be presented.", AnsiColor.RED);
                 return;
@@ -45,10 +48,10 @@ public class ManageCandidateUI {
             int i = 1;
             System.out.println("== CANDIDATES ==");
             for (Candidate candidate : candidates) {
-                System.out.println(i + " - " + candidate.name() + " " + candidate.getAbility().toString());
+                System.out.println(i + " - " + candidate.name());
                 i++;
             }
-            int option = ConsoleUtils.readIntegerFromConsole("Select a Candidate: ");
+            int option = ConsoleUtils.readIntegerFromConsole("Select the candidate you want to manage: ");
             if (option < 1 || option > i - 1) {
                 ConsoleUtils.showMessageColor("Invalid candidate selection!", AnsiColor.RED);
                 continue;
@@ -63,15 +66,15 @@ public class ManageCandidateUI {
 
             // Get the email from the selected candidate
             String email = selectedCandidate.email();
-
             action = ConsoleUtils.showAndSelectIndex(managementActions,"Select an action:", "Exit");
             switch (action){
                 case 0:
                     break;
                 case 1:
-                    if(ctrl.swapAbility(email, operatorRole)){
+                    if(manageCandidateController.swapCandidateAbility(email, operatorRole)){
                         System.out.println();
                         ConsoleUtils.showMessageColor("Success!", AnsiColor.GREEN);
+
                     } else {
                         System.out.println();
                         ConsoleUtils.showMessageColor("Failed!", AnsiColor.RED);

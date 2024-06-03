@@ -1,10 +1,7 @@
 package applicationManagement.domain;
 
-import appUserManagement.domain.Ability;
-import applicationManagement.domain.CandidateAbility;
 import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;
-import lombok.Getter;
 
 @Entity
 public class Candidate implements AggregateRoot<String> {
@@ -18,11 +15,6 @@ public class Candidate implements AggregateRoot<String> {
     @Column
     private String name;
 
-    @Getter
-    @Enumerated(EnumType.STRING)
-    @Column
-    private CandidateAbility ability;
-
     protected Candidate() {
         // for ORM
     }
@@ -31,7 +23,6 @@ public class Candidate implements AggregateRoot<String> {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.name = name;
-        this.ability=CandidateAbility.ENABLED;
     }
 
     public String email() {
@@ -50,16 +41,7 @@ public class Candidate implements AggregateRoot<String> {
     public String toString() {
         return "NAME: " + name +
                 "\nEmail: " + email +
-                "\nPhoneNumber: " + phoneNumber+
-                "\nAbility: " + ability;
-    }
-
-    public void swapAbility() {
-        if(this.ability.isAbilityValue()){
-            this.ability = CandidateAbility.DISABLED;
-        } else {
-            this.ability = CandidateAbility.ENABLED;
-        }
+                "\nPhoneNumber: " + phoneNumber;
     }
 
     @Override
