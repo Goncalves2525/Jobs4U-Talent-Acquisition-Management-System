@@ -7,6 +7,7 @@ import applicationManagement.repositories.ApplicationRepository;
 import applicationManagement.repositories.CandidateRepository;
 import jobOpeningManagement.repositories.CustomerRepository;
 import jobOpeningManagement.repositories.JobOpeningRepository;
+import notificationManagement.repositories.NotificationRepository;
 
 public class InMemoryRepositoryFactory implements RepositoryFactory {
     @Override
@@ -33,6 +34,9 @@ public class InMemoryRepositoryFactory implements RepositoryFactory {
     public ApplicationRepository applications() {
         return null;
     }
+
+    @Override
+    public NotificationRepository notifications() { return null; }
 
     @Override
     public CandidateRepository candidates() {

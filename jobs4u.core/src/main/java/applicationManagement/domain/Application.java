@@ -51,6 +51,8 @@ public class Application implements AggregateRoot<String>, Serializable {
     @Column
     private String applicationFilesPath;
 
+    @Column
+    private Ranking rankNumber;
 
     protected Application() {
         // for ORM
@@ -68,6 +70,7 @@ public class Application implements AggregateRoot<String>, Serializable {
         this.date = LocalDate.now();
         this.filePath = filePath;
         this.applicationFilesPath = applicationFilesPath;
+        this.rankNumber = new Ranking();
     }
 
     public String jobReference() {
@@ -106,19 +109,14 @@ public class Application implements AggregateRoot<String>, Serializable {
         return applicationFilesPath;
     }
 
+    public Ranking rankNumber() { return rankNumber; }
+
     @Override
     public String toString() {
-        return "Application{" +
-                "Job Reference='" + jobReference + '\'' +
-                ", Candidate =" + candidate +
-                ", Job Opening=" + jobOpening +
-                ", Status=" + status +
-                //", InterviewModel=" + InterviewModel +
-                ", Commend='" + comment + '\'' +
-                ", Application Date=" + applicationDate +
-                ", Interview Model Path='" + filePath + '\'' +
-                ", Application Files Path='" + applicationFilesPath + '\'' +
-                '}';
+        return "Application ID: " + this.getId()
+                + " | Candidate Name: " + this.getCandidate()
+                + " | Application Status: " + this.getStatus()
+                + " | Application Rank: " + this.getRankNumber().getOrdinal();
     }
 
     public boolean checkIfApplicationHasInterviewModel() {
@@ -150,4 +148,6 @@ public class Application implements AggregateRoot<String>, Serializable {
     public void changeJobOpeningRecruitmentState(RecruitmentState newState) {
             jobOpening.setState(newState);
     }
+
+    public void changeRankingNumber(int i) { rankNumber.setOrdinal(i); }
 }
