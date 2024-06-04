@@ -27,7 +27,8 @@ public class CustomerManagerUI {
         options.add("Select Job Requirements Specifications");          // 9
         options.add("Edit Job Opening");                                // 10
         options.add("Generate Job Requirement Specification File");     // 11
-        options.add("Notification Menu");                               // 12
+        options.add("Check Application Data");                          // 12
+        options.add("Notification Menu");                               // 13
         String message = "What do you want to do?";
         String exit = "Exit";
 
@@ -85,6 +86,10 @@ public class CustomerManagerUI {
                     generateJobRequirementSpecificationFileUI.doShow(authzUI);
                     break;
                 case 12:
+                    CheckApplicationDataUI checkApplicationDataUI = new CheckApplicationDataUI();
+                    checkApplicationDataUI.doShow(authzUI);
+                    break;
+                case 13:
                     NotificationUI notificationUI = new NotificationUI();
                     notificationUI.doShow(authzUI);
                 default:

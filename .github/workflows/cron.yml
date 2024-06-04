@@ -51,6 +51,9 @@ jobs:
             echo "Maven build failed, retrying ($i/3)" || true
           done
           set -e  # Re-enable exit on failure
+
+      - name: Run tests
+        run: mvn -B test --file pom.xml
       - name: Debug JUnit XML files
         run: ls -la reports/surefire-reports/
 
@@ -64,3 +67,5 @@ jobs:
         with:
           name: junit-test-results
           path: test-results/*.xml
+      - name: Debug Uploaded Test Results
+        run: ls -la test-results/

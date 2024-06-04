@@ -1,86 +1,118 @@
-# US 1014
+# US 2000b - As Operator, I want to enable/disable a candidate
 
 ## 1. Context
 
-* *
+This US will allow the Operator to manage all candidates access within the system.
 
 ## 2. Requirements
 
-**US 2000b** 
+**US 2000b** As Operator, I want to enable/disable a candidate
 
 **Acceptance Criteria:**
 
-- 2000b.1. 
+- 2000b.1. Only the operator can enable/disable a candidate.
+- 2000b.2. Enabling/disabling a candidate does not invalidate his applications, only his access to the system.
 
 **Dependencies/References:**
+It has dependency on [US_1000](../../Sprint%20B/us_1000/readme.md), because the value object ability was already implemented upon users registration.
+It has dependency on [G007](../../Sprint%20B/us_g007/readme.md), due to authentication and authorization process.
+It has dependency on [2000a](../../Sprint%20B/us_2000a/readme.md), because candidates must exist in the system for this US.  
 
-*Regarding this requirement we understand that it relates to *
-
+### 2.1. Questions and Answers
+> **Question:**
+US2000b, o que é o enable/disable do candidato?
+> **Answer:**
+Refere-se a desativar o acesso do candidato ao sistema (i.e., Candidate App)
+> **Question:**
+For the use case 2000b which states "As Operator, I want to enable/disable a candidate". I would like to know if the client would like two different menus to be created, with each menu responsible for either activating or deactivating candidates.
+> **Answer:**
+I have no specific requirements for the UX/UI but I want you to follow best practices.
+> **Question:**
+Na us 2000b, é suposto ao desativar um candidato, apenas lhe retirar a role e deixa-lo como user ao desativa-lo completamente?
+> **Answer:**
+Considero que o objetivo desta US é permitir bloquear e desbloquear o acesso de um candidato ao sistema. Isso não deve invalidar as candidaturas dessa pessoa, apenas o acesso desse candidato ao sistema.
 
 ## 3. Analysis
-### 3.1. Relevant Domain Model Excerpt
-![Domain Model](domain_model.png)
 
-### 3.2. Questions and Answers
-> **Question:** 
-> 
-> **Answer:** 
-
-
+From the context and requirements, it was identified the following major features to take in consideration towards the design. <br>
+- A user needs to have an ability towards the system: enable/disable -, and no null or dubious ability. <br>
+- The Operator is the only user that can enable/disable candidates.<br>
+- Bootstrapping data can be generated. <br>
 
 ## 4. Design
 
 ### 4.1. Realization
 
-| Interaction ID                | Question: Which class is responsible for... | Answer | Justification (with patterns) |
-|:------------------------------|:--------------------------------------------|:-------|:------------------------------|
-| Step 1 :                      | 	...                                        |        |                               |
+- Operator UI has an option to manage candidates. <br>
+- The enable/disable feature will work as a switch button. <br>
+- Taking this action on Operator UI will only be possible by Operator users. <br>
+- Only candidates are listed in this option. <br>
+- The action only changes the current ability of the candidate: if it is enabled, it will be disabled, and vice-versa. <br>
 
+| Interaction ID                                         | Question: Which class is responsible for... | Answer                    | Justification (with patterns) |
+|:-------------------------------------------------------|:--------------------------------------------|:--------------------------|:------------------------------|
+| Step 1 : System presents Operator options              | ... presenting the Operator options?        | Operator UI               | Pure Fabrication              |
+| Step 2 : Operator selects an option                    | ... gathering option?                       | Operator UI               | Pure Fabrication              |
+|                                                        | ... calling specific option UI?             | Operator UI               | Pure Fabrication              |
+| Step 3 : System checks permission to manage candidates | ... requesting current session user role?   | AuthzController           | Controller                    |
+| Step 4 : System requests a list of candidates          | ... requesting list of candidates?          | CandidateController       | Controller                    |
+|                                                        | ... find all candidates?                    | CandidateRepository       | Information Expert            |
+| Step 5 : System shows list of candidates               | ... list of all candidates sorted by name?  | ManageCandidateUI         | Pure Fabrication              |
+| Step 6 : Operator selects the id of one candidate      | ... gathering candidates selected?          | ManageCandidateUI         | Pure Fabrication              |
+| Step 7 : System displays the managing options          | ... display managing options?               | ManageCandidateUI         | Pure Fabrication              |
+| Step 8 : Operator selects enable/disable option        | ... gather option selected?                 | ManageCandidateUI         | Pure Fabrication              |
+|                                                        | ... coordinating ability swap?              | ManageCandidateController | Controller                    |
+|                                                        | ... swapping the candidate ability?         | UserRepository            | Information Expert            |
+| Step 9 : System presents feedback (Success or Failed)  | ... show result?                            | ManageCandidateUI         | Pure Fabrication              |
 
-According to the taken rationale, the conceptual classes promoted to software classes are:
-
-* 
 
 Other software classes (i.e. Pure Fabrication) identified:
 
-* 
+* OperatorUI
+* ManageCandidateUI
+* AuthzController
+* CandidateController
+* ManageCandidateController
+* CandidateRepository
+* UserRepository
 
+### 4.2. Sequence Diagram
 
-### 4.2. Class Diagram
+![US_2000b](./SD/US_2000b.svg)
 
-![a class diagram](class-diagram-01.svg "A Class Diagram")
+### 4.3. Tests
 
-### 4.3. Sequence Diagram
-
-![a sequence diagram](sequence-diagram.svg "A Sequence Diagram")
-
-### 4.4. Tests
-
-**Test 1:** *  *
-
-**Refers to Acceptance Criteria:** 2000b.1
-
+**Test 1:** *Verifies that only operator users can enable/disable candidates.*
+<br> **Refers to Acceptance Criteria:** 1000.1.
 
 ```java
-
-
+@Test
+public void verifyOnlyOperatorsCanEnableDisableCandidates() { }
 ````
 
+**Test 2:** *Checks if enabled users can access the system and disabled users can't, with proper message to contact admin.*
+<br> **Refers to Acceptance Criteria:** 1000.2.
 
+````java
+@Test
+public void verifyAccessOnlyToEnabledCandidates(){ }
+`````
 
 ## 5. Implementation
-**Customer**
+**Operator**
 
-```java
+Functionalities added to Operator UI. <br>
+It was added a menu 4 to manage candidates. <br>
+```ManageCandidateUI manageCandidateUI = new ManageCandidateUI();```
 
-
-````
-
+Functionalities added to ManageCandidateController. <br>
+The operator selects a candidate (his email is passed by parameter to the function below) and enables/disables his ability.
+``` boolean swapCandidateAbility(String email, Role operatorRole);```
 
 ## 6. Integration/Demonstration
 
-n/a
+Enabling/disabling a candidate required a new layer of validation that checks if the role that made the action was an operator. <br>
 
 ## 7. Observations
 
-n/a
+A bootstrap was created to generate base users (one operator at least and candidates for this US were required) and other data upon app start. <br>
