@@ -82,13 +82,13 @@ public class ApplicationsBootstrapper {
         System.out.println("Candidate : " + cand8.getEmail() + " | Password: " + cand8pwd.get());
 
         // create application
-        ApplicationDTO dto1 = new ApplicationDTO(jo1.jobReference(), candidateController.findCandidateByEmail(cand1email).get(), jo1, "comment", new Date(), null,null, ApplicationStatus.SUBMITTED, "", "");
+        ApplicationDTO dto1 = new ApplicationDTO(jo1.jobReference(), candidateController.findCandidateByEmail(cand1email).get(), jo1, "comment", new Date(), null,null, ApplicationStatus.SUBMITTED, "", "", null);
         ctrl.registerApplication(dto1);
 
-        ApplicationDTO dto2 = new ApplicationDTO(jo2.jobReference(), candidateController.findCandidateByEmail(cand3email).get(), jo2, "comment", new Date(), null, null, ApplicationStatus.SUBMITTED, "", "");
+        ApplicationDTO dto2 = new ApplicationDTO(jo2.jobReference(), candidateController.findCandidateByEmail(cand3email).get(), jo2, "comment", new Date(), null, null, ApplicationStatus.SUBMITTED, "", "", null);
         ctrl.registerApplication(dto2);
 
-        ApplicationDTO dto3 = new ApplicationDTO(jo2.jobReference(), candidateController.findCandidateByEmail(cand1email).get(), jo2, "comment", new Date(), null,null, ApplicationStatus.SUBMITTED, "", "");
+        ApplicationDTO dto3 = new ApplicationDTO(jo2.jobReference(), candidateController.findCandidateByEmail(cand1email).get(), jo2, "comment", new Date(), null,null, ApplicationStatus.SUBMITTED, "", "", null);
         ctrl.registerApplication(dto3);
 
         ApplicationDTO dto4 = new ApplicationDTO(jo3.jobReference(), candidateController.findCandidateByEmail(cand7email).get(), jo3, "comment", new Date(), null,null, ApplicationStatus.REJECTED, "", "scomp/output/IBM-000123/janedoe@email.com");

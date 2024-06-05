@@ -52,6 +52,9 @@ public class Application implements AggregateRoot<String>, Serializable {
     private String applicationFilesPath;
 
     @Column
+    @Enumerated(EnumType.STRING)
+    private RequirementsResult requirementsResult;
+
     private Ranking rankNumber;
 
     protected Application() {
@@ -59,7 +62,7 @@ public class Application implements AggregateRoot<String>, Serializable {
     }
 
     public Application(String jobReference, Candidate candidate, JobOpening jobOpening, ApplicationStatus status, Date applicationDate, String comment
-    , String interviewModel, String filePath, String applicationFilesPath) {
+    , String interviewModel, String filePath, String applicationFilesPath, RequirementsResult requirementsResult) {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
@@ -70,6 +73,7 @@ public class Application implements AggregateRoot<String>, Serializable {
         this.date = LocalDate.now();
         this.filePath = filePath;
         this.applicationFilesPath = applicationFilesPath;
+        this.requirementsResult = requirementsResult;
         this.rankNumber = new Ranking();
     }
 
@@ -109,6 +113,26 @@ public class Application implements AggregateRoot<String>, Serializable {
         return applicationFilesPath;
     }
 
+
+    public RequirementsResult requirementsResult() {
+        return requirementsResult;
+    }
+
+    @Override
+    public String toString() {
+        return "Application{" +
+                "Job Reference='" + jobReference + '\'' +
+                ", Candidate =" + candidate +
+                ", Job Opening=" + jobOpening +
+                ", Status=" + status +
+                //", InterviewModel=" + InterviewModel +
+                ", Commend='" + comment + '\'' +
+                ", Application Date=" + applicationDate +
+                ", Interview Model Path='" + filePath + '\'' +
+                ", Application Files Path='" + applicationFilesPath + '\'' +
+                ", Requirements Result='" + requirementsResult + '\'' +
+                '}';
+
     public Ranking rankNumber() { return rankNumber; }
 
     @Override
@@ -117,6 +141,7 @@ public class Application implements AggregateRoot<String>, Serializable {
                 + " | Candidate Name: " + this.getCandidate()
                 + " | Application Status: " + this.getStatus()
                 + " | Application Rank: " + this.getRankNumber().getOrdinal();
+
     }
 
     public boolean checkIfApplicationHasInterviewModel() {
@@ -149,5 +174,14 @@ public class Application implements AggregateRoot<String>, Serializable {
             jobOpening.setState(newState);
     }
 
+    public void assotiateRequirementResultToApplication(int passed){
+        if(passed == 1){
+            this.requirementsResult = RequirementsResult.APPROVED;
+        }else{
+            this.requirementsResult = RequirementsResult.REJECTED;
+        }
+    }
+
     public void changeRankingNumber(int i) { rankNumber.setOrdinal(i); }
+
 }

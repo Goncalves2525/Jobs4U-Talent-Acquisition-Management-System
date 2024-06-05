@@ -49,7 +49,7 @@ public class RegisterApplicationUI extends AbstractUI{
             folderPath = "scomp/output/" + jobReference + "/" + selectedCandidate.email();
         }
 
-        ApplicationDTO applicationDTO = new ApplicationDTO(jobReference, selectedCandidate, jobOpening, comment, new Date(),null, null, status,"", folderPath);
+        ApplicationDTO applicationDTO = new ApplicationDTO(jobReference, selectedCandidate, jobOpening, comment, new Date(),null, null, status,"", folderPath, null);
         boolean success = ctrl.registerApplication(applicationDTO);
 
         System.out.println("Deseja associar um interview model a esta candidatura?");

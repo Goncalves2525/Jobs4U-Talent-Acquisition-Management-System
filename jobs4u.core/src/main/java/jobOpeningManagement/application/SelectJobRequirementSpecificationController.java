@@ -11,7 +11,7 @@ import java.util.List;
 public class SelectJobRequirementSpecificationController {
     JobOpeningRepository repo = PersistenceContext.repositories().jobOpenings();
     PluginLoader pluginLoader = new PluginLoader();
-    String JOBREQUIREMENTSPECIFICATION_PLUGINS_DIRECTORY = "plugins/JobRequirements/jar";
+    String JOBREQUIREMENTSPECIFICATION_PLUGINS_DIRECTORY = "plugins/jobRequirements/jar";
 
     public JobOpening findJobOpeningById(String id){
         return repo.ofIdentity(id).get();
