@@ -2,11 +2,9 @@
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
+
 import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
 public class job7interviewParser extends Parser {
@@ -136,7 +134,7 @@ public class job7interviewParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_start; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof job7interviewListener ) ((job7interviewListener)listener).enterStart(this);
+			if ( listener instanceof job7interviewListener) ((job7interviewListener)listener).enterStart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
@@ -144,7 +142,7 @@ public class job7interviewParser extends Parser {
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof job7interviewVisitor ) return ((job7interviewVisitor<? extends T>)visitor).visitStart(this);
+			if ( visitor instanceof job7interviewVisitor) return ((job7interviewVisitor<? extends T>)visitor).visitStart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
