@@ -113,10 +113,11 @@ public class Application implements AggregateRoot<String>, Serializable {
         return applicationFilesPath;
     }
 
-
     public RequirementsResult requirementsResult() {
         return requirementsResult;
     }
+
+    public Ranking rankNumber() {return rankNumber; }
 
     @Override
     public String toString() {
@@ -132,28 +133,26 @@ public class Application implements AggregateRoot<String>, Serializable {
                 ", Application Files Path='" + applicationFilesPath + '\'' +
                 ", Requirements Result='" + requirementsResult + '\'' +
                 '}';
-
-    public Ranking rankNumber() { return rankNumber; }
-
-    @Override
-    public String toString() {
-        return "Application ID: " + this.getId()
-                + " | Candidate Name: " + this.getCandidate()
-                + " | Application Status: " + this.getStatus()
-                + " | Application Rank: " + this.getRankNumber().getOrdinal();
-
     }
+
+    // TODO: rever uso deste bloco e criar novo método
+//    @Override
+//    public String toString() {
+//        return "Application ID: " + this.getId()
+//                + " | Candidate Name: " + this.getCandidate()
+//                + " | Application Status: " + this.getStatus()
+//                + " | Application Rank: " + this.getRankNumber().getOrdinal();
+//
+//    }
 
     public boolean checkIfApplicationHasInterviewModel() {
         return InterviewModel != null;
     }
 
-
     public boolean associateInterviewModelToApplication(String interviewModel) {
         this.InterviewModel = interviewModel;
         return true;
     }
-
 
     @Override
     public boolean sameAs(Object other) {
