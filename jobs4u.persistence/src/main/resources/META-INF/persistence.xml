@@ -11,10 +11,15 @@
     <class>applicationManagement.domain.Application</class>
     <class>applicationManagement.domain.Candidate</class>
     <class>appUserManagement.domain.AppUser</class>
+    <class>notificationManagement.domain.Notification</class>
 
     <properties>
       <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
+<!--      To allow single use database. -->
       <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:./db/jobs4u"/>
+<!--      To allow multi-access to DB, the command is to be used along with the following step, before execution: -->
+<!--      java -cp C:\Users\rcaro\EAPLI\eapli.base\target\dependency\h2-2.2.224.jar org.h2.tools.Server -tcpAllowOthers -tcpPort 9092 -baseDir C:\Users\rcaro\PI4\sem4pi-23-24-2nb1\db-->
+<!--      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:tcp://localhost:9092/~/PI4/sem4pi-23-24-2nb1/db/jobs4u"/>-->
       <property name="jakarta.persistence.jdbc.user" value=""/>
       <property name="jakarta.persistence.jdbc.password" value=""/>
 <!--      <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>-->

@@ -18,6 +18,12 @@ public class RegisterJobOpeningController {
         return jobOpening != null;
     }
 
+    public boolean registerJobOpeningWithPhase(JobOpeningDTO dto) {
+        JobOpening jobOpening = new JobOpening(dto.title(), dto.contractType(), dto.mode(), dto.address(), dto.company(), dto.numberOfVacancies(), null, dto.description(), dto.requirements(), dto.state(), dto.jobReference());
+        jobOpening = repo.save(jobOpening);
+        return jobOpening != null;
+    }
+
     public Iterable<Customer> allCustomers() {
         return svc.allCustomers();
     }

@@ -30,6 +30,7 @@ import applicationManagement.repositories.ApplicationRepository;
 import applicationManagement.repositories.CandidateRepository;
 import jobOpeningManagement.repositories.CustomerRepository;
 import jobOpeningManagement.repositories.JobOpeningRepository;
+import notificationManagement.repositories.NotificationRepository;
 
 /**
  * @author Paulo Gandra Sousa
@@ -53,22 +54,5 @@ public interface RepositoryFactory {
 
     ApplicationRepository applications();
 
-//	/**
-//	 * @param autoTx the transactional context to enroll
-//	 *
-//	 * @return
-//	 */
-//	UserRepository users(TransactionalContext autoTx);
-//
-//	/**
-//	 * repository will be created in auto transaction mode
-//	 *
-//	 * @return
-//	 */
-//	UserRepository users();
-//
-//	EventConsumptionRepository eventConsumption();
-//
-//	EventRecordRepository eventRecord();
-
+    NotificationRepository notifications();
 }

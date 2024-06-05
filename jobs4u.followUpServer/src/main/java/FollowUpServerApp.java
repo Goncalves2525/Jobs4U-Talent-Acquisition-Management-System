@@ -1,5 +1,6 @@
 import console.ConsoleUtils;
-import fus.Client;
+import fus.ClientMailFetcher;
+import fus.ClientNotificationFetcher;
 import fus.Server;
 import textformat.AnsiColor;
 
@@ -7,40 +8,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FollowUpServerApp {
+
     public static void main(String[] args) {
 
-        // set option variable, list of options, selection message, and exit name (eg.: exit / cancel / etc.)
-        int option;
-        List<String> options = new ArrayList<>();
-        options.add("Run Client");      // 1
-        options.add("Run Server");      // 2
-        String message = "Select option:";
-        String exit = "Exit";
+        // Initialize array of threads
+        ArrayList<Thread> threadArrayList = new ArrayList<>();
 
-        // run menu
+        // Client Mail Fetcher
+        Thread threadClientMailFetcher = new Thread(new ClientMailFetcher());
+        threadClientMailFetcher.start();
+        threadArrayList.add(threadClientMailFetcher);
+
+        // Client Notification Fetcher
+        Thread threadClientNotificationFetcher = new Thread(new ClientNotificationFetcher());
+        threadClientNotificationFetcher.start();
+        threadArrayList.add(threadClientNotificationFetcher);
+
+        // Server
+        boolean serverUp = true;
         do {
-
-            // build UI header
-            ConsoleUtils.buildUiHeader("Jobs4U Follow-Up Server");
-
-            // read option selected
-            option = ConsoleUtils.showAndSelectIndex(options, message, exit);
-            switch (option) {
-                case (0):
-                    ConsoleUtils.showMessageColor("Closing Follow-Up Server.", AnsiColor.CYAN);
-                    // TODO: close any connection that may be running. To be implemented when threads are implemented.
-                    break;
-                case (1):
-                    // TODO: implement thread creation to run Client.run()
-                    Client.run();
-                    break;
-                case (2):
-                    // TODO: implement thread creation to run Server.run()
-                    Server.run();
-                    break;
-                default:
-                    ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);
+            Thread threadServer = new Thread(new Server());
+            threadServer.start();
+            while (threadServer.isInterrupted()) {
+                serverUp = false;
             }
-        } while (option != 0);
+            try {
+                threadServer.join();
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace(); // TESTING
+                break;
+            }
+        } while (serverUp);
+
+        // Close all threads
+        try {
+            for (Thread thread : threadArrayList) {
+                // signal thread to end!
+                thread.join();
+            }
+            ConsoleUtils.showMessageColor("Closing Follow-Up Server.", AnsiColor.CYAN);
+        } catch (InterruptedException interruptedException) {
+            interruptedException.printStackTrace(); // TESTING
+        }
     }
 }

@@ -52,6 +52,12 @@ public class Application implements AggregateRoot<String>, Serializable {
     private String applicationFilesPath;
 
     @Column
+    @Enumerated(EnumType.STRING)
+    private RequirementsResult requirementsResult;
+
+    private Ranking rankNumber;
+
+    @Column
     private Date interviewDate;
 
 
@@ -60,7 +66,7 @@ public class Application implements AggregateRoot<String>, Serializable {
     }
 
     public Application(String jobReference, Candidate candidate, JobOpening jobOpening, ApplicationStatus status, Date applicationDate, String comment
-    , String interviewModel, String filePath, String applicationFilesPath) {
+    , String interviewModel, String filePath, String applicationFilesPath, RequirementsResult requirementsResult) {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
@@ -71,6 +77,8 @@ public class Application implements AggregateRoot<String>, Serializable {
         this.date = LocalDate.now();
         this.filePath = filePath;
         this.applicationFilesPath = applicationFilesPath;
+        this.requirementsResult = requirementsResult;
+        this.rankNumber = new Ranking();
     }
 
     public String jobReference() {
@@ -109,6 +117,12 @@ public class Application implements AggregateRoot<String>, Serializable {
         return applicationFilesPath;
     }
 
+    public RequirementsResult requirementsResult() {
+        return requirementsResult;
+    }
+
+    public Ranking rankNumber() {return rankNumber; }
+
     public Date interviewDate() {
         return interviewDate;
     }
@@ -125,8 +139,19 @@ public class Application implements AggregateRoot<String>, Serializable {
                 ", Application Date=" + applicationDate +
                 ", Interview Model Path='" + filePath + '\'' +
                 ", Application Files Path='" + applicationFilesPath + '\'' +
+                ", Requirements Result='" + requirementsResult + '\'' +
                 '}';
     }
+
+    // TODO: rever uso deste bloco e criar novo método
+//    @Override
+//    public String toString() {
+//        return "Application ID: " + this.getId()
+//                + " | Candidate Name: " + this.getCandidate()
+//                + " | Application Status: " + this.getStatus()
+//                + " | Application Rank: " + this.getRankNumber().getOrdinal();
+//
+//    }
 
     public boolean checkIfApplicationHasInterviewModel() {
         return InterviewModel != null;
@@ -147,7 +172,6 @@ public class Application implements AggregateRoot<String>, Serializable {
         return true;
     }
 
-
     @Override
     public boolean sameAs(Object other) {
         Application application = (Application) other;
@@ -166,4 +190,15 @@ public class Application implements AggregateRoot<String>, Serializable {
     public void changeJobOpeningRecruitmentState(RecruitmentState newState) {
             jobOpening.setState(newState);
     }
+
+    public void assotiateRequirementResultToApplication(int passed){
+        if(passed == 1){
+            this.requirementsResult = RequirementsResult.APPROVED;
+        }else{
+            this.requirementsResult = RequirementsResult.REJECTED;
+        }
+    }
+
+    public void changeRankingNumber(int i) { rankNumber.setOrdinal(i); }
+
 }
