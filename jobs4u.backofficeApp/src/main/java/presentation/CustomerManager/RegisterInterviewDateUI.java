@@ -2,15 +2,12 @@ package presentation.CustomerManager;
 
 import appUserManagement.domain.Role;
 import applicationManagement.application.RegisterInterviewDateController;
-import applicationManagement.application.SelectInterviewModelController;
 import applicationManagement.domain.Application;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
-import plugins.Plugin;
 import textformat.AnsiColor;
 
 import java.util.Date;
-import java.util.List;
 
 public class RegisterInterviewDateUI {
     private RegisterInterviewDateController ctrl = new RegisterInterviewDateController();
