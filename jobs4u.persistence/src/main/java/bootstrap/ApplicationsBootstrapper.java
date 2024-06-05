@@ -91,11 +91,11 @@ public class ApplicationsBootstrapper {
         ApplicationDTO dto3 = new ApplicationDTO(jo2.jobReference(), candidateController.findCandidateByEmail(cand1email).get(), jo2, "comment", new Date(), null,null, ApplicationStatus.SUBMITTED, "", "", null);
         ctrl.registerApplication(dto3);
 
-        ApplicationDTO dto4 = new ApplicationDTO(jo3.jobReference(), candidateController.findCandidateByEmail(cand7email).get(), jo3, "comment", new Date(), null,null, ApplicationStatus.REJECTED, "", "scomp/output/IBM-000123/janedoe@email.com");
+        ApplicationDTO dto4 = new ApplicationDTO(jo3.jobReference(), candidateController.findCandidateByEmail(cand7email).get(), jo3, "comment", new Date(), null,null, ApplicationStatus.REJECTED, "", "scomp/output/IBM-000123/janedoe@email.com", null);
         ctrl.registerApplication(dto4);
         rankingController.defineRanking(candidateController.findCandidateByEmail(cand7email).get(), jo3.jobReference(), 2);
 
-        ApplicationDTO dto5 = new ApplicationDTO(jo3.jobReference(), candidateController.findCandidateByEmail(cand8email).get(), jo3, "comment", new Date(), null,null, ApplicationStatus.HIRED, "", "scomp/output/IBM-000123/johndoe@email.com");
+        ApplicationDTO dto5 = new ApplicationDTO(jo3.jobReference(), candidateController.findCandidateByEmail(cand8email).get(), jo3, "comment", new Date(), null,null, ApplicationStatus.HIRED, "", "scomp/output/IBM-000123/johndoe@email.com", null);
         ctrl.registerApplication(dto5);
         rankingController.defineRanking(candidateController.findCandidateByEmail(cand8email).get(), jo3.jobReference(), 1);
     }
