@@ -2,6 +2,7 @@ grammar job7interview;
 
 // Start rule
 start:
+    header
     question1
     question2
     question3
@@ -11,6 +12,9 @@ start:
     question7
     question8
     question9;
+
+// Rule for the header
+header: 'Job 7 Interview Model';
 
 // Rule for the first question
 question1: 'Is Java an object-oriented programming language? (True or False)' answer1=BOOLEAN;
@@ -22,7 +26,7 @@ question2: 'How do you describe yourself in 5 words: (type a word per line)' ans
 question3: 'Select one degree. (None; Bachelor; Master; PHD)' answer3=DEGREE;
 
 // Rule for the fourth question
-question4: 'Select one or more programming languages you are proficient in. (java; javascript; python; c) (type each language separated by a semi-colon)' answer4=language+;
+question4: 'Select one or more programming languages you are proficient in. (java; javascript; python; c) (type each language separated by a semi-colon)' answer4=PROGLANGUAGE;
 
 // Rule for the fifth question
 question5: 'Enter the number of years of experience (type one integer)' answer5=INTEGER;
@@ -42,6 +46,9 @@ question9: 'How capable do you feel to carry out the duties described in the job
 // Boolean rule for true or false answers
 BOOLEAN: 'true' | 'false';
 
+// Rule for separator
+SEPARATOR: ';'?;
+
 // Word rule for five words in the second question
 WORD: [a-zA-Z]+;
 
@@ -49,7 +56,7 @@ WORD: [a-zA-Z]+;
 DEGREE: 'None' | 'Bachelor' | 'Master' | 'PHD';
 
 // Rule for programming language selection
-language: 'java' | 'javascript' | 'python' | 'c';
+PROGLANGUAGE: 'java'SEPARATOR | 'javascript'SEPARATOR | 'python'SEPARATOR | 'c'SEPARATOR;
 
 // Rule for a newline
 NEWLINE : [\r\n]+ ;
