@@ -1,8 +1,6 @@
 package presentation.CustomerManager;
 
 import appUserManagement.domain.Role;
-import applicationManagement.application.RegisterApplicationController;
-import applicationManagement.domain.Application;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
 import jobOpeningManagement.application.GenerateCandidateFieldsFileController;
@@ -19,7 +17,7 @@ public class GenerateJobRequirementSpecificationQuestionsFileUI {
 
     private final PluginLoader pluginLoader = new PluginLoader();
     static Role csutomerManagerRole;
-    GenerateCandidateFieldsFileController generateCandidateFieldsFileController= new GenerateCandidateFieldsFileController();
+    GenerateCandidateFieldsFileController generateCandidateFieldsFileController = new GenerateCandidateFieldsFileController();
     ListJobOpeningsController listJobOpeningsController = new ListJobOpeningsController();
 
     protected boolean doShow(AuthzUI authzUI){
@@ -42,7 +40,6 @@ public class GenerateJobRequirementSpecificationQuestionsFileUI {
             jobOpeningList.add(job);
             i++;
         }
-
         // Prompt the user to choose a plugin
         System.out.print("Choose a Job Opening (enter the number): ");
         int choice = scanner.nextInt();

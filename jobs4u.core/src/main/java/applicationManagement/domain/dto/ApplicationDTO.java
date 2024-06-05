@@ -2,6 +2,7 @@ package applicationManagement.domain.dto;
 
 import applicationManagement.domain.ApplicationStatus;
 import applicationManagement.domain.Candidate;
+import applicationManagement.domain.RequirementsResult;
 import jobOpeningManagement.domain.*;
 
 import java.io.Serializable;
@@ -19,10 +20,11 @@ public class ApplicationDTO {
     private ApplicationStatus status;
     private String filePath;
     private String applicationFilesPath;
+    private RequirementsResult requirementsResult;
 
 
     public ApplicationDTO(String jobReference , Candidate candidate, JobOpening jobOpening, String comment, Date applicationDate, String JobRequirementSpecification, String interviewModel, ApplicationStatus status
-    , String filePath, String applicationFilesPath) {
+    , String filePath, String applicationFilesPath, RequirementsResult requirementsResult) {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
@@ -33,6 +35,7 @@ public class ApplicationDTO {
         this.status = status;
         this.filePath = filePath;
         this.applicationFilesPath = applicationFilesPath;
+        this.requirementsResult = requirementsResult;
     }
 
 
@@ -80,6 +83,10 @@ public class ApplicationDTO {
 
     public Long id() {
         return id;
+    }
+
+    public RequirementsResult requirementsResult() {
+        return requirementsResult;
     }
 }
 

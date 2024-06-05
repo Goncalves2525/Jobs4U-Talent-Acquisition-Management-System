@@ -38,4 +38,8 @@ public enum Role {
     public boolean showCandidateAppAccess() {
         return this.candidateAppAccess;
     }
+
+    public static Role fromRole(String roleName) {
+        return Role.valueOf(roleName);
+    }
 }

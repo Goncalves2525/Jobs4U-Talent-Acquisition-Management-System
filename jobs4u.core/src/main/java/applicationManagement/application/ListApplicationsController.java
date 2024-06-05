@@ -11,6 +11,10 @@ public class ListApplicationsController {
         return repo.findAll();
     }
 
+    public Iterable<Application> listApplicationsOfJobRefence(String jobReference) {
+        return repo.ofJobReference(jobReference);
+    }
+
     public void getApplication(Long applicationID) {
         Iterable<Application> applications = listApplications();
         boolean appNotFound = false;
