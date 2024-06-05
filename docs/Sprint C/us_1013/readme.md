@@ -62,18 +62,37 @@ The remainder of the candidates could be just tagged as not ranked.**
 
 ### 4.1. Realization
 
-| Interaction ID                | Question: Which class is responsible for... | Answer | Justification (with patterns) |
-|:------------------------------|:--------------------------------------------|:-------|:------------------------------|
-| Step 1 :                      | 	...                                        |        |                               |
-
+| Interaction ID                                         | Question: Which class is responsible for...      | Answer                   | Justification (with patterns)      |
+|:-------------------------------------------------------|:-------------------------------------------------|:-------------------------|:-----------------------------------|
+| Step 1 : asks to rank the candidates for a job opening | ... interacting with the user                    | RankCandidatesUI         | No reason for other class to do it |
+|                                                        | ... coordinating the us?                         | RankCandidatesController | Controller                         |
+| Step 2 : requests the job opening ID                   | ... requesting information?                      | RankCandidatesUI         | Pure Fabrication                   |
+| Step 3 : inserts information                           | ... validating the information?                  | JobOpening               | Information Expert                 |
+|                                                        | ... get applications for the job opening?        | RankCandidatesController | Controller                         |
+|                                                        | ... having the applications?                     | ApplicationRepository    | Information Expert                 |
+|                                                        | ... knowing the data of the Application          | Application              | Information Expert                 |
+|                                                        | ... get number of vacancies for the job opening? | RankCandidateController  | Controller                         |
+|                                                        | ... having the job openings?                     | JobOpeningRepository     | Information Expert                 |
+|                                                        | ... knowing the number of vacancies?             | JobOpening               | Information Expert                 |
+| Step 4 : requests to insert the applications ordered   | ... requesting information?                      | RankCandidatesUI         | Pure Fabrication                   |
+| Step 5 : inserts information                           | ... validating the information?                  | Application              | Information Expert                 |   
+|                                                        | ... create the ranking?                          | RankCandidates           | Pure Fabrication                   |
+|                                                        | ... persisting the ranking?                      | RankCandidatesRepository | Information Expert                 |
+| Step 6: show success of operation                      | ... interacting with user?                       | RankCandidatesUI         | Pure Fabrication                   |
 
 According to the taken rationale, the conceptual classes promoted to software classes are:
 
-* 
+* RankCandidatesUI
+* RankCandidates
+* RankCandidatesController
+* RankCandidateRepository
 
 Other software classes (i.e. Pure Fabrication) identified:
 
-* 
+* JobOpening
+* Application
+* ApplicationRepository
+* JobOpeningRepository
 
 
 ### 4.2. Class Diagram
