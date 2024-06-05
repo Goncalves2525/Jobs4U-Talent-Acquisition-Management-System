@@ -1,14 +1,10 @@
 package jpa;
 
-import appUserManagement.domain.Ability;
-import applicationManagement.domain.dto.CandidateDTO;
-import console.ConsoleUtils;
-import jakarta.persistence.*;
 import applicationManagement.domain.Candidate;
+import appUserManagement.domain.Role;
+import applicationManagement.domain.dto.CandidateDTO;
+import jakarta.persistence.*;
 import applicationManagement.repositories.CandidateRepository;
-import org.hibernate.query.NativeQuery;
-import textformat.AnsiColor;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +36,15 @@ public class JpaCandidateRepository implements CandidateRepository {
             return entity;
         }
         return null;
+    }
+
+    public <S extends Candidate> S update(S entity) {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        entity = em.merge(entity);
+        em.getTransaction().commit();
+        em.close();
+        return entity;
     }
 
     private boolean correctCandidate(Candidate candidate) {

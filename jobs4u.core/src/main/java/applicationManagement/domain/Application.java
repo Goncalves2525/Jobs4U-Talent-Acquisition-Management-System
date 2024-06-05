@@ -55,6 +55,7 @@ public class Application implements AggregateRoot<String>, Serializable {
     @Enumerated(EnumType.STRING)
     private RequirementsResult requirementsResult;
 
+    private Ranking rankNumber;
 
     protected Application() {
         // for ORM
@@ -73,6 +74,7 @@ public class Application implements AggregateRoot<String>, Serializable {
         this.filePath = filePath;
         this.applicationFilesPath = applicationFilesPath;
         this.requirementsResult = requirementsResult;
+        this.rankNumber = new Ranking();
     }
 
     public String jobReference() {
@@ -111,6 +113,7 @@ public class Application implements AggregateRoot<String>, Serializable {
         return applicationFilesPath;
     }
 
+
     public RequirementsResult requirementsResult() {
         return requirementsResult;
     }
@@ -129,6 +132,16 @@ public class Application implements AggregateRoot<String>, Serializable {
                 ", Application Files Path='" + applicationFilesPath + '\'' +
                 ", Requirements Result='" + requirementsResult + '\'' +
                 '}';
+
+    public Ranking rankNumber() { return rankNumber; }
+
+    @Override
+    public String toString() {
+        return "Application ID: " + this.getId()
+                + " | Candidate Name: " + this.getCandidate()
+                + " | Application Status: " + this.getStatus()
+                + " | Application Rank: " + this.getRankNumber().getOrdinal();
+
     }
 
     public boolean checkIfApplicationHasInterviewModel() {
@@ -168,4 +181,7 @@ public class Application implements AggregateRoot<String>, Serializable {
             this.requirementsResult = RequirementsResult.REJECTED;
         }
     }
+
+    public void changeRankingNumber(int i) { rankNumber.setOrdinal(i); }
+
 }

@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Instant;
+import java.util.Date;
+
 @Getter
 @Entity
 public class JobOpening implements AggregateRoot<String> {
@@ -55,7 +58,18 @@ public class JobOpening implements AggregateRoot<String> {
 
     @Enumerated(EnumType.STRING)
     @Column
+    @Getter
+    @Setter
     private RecruitmentState state;
+
+    @Column
+    @Getter
+    private Date startDate;
+
+    @Column
+    @Getter
+    @Setter
+    private Date endDate;
 
     @Transient
     private static int counter = 0;
@@ -79,7 +93,9 @@ public class JobOpening implements AggregateRoot<String> {
         this.numberOfVacancies = numberOfVacancies;
         this.description = description;
         this.requirements = requirements;
-        state = RecruitmentState.APPLICATION;
+        this.state = RecruitmentState.APPLICATION;
+        this.startDate = Date.from(Instant.now());
+        this.endDate = null;
         counter++;
         //Company code + sequential number
         generateJobReference();
@@ -100,10 +116,30 @@ public class JobOpening implements AggregateRoot<String> {
         this.interviewModel = interviewModel;
         this.description = description;
         this.requirements = requirements;
-        state = RecruitmentState.APPLICATION;
+        this.state = RecruitmentState.APPLICATION;
+        this.startDate = Date.from(Instant.now());
+        this.endDate = null;
         counter++;
         //Company code + sequential number
         generateJobReference();
+    }
+
+    public JobOpening(String title, ContractType contractType, JobMode mode, Address address, Customer company, int numberOfVacancies, String jobSpecifications, String description, Requirements requirements, RecruitmentState recruitmentState, String jobReference) {
+        this.title = title;
+        this.contractType = contractType;
+        this.mode = mode;
+        this.address = address;
+        this.company = company;
+        //ensure that the number of vacancies is a positive number
+        if (numberOfVacancies <= 0) {
+            throw new IllegalArgumentException("Number of vacancies must be a positive number");
+        }
+        this.numberOfVacancies = numberOfVacancies;
+        this.jobSpecifications = jobSpecifications;
+        this.description = description;
+        this.requirements = requirements;
+        this.state = recruitmentState;
+        this.jobReference = jobReference;
     }
 
     public String jobReference() {
@@ -153,12 +189,6 @@ public class JobOpening implements AggregateRoot<String> {
     public RecruitmentState state() {
         return state;
     }
-
-    public void setState(RecruitmentState state) {
-        this.state = state;
-    }
-
-
 
     @Override
     public String toString() {
