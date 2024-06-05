@@ -21,14 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Server {
-    public static synchronized void run() {
+public class Server implements Runnable {
+    @Override
+    public void run() {
 
         final int port = 99;
 
-        // TODO: implement threads from this point on.
-
-        // Start server
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             ConsoleUtils.showMessageColor("Server is listening on port " + port, AnsiColor.CYAN);
 

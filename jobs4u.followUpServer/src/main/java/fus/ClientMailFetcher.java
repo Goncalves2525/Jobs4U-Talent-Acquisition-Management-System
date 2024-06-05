@@ -194,7 +194,6 @@ public class ClientMailFetcher implements Runnable {
 
         return "From: \"Rafael Carolo\" <1212047@dei.isep.ipp.pt>\n" +
                 "To: <" + TESTING_EMAIL_ADDRESS + ">\n" +
-                "Bcc: <1212047@isep.ipp.pt>\n" +
                 "Subject: Job Ref. " + jobReference + " : RECRUITMENT STATUS\n\n" +
                 "Dear Customer, \n\n" +
                 "Hope to find you well. \n\n" +

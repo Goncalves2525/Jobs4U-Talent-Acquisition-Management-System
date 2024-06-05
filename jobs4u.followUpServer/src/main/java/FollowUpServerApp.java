@@ -24,15 +24,26 @@ public class FollowUpServerApp {
         threadClientNotificationFetcher.start();
         threadArrayList.add(threadClientNotificationFetcher);
 
+        // Server
+        boolean serverUp = true;
         do {
-            // Server
-            Server.run();
-        } while(ConsoleUtils.confirm("Do you want to continue? (y/n)"));
+            Thread threadServer = new Thread(new Server());
+            threadServer.start();
+            while (threadServer.isInterrupted()) {
+                serverUp = false;
+            }
+            try {
+                threadServer.join();
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace(); // TESTING
+                break;
+            }
+        } while (serverUp);
 
         // Close all threads
         try {
             for (Thread thread : threadArrayList) {
-                // TODO: signal thread to end!
+                // signal thread to end!
                 thread.join();
             }
             ConsoleUtils.showMessageColor("Closing Follow-Up Server.", AnsiColor.CYAN);
