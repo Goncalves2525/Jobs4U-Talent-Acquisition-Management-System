@@ -28,6 +28,18 @@ public class job7interviewBaseListener implements job7interviewListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterHeader(job7interviewParser.HeaderContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitHeader(job7interviewParser.HeaderContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterQuestion1(job7interviewParser.Question1Context ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -136,13 +148,13 @@ public class job7interviewBaseListener implements job7interviewListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLanguage(job7interviewParser.LanguageContext ctx) { }
+	@Override public void enterQuestion10(job7interviewParser.Question10Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLanguage(job7interviewParser.LanguageContext ctx) { }
+	@Override public void exitQuestion10(job7interviewParser.Question10Context ctx) { }
 
 	/**
 	 * {@inheritDoc}

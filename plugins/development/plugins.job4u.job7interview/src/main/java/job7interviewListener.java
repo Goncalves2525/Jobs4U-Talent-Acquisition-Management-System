@@ -1,5 +1,4 @@
 // Generated from C:/Users/rcaro/PI4/sem4pi-23-24-2nb1/plugins/development/plugins.job4u.job7interview/antlr/job7interview.g4 by ANTLR 4.13.1
-
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -17,6 +16,16 @@ public interface job7interviewListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStart(job7interviewParser.StartContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link job7interviewParser#header}.
+	 * @param ctx the parse tree
+	 */
+	void enterHeader(job7interviewParser.HeaderContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link job7interviewParser#header}.
+	 * @param ctx the parse tree
+	 */
+	void exitHeader(job7interviewParser.HeaderContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link job7interviewParser#question1}.
 	 * @param ctx the parse tree
@@ -108,13 +117,13 @@ public interface job7interviewListener extends ParseTreeListener {
 	 */
 	void exitQuestion9(job7interviewParser.Question9Context ctx);
 	/**
-	 * Enter a parse tree produced by {@link job7interviewParser#language}.
+	 * Enter a parse tree produced by {@link job7interviewParser#question10}.
 	 * @param ctx the parse tree
 	 */
-	void enterLanguage(job7interviewParser.LanguageContext ctx);
+	void enterQuestion10(job7interviewParser.Question10Context ctx);
 	/**
-	 * Exit a parse tree produced by {@link job7interviewParser#language}.
+	 * Exit a parse tree produced by {@link job7interviewParser#question10}.
 	 * @param ctx the parse tree
 	 */
-	void exitLanguage(job7interviewParser.LanguageContext ctx);
+	void exitQuestion10(job7interviewParser.Question10Context ctx);
 }

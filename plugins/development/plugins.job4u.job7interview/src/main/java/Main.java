@@ -1,6 +1,12 @@
+//import job7interviewParser.job7interviewLexer;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
 import utils.AnsiColor;
 import utils.ConsoleUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -68,20 +74,33 @@ public class Main {
         String fileName = "job7interview_model.txt";
         String filePath = "plugins/interviews/txt/" + fileName;
 
-        String content = "How many years of experience do you have in IT?\n\n"
-                + "Select your Degree (None, Bachelor, Master, PhD)\n\n"
-                + "Which operating systems are you proficient in? (Windows, Linux) Note: Seperated by \",\"\n\n"
-                + "Which programming or scripting languages are you proficient in? (Python, Java, C++, Bash, PowerShell) Note: Seperated by \",\"\n\n"
-                + "How many years of experience do you have in penetration testing?\n\n"
-                + "Do you have any of the following certifications? (OSCP, CEH, CISSP, GPEN, CISM) Note: Seperated by \",\"\n\n"
-                + "Which penetration testing tools are you proficient in? (Metasploit, Burp Suite, Nmap, Wireshark, Nessus) Note: Seperated by \",\"\n\n"
-                + "Are you familiar with the OWASP Top Ten vulnerabilities? (Yes or No)\n\n"
-                + "How would you rate your analytical and problem-solving skills? (1-5)\n\n"
-                + "Can you start working within the next month? (Yes or No)\n\n";
+        StringBuilder content = new StringBuilder();
+
+        content.append("Job 7 Interview Model\n\n");
+        content.append("#1 Is Java an object-oriented programming language? (True or False)\n" +
+                "Answer:\n\n");
+        content.append("#2 How do you describe yourself in 5 words: (type each word separated by a semi-colon, with no spaces)\n" +
+                "Answer:\n\n");
+        content.append("#3 Enter one degree: (None; Bachelor; Master; PHD)\n" +
+                "Answer:\n\n");
+        content.append("#4 Enter one or more programming languages you are proficient in: (java; javascript; python; c) (type each language separated by a semi-colon, with no spaces)\n" +
+                "Answer:\n\n");
+        content.append("#5 Enter the number of years of experience: (type one integer)\n" +
+                "Answer:\n\n");
+        content.append("#6 Enter your salary expectations: (use only 2 decimal numbers)\n" +
+                "Answer:\n\n");
+        content.append("#7 On what specific date can you start working? (dd/mm/yyyy)\n" +
+                "Answer:\n\n");
+        content.append("#8 How many overtime hours are you available to work per week? (hh:mm)\n" +
+                "Answer:\n\n");
+        content.append("#9 How capable do you feel to carry out the duties described in the job offer? [0-5]\n" +
+                "Answer:\n\n");
+        content.append("#10 Where are our headquarters? (type one word only)\n" +
+                "Answer:\n\n");
 
         try {
             FileWriter fileWriter = new FileWriter(filePath);
-            fileWriter.write(content);
+            fileWriter.write(content.toString());
             fileWriter.close();
             ConsoleUtils.showMessageColor("File model generated successfuly", AnsiColor.GREEN);
         } catch (IOException e) {
@@ -95,6 +114,31 @@ public class Main {
     }
 
     private static void gradeFile(String filePath) {
-        System.out.println("To be implemented...");
+        try {
+            FileInputStream file = new FileInputStream(filePath);
+            job7interviewLexer lexer = new job7interviewLexer(CharStreams.fromStream(file));
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            job7interviewParser parser = new job7interviewParser(tokens);
+            ParseTree tree = parser.start();
+            job7InterviewGradingVisitor visitor = new job7InterviewGradingVisitor();
+            int grade = visitor.visit(tree);
+            try {
+                FileWriter fileWriter = new FileWriter(filePath, true);
+                if(grade > 70){
+                    fileWriter.append("\n\n#RESULT: APPROVED with " + grade + "/100");
+                }else{
+                    fileWriter.append("\n\n#RESULT: REJECTED with " + grade + "/100");
+                }
+                fileWriter.close();
+                ConsoleUtils.showMessageColor("Appended result to file", AnsiColor.GREEN);
+            } catch (IOException e) {
+                ConsoleUtils.showMessageColor("An error occurred while appending result to file", AnsiColor.RED);
+                e.printStackTrace(); // TESTING
+            }
+
+        } catch (Exception e) {
+            ConsoleUtils.showMessageColor("An error occurred while reading the file.", AnsiColor.RED);
+            e.printStackTrace(); // TESTING
+        }
     }
 }
