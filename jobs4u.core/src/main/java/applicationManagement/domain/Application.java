@@ -163,4 +163,12 @@ public class Application implements AggregateRoot<String>, Serializable {
     public void changeJobOpeningRecruitmentState(RecruitmentState newState) {
             jobOpening.setState(newState);
     }
+
+    public void assotiateInterviewModelToApplication(int passed, String interviewModelPath) {
+        if(passed == 1){
+            this.InterviewModel = interviewModelPath;
+        }else{
+            this.InterviewModel = this.InterviewModel;
+        }
+    }
 }

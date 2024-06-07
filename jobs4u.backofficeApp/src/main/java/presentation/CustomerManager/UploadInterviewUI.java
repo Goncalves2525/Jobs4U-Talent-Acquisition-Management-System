@@ -51,7 +51,7 @@ public class UploadInterviewUI {
         }
         int passed = ctrl.verifyInterviewModel(interviewModelPath);
         if(passed == 1){
-            ctrl.assotiateInterviewModelToApplication(application, passed);
+            ctrl.assotiateInterviewModelToApplication(application, interviewModelPath, passed);
             ConsoleUtils.showMessageColor("APPROVED", AnsiColor.GREEN);
             System.out.println("The interview model is syntactically correct, and so, uploaded.");
         }else if(passed == 0){
@@ -60,6 +60,5 @@ public class UploadInterviewUI {
         }else{
             ConsoleUtils.showMessageColor("Error verifying interview model", AnsiColor.RED);
         }
-    }
     }
 }
