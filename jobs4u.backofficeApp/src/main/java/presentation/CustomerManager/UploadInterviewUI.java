@@ -49,7 +49,7 @@ public class UploadInterviewUI {
             ConsoleUtils.showMessageColor("No interview model associated with this job opening", AnsiColor.RED);
             return;
         }
-        int passed = ctrl.verifyIntervieModel(interviewModelPath);
+        int passed = ctrl.verifyInterviewModel(interviewModelPath);
         if(passed == 1){
             ctrl.assotiateInterviewModelToApplication(application, passed);
             ConsoleUtils.showMessageColor("APPROVED", AnsiColor.GREEN);
