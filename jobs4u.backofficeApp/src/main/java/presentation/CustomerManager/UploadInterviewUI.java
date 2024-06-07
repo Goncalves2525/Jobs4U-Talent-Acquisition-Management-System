@@ -44,10 +44,9 @@ public class UploadInterviewUI {
             ConsoleUtils.showMessageColor("Application not found", AnsiColor.RED);
             return;
         }
-        JobOpening jobOpening = ctrl.getJobOpeningById(application);
-        String interviewModelPath = ctrl.getInterviewModelPath(jobOpening);
+        String interviewModelPath = ctrl.getInterviewModelPath(application);
         if(interviewModelPath == null){
-            ConsoleUtils.showMessageColor("No requirements specification associated with this job opening", AnsiColor.RED);
+            ConsoleUtils.showMessageColor("No interview model associated with this job opening", AnsiColor.RED);
             return;
         }
         int passed = ctrl.verifyIntervieModel(interviewModelPath);

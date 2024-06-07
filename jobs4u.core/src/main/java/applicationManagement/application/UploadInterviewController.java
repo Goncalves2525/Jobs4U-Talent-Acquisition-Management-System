@@ -25,8 +25,8 @@ public class UploadInterviewController {
         return appRepo.findAll();
     }
 
-    public Iterable<Application> listApplicationsOfJobRefence(String jobReference) {
-        return appRepo.ofJobReference(jobReference);
+    public String getInterviewModelPath(Application application) {
+        return application.interviewModel();
     }
 
     public void getApplication(Long applicationID) {
