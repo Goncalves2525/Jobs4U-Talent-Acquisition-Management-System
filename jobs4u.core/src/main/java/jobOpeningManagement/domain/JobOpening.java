@@ -192,20 +192,7 @@ public class JobOpening implements AggregateRoot<String> {
 
     @Override
     public String toString() {
-        return "JobOpening{" +
-                "jobReference='" + jobReference + '\'' +
-                ", title='" + title + '\'' +
-                ", contractType='" + contractType + '\'' +
-                ", mode='" + mode + '\'' +
-                ", address='" + address + '\'' +
-                ", company='" + company + '\'' +
-                ", numberOfVacancies='" + numberOfVacancies + '\'' +
-                ", jobSpecifications='" + jobSpecifications + '\'' +
-                ", interviewModel='" + interviewModel + '\'' +
-                ", description='" + description + '\'' +
-                ", requirements='" + requirements + '\'' +
-                ", state='" + state + '\'' +
-                '}';
+        return jobReference + " : " + title + ", by " + company + " | STATE: " + state;
     }
 
     @PrePersist
