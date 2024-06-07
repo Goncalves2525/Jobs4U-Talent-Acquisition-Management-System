@@ -89,10 +89,10 @@ public class EditJobOpeningUI {
     }
 
     public Address setAddress() {
-        String postalCode = ConsoleUtils.readLineFromConsole("Insert the postal code:");
-        String city = ConsoleUtils.readLineFromConsole("Insert the city:");
         String street = ConsoleUtils.readLineFromConsole("Insert the street:");
+        String city = ConsoleUtils.readLineFromConsole("Insert the city:");
+        String postalCode = ConsoleUtils.readLineFromConsole("Insert the postal code:");
 
-        return new Address(postalCode, city, street);
+        return new Address(street, city, postalCode);
     }
 }

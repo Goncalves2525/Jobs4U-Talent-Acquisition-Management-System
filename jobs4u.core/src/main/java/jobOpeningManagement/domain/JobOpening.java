@@ -124,6 +124,24 @@ public class JobOpening implements AggregateRoot<String> {
         generateJobReference();
     }
 
+    public JobOpening(String title, ContractType contractType, JobMode mode, Address address, Customer company, int numberOfVacancies, String jobSpecifications, String description, Requirements requirements, RecruitmentState recruitmentState, String jobReference) {
+        this.title = title;
+        this.contractType = contractType;
+        this.mode = mode;
+        this.address = address;
+        this.company = company;
+        //ensure that the number of vacancies is a positive number
+        if (numberOfVacancies <= 0) {
+            throw new IllegalArgumentException("Number of vacancies must be a positive number");
+        }
+        this.numberOfVacancies = numberOfVacancies;
+        this.jobSpecifications = jobSpecifications;
+        this.description = description;
+        this.requirements = requirements;
+        this.state = recruitmentState;
+        this.jobReference = jobReference;
+    }
+
     public String jobReference() {
         return jobReference;
     }

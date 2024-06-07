@@ -34,7 +34,7 @@ public class Address implements ValueObject {
 
     @Override
     public String toString() {
-        return "Address: " + street + ", " + city + ", " + postalCode;
+        return street + ", " + city + ", " + postalCode;
     }
 
 
