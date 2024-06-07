@@ -3,11 +3,24 @@ package applicationManagement.application;
 import applicationManagement.domain.Application;
 import applicationManagement.repositories.ApplicationRepository;
 import infrastructure.persistance.PersistenceContext;
+import jobOpeningManagement.domain.JobOpening;
+import jobOpeningManagement.repositories.JobOpeningRepository;
 import plugins.PluginLoader;
 
 public class UploadInterviewController {
 
     private static ApplicationRepository repo = PersistenceContext.repositories().applications();
+    private final ApplicationRepository appRepo = PersistenceContext.repositories().applications();
+    private final JobOpeningRepository jobRepo = PersistenceContext.repositories().jobOpenings();
+
+    public Application getApplicationById(int id) {
+        return appRepo.ofIdentity(String.valueOf(id)).get();
+    }
+
+    public JobOpening getJobOpeningById(Application application) {
+        String jobRefrenece = application.jobReference();
+        return jobRepo.findByJobReference(jobRefrenece);
+    }
 
     public static Iterable<Application> listApplications() {
         return repo.findAll();
