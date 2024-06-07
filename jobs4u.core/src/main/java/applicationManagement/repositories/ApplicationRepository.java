@@ -12,4 +12,5 @@ public interface ApplicationRepository extends DomainRepository<String, Applicat
 
     void update(Application entity);
 
+    Iterable<Application> ofJobReference(String jobReference);
 }
