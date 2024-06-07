@@ -8,6 +8,10 @@ import appUserManagement.repositories.UserRepository;
 
 import java.util.Optional;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 public class ManageCandidateController {
     private final UserRepository repo;
     private final AuthzController authzController;

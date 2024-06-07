@@ -19,6 +19,7 @@ import java.util.Optional;
 
 public class ManageCandidateUI {
 
+
     private static Role operatorRole;
     private final CandidateController candidateController;
     private final ManageCandidateController manageCandidateController;
@@ -26,7 +27,6 @@ public class ManageCandidateUI {
     public ManageCandidateUI(UserRepository userRepo, AuthzController authzController) {
         this.candidateController = new CandidateController();
         this.manageCandidateController = new ManageCandidateController(userRepo, authzController);
-    }
 
     public void doShow(AuthzUI authzUI) {
         // Get user role, to be used as parameter on restricted user actions
@@ -51,10 +51,10 @@ public class ManageCandidateUI {
             System.out.println("== CANDIDATES ==");
             for (Candidate candidate : candidates) {
                 String email = candidate.email();
+
                 Optional<AppUserDTO> candidateUser = manageCandidateController.findByEmail(email);
                 String ability = candidateUser.map(user -> user.getAbility().getAbilityName().toUpperCase()).orElse("Unknown");
                 System.out.println(i + " - " + candidate.name() + " <" + ability + ">");
-
                 i++;
             }
             int option = ConsoleUtils.readIntegerFromConsole("Select the candidate you want to manage: ");
@@ -86,14 +86,15 @@ public class ManageCandidateUI {
                         System.out.println();
                         ConsoleUtils.showMessageColor("Failed!", AnsiColor.RED);
                     }
+
                     candidateUser = manageCandidateController.findByEmail(email);
+
                     if (candidateUser.isPresent()) {
                         AppUserDTO user = candidateUser.get();
                         System.out.println("Selected candidate -> Name: "+ selectedCandidate.name() +" | Email: "+ user.getEmail() + " | Ability: " + user.getAbility());
                     } else {
                         ConsoleUtils.showMessageColor("User not found.", AnsiColor.RED);
                     }
-
                     break;
                 default:
                     ConsoleUtils.showMessageColor("Invalid option!", AnsiColor.RED);
