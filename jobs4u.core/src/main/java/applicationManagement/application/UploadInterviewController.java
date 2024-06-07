@@ -9,8 +9,7 @@ import plugins.PluginLoader;
 
 public class UploadInterviewController {
 
-    private static ApplicationRepository repo = PersistenceContext.repositories().applications();
-    private final ApplicationRepository appRepo = PersistenceContext.repositories().applications();
+    private static ApplicationRepository appRepo = PersistenceContext.repositories().applications();
     private final JobOpeningRepository jobRepo = PersistenceContext.repositories().jobOpenings();
 
     public Application getApplicationById(int id) {
@@ -23,11 +22,11 @@ public class UploadInterviewController {
     }
 
     public static Iterable<Application> listApplications() {
-        return repo.findAll();
+        return appRepo.findAll();
     }
 
     public Iterable<Application> listApplicationsOfJobRefence(String jobReference) {
-        return repo.ofJobReference(jobReference);
+        return appRepo.ofJobReference(jobReference);
     }
 
     public void getApplication(Long applicationID) {
