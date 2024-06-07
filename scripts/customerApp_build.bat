@@ -1,0 +1,7 @@
+@echo off
+
+:: Change Directory
+cd ..
+
+:: Build
+mvn %1 package dependency:copy-dependencies -pl jobs4u.customerApp -am
