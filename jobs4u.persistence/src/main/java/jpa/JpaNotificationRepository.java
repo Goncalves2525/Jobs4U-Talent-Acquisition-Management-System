@@ -32,6 +32,15 @@ public class JpaNotificationRepository implements NotificationRepository {
         return entity;
     }
 
+    public void update(Notification entity) {
+        EntityManager em = getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.merge(entity);
+        tx.commit();
+        em.close();
+    }
+
     @Override
     public Iterable<Notification> findAll() {
         System.out.println("Not implemented yet.");

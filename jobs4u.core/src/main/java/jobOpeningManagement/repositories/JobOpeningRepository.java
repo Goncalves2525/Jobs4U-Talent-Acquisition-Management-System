@@ -11,7 +11,10 @@ public interface JobOpeningRepository extends DomainRepository<String, JobOpenin
 
     boolean update(JobOpening entity);
 
+    JobOpening findByJobReference(String jobRefrence);
+
     List<JobOpening> findAllActiveJobOpenings(Customer code);
 
     Iterable<JobOpening> findAllActiveJobOpeningsResultPhase();
+
 }

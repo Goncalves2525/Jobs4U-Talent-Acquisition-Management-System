@@ -2,6 +2,7 @@ package applicationManagement.domain;
 
 import eapli.framework.domain.model.ValueObject;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 import lombok.Setter;
 
 
@@ -9,6 +10,7 @@ import lombok.Setter;
 @Embeddable
 public class Ranking implements ValueObject, Comparable<Integer> {
 
+    @Getter
     private int ordinal;
 
     public Ranking() {

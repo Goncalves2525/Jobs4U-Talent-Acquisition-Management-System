@@ -13,7 +13,7 @@ import java.util.List;
 public class SelectInterviewModelController {
     JobOpeningRepository repo = PersistenceContext.repositories().jobOpenings();
     PluginLoader pluginLoader = new PluginLoader();
-    String INTERVIEW_PLUGINS_DIRECTORY = "plugins/interview/jar";
+    String INTERVIEW_PLUGINS_DIRECTORY = "plugins/interviews/jar";
 
     public JobOpening findJobOpeningById(String id){
         return repo.ofIdentity(id).get();

@@ -63,36 +63,54 @@ Being a positive response, it will trigger the notification service:
     - If it doesn't exist at all, the notification is created and set to "Ready to be sent".
         - It also updates Customer notification record to "Ready to be sent".
 
-On the FUS side, every 30 seconds, it collects a list of "Ready to be sent" notifications.
-It opens a thread for each notification on the list and executes the SMTP connection to send the e-mails.
-After sending each e-mail, it updates the status of the notification.
+On the FUS side, a thread is created to be focused on finding new e-mail notifications to be sent. <br>
+Every 30 seconds, it collects a list of "Ready to be sent" notifications. <br>
+It executes the SMTP connection to send the e-mails.
+After sending each e-mail, the status of the notification is updates, accordingly to the outcome of the previous task (SENT or FAILED).
 
 #### Publish Results of Applications
 
-| Interaction ID | Question: Which class is responsible for...             | Answer | Justification (with patterns) |
-|:---------------|:--------------------------------------------------------|:-------|:------------------------------|
-| Step 1 : ...   | ...                                                     | ...    | ...                           |
-| Step 2 : ...   | ...                                                     | ...    | ...                           |
+| Interaction ID                                                                   | Question: Which class is responsible for...          | Answer                                | Justification (with patterns) |
+|:---------------------------------------------------------------------------------|:-----------------------------------------------------|:--------------------------------------|:------------------------------|
+| Step 1 : Present notification management options                                 | ... presenting options?                              | NotificationUI                        | Pure Fabrication              |
+|                                                                                  | ... collect option?                                  | NotificationUI                        | Pure Fabrication              |
+| Step 2 : Identify Job Openings in result phase                                   | ... coordinating request?                            | ListJobOpeningsController             | Controller                    |
+|                                                                                  | ... finding the list of Job Opening in Result phase? | JobOpeningRepository                  | Information Expert            |
+| Step 3 : Request for the Job Opening associated with stakeholders to be notified | ... presenting available Job Opening?                | NotificationUI                        | Pure Fabrication              |
+|                                                                                  | ... collect option?                                  | NotificationUI                        | Pure Fabrication              |
+| Step 4 : Save notification information to be fetched by the Follow-up Server     | ... coordinating request?                            | NotificationCustomerManagerController | Controller                    |
+|                                                                                  | ... save the correct instance of Notification?       | NotificationRepository                | Information Expert            |
+| Step 5 : Display result of the process                                           | ... presenting result?                               | NotificationUI                        | Pure Fabrication              |
 
 #### Send e-mail to pending notifications
 
-| Interaction ID | Question: Which class is responsible for...             | Answer | Justification (with patterns) |
-|:---------------|:--------------------------------------------------------|:-------|:------------------------------|
-| Step 1 : ...   | ...                                                     | ...    | ...                           |
-| Step 2 : ...   | ...                                                     | ...    | ...                           |
+| Interaction ID                                       | Question: Which class is responsible for...                | Answer                 | Justification (with patterns) |
+|:-----------------------------------------------------|:-----------------------------------------------------------|:-----------------------|:------------------------------|
+| Step 1 : Initialize Client mode                      | ... create a thread to run Client class?                   | FollowUpServer         | Creator                       |
+| Step 2 : Obtain pending Email Notifications          | ... request pending email Notifications list?              | ClientMailFetcher      | Controller                    |
+|                                                      | ... finding pending email Notifications list?              | NotificationRepository | Information Expert            |
+| Step 3 : Establish connection with DEI Server        | ... open socket with DEI Server?                           | ClientMailFetcher      | Controller                    |
+| Step 4 : Analyze type of email to be sent            | ... choose what type of email to be sent? (if sent at all) | ClientMailFetcher      | Information Expert            |
+| Step 5 : Request to send email with given parameters | ... request email to be sent?                              | ClientMailFetcher      | Controller                    |
+| Step 6 : Save outcome, based on DEI Server reply     | ... analyzes reply?                                        | ClientMailFetcher      | Information Expert            |
+|                                                      | ... requests to update Notification?                       | ClientMailFetcher      | Controller                    |
+|                                                      | ... saves update?                                          | NotificationRepository | Information Expert            |
 
 According to the taken rationale, the conceptual classes promoted to software classes are:
 
-* ...
+* FollowUpServer
+* Notification
+* ClientMailFetcher
 
 Other software classes (i.e. Pure Fabrication) identified:
 
-* ...
-* ...
+* NotificationUI
+* ListJobOpeningsController
+* JobOpeningRepository
+* NotificationCustomerManagerController
+* NotificationRepository
 
 ### 4.2. Sequence Diagram
-
--- REVER --
 
 ![1020 SD-01 Publish Results of Applications](1020_SD_01.svg)
 
@@ -126,7 +144,7 @@ public void optionToNotifyIsOnlyAvailableForRankedJobOpening() {  }
 
 ## 5. Implementation
 
-Functionality added to Backoffice App, Customer Manager UI.
+Functionality added to Backoffice App, Customer Manager UI. <br>
 Functionality added to Follow-Up Server App, Client thread.
 
 > Commit list (descending)
@@ -135,8 +153,8 @@ Functionality added to Follow-Up Server App, Client thread.
 
 ## 6. Integration/Demonstration
 
-SMTP communication with DEI server was implemented, by using the FUS as client.
-Action chain was ensured to guarantee a periodic execution of notifications identification and e-mail requests sent to DEI server.
+SMTP communication with DEI server was implemented, by using the FUS as client. <br>
+Action chain was ensured to guarantee a periodic execution of notifications identification and e-mail requests sent to DEI server. <br>
 Threads were applied, so that multiple requests can interact with DEI server.
 
 ## 7. Observations

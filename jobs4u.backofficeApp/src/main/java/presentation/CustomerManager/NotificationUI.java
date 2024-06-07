@@ -78,11 +78,15 @@ public class NotificationUI {
             System.out.println("No job openings in RESULT phase were found.");
         } else {
             JobOpening selectedJobOpening = (JobOpening) ConsoleUtils.showAndSelectOne((List) jobOpenings, "Choose one Job Opening to be notified:", "Exit");
-            notifyStakeholders(selectedJobOpening);
-            ConsoleUtils.showMessageColor("Notifications have been sent to - " +
-                            selectedJobOpening.jobReference() + " : " + selectedJobOpening.getTitle() +
-                            " - related stakeholders (Customer and Candidates).",
-                    AnsiColor.CYAN);
+            if(selectedJobOpening == null) {
+                // do nothing
+            } else {
+                notifyStakeholders(selectedJobOpening);
+                ConsoleUtils.showMessageColor("Notifications have been sent to - " +
+                                selectedJobOpening.jobReference() + " : " + selectedJobOpening.getTitle() +
+                                " - related stakeholders (Customer and Candidates).",
+                        AnsiColor.CYAN);
+            }
         }
 
         ConsoleUtils.readLineFromConsole("Press ENTER to continue...");
