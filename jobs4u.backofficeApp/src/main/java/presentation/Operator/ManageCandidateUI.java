@@ -1,7 +1,9 @@
 package presentation.Operator;
 
+import appUserManagement.application.AuthzController;
 import appUserManagement.application.ManageBackofficeUserController;
 import appUserManagement.domain.dto.AppUserDTO;
+import appUserManagement.repositories.UserRepository;
 import applicationManagement.application.CandidateController;
 import applicationManagement.application.ManageCandidateController;
 import appUserManagement.domain.Role;
@@ -17,16 +19,17 @@ import java.util.Optional;
 
 public class ManageCandidateUI {
 
-    static Role operatorRole;
-    CandidateController candidateController = new CandidateController();
-    ManageCandidateController manageCandidateController = new ManageCandidateController();
+    private static Role operatorRole;
+    private final CandidateController candidateController;
+    private final ManageCandidateController manageCandidateController;
 
-    public ManageCandidateUI() {
+    public ManageCandidateUI(UserRepository userRepo, AuthzController authzController) {
+        this.candidateController = new CandidateController();
+        this.manageCandidateController = new ManageCandidateController(userRepo, authzController);
     }
 
     public void doShow(AuthzUI authzUI) {
-
-        // get user role, to be used as parameter on restricted user actions
+        // Get user role, to be used as parameter on restricted user actions
         operatorRole = authzUI.getValidBackofficeRole();
         if (!operatorRole.equals(Role.OPERATOR)) {
             ConsoleUtils.showMessageColor("You don't have permissions to enable/disable a candidate.", AnsiColor.RED);
@@ -37,10 +40,9 @@ public class ManageCandidateUI {
         List<String> managementActions = new ArrayList<>();
         managementActions.add("Enable/Disable");
 
-
         do {
             Iterable<Candidate> candidates = candidateController.allCandidatesSortedByName();
-            if (candidates==null) {
+            if (candidates == null) {
                 ConsoleUtils.showMessageColor("No users to be presented.", AnsiColor.RED);
                 return;
             }
@@ -57,7 +59,6 @@ public class ManageCandidateUI {
                 continue;
             }
 
-
             Iterator<Candidate> iterator = candidates.iterator();
             Candidate selectedCandidate = null;
             for (int j = 0; j < option; j++) {
@@ -66,15 +67,15 @@ public class ManageCandidateUI {
 
             // Get the email from the selected candidate
             String email = selectedCandidate.email();
-            action = ConsoleUtils.showAndSelectIndex(managementActions,"Select an action:", "Exit");
-            switch (action){
+            action = ConsoleUtils.showAndSelectIndex(managementActions, "Select an action:", "Exit");
+            switch (action) {
                 case 0:
                     break;
                 case 1:
-                    if(manageCandidateController.swapCandidateAbility(email, operatorRole)){
+                    Optional<String> sessionToken = authzUI.getSessionToken();// Assuming sessionToken is retrieved from authzUI
+                    if (sessionToken.isPresent() && manageCandidateController.swapCandidateAbility(email, operatorRole, sessionToken.get())) {
                         System.out.println();
                         ConsoleUtils.showMessageColor("Success!", AnsiColor.GREEN);
-
                     } else {
                         System.out.println();
                         ConsoleUtils.showMessageColor("Failed!", AnsiColor.RED);

@@ -1,10 +1,14 @@
 package presentation.Operator;
 
+import appUserManagement.application.AuthzController;
+import appUserManagement.repositories.UserRepository;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
 
 public class OperatorUI {
-
+    UserRepository userRepo = PersistenceContext.repositories().users();
+    AuthzController authzController = new AuthzController();
     public OperatorUI() {
     }
 
@@ -32,7 +36,7 @@ public class OperatorUI {
                     listCandidatesUI.show();
                     break;
                 case 4:
-                    ManageCandidateUI manageCandidateUI = new ManageCandidateUI();
+                    ManageCandidateUI manageCandidateUI = new ManageCandidateUI(userRepo,authzController);
                     manageCandidateUI.doShow(authzUI);
                     break;
                 case 5:

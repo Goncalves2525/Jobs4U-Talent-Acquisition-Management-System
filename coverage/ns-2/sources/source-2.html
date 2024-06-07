@@ -1,0 +1,167 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CountWords</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">applicationManagement.application.threads</a>
+</div>
+
+<h1>Coverage Summary for Class: CountWords (applicationManagement.application.threads)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CountWords</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package applicationManagement.application.threads;
+&nbsp;
+&nbsp;import applicationManagement.domain.dto.WordCount;
+&nbsp;import applicationManagement.domain.dto.WordCountMap;
+&nbsp;
+&nbsp;public class CountWords implements Runnable {
+&nbsp;
+&nbsp;    private String blockOfLines;
+&nbsp;    private WordCountMap map;
+&nbsp;
+&nbsp;    private String blockOfLinesFile;
+&nbsp;
+<b class="nc">&nbsp;    public CountWords(WordCountMap map, StringBuilder blockOfLines, String blockOfLinesFile) {</b>
+<b class="nc">&nbsp;        this.map = map;</b>
+<b class="nc">&nbsp;        this.blockOfLines = blockOfLines.toString();</b>
+<b class="nc">&nbsp;        this.blockOfLinesFile = blockOfLinesFile;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Counts each word occurrence per block of words (file lines received).
+&nbsp;     * Updates the information on a Map, about word count and what file the word was found.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void run() {
+&nbsp;
+&nbsp;        // Uppercase words
+<b class="nc">&nbsp;        String uppercased = blockOfLines.toUpperCase();</b>
+&nbsp;
+&nbsp;        // Find valid words and add to the map
+<b class="nc">&nbsp;        int idx = 0;</b>
+<b class="nc">&nbsp;        while (idx &lt; uppercased.length()) {</b>
+<b class="nc">&nbsp;            boolean newWord = true;</b>
+<b class="nc">&nbsp;            StringBuilder word = new StringBuilder();</b>
+<b class="nc">&nbsp;            while (newWord) {</b>
+<b class="nc">&nbsp;                char letter = uppercased.charAt(idx);</b>
+&nbsp;                // if valid letter append to word
+<b class="nc">&nbsp;                if (letter &gt;= &#39;A&#39; &amp;&amp; letter &lt;= &#39;Z&#39;) {</b>
+<b class="nc">&nbsp;                    word.append(letter);</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    newWord = false;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                idx++;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (word.length() &gt; 0) {</b>
+<b class="nc">&nbsp;                WordCount newCompleteWord = new WordCount(word.toString());</b>
+<b class="nc">&nbsp;                newCompleteWord.addToFilesList(this.blockOfLinesFile);</b>
+<b class="nc">&nbsp;                map.addWordCount(newCompleteWord);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-07 16:14</div>
+</div>
+</body>
+</html>
