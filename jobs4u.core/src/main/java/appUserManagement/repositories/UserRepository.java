@@ -1,5 +1,6 @@
 package appUserManagement.repositories;
 
+import appUserManagement.domain.Ability;
 import appUserManagement.domain.AppUser;
 import appUserManagement.domain.Email;
 import appUserManagement.domain.Role;
@@ -20,6 +21,8 @@ public interface UserRepository extends DomainRepository<Email, AppUser> {
     boolean swapAbility(String email, Role managerRole);
 
     boolean swapCandidateAbility(String email, Role operatorRole);
+
+    Optional<AppUser> findByEmail(String email);
 
     Optional<String> authenticate(String email, String password);
 

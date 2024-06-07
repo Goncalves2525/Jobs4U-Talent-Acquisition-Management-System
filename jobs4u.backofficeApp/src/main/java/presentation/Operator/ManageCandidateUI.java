@@ -50,7 +50,11 @@ public class ManageCandidateUI {
             int i = 1;
             System.out.println("== CANDIDATES ==");
             for (Candidate candidate : candidates) {
-                System.out.println(i + " - " + candidate.name());
+                String email = candidate.email();
+                Optional<AppUserDTO> candidateUser = manageCandidateController.findByEmail(email);
+                String ability = candidateUser.map(user -> user.getAbility().getAbilityName().toUpperCase()).orElse("Unknown");
+                System.out.println(i + " - " + candidate.name() + " <" + ability + ">");
+
                 i++;
             }
             int option = ConsoleUtils.readIntegerFromConsole("Select the candidate you want to manage: ");
@@ -67,6 +71,8 @@ public class ManageCandidateUI {
 
             // Get the email from the selected candidate
             String email = selectedCandidate.email();
+            Optional<AppUserDTO> candidateUser;
+
             action = ConsoleUtils.showAndSelectIndex(managementActions, "Select an action:", "Exit");
             switch (action) {
                 case 0:
@@ -80,6 +86,14 @@ public class ManageCandidateUI {
                         System.out.println();
                         ConsoleUtils.showMessageColor("Failed!", AnsiColor.RED);
                     }
+                    candidateUser = manageCandidateController.findByEmail(email);
+                    if (candidateUser.isPresent()) {
+                        AppUserDTO user = candidateUser.get();
+                        System.out.println("Selected candidate -> Name: "+ selectedCandidate.name() +" | Email: "+ user.getEmail() + " | Ability: " + user.getAbility());
+                    } else {
+                        ConsoleUtils.showMessageColor("User not found.", AnsiColor.RED);
+                    }
+
                     break;
                 default:
                     ConsoleUtils.showMessageColor("Invalid option!", AnsiColor.RED);

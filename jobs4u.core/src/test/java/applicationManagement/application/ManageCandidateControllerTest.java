@@ -2,6 +2,7 @@ package applicationManagement.application;
 
 import appUserManagement.application.AuthzController;
 import appUserManagement.domain.*;
+import appUserManagement.domain.dto.AppUserDTO;
 import appUserManagement.repositories.UserRepository;
 import applicationManagement.domain.Candidate;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,15 +14,13 @@ import java.io.IOException;
 import org.mockito.InjectMocks;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ManageCandidateControllerTest {
     private AppUser candidateUser;
-    private AppUser candidateUser2;
-    private AppUser operatorUser;
-    private AppUser customerUser;
 
     @Mock
     private AuthzController authzController;
@@ -29,23 +28,13 @@ public class ManageCandidateControllerTest {
     @Mock
     private UserRepository userRepo;
 
-    @Mock
+
     private ManageCandidateController manageCandidateController;
 
-    @Mock
-    private UserRepository userRepository;
-
-    private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    private InputStream inputStream;
     @BeforeEach
     public void setup() {
-        // Mock input/output streams
-        inputStream = new ByteArrayInputStream(new byte[0]);
         MockitoAnnotations.openMocks(this);
-        candidateUser=new AppUser(Email.valueOf("ana@mail.pt"),new Password(),Role.CANDIDATE);
-        candidateUser2= new AppUser(Email.valueOf("maria@mail.pt"),new Password(),Role.CANDIDATE);
-        operatorUser=new AppUser(Email.valueOf("sofia@mail.pt"),new Password(),Role.OPERATOR);
-        customerUser = new AppUser(Email.valueOf("carlos@mail.pt"), new Password(), Role.CUSTOMER);
+        candidateUser= new AppUser(Email.valueOf("maria@mail.pt"),new Password(),Role.CANDIDATE);
         manageCandidateController = new ManageCandidateController(userRepo, authzController);
     }
 
@@ -64,19 +53,15 @@ public class ManageCandidateControllerTest {
         // Mock the repository behavior
         when(userRepo.swapCandidateAbility(email, operatorRole)).thenReturn(true);
 
-        // Test with Operator role
         boolean resultOperator = manageCandidateController.swapCandidateAbility(email, operatorRole, operatorSessionToken);
         assertTrue(resultOperator);
 
-        // Test with CustomerManager role
         boolean resultCustomerManager = manageCandidateController.swapCandidateAbility(email, customerManagerRole, customerManagerSessionToken);
         assertFalse(resultCustomerManager);
 
-        // Verify the AuthzController method was called with correct roles and tokens
         verify(authzController).validateAccess(operatorSessionToken, operatorRole);
         verify(authzController).validateAccess(customerManagerSessionToken, customerManagerRole);
 
-        // Verify the repository method was called with correct role
         verify(userRepo).swapCandidateAbility(email, operatorRole);
         verify(userRepo, never()).swapCandidateAbility(email, customerManagerRole);
     }
@@ -84,7 +69,26 @@ public class ManageCandidateControllerTest {
 
     @Test
     public void verifyAccessOnlyToEnabledCandidates(){
+        Role candidateRole = Role.CANDIDATE;
+        String sessionToken = "session_token";
 
+        when(authzController.validateAccess(sessionToken, Role.OPERATOR)).thenReturn(true);
+
+        AppUser disabledAppUser = candidateUser;
+
+        when(userRepo.findByEmail(disabledAppUser.getEmail().toString())).thenReturn(Optional.of(disabledAppUser));
+
+        disabledAppUser.swapAbility();
+
+        assertEquals(Ability.DISABLED, disabledAppUser.getAbility());
+
+        when(authzController.validateAccess(sessionToken, candidateRole)).thenReturn(false);
+
+        boolean hasAccess = manageCandidateController.swapCandidateAbility(disabledAppUser.getEmail().toString(), candidateRole, sessionToken);
+
+        assertFalse(hasAccess);
+
+        verify(authzController).validateAccess(sessionToken, candidateRole);
     }
 
 }

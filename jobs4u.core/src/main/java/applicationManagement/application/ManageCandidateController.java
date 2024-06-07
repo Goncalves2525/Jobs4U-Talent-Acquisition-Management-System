@@ -1,9 +1,12 @@
 package applicationManagement.application;
 
 import appUserManagement.application.AuthzController;
+import appUserManagement.domain.AppUser;
 import appUserManagement.domain.Role;
+import appUserManagement.domain.dto.AppUserDTO;
 import appUserManagement.repositories.UserRepository;
-import infrastructure.persistance.PersistenceContext;
+
+import java.util.Optional;
 
 public class ManageCandidateController {
     private final UserRepository repo;
@@ -13,11 +16,14 @@ public class ManageCandidateController {
         this.repo = repo;
         this.authzController = authzController;
     }
-
     public boolean swapCandidateAbility(String email, Role operatorRole, String sessionToken) {
         if (authzController.validateAccess(sessionToken, operatorRole)) {
             return repo.swapCandidateAbility(email, operatorRole);
         }
         return false;
+    }
+    public Optional<AppUserDTO> findByEmail(String email) {
+        Optional<AppUser> appUser = repo.findByEmail(email);
+        return appUser.map(AppUserDTO::from);
     }
 }
