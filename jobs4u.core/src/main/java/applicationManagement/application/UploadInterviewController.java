@@ -83,4 +83,8 @@ public class UploadInterviewController {
         return -1;
     }
 
+    public void assotiateInterviewModelToApplication(Application application, int passed){
+        application.assotiateInterviewModelToApplication(passed);
+        appRepo.update(application);
+    }
 }
