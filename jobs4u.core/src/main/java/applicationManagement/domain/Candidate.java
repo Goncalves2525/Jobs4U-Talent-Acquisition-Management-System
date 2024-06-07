@@ -1,5 +1,6 @@
 package applicationManagement.domain;
 
+import appUserManagement.domain.Ability;
 import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;
 
