@@ -1,6 +1,19 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+#include <semaphore.h>
+
+#define SHM_NAME "/shm"
+#define BUFFER_SIZE 256
+#define MONITOR_MUTEX "/monitor_mutex"
+#define MONITOR_READ_MUTEX "/monitor_read_mutex"
+#define MONITOR_WRITE_MUTEX "/monitor_write_mutex"
+
+
+extern sem_t* monitor_read_mutex;
+extern sem_t* monitor_write_mutex;
+extern sem_t* monitor_sem;
+
 typedef struct Arguments {
     char inputPath[100];
     char outputPath[100];
@@ -21,6 +34,23 @@ typedef struct ChildReport{
     char createdPath[100];
     char filesMoved[500];
 } childReport;
+
+typedef struct {
+    char buffer[BUFFER_SIZE];
+    int readCount;
+    int writeCount;
+} shared_data_type;
+
+typedef struct 
+{
+    /* data */
+    
+    int qtyFilesMoved;
+    pid_t pid;
+    char createdPath[200];
+    char filesMoved[500];
+
+} shared_report_data;
 
 returnValues cria_filhos(int n);
 void sigUsr1Handler(int signal);

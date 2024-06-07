@@ -17,8 +17,6 @@ public class CustomerManagerUI {
         int option;
         List<String> options = new ArrayList<>();
 
-        
-
         options.add("Register Customer");                               // 1
         options.add("Register Job Opening");                            // 2
         options.add("List Job Openings");                               // 3
@@ -97,9 +95,11 @@ public class CustomerManagerUI {
                 case 13:
                     NotificationUI notificationUI = new NotificationUI();
                     notificationUI.doShow(authzUI);
+                    break;
                 case 14:
                     RequirementsVerificationUI requirementsVerificationUI = new RequirementsVerificationUI();
                     requirementsVerificationUI.doShow(authzUI);
+                    break;
                 default:
                     ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);
             }
