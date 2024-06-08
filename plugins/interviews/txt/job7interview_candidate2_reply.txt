@@ -29,3 +29,6 @@ Answer:
 
 #10 Where are our headquarters? (type one word only)
 Answer:
+
+
+#RESULT: REJECTED with 0/100

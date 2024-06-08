@@ -39,9 +39,6 @@ public class Application implements AggregateRoot<String>, Serializable {
     private LocalDate date;
 
     @Column
-    private String InterviewModel;
-
-    @Column
     private String interviewReplyPath;
 
     @Column
@@ -74,14 +71,13 @@ public class Application implements AggregateRoot<String>, Serializable {
     }
 
     public Application(String jobReference, Candidate candidate, JobOpening jobOpening, ApplicationStatus status, Date applicationDate, String comment
-    , String interviewModel, String filePath, String applicationFilesPath, RequirementsResult requirementsResult) {
+    , String filePath, String applicationFilesPath, RequirementsResult requirementsResult) {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
         this.status = status;
         this.applicationDate = applicationDate;
         this.comment = comment;
-        this.InterviewModel = interviewModel;
         this.interviewGrade = -101; // impossible result
         this.date = LocalDate.now();
         this.filePath = filePath;
@@ -114,10 +110,6 @@ public class Application implements AggregateRoot<String>, Serializable {
         return comment;
     }
 
-    public String interviewModel() {
-        return InterviewModel;
-    }
-
     public String filePath() {
         return filePath;
     }
@@ -143,7 +135,6 @@ public class Application implements AggregateRoot<String>, Serializable {
                 ", Candidate =" + candidate +
                 ", Job Opening=" + jobOpening +
                 ", Status=" + status +
-                //", InterviewModel=" + InterviewModel +
                 ", Commend='" + comment + '\'' +
                 ", Application Date=" + applicationDate +
                 ", Interview Model Path='" + filePath + '\'' +
@@ -162,18 +153,8 @@ public class Application implements AggregateRoot<String>, Serializable {
 //
 //    }
 
-    public boolean checkIfApplicationHasInterviewModel() {
-        return InterviewModel != null;
-    }
-
     public boolean checkIfApplicationHasInterviewDate() {
         return interviewDate != null;
-    }
-
-
-    public boolean associateInterviewModelToApplication(String interviewModel) {
-        this.InterviewModel = interviewModel;
-        return true;
     }
 
     public boolean registerInterviewDateToApplication(Date interviewDate) {

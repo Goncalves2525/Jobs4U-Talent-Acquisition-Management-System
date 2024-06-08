@@ -45,7 +45,13 @@ public class EvaluateInterviewUI {
             // execute functionality if object is not null
             if(selectedJobOpening != null) {
                 int successfullyGradedApplications = evaluateInterviewCtrl.gradeJobOpeningInterviews(selectedJobOpening.getJobReference());
-                ConsoleUtils.showMessageColor("Successfully graded application interviews: " + successfullyGradedApplications, AnsiColor.CYAN);
+                if (successfullyGradedApplications == -2) {
+                    ConsoleUtils.showMessageColor("There is no plugin associated with Job Opening", AnsiColor.RED);
+                } else if (successfullyGradedApplications == -1) {
+                    ConsoleUtils.showMessageColor("No applications to be graded.", AnsiColor.CYAN);
+                } else {
+                    ConsoleUtils.showMessageColor("Successfully graded application interviews: " + successfullyGradedApplications, AnsiColor.CYAN);
+                }
             }
 
         } while (ConsoleUtils.confirm("Do you want to evaluate the interviews of another Job Opening? (y/n)"));

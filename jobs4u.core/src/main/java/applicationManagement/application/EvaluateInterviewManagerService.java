@@ -16,7 +16,7 @@ public class EvaluateInterviewManagerService {
 
     private ApplicationRepository repo = PersistenceContext.repositories().applications();
 
-    public int gradeListOfApplications(List<Application> listOfGradableApplications) {
+    public int gradeListOfApplications(String interviewPlugin, List<Application> listOfGradableApplications) {
 
         if (listOfGradableApplications.isEmpty()) {
             return 0;
@@ -30,9 +30,9 @@ public class EvaluateInterviewManagerService {
 
             try{
                 PluginLoader pluginLoader = new PluginLoader();
-                Plugin plugin = pluginLoader.loadPlugin(app.getInterviewModel());
+                Plugin plugin = pluginLoader.loadPlugin(interviewPlugin);
                 String jarName = plugin.getJarName();
-                String jarPath = new File(app.getInterviewModel()).getAbsolutePath();
+                String jarPath = new File(interviewPlugin).getAbsolutePath();
                 txtFilePath = new File(app.getInterviewReplyPath()).getAbsolutePath();
 
                 // Construct the command

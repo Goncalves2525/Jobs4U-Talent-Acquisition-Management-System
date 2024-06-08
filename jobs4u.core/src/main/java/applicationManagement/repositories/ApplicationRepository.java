@@ -22,7 +22,5 @@ public interface ApplicationRepository extends DomainRepository<String, Applicat
 
     int saveGrades(List<Application> listOfGradableApplications);
 
-    boolean addInterviewPlugin(Candidate candidate, String jobReference, String plugin);
-
     boolean addInterviewReplyPath(Candidate candidate, String jobReference, String interviewReplyPath);
 }

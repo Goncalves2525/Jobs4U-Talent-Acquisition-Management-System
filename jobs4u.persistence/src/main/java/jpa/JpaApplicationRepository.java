@@ -203,17 +203,6 @@ public class JpaApplicationRepository implements ApplicationRepository {
     }
 
     @Override
-    public boolean addInterviewPlugin(Candidate candidate, String jobReference, String plugin) {
-        Application application = findOfCandidateAndJobReference(candidate, jobReference);
-        if (application != null){
-            application.associateInterviewModelToApplication(plugin);
-            update(application);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public boolean addInterviewReplyPath(Candidate candidate, String jobReference, String interviewReplyPath) {
         Application application = findOfCandidateAndJobReference(candidate, jobReference);
         if (application != null){
