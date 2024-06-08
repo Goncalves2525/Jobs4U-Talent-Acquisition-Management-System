@@ -1,0 +1,27 @@
+@startuml
+
+package Presentation {
+    class RegisterInterviewDateUI
+}
+
+package Domain {
+    class Application
+}
+
+package Persistence {
+    class JpaApplicationRepository
+    interface ApplicationRepository
+}
+
+package Application {
+    class RegisterInterviewDateController
+}
+
+
+
+Presentation.RegisterInterviewDateUI --> Application.RegisterInterviewDateController
+Application.RegisterInterviewDateController --> Persistence.ApplicationRepository
+Persistence.ApplicationRepository <|-- Persistence.JpaApplicationRepository
+Application.RegisterInterviewDateController ---> Domain.Application
+
+@enduml
