@@ -7,6 +7,14 @@ public class WordCountMap {
 
     private HashMap<String, WordCount> map = new HashMap<>();
 
+    /**
+     * Getter
+     * @return map
+     */
+    public HashMap<String, WordCount> getMap() {
+        return map;
+    }
+
     public WordCountMap() {
     }
 

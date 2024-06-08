@@ -31,6 +31,7 @@ public class CustomerManagerUI {
         options.add("Check Application Data");                          // 12
         options.add("Notification Menu");                               // 13
         options.add("Verify Job Requirements Specification");           // 14
+        options.add("Register Interview Date");                         // 15
 
         String message = "What do you want to do?";
         String exit = "Exit";
@@ -99,6 +100,10 @@ public class CustomerManagerUI {
                 case 14:
                     RequirementsVerificationUI requirementsVerificationUI = new RequirementsVerificationUI();
                     requirementsVerificationUI.doShow(authzUI);
+                    break;
+                case 15:
+                    RegisterInterviewDateUI registerInterviewDateUI = new RegisterInterviewDateUI();
+                    registerInterviewDateUI.doShow(authzUI);
                     break;
                 default:
                     ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);
