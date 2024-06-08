@@ -27,7 +27,7 @@ public class ApplicationTest {
         JobOpening jobOpening = new JobOpening("DevOps", ContractType.FULL_TIME, JobMode.HYBRID, companyAddress, company, 1, "teste", requirements);
         Application application = new Application("JobRef123", candidate
                 , jobOpening, ApplicationStatus.SUBMITTED,
-        new Date(), "", "", "", "", RequirementsResult.APPROVED);
+        new Date(), "", "", "", RequirementsResult.APPROVED);
 
         application.changeStatus(ApplicationStatus.PENDING);
 

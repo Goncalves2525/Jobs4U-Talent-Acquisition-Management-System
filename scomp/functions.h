@@ -4,7 +4,7 @@
 #include <semaphore.h>
 
 #define SHM_NAME "/shm"
-#define BUFFER_SIZE 256
+#define BUFFER_SIZE 20
 #define MONITOR_MUTEX "/monitor_mutex"
 #define MONITOR_READ_MUTEX "/monitor_read_mutex"
 #define MONITOR_WRITE_MUTEX "/monitor_write_mutex"
@@ -12,7 +12,7 @@
 
 extern sem_t* monitor_read_mutex;
 extern sem_t* monitor_write_mutex;
-extern sem_t* monitor_sem;
+
 
 typedef struct Arguments {
     char inputPath[100];
@@ -28,7 +28,7 @@ typedef struct ReturnValues {
 } returnValues;
 
 typedef struct ChildReport{
-    int available;
+    //int available;
     int qtyFilesMoved;
     pid_t pid;
     char createdPath[100];
@@ -37,6 +37,7 @@ typedef struct ChildReport{
 
 typedef struct {
     char buffer[BUFFER_SIZE];
+    char prefixo[20];
     int readCount;
     int writeCount;
 } shared_data_type;
@@ -53,7 +54,7 @@ typedef struct
 } shared_report_data;
 
 returnValues cria_filhos(int n);
-void sigUsr1Handler(int signal);
+//void sigUsr1Handler(int signal);
 void monitor_files(char* inputPath, int timeInterval);
 int findNewPrefix(char** fileNames, int fileCount, char* currentPrefix, char* oldPrefixes);
 int compareFileNames(const void *a, const void *b);
@@ -67,5 +68,6 @@ int moveFilesToDirectory(char* inputPath, char* jobApplicantPath, char* currentP
 int createSessionFile(char* sessionFile);
 int updateSessionFile(char* sessionFile, childReport* report);
 int getFilesOnDirectory(char* inputPath, char* currentPrefix, char* reportFilesMoved);
+int isNumeric(char *prefixo) ;
 
 #endif

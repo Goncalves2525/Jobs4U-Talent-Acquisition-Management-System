@@ -1,5 +1,7 @@
 package jpa;
 
+import applicationManagement.domain.Application;
+import applicationManagement.domain.Candidate;
 import jakarta.persistence.*;
 import jobOpeningManagement.domain.CompanyCode;
 import jobOpeningManagement.domain.Customer;
@@ -83,10 +85,14 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
     @Override
     public JobOpening findByJobReference(String jobReference) {
         Query query = getEntityManager().createQuery(
-                "SELECT e FROM JobOpening e WHERE e.jobReference = :jobReference");
+                "SELECT e FROM JobOpening e WHERE e.jobReference LIKE :jobReference");
         query.setParameter("jobReference", jobReference);
-        JobOpening jobOpening = (JobOpening) query.getSingleResult();
-        return jobOpening;
+        List<JobOpening> results = query.getResultList();
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return results.get(0);
+        }
     }
 
 
@@ -150,6 +156,39 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
         query.setParameter("state", RecruitmentState.RESULT);
         List<JobOpening> list = query.getResultList();
         return list;
+    }
+
+    @Override
+    public List<JobOpening> findAllActiveJobOpenings() {
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM JobOpening e WHERE e.endDate is null");
+        List<JobOpening> list = query.getResultList();
+        return list;
+    }
+
+    @Override
+    public boolean addInterviewModelPlugin(String jobReference, String plugin) {
+        JobOpening jobOpening = findByJobReference(jobReference);
+        if (jobOpening != null){
+            jobOpening.associateInterviewModelToJobOpening(plugin);
+            update(jobOpening);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String findInterviewModelPluginByJobReference(String jobReference) {
+        Query query = getEntityManager().createQuery(
+                "SELECT e.interviewModel FROM JobOpening e WHERE e.jobReference LIKE :jobReference");
+        query.setParameter("jobReference", jobReference);
+
+        String result = (String) query.getSingleResult();
+        if (result == null) {
+            return null;
+        } else {
+            return result;
+        }
     }
 
 }

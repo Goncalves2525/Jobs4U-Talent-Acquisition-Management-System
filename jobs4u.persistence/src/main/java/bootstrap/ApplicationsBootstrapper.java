@@ -7,7 +7,9 @@ import applicationManagement.application.RegisterApplicationController;
 import applicationManagement.domain.ApplicationStatus;
 import applicationManagement.domain.dto.ApplicationDTO;
 import applicationManagement.domain.dto.CandidateDTO;
+import applicationManagement.repositories.ApplicationRepository;
 import console.ConsoleUtils;
+import infrastructure.persistance.PersistenceContext;
 import jobOpeningManagement.application.ListJobOpeningsController;
 import jobOpeningManagement.domain.JobOpening;
 import textformat.AnsiColor;
@@ -22,8 +24,8 @@ public class ApplicationsBootstrapper {
     SignUpController signUpController = new SignUpController();
     ListJobOpeningsController listJobOpeningsController = new ListJobOpeningsController();
     CandidateController candidateController = new CandidateController();
-
     RankingController rankingController = new RankingController();
+    ApplicationRepository repo = PersistenceContext.repositories().applications();
 
     public ApplicationsBootstrapper() {
     }
@@ -93,10 +95,12 @@ public class ApplicationsBootstrapper {
 
         ApplicationDTO dto4 = new ApplicationDTO(jo3.jobReference(), candidateController.findCandidateByEmail(cand7email).get(), jo3, "comment", new Date(), null,null, ApplicationStatus.REJECTED, "", "scomp/output/IBM-000123/janedoe@email.com", null);
         ctrl.registerApplication(dto4);
-        rankingController.defineRanking(candidateController.findCandidateByEmail(cand7email).get(), jo3.jobReference(), "2");
+        rankingController.defineRanking(candidateController.findCandidateByEmail(cand7email).get(), jo3.jobReference(), 2);
+        repo.addInterviewReplyPath(candidateController.findCandidateByEmail(cand7email).get(), jo3.jobReference(), "plugins/interviews/txt/job7interview_candidate1_reply.txt");
 
         ApplicationDTO dto5 = new ApplicationDTO(jo3.jobReference(), candidateController.findCandidateByEmail(cand8email).get(), jo3, "comment", new Date(), null,null, ApplicationStatus.HIRED, "", "scomp/output/IBM-000123/johndoe@email.com", null);
         ctrl.registerApplication(dto5);
-        rankingController.defineRanking(candidateController.findCandidateByEmail(cand8email).get(), jo3.jobReference(), "1");
+        rankingController.defineRanking(candidateController.findCandidateByEmail(cand8email).get(), jo3.jobReference(), 1);
+        repo.addInterviewReplyPath(candidateController.findCandidateByEmail(cand8email).get(), jo3.jobReference(), "plugins/interviews/txt/job7interview_candidate2_reply.txt");
     }
 }
