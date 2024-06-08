@@ -26,8 +26,13 @@
 <!--      <property name="jakarta.persistence.jdbc.user" value=""/>-->
 <!--      <property name="jakarta.persistence.jdbc.password" value=""/>-->
 
-<!--      To allow DB access through DEI (dei_remote) global. -->
+<!--      To allow DB access through DEI (dei_remote).-->
 <!--      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:tcp://vsgate-s2.dei.isep.ipp.pt:11321/dei_remote"/>-->
+<!--      <property name="jakarta.persistence.jdbc.user" value="admin"/>-->
+<!--      <property name="jakarta.persistence.jdbc.password" value="admin"/>-->
+
+<!--      To allow DB access through DEI (dei_remote) local. VPN connection required. -->
+<!--      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:tcp://vs1321.dei.isep.ipp.pt:2225/dei_remote"/>-->
 <!--      <property name="jakarta.persistence.jdbc.user" value="admin"/>-->
 <!--      <property name="jakarta.persistence.jdbc.password" value="admin"/>-->
 
