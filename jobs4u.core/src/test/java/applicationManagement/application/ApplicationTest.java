@@ -1,9 +1,7 @@
 package applicationManagement.application;
 
 import appUserManagement.domain.Email;
-import applicationManagement.domain.Application;
-import applicationManagement.domain.ApplicationStatus;
-import applicationManagement.domain.Candidate;
+import applicationManagement.domain.*;
 import jobOpeningManagement.domain.*;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +23,7 @@ public class ApplicationTest {
         JobOpening jobOpening = new JobOpening("DevOps", ContractType.FULL_TIME, JobMode.HYBRID, companyAddress, company, 1, "teste", requirements);
         Application application = new Application("JobRef123", candidate
                 , jobOpening, ApplicationStatus.SUBMITTED,
-        new Date(), "", "", "", "");
+        new Date(), "", "", "", "", RequirementsResult.APPROVED);
 
         application.changeStatus(ApplicationStatus.PENDING);
 
