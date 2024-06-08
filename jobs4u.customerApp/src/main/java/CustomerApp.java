@@ -14,13 +14,19 @@ import java.util.ArrayList;
 public class CustomerApp {
     final static Role ROLE_REQUIRED = Role.CUSTOMER;
     final static String HOSTNAME = "localhost";
-    final static int PORT = 99;
+    //    final static String HOSTNAME = "vsrv27.dei.isep.ipp.pt";
+    final static int PORT = 1027;
+    final static int TIMEOUT = 30000;
 
     public static void main(String[] args) {
 
         do {
             // Establish follow-up server connection
             try (Socket socket = new Socket(HOSTNAME, PORT)) {
+
+                System.out.println("Chego aqui!"); // TESTING
+
+//                socket.connect(new InetSocketAddress(HOSTNAME, PORT), TIMEOUT);
 
                 InputStream inputStream = socket.getInputStream();
                 OutputStream outputStream = socket.getOutputStream();

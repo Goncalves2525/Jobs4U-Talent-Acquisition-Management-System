@@ -58,9 +58,9 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
             correct = false;
         }
         //We are letting "requirements" be null because Customer Manager can choose later
-        if (jobOpening.state() == null || jobOpening.state() != RecruitmentState.APPLICATION) {
-            correct = false;
-        }
+//        if (jobOpening.state() == null || jobOpening.state() != RecruitmentState.APPLICATION) {
+//            correct = false;
+//        }
         return correct;
     }
 
@@ -79,6 +79,17 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
         JobOpening jobOpening = (JobOpening) query.getSingleResult();
         return Optional.of(jobOpening);
     }
+
+    @Override
+    public JobOpening findByJobReference(String jobReference) {
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM JobOpening e WHERE e.jobReference = :jobReference");
+        query.setParameter("jobReference", jobReference);
+        JobOpening jobOpening = (JobOpening) query.getSingleResult();
+        return jobOpening;
+    }
+
+
 
     @Override
     public void delete(JobOpening entity) {
@@ -131,4 +142,14 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
         List<JobOpening> list = query.getResultList();
         return list;
     }
+
+    @Override
+    public Iterable<JobOpening> findAllActiveJobOpeningsResultPhase() {
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM JobOpening e WHERE e.state = :state AND e.endDate is null");
+        query.setParameter("state", RecruitmentState.RESULT);
+        List<JobOpening> list = query.getResultList();
+        return list;
+    }
+
 }

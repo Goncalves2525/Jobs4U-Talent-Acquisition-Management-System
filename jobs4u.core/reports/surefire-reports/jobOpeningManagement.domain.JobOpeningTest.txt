@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: jobOpeningManagement.domain.JobOpeningTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.032 s -- in jobOpeningManagement.domain.JobOpeningTest

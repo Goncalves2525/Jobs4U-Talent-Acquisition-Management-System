@@ -10,7 +10,8 @@
 
 #define MAX_FILES 100 // Número máximo de ficheiros para o teste
 
-
+sem_t *monitor_write_mutex;
+sem_t *monitor_read_mutex;
 
 
 
@@ -361,31 +362,106 @@ void test_getFilesOnDirectory() {
     system("rm -rf input");
 }
 
+
+
+//+-+-+-+-+-+-+-+-+-+-+-US2001B-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+/**
+ * Teste de abertura de diretório inválido
+ * 
+ */
+void test_monitor_files_invalid_directory(void) {
+    char* invalidPath = "invalid_directory";
+    pid_t pid = fork();
+    if (pid == 0) {
+        monitor_files(invalidPath, 1);
+        _exit(0);
+    } else {
+        wait(NULL);
+    }
+}
+
+/**
+ *  Teste de contagem de ficheiros
+ * 
+ */
+void test_monitor_files_count_files(void) {
+    // Criar um diretório temporário para teste
+    const char* testDir = "./test_dir";
+    mkdir(testDir, 0700);
+    
+    // Criar alguns ficheiros dentro do diretório
+    FILE* file1 = fopen("./test_dir/file1.txt", "w");
+    FILE* file2 = fopen("./test_dir/file2.txt", "w");
+    fclose(file1);
+    fclose(file2);
+
+    // Executar a monotorização num processo filho 
+    pid_t pid = fork();
+    if (pid == 0) {
+        monitor_files((char*)testDir, 1);
+        _exit(0);
+    } else {
+        // Esperar um curto período de tempo para permitir que a função monotorize o diretório
+        //sleep(2);
+
+        // Verificar o número de ficheiros contados
+        sem_wait(&monitor_write_mutex);
+        printf("Test: Ficheiros novos! Fiz POST\n");
+        sem_post(&monitor_read_mutex);
+
+        // Remover ficheiros e diretório temporário
+        remove("./test_dir/file1.txt");
+        remove("./test_dir/file2.txt");
+        rmdir(testDir);
+
+        // Matar o processo filho
+        kill(pid, SIGTERM);
+        wait(NULL);
+    }
+}
+
+
+//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 void setUp(void) {
     // set stuff up here
+    //iniciar semaforos
+    sem_init(&monitor_write_mutex, 0, 1);
+    sem_init(&monitor_read_mutex, 0, 0);
 }
 
 void tearDown(void) {
     // clean stuff up here
+
+    //Descontinuar 
+    sem_destroy(&monitor_write_mutex);
+    sem_destroy(&monitor_read_mutex);
 }
 
 int main() {
     UNITY_BEGIN();
-    RUN_TEST(test_countChars);
-    //RUN_TEST(test_findNewPrefix);
-    RUN_TEST(test_compareFileNames);
-    RUN_TEST(test_getDirFileNames);
-    RUN_TEST(test_extractArguments);
-    RUN_TEST(test_validateAllArgumentsAvailable);
-    RUN_TEST(test_getApplicationDetails);
-    RUN_TEST(test_createDirectory);
-    RUN_TEST(test_countFilesOnDirectory);
-    RUN_TEST(test_moveFilesToDirectory);
-    RUN_TEST(test_createSessionFile);
-    RUN_TEST(test_updateSessionFile);
-    RUN_TEST(test_getFilesOnDirectory);
-	RUN_TEST(test_cria_filhos);
-	//RUN_TEST(test_monitor_files);
-   
+
+    //US2001
+    // RUN_TEST(test_countChars);
+    // //RUN_TEST(test_findNewPrefix);
+    // RUN_TEST(test_compareFileNames);
+    // RUN_TEST(test_getDirFileNames);
+    // RUN_TEST(test_extractArguments);
+    // RUN_TEST(test_validateAllArgumentsAvailable);
+    // RUN_TEST(test_getApplicationDetails);
+    // RUN_TEST(test_createDirectory);
+    // RUN_TEST(test_countFilesOnDirectory);
+    // RUN_TEST(test_moveFilesToDirectory);
+    // RUN_TEST(test_createSessionFile);
+    // RUN_TEST(test_updateSessionFile);
+    // RUN_TEST(test_getFilesOnDirectory);
+	// RUN_TEST(test_cria_filhos);
+
+	// //RUN_TEST(test_monitor_files);
+
+    //US2001b
+
+    RUN_TEST(test_monitor_files_invalid_directory);
+    RUN_TEST(test_monitor_files_count_files);
+
     return UNITY_END();
 }

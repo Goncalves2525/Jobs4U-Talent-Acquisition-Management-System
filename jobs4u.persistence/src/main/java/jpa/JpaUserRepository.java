@@ -58,6 +58,32 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
+    public boolean swapCandidateAbility(String email, Role operatorRole) {
+        if (operatorRole.equals(Role.OPERATOR)) {
+            AppUser appUser = ofIdentity(Email.valueOf(email)).get();
+            appUser.swapAbility();
+            update(appUser);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Optional<AppUser> findByEmail(String email) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery("SELECT u FROM AppUser u WHERE u.email.email = :email", AppUser.class);
+        query.setParameter("email", email);
+        List<AppUser> result = query.getResultList();
+        em.close();
+
+        if (result.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(result.get(0));
+        }
+    }
+
+    @Override
     public Optional<String> authenticate(String email, String password) {
         // Create a valid session user in memory:
         Optional<AppUser> sessionUser = createSessionUser(email, password);
