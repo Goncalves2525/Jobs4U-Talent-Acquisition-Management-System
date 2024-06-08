@@ -13,14 +13,15 @@ public class BackOffice {
     static Role roleInUse;
     static Bootstrapper bootstrapper = new Bootstrapper();
     static boolean bootstrapmode = true;
+    static final String BOOTSTRAP_FILE = "bootstrap.txt";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         bootstrapmode = ConsoleUtils.confirm("Do you want to launch the app in bootstrap mode? (y/n)");
 
         // if in bootstrap mode, launch bootstrapper
         if (bootstrapmode) {
-            //DatabaseUtility.dropAllDataBaseObjects();
+            DatabaseUtility.dropAllDataBaseObjects();
             DatabaseUtility.clearAllTables();
             bootstrapper.execute();
         }

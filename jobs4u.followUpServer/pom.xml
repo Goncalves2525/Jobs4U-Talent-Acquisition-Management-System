@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>lapr4</groupId>
+        <artifactId>jobs4u</artifactId>
+        <version>0.1.0</version>
+    </parent>
+
+    <groupId>lapr4</groupId>
+    <artifactId>jobs4u.followUpServer</artifactId>
+
+    <properties>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!--jobs4u.CORE-->
+        <dependency>
+            <groupId>lapr4</groupId>
+            <artifactId>jobs4u.core</artifactId>
+            <version>0.1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <!--jobs4u.PERSISTENCE-->
+        <dependency>
+            <groupId>lapr4</groupId>
+            <artifactId>jobs4u.persistence</artifactId>
+            <version>0.1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <!--jobs4u.INFRASTRUCTURE-->
+        <dependency>
+            <groupId>lapr4</groupId>
+            <artifactId>jobs4u.infrastructure.application</artifactId>
+            <version>0.1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <!--jobs4u.COMMON-->
+        <dependency>
+            <groupId>lapr4</groupId>
+            <artifactId>jobs4u.common</artifactId>
+            <version>0.1.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- To build with manifest -->
+    <build>
+        <plugins>
+            <plugin>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+<!--                            <classpathPrefix>lib/</classpathPrefix>-->
+                            <mainClass>FollowUpServerApp</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

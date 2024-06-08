@@ -12,4 +12,10 @@ public interface ApplicationRepository extends DomainRepository<String, Applicat
 
     void update(Application entity);
 
+    String countApplicants(String jobReference);
+
+    boolean defineRanking(Candidate candidate, String jobReference, int rank);
+
+    List<Application> ofJobReference(String jobReference);
+
 }
