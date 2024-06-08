@@ -18,8 +18,8 @@ public class job7interviewParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, BOOLEAN=12, SEPARATOR=13, DEGREE=14, PROGLANGUAGES=15, 
-		PROGLANGUAGE=16, WORD=17, INTEGER=18, DECIMAL=19, DATE=20, TIME=21, CAPABILITY=22, 
-		ANSWER=23, WS=24;
+		PROGLANGUAGE=16, WORD=17, INTEGER=18, DECIMAL=19, DATE=20, TIME=21, ANSWER=22, 
+		WS=23;
 	public static final int
 		RULE_start = 0, RULE_header = 1, RULE_question1 = 2, RULE_question2 = 3, 
 		RULE_question3 = 4, RULE_question4 = 5, RULE_question5 = 6, RULE_question6 = 7, 
@@ -35,13 +35,13 @@ public class job7interviewParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'Job 7 Interview Model'", "'#1 Is Java an object-oriented programming language? (true or false)'", 
-			"'#2 How do you describe yourself in 5 words: (type each word separated by a semi-colon, with no spaces)'", 
-			"'#3 Enter one degree: (None; Bachelor; Master; PHD)'", "'#4 Enter one or more programming languages you are proficient in: (java; javascript; python; c) (type each language separated by a semi-colon, with no spaces)'", 
-			"'#5 Enter the number of years of experience: (type one integer)'", "'#6 Enter your salary expectations: (use only 2 decimal numbers)'", 
+			"'#2 How do you describe yourself in 5 words: (type each word separated by a semi-colon)'", 
+			"'#3 Enter one degree: (None; Bachelor; Master; PHD)'", "'#4 Enter one or more programming languages you are proficient in: (java; javascript; python; c) (type each language separated by a semi-colon)'", 
+			"'#5 Enter the number of years of experience: (type as integer)'", "'#6 Enter your salary expectations: (use only 2 decimal numbers)'", 
 			"'#7 On what specific date can you start working? (dd/mm/yyyy)'", "'#8 How many overtime hours are you available to work per week? (hh:mm)'", 
 			"'#9 How capable do you feel to carry out the duties described in the job offer? [0-5]'", 
-			"'#10 Where are our headquarters? (type one word only)'", null, "';'", 
-			null, null, null, null, null, null, null, null, null, "'\\nAnswer:'"
+			"'#10 Where are our headquarters? (type one word only)'", null, "'; '", 
+			null, null, null, null, null, null, null, null, "'Answer:'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -49,7 +49,7 @@ public class job7interviewParser extends Parser {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			"BOOLEAN", "SEPARATOR", "DEGREE", "PROGLANGUAGES", "PROGLANGUAGE", "WORD", 
-			"INTEGER", "DECIMAL", "DATE", "TIME", "CAPABILITY", "ANSWER", "WS"
+			"INTEGER", "DECIMAL", "DATE", "TIME", "ANSWER", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -634,7 +634,7 @@ public class job7interviewParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class Question9Context extends ParserRuleContext {
 		public Token answer9;
-		public TerminalNode CAPABILITY() { return getToken(job7interviewParser.CAPABILITY, 0); }
+		public TerminalNode INTEGER() { return getToken(job7interviewParser.INTEGER, 0); }
 		public Question9Context(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -663,7 +663,7 @@ public class job7interviewParser extends Parser {
 			setState(70);
 			match(T__9);
 			setState(71);
-			((Question9Context)_localctx).answer9 = match(CAPABILITY);
+			((Question9Context)_localctx).answer9 = match(INTEGER);
 			}
 		}
 		catch (RecognitionException re) {
@@ -724,7 +724,7 @@ public class job7interviewParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u0018M\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u0017M\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0001"+
@@ -760,7 +760,7 @@ public class job7interviewParser extends Parser {
 		"\u0000\u0000>?\u0005\u0013\u0000\u0000?\u000f\u0001\u0000\u0000\u0000"+
 		"@A\u0005\b\u0000\u0000AB\u0005\u0014\u0000\u0000B\u0011\u0001\u0000\u0000"+
 		"\u0000CD\u0005\t\u0000\u0000DE\u0005\u0015\u0000\u0000E\u0013\u0001\u0000"+
-		"\u0000\u0000FG\u0005\n\u0000\u0000GH\u0005\u0016\u0000\u0000H\u0015\u0001"+
+		"\u0000\u0000FG\u0005\n\u0000\u0000GH\u0005\u0012\u0000\u0000H\u0015\u0001"+
 		"\u0000\u0000\u0000IJ\u0005\u000b\u0000\u0000JK\u0005\u0011\u0000\u0000"+
 		"K\u0017\u0001\u0000\u0000\u0000\u0000";
 	public static final ATN _ATN =

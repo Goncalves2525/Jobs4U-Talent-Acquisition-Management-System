@@ -3,16 +3,16 @@ Job 7 Interview Model
 #1 Is Java an object-oriented programming language? (true or false)
 Answer: true
 
-#2 How do you describe yourself in 5 words: (type each word separated by a semi-colon, with no spaces)
+#2 How do you describe yourself in 5 words: (type each word separated by a semi-colon)
 Answer: STRONG; DEDICATED; RESILIENT; STUBBORN; TRANSPARENT
 
 #3 Enter one degree: (None; Bachelor; Master; PHD)
 Answer: Master
 
-#4 Enter one or more programming languages you are proficient in: (java; javascript; python; c) (type each language separated by a semi-colon, with no spaces)
-Answer: java;python
+#4 Enter one or more programming languages you are proficient in: (java; javascript; python; c) (type each language separated by a semi-colon)
+Answer: java; python
 
-#5 Enter the number of years of experience: (type one integer)
+#5 Enter the number of years of experience: (type as integer)
 Answer: 5
 
 #6 Enter your salary expectations: (use only 2 decimal numbers)
