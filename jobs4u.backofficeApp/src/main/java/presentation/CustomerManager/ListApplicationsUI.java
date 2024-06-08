@@ -76,6 +76,7 @@ public class ListApplicationsUI {
                                     System.out.printf("%15s | ", wc.getWord());
                                     System.out.printf("%4d | ", wc.getWordCount());
                                     System.out.printf("%s ", wc.getFiles());
+                                    System.out.println();
                                 } catch (NullPointerException isNull){
                                     ConsoleUtils.showMessageColor("Word object is null. I will skip it.", AnsiColor.PURPLE);
                                 }
