@@ -27,7 +27,6 @@ volatile sig_atomic_t nChildren;
 char* oldPrefixes;
 int fd;
 
-sem_t *monitor_sem;
 sem_t *monitor_read_mutex;
 sem_t *monitor_write_mutex;
 shared_data_type *shared_data;
@@ -48,9 +47,6 @@ sem_t *report_write_mutex;
 void terminate_app(){
 	
 	//MONITOR DATA
-	sem_close(monitor_sem);
-	shm_unlink(MONITOR_MUTEX);
-
 	sem_close(monitor_read_mutex);
 	shm_unlink(MONITOR_READ_MUTEX);
 	sem_close(monitor_write_mutex);
@@ -76,15 +72,13 @@ void terminate_app(){
 	exit(EXIT_SUCCESS);
 }
 
-void sigIntHandler(int signal){
-	//kill(pid, SIGTERM);
+void sigIntHandler(){
 	waitpid(pid, NULL, 0);
-	//printf("Killed monitor child\n");
-	puts("Receice Kill");
+	puts("\nReceice Kill");
 	int i;
 	for(i=0; i<nChildren; i++){
 		wait(NULL);
-		//printf("Killed worker child %d\n", i+1);
+		
 	}
 	terminate_app();
 }
@@ -136,11 +130,11 @@ int main(int argc, char *argv[]) {
 	strcat(sessionFile, ".txt");
 	createSessionFile(sessionFile);
 
-    // Prepara SIGUSR1:
-	struct sigaction act;                      
-	memset(&act, 0, sizeof(struct sigaction)); 
-	act.sa_handler = sigUsr1Handler;            
-	sigaction(SIGUSR1, &act, NULL);             
+    // // Prepara SIGUSR1:
+	// struct sigaction act;                      
+	// memset(&act, 0, sizeof(struct sigaction)); 
+	// act.sa_handler = sigUsr1Handler;            
+	// sigaction(SIGUSR1, &act, NULL);             
 
     // Cria filho que monitoriza:
     pid = fork();
@@ -154,7 +148,6 @@ int main(int argc, char *argv[]) {
 	//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	//US201b:
 	//--->SEMÁFORO PARA MONITORIZAÇÃO
-	monitor_sem = sem_open(MONITOR_MUTEX, O_CREAT, 0644, 0);
 	monitor_read_mutex = sem_open(MONITOR_READ_MUTEX, O_CREAT, 0644,0 );
 	monitor_write_mutex = sem_open(MONITOR_WRITE_MUTEX, O_CREAT, 0644, 0);
     //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -165,7 +158,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_SUCCESS);
     }
 
-		//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	//US2001b:
 	//--->SHARED MEMORY
 	fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
@@ -184,7 +177,8 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 	memset(shared_data, 0, sizeof(shared_data_type));
-    
+    shared_data->prefixo[0] ='\0';
+	
 	//--->REPORT SHARED MEMORY
 	int status = shm_open(SHARED_REPORT_NAME, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
 	if (status == -1) {
@@ -208,7 +202,7 @@ int main(int argc, char *argv[]) {
 	shared_report->pid =0;
 	shared_report->createdPath[0] = '\0';
 
-	//--->SEMAPHORES
+	//--->SEMAPHORES WORKER E PAI
 	worker_write_mutex = sem_open(WORKER_WRITE_MUTEX, O_CREAT, 0644, 1);
 	worker_read_mutex = sem_open(WORKER_READ_MUTEX, O_CREAT, 0644, 0);
 	report_read_mutex = sem_open(REPORT_READ_MUTEX, O_CREAT, 0644, 1);
@@ -240,15 +234,23 @@ int main(int argc, char *argv[]) {
 			filesMoved[0] = '\0';
 			createdPath[0] = '\0';
 			currentPrefix[0] = '\0';
-			printf("WORKER %d: À espera de Trabalho\n", result.child);
+			//printf("WORKER %d: À espera de Trabalho\n", result.child);
 			sem_wait(worker_read_mutex);
-			printf("WORKER %d: Recebi trabalho a abrir envelope\n", result.child);
-			strncpy(currentPrefix, shared_data->buffer, BUFFER_SIZE - 1);
-			
-			if(!(strcmp(currentPrefix, "") == 0 || currentPrefix[0] == '\0')){
-				printf("WORKER %d: Recebi Data %s\n", result.child,  currentPrefix);
-				shared_data->buffer[0] = '\0'; //evitar que outro filho leia este prefixo
-				currentPrefix[BUFFER_SIZE - 1] = '\0';
+			//printf("WORKER %d: Recebi trabalho a abrir data\n", result.child);
+			strcpy(currentPrefix, shared_data->prefixo);
+
+			printf("WORKER %d: Recebi o Buffer |%s| Prefixo |%s|\n", result.child,  shared_data->buffer, shared_data->prefixo);
+			if(strcmp(currentPrefix, "") != 0 && currentPrefix[0] != '\0' && isNumeric(currentPrefix) == 1){
+				printf("WORKER %d: A processar Prefixo: |%s|\n", result.child,  currentPrefix);
+				// for (int i = 0; i < 20; i++) {
+				// 	// Verifica se o caractere é nulo para evitar imprimir valores não inicializados
+				// 	if (currentPrefix[i] == '\0') {
+				// 		break;
+				// 	}
+				// 	printf("WORKER %d: - currentPrefix[%d]: %c -> %d \n", result.child, i, currentPrefix[i], currentPrefix[i]);
+				// }
+				// shared_data->buffer[0] = '\0'; //evitar que outro filho leia este prefixo
+				// strncpy(shared_data->buffer, '\0', BUFFER_SIZE );
 				available = 1;
 			}
 			
@@ -310,7 +312,6 @@ int main(int argc, char *argv[]) {
 			//----> ESCREVER DADOS DO RELATÓRIO NA MEMÓRIA PARTILHADA-----------------------
 			if(available == 1) {
 				//printf("WORKER: VOU ESCREVER RELATORIO do PREFIXO %s\n", currentPrefix); //Remover no Final
-				
 				//printf("WORKER:  ESCRITO RELATORIO do PREFIXO %s\n", currentPrefix);
 				shared_report->qtyFilesMoved = qtyFilesMoved;
 				shared_report->pid = getpid();
@@ -331,20 +332,22 @@ int main(int argc, char *argv[]) {
 
 	// Continua código do processo principal (pai)
 
+
 	// Preparar SIGINT
 	struct sigaction act2;
 	memset(&act2, 0, sizeof(struct sigaction));
 	act2.sa_handler = sigIntHandler;
 	sigaction(SIGINT, &act2, NULL);
 
+
 	char currentPrefix[20] = "";
 	sem_post(monitor_write_mutex);
 	while(1){
-		//Esperar por novos ficheiros
-		//sem_wait(monitor_sem);
+		
+
 		//printf("DISTRIBUIDOR: A espera de Novos Ficheiros\n");
 		
-		printf("DISTRIBUIDOR: A espera de Post para o Monitor\n");
+		//printf("DISTRIBUIDOR: A espera de Post para o Monitor\n");
 		sem_wait(monitor_read_mutex);
 		char* fileNames[50];
 		int fileCount = 0;
@@ -352,34 +355,31 @@ int main(int argc, char *argv[]) {
 		int runningWorkers = 0;
 		int end = 0;
 		fileCount = getDirFileNames(arg.inputPath, fileNames);
-		printf("DISTRIBUIDOR: Recebi sinal do filho monitorizador. %d\n", fileCount);
-		//printf("filecount: %d\n", fileCount);
-		if(fileCount == -1){
-			perror("Error opening directory\n");
+		//printf("DISTRIBUIDOR: Recebi sinal do filho monitorizador. %d\n", fileCount);
+		if(fileCount == 0){
+			//perror("Error opening directory\n");
 			end = 1;
 		}
-		oldPrefixes = malloc(sizeof(char) * fileCount);
 
+		oldPrefixes = malloc(sizeof(char) * fileCount);
+		//
 		if(oldPrefixes == NULL){
 			perror("Error allocating oldPrefixes memory\n");
 			fileCount = -1;
 		}else{
-			memset(oldPrefixes, 0, sizeof(char) * fileCount);
+			memset(oldPrefixes, '\0', sizeof(char) * fileCount);
 		}
-
-		
 		fileToProcess = fileCount;
-
 		while (fileToProcess > 0)
 		{
 			int to = fileCount < arg.nWorkers ? fileCount : arg.nWorkers;
-			printf("DISTRIBUIDOR: fileToProcess %d,to %d,  nWorkers %d, runningWorkers %d \n", fileToProcess, to, arg.nWorkers, runningWorkers);
+			//printf("DISTRIBUIDOR: fileToProcess %d,to %d,  nWorkers %d, runningWorkers %d \n", fileToProcess, to, arg.nWorkers, runningWorkers);
 			
 			for (int i = 0; i < to ; i++)
 			{
-				if (runningWorkers ==  arg.nWorkers)
+				if (runningWorkers >=  arg.nWorkers)
 				{
-					printf("DISTRIBUIDOR: Nenhum Worker disponivel");
+					printf("DISTRIBUIDOR: Nenhum Worker disponivel\n");
 					break;
 				}
 				
@@ -387,14 +387,15 @@ int main(int argc, char *argv[]) {
 				end = findNewPrefix(fileNames, fileCount, currentPrefix, oldPrefixes);
 				if(end !=0){
 					// Se não for encontrado prefixo, fazer reset ao currentPrefix:
-					memset(currentPrefix, 0, sizeof(currentPrefix));
+					memset(currentPrefix, '\0', sizeof(currentPrefix));
 				}else{
-					//strncpy(shared_data->buffer, currentPrefix, BUFFER_SIZE - 1);
-					printf("DISTRIBUIDOR: A Atribuir o Prefixo ao primeiro a responder %s\n", currentPrefix);
+					
+					//printf("DISTRIBUIDOR: A Atribuir o Prefixo ao primeiro a responder %s\n", currentPrefix);
 					//Distribuir pelo workers
 					sem_wait(worker_write_mutex);
-					strncpy(shared_data->buffer, currentPrefix, BUFFER_SIZE - 1);
-					printf("DISTRIBUIDOR: A Processar o Prefixo %s\n", currentPrefix);
+					strncpy(shared_data->buffer, currentPrefix, BUFFER_SIZE );
+					strcpy(shared_data->prefixo, currentPrefix );
+					printf("DISTRIBUIDOR: A Processar o Prefixo %s - Buffer %s\n", currentPrefix, shared_data->buffer);
 					sem_post(worker_read_mutex);
 					runningWorkers++;
 					strcat(oldPrefixes, currentPrefix);
@@ -402,15 +403,16 @@ int main(int argc, char *argv[]) {
 				}
 			}
 			childReport report;
-			int updateSession = 0;
+			int updateSession = 0; //indicador que a operação correu com sucesso como tal deve atualizar o report
 			sem_wait(report_read_mutex);
+			//Se worker indicar que moveu ficheiros a operação correu corretamente
 			if(shared_report->qtyFilesMoved > 0){
 				updateSession = 1;
 				report.pid = shared_report->pid;
 				report.qtyFilesMoved = shared_report->qtyFilesMoved;
-
 				strcpy(report.createdPath, shared_report->createdPath );
 				strcpy(report.filesMoved, shared_report->filesMoved);
+				//Limpar dados da memoria partilhada
 				shared_report->qtyFilesMoved = 0;
 				shared_report->pid =0;
 				shared_report->createdPath[0] = '\0';
@@ -422,6 +424,7 @@ int main(int argc, char *argv[]) {
 			fileToProcess--;
 			runningWorkers--;
 		}
+		
 		sem_post(monitor_write_mutex);
 	}
 	terminate_app();
