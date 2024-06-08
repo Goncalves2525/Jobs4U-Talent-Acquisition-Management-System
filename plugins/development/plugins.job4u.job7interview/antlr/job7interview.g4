@@ -45,7 +45,7 @@ question8: 'How many overtime hours are you available to work per week? (hh:mm)'
 question9: 'How capable do you feel to carry out the duties described in the job offer? [0-5]' answer9=INTEGER*?;
 
 // Rule for the tenth question
-question10: 'Where are our headquarters? (type one word only)' answer10=WORD*?;
+question10: 'Where are our headquarters? (type one word only)' answer10=WORD?;
 
 // Boolean rule for true or false answers
 BOOLEAN: 'true' | 'false';
@@ -63,7 +63,7 @@ PROGLANGUAGES: (PROGLANGUAGE SEPARATOR?)+;
 PROGLANGUAGE: 'java' | 'javascript' | 'python' | 'c';
 
 // Word rule
-WORD: [a-zA-Z]+;
+WORD: [A-Za-z]+;
 
 // Rule for integer numbers
 INTEGER: [0-9]+;
@@ -83,8 +83,16 @@ ANSWER: 'Answer:' -> skip;
 // Rule for #(number) start of question line
 QUESTIONNUM: '#'INTEGER -> skip;
 
+// Define the RESULTTAG rule
+RESULTTAG: '#RESULT: ' WORD ' with ' INTEGER '/' INTEGER;
+RESULTTAGSKIP: RESULTTAG -> skip;
+
+// Define the separator and other tokens
+SLASH: '/';
+WITH: 'with';
+
 // Rule for a newline
-NEWLINE : [\r\n]+ -> skip;
+NEWLINE: [\r\n]+ -> skip;
 
 // Rule for text spaces
 WS: [ \t\r]+ -> skip ;
