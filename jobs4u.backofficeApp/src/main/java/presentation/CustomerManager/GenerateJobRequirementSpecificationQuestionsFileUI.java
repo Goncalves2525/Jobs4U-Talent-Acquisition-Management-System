@@ -1,11 +1,14 @@
 package presentation.CustomerManager;
 
 import appUserManagement.domain.Role;
+import applicationManagement.application.ListCandidatesService;
+import applicationManagement.repositories.CandidateRepository;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
 import jobOpeningManagement.application.GenerateCandidateFieldsFileController;
 import jobOpeningManagement.application.ListJobOpeningsController;
 import jobOpeningManagement.domain.JobOpening;
+import jobOpeningManagement.repositories.JobOpeningRepository;
 import plugins.PluginLoader;
 import textformat.AnsiColor;
 
@@ -17,8 +20,12 @@ public class GenerateJobRequirementSpecificationQuestionsFileUI {
 
     private final PluginLoader pluginLoader = new PluginLoader();
     static Role csutomerManagerRole;
-    GenerateCandidateFieldsFileController generateCandidateFieldsFileController = new GenerateCandidateFieldsFileController();
+    GenerateCandidateFieldsFileController generateCandidateFieldsFileController;
     ListJobOpeningsController listJobOpeningsController = new ListJobOpeningsController();
+
+    public GenerateJobRequirementSpecificationQuestionsFileUI(JobOpeningRepository jobOpeningRepository) {
+        this.generateCandidateFieldsFileController = new GenerateCandidateFieldsFileController(jobOpeningRepository);
+    }
 
     protected boolean doShow(AuthzUI authzUI){
         ConsoleUtils.buildUiHeader("Generate a text file to collect the answers of an Job Requirement Specification");

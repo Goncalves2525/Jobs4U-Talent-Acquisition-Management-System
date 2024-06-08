@@ -1,15 +1,20 @@
 package presentation.CustomerManager;
 
 
+import appUserManagement.repositories.UserRepository;
+import applicationManagement.repositories.ApplicationRepository;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
+import jobOpeningManagement.repositories.JobOpeningRepository;
 import textformat.AnsiColor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerManagerUI {
-
+    ApplicationRepository appRepo = PersistenceContext.repositories().applications();
+    JobOpeningRepository jobOpeningRepository=PersistenceContext.repositories().jobOpenings();
 
     public void doShow(AuthzUI authzUI) throws Exception {
 
@@ -70,7 +75,7 @@ public class CustomerManagerUI {
                     testPluginUI.doShow(authzUI);
                     break;
                 case 7:
-                    ListApplicationsUI listApplicationsUI = new ListApplicationsUI();
+                    ListApplicationsUI listApplicationsUI = new ListApplicationsUI(appRepo);
                     listApplicationsUI.doShow(authzUI);
                     break;
                 case 8:
@@ -86,7 +91,7 @@ public class CustomerManagerUI {
                     editJobOpeningUI.doShow(authzUI);
                     break;
                 case 11:
-                    GenerateJobRequirementSpecificationQuestionsFileUI generateJobRequirementSpecificationFileUI = new GenerateJobRequirementSpecificationQuestionsFileUI();
+                    GenerateJobRequirementSpecificationQuestionsFileUI generateJobRequirementSpecificationFileUI = new GenerateJobRequirementSpecificationQuestionsFileUI(jobOpeningRepository);
                     generateJobRequirementSpecificationFileUI.doShow(authzUI);
                     break;
                 case 12:
@@ -102,7 +107,7 @@ public class CustomerManagerUI {
                     requirementsVerificationUI.doShow(authzUI);
                     break;
                 case 15:
-                    RegisterInterviewDateUI registerInterviewDateUI = new RegisterInterviewDateUI();
+                    RegisterInterviewDateUI registerInterviewDateUI = new RegisterInterviewDateUI(appRepo);
                     registerInterviewDateUI.doShow(authzUI);
                     break;
                 default:

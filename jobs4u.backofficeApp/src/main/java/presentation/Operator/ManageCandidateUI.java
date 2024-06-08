@@ -1,7 +1,6 @@
 package presentation.Operator;
 
 import appUserManagement.application.AuthzController;
-import appUserManagement.application.ManageBackofficeUserController;
 import appUserManagement.domain.dto.AppUserDTO;
 import appUserManagement.repositories.UserRepository;
 import applicationManagement.application.CandidateController;
@@ -18,22 +17,21 @@ import java.util.List;
 import java.util.Optional;
 
 public class ManageCandidateUI {
-
-
     private static Role operatorRole;
-    private final CandidateController candidateController;
-    private final ManageCandidateController manageCandidateController;
+    private CandidateController candidateController;
+    private ManageCandidateController manageCandidateController;
 
     public ManageCandidateUI(UserRepository userRepo, AuthzController authzController) {
         this.candidateController = new CandidateController();
         this.manageCandidateController = new ManageCandidateController(userRepo, authzController);
+    }
 
-    public void doShow(AuthzUI authzUI) {
+    protected boolean doShow(AuthzUI authzUI) {
         // Get user role, to be used as parameter on restricted user actions
         operatorRole = authzUI.getValidBackofficeRole();
         if (!operatorRole.equals(Role.OPERATOR)) {
             ConsoleUtils.showMessageColor("You don't have permissions to enable/disable a candidate.", AnsiColor.RED);
-            return;
+            return false;
         }
 
         int action;
@@ -44,7 +42,7 @@ public class ManageCandidateUI {
             Iterable<Candidate> candidates = candidateController.allCandidatesSortedByName();
             if (candidates == null) {
                 ConsoleUtils.showMessageColor("No users to be presented.", AnsiColor.RED);
-                return;
+                return false;
             }
 
             int i = 1;
@@ -103,5 +101,6 @@ public class ManageCandidateUI {
 
 
         } while (ConsoleUtils.confirm("Do you want to manage another candidate? (y/n)"));
+        return true;
     }
 }

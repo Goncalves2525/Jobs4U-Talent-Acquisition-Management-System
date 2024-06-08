@@ -2,12 +2,16 @@ package presentation.Operator;
 
 import appUserManagement.application.AuthzController;
 import appUserManagement.repositories.UserRepository;
+import applicationManagement.repositories.CandidateRepository;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
 import infrastructure.persistance.PersistenceContext;
+import jobOpeningManagement.repositories.JobOpeningRepository;
 
 public class OperatorUI {
     UserRepository userRepo = PersistenceContext.repositories().users();
+    JobOpeningRepository jobOpeningRepository=PersistenceContext.repositories().jobOpenings();
+    CandidateRepository candidateRepository = PersistenceContext.repositories().candidates();
     AuthzController authzController = new AuthzController();
     public OperatorUI() {
     }
@@ -32,7 +36,7 @@ public class OperatorUI {
                     registerCandidateUI.show();
                     break;
                 case 3:
-                    ListCandidatesUI listCandidatesUI = new ListCandidatesUI();
+                    ListCandidatesUI listCandidatesUI = new ListCandidatesUI(candidateRepository);
                     listCandidatesUI.show();
                     break;
                 case 4:
@@ -40,7 +44,7 @@ public class OperatorUI {
                     manageCandidateUI.doShow(authzUI);
                     break;
                 case 5:
-                    GenerateCandidateFieldsFileUI generateCandidateFieldsFileUI = new GenerateCandidateFieldsFileUI();
+                    GenerateCandidateFieldsFileUI generateCandidateFieldsFileUI = new GenerateCandidateFieldsFileUI(jobOpeningRepository);
                     generateCandidateFieldsFileUI.doShow(authzUI);
                     break;
                 case 0:

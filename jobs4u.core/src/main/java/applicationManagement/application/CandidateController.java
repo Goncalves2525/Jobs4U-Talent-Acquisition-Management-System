@@ -1,8 +1,10 @@
 package applicationManagement.application;
 
+import appUserManagement.application.AuthzController;
 import appUserManagement.application.SignUpController;
 import appUserManagement.domain.Email;
 import appUserManagement.domain.Role;
+import appUserManagement.repositories.UserRepository;
 import applicationManagement.domain.Application;
 import applicationManagement.domain.dto.CandidateDTO;
 import applicationManagement.repositories.ApplicationRepository;
@@ -16,7 +18,7 @@ import java.util.Optional;
 
 public class CandidateController {
     private final CandidateRepository repo = PersistenceContext.repositories().candidates();
-    private final ListCandidatesService svc = new ListCandidatesService();
+    private ListCandidatesService svc=new ListCandidatesService(repo);
     private final SignUpController signUpController = new SignUpController();
     private final ApplicationRepository applicationRepo = PersistenceContext.repositories().applications();
 

@@ -2,18 +2,11 @@ package applicationManagement.application;
 
 import appUserManagement.application.AuthzController;
 import appUserManagement.domain.*;
-import appUserManagement.domain.dto.AppUserDTO;
 import appUserManagement.repositories.UserRepository;
-import applicationManagement.domain.Candidate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import org.mockito.InjectMocks;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
