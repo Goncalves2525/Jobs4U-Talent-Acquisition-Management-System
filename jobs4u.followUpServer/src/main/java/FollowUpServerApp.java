@@ -24,21 +24,32 @@ public class FollowUpServerApp {
         threadClientNotificationFetcher.start();
         threadArrayList.add(threadClientNotificationFetcher);
 
-        // Server
-        boolean serverUp = true;
-        do {
-            Thread threadServer = new Thread(new Server());
-            threadServer.start();
-            while (threadServer.isInterrupted()) {
-                serverUp = false;
-            }
+        // Server temporário
+        while (ConsoleUtils.confirm("Continue? (y/n)")) {
             try {
+                Thread threadServer = new Thread(new Server());
+                threadServer.start();
                 threadServer.join();
             } catch (InterruptedException interruptedException) {
                 interruptedException.printStackTrace(); // TESTING
-                break;
             }
-        } while (serverUp);
+        }
+
+//        // Server
+//        boolean serverUp = true;
+//        do {
+//            Thread threadServer = new Thread(new Server());
+//            threadServer.start();
+//            while (threadServer.isInterrupted()) {
+//                serverUp = false;
+//            }
+//            try {
+//                threadServer.join();
+//            } catch (InterruptedException interruptedException) {
+//                interruptedException.printStackTrace(); // TESTING
+//                break;
+//            }
+//        } while (serverUp);
 
         // Close all threads
         try {

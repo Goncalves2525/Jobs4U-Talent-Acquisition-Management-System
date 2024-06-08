@@ -29,6 +29,7 @@ public class ClientMailFetcher implements Runnable {
                 Thread.sleep(sleepingTime);
             } catch (InterruptedException interruptedException) {
                 interruptedException.printStackTrace(); // TESTING
+                return;
             }
 
             ArrayList<Notification> notifications = new JpaNotificationRepository().findAllReadyToEmail();

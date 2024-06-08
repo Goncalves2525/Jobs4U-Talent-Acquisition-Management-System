@@ -6,7 +6,11 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <time.h>
+#include <semaphore.h>
+
 #include "functions.h"
+
+extern sem_t* monitor_sem;
 
 // Variável global para guardar o estado anterior da pasta
 int previous_num_files = 0;
@@ -68,6 +72,7 @@ returnValues cria_filhos(int n) {
  */
 void sigUsr1Handler(int signal){ 
 	puts("Handled SIGUSR1\n"); 
+    //write(STDOUT_FILENO, "Pai: recebi sinal do filho monitorizador\n", 27);
 }
 
 /**
@@ -477,51 +482,6 @@ int moveFilesToDirectory(char* inputPath, char* jobApplicantPath, char* currentP
 }
 
 /**
- * Monitoriza o número de ficheiros num diretório especificado
- * e envia um sinal para o processo pai se detectar alterações no número de ficheiros.
- *
- * @param inputPath - path  do diretório a ser monitorizado.
- * @param timeInterval - intervalo de tempo (em segundos), entre as verificações.
- */
-void monitor_files(char* inputPath, int timeInterval) {
-    DIR* dir;
-    struct dirent* entry;
-    while (1) {
-        dir = opendir(inputPath);
-        if (dir == NULL) {
-            char errorMessage[300];
-			strcpy(errorMessage, "Error opening directory: ");
-			strcat(errorMessage, inputPath);
-			strcat(errorMessage,"\n");
-			perror(errorMessage);
-            return;
-        }
-        int num_files = 0;
-        while ((entry = readdir(dir)) != NULL) {
-            if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
-                continue; // Ignorar diretório atual e pai
-            }
-            num_files++;
-        }
-        closedir(dir); // Fechar o diretório
-        // Verificar se o número de ficheiros alterou
-        if (num_files > previous_num_files) {
-            // Se encontrar novos ficheiros envia um sinal para o processo pai
-            // printf("FILHO: enviei sinal para o pai\n");
-            kill(getppid(), SIGUSR1);
-        }
-        // Atualiza o estado anterior
-        previous_num_files = num_files;
-        
-        // Se não houver ficheiros na pasta, coloca o contador a 0
-        if (num_files == 0) {
-            previous_num_files = 0;
-        }
-        sleep(timeInterval);
-    }
-}
-
-/**
  * Cria um novo ficheiro de sessão .
  *
  * @param sessionFile - path do ficheiro de sessão a ser criado.
@@ -613,4 +573,63 @@ int getFilesOnDirectory(char* inputPath, char* currentPrefix, char* reportFilesM
     closedir(dir);
     
     return fileCount;
+}
+
+/**
+ * Monitoriza o número de ficheiros num diretório especificado
+ * e envia um sinal para o processo pai se detectar alterações no número de ficheiros.
+ *
+ * @param inputPath - path  do diretório a ser monitorizado.
+ * @param timeInterval - intervalo de tempo (em segundos), entre as verificações.
+ */
+void monitor_files(char* inputPath, int timeInterval) {
+    DIR* dir;
+    struct dirent* entry;
+    while (1) {
+        dir = opendir(inputPath);
+        if (dir == NULL) {
+            char errorMessage[300];
+			strcpy(errorMessage, "Error opening directory: ");
+			strcat(errorMessage, inputPath);
+			strcat(errorMessage,"\n");
+			perror(errorMessage);
+            return;
+        }
+        int num_files = 0;
+        while ((entry = readdir(dir)) != NULL) {
+            if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
+                continue; // Ignorar diretório atual e pai
+            }
+            num_files++;
+        }
+        closedir(dir); // Fechar o diretório
+        if(num_files > 0){
+            sem_wait(monitor_write_mutex);
+            printf("MONITOR: Ficheiros novos! Fiz POST, %d\n", num_files);
+            
+            sem_post(monitor_read_mutex);
+        }
+
+        // // Verificar se o número de ficheiros alterou
+        // if (num_files > previous_num_files) {
+        //     // // Se encontrar novos ficheiros envia um sinal para o processo pai
+        //     // // printf("FILHO: enviei sinal para o pai\n");
+        //     // kill(getppid(), SIGUSR1);
+            
+        //     //US2001b
+        //     // Se encontrar novos ficheiros enviar um sinal para o processo pai
+        //     //sem_post(monitor_sem);
+        //     sem_wait(monitor_write_mutex);
+        //     printf("MONITOR: Ficheiros novos! Fiz POST, %d\n", num_files);
+        //     sem_post(monitor_read_mutex);
+        // }
+        // // Atualiza o estado anterior
+        // previous_num_files = num_files;
+        
+        // // Se não houver ficheiros na pasta, coloca o contador a 0
+        // if (num_files == 0) {
+        //     previous_num_files = 0;
+        // }
+        sleep(timeInterval);
+    }
 }

@@ -1,6 +1,7 @@
 package appUserManagement.domain.dto;
 
 import appUserManagement.domain.Ability;
+import appUserManagement.domain.AppUser;
 import appUserManagement.domain.Role;
 import lombok.Getter;
 
@@ -15,6 +16,10 @@ public class AppUserDTO {
         this.email = email;
         this.role = role;
         this.ability = ability;
+    }
+
+    public static AppUserDTO from(AppUser appUser) {
+        return new AppUserDTO(appUser.getEmail().toString(), appUser.getRole(), appUser.getAbility());
     }
 
     @Override

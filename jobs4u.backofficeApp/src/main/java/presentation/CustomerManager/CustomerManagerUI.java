@@ -17,8 +17,6 @@ public class CustomerManagerUI {
         int option;
         List<String> options = new ArrayList<>();
 
-
-
         options.add("Register Customer");                               // 1
         options.add("Register Job Opening");                            // 2
         options.add("List Job Openings");                               // 3
