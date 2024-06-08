@@ -29,13 +29,3 @@ Answer: 5
 
 #10 Where are our headquarters? (type one word only)
 Answer: Aarhus
-
-#RESULT: APPROVED with 86/100
-
-#RESULT: APPROVED with 76/100
-
-#RESULT: APPROVED with 76/100
-
-#RESULT: APPROVED with 76/100
-
-#RESULT: APPROVED with 86/100
