@@ -24,16 +24,18 @@ public class RankCandidatesUI {
         }
 
         String jobReference;
-        boolean closedStatusCheck;
+        boolean validationJobReference;
         do {
             jobReference = ConsoleUtils.readLineFromConsole("Insert Job Reference: ");
-            closedStatusCheck = ctrl.validateIfJobOpeningClosed(jobReference);
-        }while (jobReference == null || closedStatusCheck);
+            validationJobReference = ctrl.validateJobReference(jobReference);
+        }while (jobReference == null || !validationJobReference);
 
         String rank;
+        boolean validationRank;
         do {
             rank = ConsoleUtils.readLineFromConsole("Insert the email of the Candidates separated by a semicolon(;) and ordered by their ranking: ");
-        }while (rank == null);
+            validationRank = ctrl.validateRank(rank, jobReference);
+        }while (rank == null || !validationRank);
 
         ctrl.rankingCandidatesOfJobOpening(jobReference, rank);
     }
