@@ -152,4 +152,12 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
         return list;
     }
 
+    @Override
+    public List<JobOpening> findAllActiveJobOpenings() {
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM JobOpening e WHERE e.endDate is null");
+        List<JobOpening> list = query.getResultList();
+        return list;
+    }
+
 }

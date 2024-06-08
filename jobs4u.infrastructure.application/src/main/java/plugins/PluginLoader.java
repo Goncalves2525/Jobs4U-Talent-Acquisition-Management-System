@@ -37,7 +37,8 @@ public class PluginLoader {
         try {
             File file = new File(pluginPath);
             URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{file.toURI().toURL()});
-            Class<?> pluginClass = classLoader.loadClass("lapr4.Main");
+//            Class<?> pluginClass = classLoader.loadClass("lapr4.Main");
+            Class<?> pluginClass = classLoader.loadClass("Main");
             Object pluginInstance = pluginClass.newInstance();
             String jarName = file.getName();
             String jarPath = file.getPath();

@@ -17,4 +17,6 @@ public interface JobOpeningRepository extends DomainRepository<String, JobOpenin
 
     Iterable<JobOpening> findAllActiveJobOpeningsResultPhase();
 
+    List<JobOpening> findAllActiveJobOpenings();
+
 }

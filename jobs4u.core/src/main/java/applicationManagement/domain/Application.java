@@ -5,11 +5,13 @@ import jakarta.persistence.*;
 import jobOpeningManagement.domain.JobOpening;
 import jobOpeningManagement.domain.RecruitmentState;
 import lombok.Getter;
+import lombok.Setter;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.Date;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Getter
 @Entity
@@ -38,6 +40,12 @@ public class Application implements AggregateRoot<String>, Serializable {
 
     @Column
     private String InterviewModel;
+
+    @Column
+    private String interviewReplyPath;
+
+    @Column
+    private int interviewGrade;
 
     @Column
     private String comment;
@@ -74,6 +82,7 @@ public class Application implements AggregateRoot<String>, Serializable {
         this.applicationDate = applicationDate;
         this.comment = comment;
         this.InterviewModel = interviewModel;
+        this.interviewGrade = -101; // impossible result
         this.date = LocalDate.now();
         this.filePath = filePath;
         this.applicationFilesPath = applicationFilesPath;
@@ -200,5 +209,54 @@ public class Application implements AggregateRoot<String>, Serializable {
     }
 
     public void changeRankingNumber(int i) { rankNumber.setOrdinal(i); }
+
+    public boolean addInterviewFilePath(String path) {
+        if (this.interviewReplyPath == null){
+            this.interviewReplyPath = path;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addInterviewGrade() {
+        int grade = readGradeFromInterviewFile();
+        if(this.interviewGrade == -101 && grade > -101 && grade <= 100){
+            this.interviewGrade = grade;
+            return true;
+        }
+        return false;
+    }
+
+    private int readGradeFromInterviewFile() {
+        int result = -101;
+        if(this.interviewReplyPath.isEmpty()) {
+            return result;
+        }
+
+        try {
+            StringBuilder transitContent = new StringBuilder();
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(this.interviewReplyPath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    transitContent.append(line).append(System.lineSeparator());
+                }
+            }
+
+            String content = transitContent.toString();
+            String[] contentSplit1 = content.split("#RESULT");
+            String[] contentSplit2 = contentSplit1[1].split(" with ");
+            String[] contentSplit3 = contentSplit2[1].split("/");
+            result = Integer.parseInt(contentSplit3[0]);
+
+        } catch (FileNotFoundException e) {
+            return result;
+        } catch (Exception other) {
+            other.printStackTrace(); // TESTING
+            return result;
+        }
+
+        return result;
+    }
 
 }
