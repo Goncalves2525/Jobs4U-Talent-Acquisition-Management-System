@@ -5,11 +5,13 @@ import jakarta.persistence.*;
 import jobOpeningManagement.domain.JobOpening;
 import jobOpeningManagement.domain.RecruitmentState;
 import lombok.Getter;
+import lombok.Setter;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.Date;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Getter
 @Entity
@@ -37,7 +39,10 @@ public class Application implements AggregateRoot<String>, Serializable {
     private LocalDate date;
 
     @Column
-    private String InterviewModel;
+    private String interviewReplyPath;
+
+    @Column
+    private int interviewGrade;
 
     @Column
     private String comment;
@@ -57,19 +62,23 @@ public class Application implements AggregateRoot<String>, Serializable {
 
     private Ranking rankNumber;
 
+    @Column
+    private Date interviewDate;
+
+
     protected Application() {
         // for ORM
     }
 
     public Application(String jobReference, Candidate candidate, JobOpening jobOpening, ApplicationStatus status, Date applicationDate, String comment
-    , String interviewModel, String filePath, String applicationFilesPath, RequirementsResult requirementsResult) {
+    , String filePath, String applicationFilesPath, RequirementsResult requirementsResult) {
         this.jobReference = jobReference;
         this.candidate = candidate;
         this.jobOpening = jobOpening;
         this.status = status;
         this.applicationDate = applicationDate;
         this.comment = comment;
-        this.InterviewModel = interviewModel;
+        this.interviewGrade = -101; // impossible result
         this.date = LocalDate.now();
         this.filePath = filePath;
         this.applicationFilesPath = applicationFilesPath;
@@ -101,10 +110,6 @@ public class Application implements AggregateRoot<String>, Serializable {
         return comment;
     }
 
-    public String interviewModel() {
-        return InterviewModel;
-    }
-
     public String filePath() {
         return filePath;
     }
@@ -119,6 +124,10 @@ public class Application implements AggregateRoot<String>, Serializable {
 
     public Ranking rankNumber() {return rankNumber; }
 
+    public Date interviewDate() {
+        return interviewDate;
+    }
+
     @Override
     public String toString() {
         return "Application{" +
@@ -126,7 +135,6 @@ public class Application implements AggregateRoot<String>, Serializable {
                 ", Candidate =" + candidate +
                 ", Job Opening=" + jobOpening +
                 ", Status=" + status +
-                //", InterviewModel=" + InterviewModel +
                 ", Commend='" + comment + '\'' +
                 ", Application Date=" + applicationDate +
                 ", Interview Model Path='" + filePath + '\'' +
@@ -145,12 +153,12 @@ public class Application implements AggregateRoot<String>, Serializable {
 //
 //    }
 
-    public boolean checkIfApplicationHasInterviewModel() {
-        return InterviewModel != null;
+    public boolean checkIfApplicationHasInterviewDate() {
+        return interviewDate != null;
     }
 
-    public boolean associateInterviewModelToApplication(String interviewModel) {
-        this.InterviewModel = interviewModel;
+    public boolean registerInterviewDateToApplication(Date interviewDate) {
+        this.interviewDate = interviewDate;
         return true;
     }
 
@@ -182,5 +190,54 @@ public class Application implements AggregateRoot<String>, Serializable {
     }
 
     public void changeRankingNumber(int i) { rankNumber.setOrdinal(i); }
+
+    public boolean addInterviewFilePath(String path) {
+        if (this.interviewReplyPath == null){
+            this.interviewReplyPath = path;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addInterviewGrade() {
+        int grade = readGradeFromInterviewFile();
+        if(this.interviewGrade == -101 && grade > -101 && grade <= 100){
+            this.interviewGrade = grade;
+            return true;
+        }
+        return false;
+    }
+
+    private int readGradeFromInterviewFile() {
+        int result = -101;
+        if(this.interviewReplyPath.isEmpty()) {
+            return result;
+        }
+
+        try {
+            StringBuilder transitContent = new StringBuilder();
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(this.interviewReplyPath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    transitContent.append(line).append(System.lineSeparator());
+                }
+            }
+
+            String content = transitContent.toString();
+            String[] contentSplit1 = content.split("#RESULT");
+            String[] contentSplit2 = contentSplit1[1].split(" with ");
+            String[] contentSplit3 = contentSplit2[1].split("/");
+            result = Integer.parseInt(contentSplit3[0]);
+
+        } catch (FileNotFoundException e) {
+            return result;
+        } catch (Exception other) {
+            other.printStackTrace(); // TESTING
+            return result;
+        }
+
+        return result;
+    }
 
 }

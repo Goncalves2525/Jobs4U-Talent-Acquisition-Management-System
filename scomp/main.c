@@ -4,26 +4,83 @@
 #include <time.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <fcntl.h>
+#include <semaphore.h>
+#include <sys/mman.h>
+
 #include "functions.h"
 
 #define CONFIGFILE "configs.txt"
+#define DATA_SIZE sizeof(shared_data_type)
+#define SHARED_REPORT_NAME "/shared_report"
+#define REPORT_READ_MUTEX "/report_read_mutex"
+#define REPORT_WRITE_MUTEX "/report_write_mutex"
+#define WORKER_READ_MUTEX "/read_mutex"
+#define WORKER_WRITE_MUTEX "/write_mutex"
+#define MONITOR_MUTEX "/monitor_mutex"
+
+#define SHARED_REPORT_DATA_SIZE sizeof(shared_report_data)
+#define WAITING_TIME 1
 
 volatile pid_t pid;
 volatile sig_atomic_t nChildren;
+char* oldPrefixes;
+int fd;
+
+sem_t *monitor_read_mutex;
+sem_t *monitor_write_mutex;
+shared_data_type *shared_data;
+sem_t *worker_write_mutex;
+sem_t *worker_read_mutex;
 
 
-void sigIntHandler(int signal){
-	//kill(pid, SIGTERM);
+
+shared_report_data  *shared_report;
+sem_t *report_read_mutex;
+sem_t *report_write_mutex;
+
+
+/**
+ *  
+ * 
+ */
+void terminate_app(){
+	
+	//MONITOR DATA
+	sem_close(monitor_read_mutex);
+	shm_unlink(MONITOR_READ_MUTEX);
+	sem_close(monitor_write_mutex);
+	shm_unlink(MONITOR_WRITE_MUTEX);
+
+	//PREFIXES DATA
+	free(oldPrefixes);
+	munmap(shared_data, DATA_SIZE);
+	close(fd);
+	shm_unlink(SHM_NAME);
+	sem_close(worker_write_mutex);
+	sem_close(worker_read_mutex);
+	sem_unlink(WORKER_WRITE_MUTEX);
+	sem_unlink(WORKER_READ_MUTEX);
+
+	//REPORT DATA
+	munmap(shared_report, SHARED_REPORT_DATA_SIZE);
+	shm_unlink(SHARED_REPORT_NAME);
+	sem_close(report_read_mutex);
+	sem_close(report_write_mutex);
+	sem_unlink(REPORT_READ_MUTEX);
+	sem_unlink(REPORT_WRITE_MUTEX);
+	exit(EXIT_SUCCESS);
+}
+
+void sigIntHandler(){
 	waitpid(pid, NULL, 0);
-	//printf("Killed monitor child\n");
-
+	puts("\nReceice Kill");
 	int i;
 	for(i=0; i<nChildren; i++){
 		wait(NULL);
-		//printf("Killed worker child %d\n", i+1);
+		
 	}
-
-	exit(EXIT_SUCCESS);
+	terminate_app();
 }
 
 
@@ -73,11 +130,11 @@ int main(int argc, char *argv[]) {
 	strcat(sessionFile, ".txt");
 	createSessionFile(sessionFile);
 
-    // Prepara SIGUSR1:
-	struct sigaction act;                      
-	memset(&act, 0, sizeof(struct sigaction)); 
-	act.sa_handler = sigUsr1Handler;            
-	sigaction(SIGUSR1, &act, NULL);             
+    // // Prepara SIGUSR1:
+	// struct sigaction act;                      
+	// memset(&act, 0, sizeof(struct sigaction)); 
+	// act.sa_handler = sigUsr1Handler;            
+	// sigaction(SIGUSR1, &act, NULL);             
 
     // Cria filho que monitoriza:
     pid = fork();
@@ -87,8 +144,13 @@ int main(int argc, char *argv[]) {
         perror("Fork ERROR.\n");
         exit(EXIT_FAILURE);
     }
-    
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	//US201b:
+	//--->SEMÁFORO PARA MONITORIZAÇÃO
+	monitor_read_mutex = sem_open(MONITOR_READ_MUTEX, O_CREAT, 0644,0 );
+	monitor_write_mutex = sem_open(MONITOR_WRITE_MUTEX, O_CREAT, 0644, 0);
+    //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
     // Código filho que monitoriza:
     if(pid == 0){
@@ -96,250 +158,274 @@ int main(int argc, char *argv[]) {
         exit(EXIT_SUCCESS);
     }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	//US2001b:
+	//--->SHARED MEMORY
+	fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+    if (fd == -1) {
+        perror("shm_open failed\n");
+        exit(EXIT_FAILURE);
+    }
+    ftruncate(fd, DATA_SIZE);
+    if (fd == -1) {
+        perror("ftruncate failed\n");
+        exit(EXIT_FAILURE);
+    }
+    shared_data = (shared_data_type *)mmap(NULL, DATA_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    if (shared_data == MAP_FAILED) {
+        perror("mmap failed\n");
+        exit(EXIT_FAILURE);
+    }
+	memset(shared_data, 0, sizeof(shared_data_type));
+    shared_data->prefixo[0] ='\0';
+	
+	//--->REPORT SHARED MEMORY
+	int status = shm_open(SHARED_REPORT_NAME, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+	if (status == -1) {
+        perror("shm_open failed\n");
+        exit(EXIT_FAILURE);
+    }
+    ftruncate(status, SHARED_REPORT_DATA_SIZE);
+    if (status == -1) {
+        perror("ftruncate failed\n");
+        exit(EXIT_FAILURE);
+    }
+    shared_report = (shared_report_data*)mmap(NULL, SHARED_REPORT_DATA_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    if (shared_report == MAP_FAILED) {
+        perror("mmap failed\n");
+        exit(EXIT_FAILURE);
+    }
 
-	// Continua código do processo principal (pai)
-    
-    // Preparar os PIPES para comunicação entre pai e filhos trabalhadores:
-    enum extremidade {READ=0, WRITE=1};  
+	memset(shared_report, 0, sizeof(shared_report_data));
+	//default data
+	shared_report->qtyFilesMoved = 0;
+	shared_report->pid =0;
+	shared_report->createdPath[0] = '\0';
 
-	// Pipes para que o pai possa enviar dados para os filhos trabalhadores:
-    int pipeDown[arg.nWorkers][2];                    
-    memset(pipeDown, 0, sizeof(pipeDown));                  
-    for(int i = 0; i < arg.nWorkers; i++){      
-        if(pipe(pipeDown[i]) == -1){                  
-            perror("Pipe Down failed!\n");           
-            exit(EXIT_FAILURE);                 
-        }                                       
-    }    
-
-	// Pipes para que os filhos trabalhadores possam enviar dados para o pai:
-	int pipeUp[arg.nWorkers][2];                    
-    memset(pipeUp, 0, sizeof(pipeUp));                  
-    for(int i = 0; i < arg.nWorkers; i++){      
-        if(pipe(pipeUp[i]) == -1){                  
-            perror("Pipe Up failed!\n");           
-            exit(EXIT_FAILURE);                 
-        }                                       
-    } 
+	//--->SEMAPHORES WORKER E PAI
+	worker_write_mutex = sem_open(WORKER_WRITE_MUTEX, O_CREAT, 0644, 1);
+	worker_read_mutex = sem_open(WORKER_READ_MUTEX, O_CREAT, 0644, 0);
+	report_read_mutex = sem_open(REPORT_READ_MUTEX, O_CREAT, 0644, 1);
+	report_write_mutex = sem_open(REPORT_WRITE_MUTEX, O_CREAT, 0644, 0);
+	//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
     // Cria filhos trabalhadores:
 	returnValues result = cria_filhos(arg.nWorkers);
-	
 	// Tratamento erros fork:
 	if(result.child == -1){
 		perror("ERROR when creating children processes.\n");
 		exit(EXIT_FAILURE);
 	}
+
 	
-	// Variável usada pelos processos pai e filhos trabalhadores para guardar o nome do prefixo:
-	char currentPrefix[20] = "";
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	// Código do filho trabalhador
+	//WORKERS
 	if(result.child > 0) {
-		
-		// Instancia variáveis a usar pelo filho trabalhador:
-		childReport report;
-		report.available = 0;  // APAGAR ESTA PARTE DA ESTRUTURA?!
-		report.pid = getpid();
-		report.qtyFilesMoved = 0;
-		report.createdPath[0] = '\0';
-		report.filesMoved[0] = '\0';
-		
-		close(pipeDown[result.child - 1][WRITE]); // fechar canal de escrita
-		close(pipeUp[result.child - 1][READ]); // fechar canal de leitura
+			char currentPrefix[20] = "";
+			int available;
+			int qtyFilesMoved ;
+			char filesMoved[500];
+			char createdPath[100];
 
 		while(1){
+			//Inincia as variaveis
+			available = 0;
+			qtyFilesMoved = 0;
+			filesMoved[0] = '\0';
+			createdPath[0] = '\0';
+			currentPrefix[0] = '\0';
+			//printf("WORKER %d: À espera de Trabalho\n", result.child);
+			sem_wait(worker_read_mutex);
+			//printf("WORKER %d: Recebi trabalho a abrir data\n", result.child);
+			strcpy(currentPrefix, shared_data->prefixo);
+
+			printf("WORKER %d: Recebi o Buffer |%s| Prefixo |%s|\n", result.child,  shared_data->buffer, shared_data->prefixo);
+			if(strcmp(currentPrefix, "") != 0 && currentPrefix[0] != '\0' && isNumeric(currentPrefix) == 1){
+				printf("WORKER %d: A processar Prefixo: |%s|\n", result.child,  currentPrefix);
+				// for (int i = 0; i < 20; i++) {
+				// 	// Verifica se o caractere é nulo para evitar imprimir valores não inicializados
+				// 	if (currentPrefix[i] == '\0') {
+				// 		break;
+				// 	}
+				// 	printf("WORKER %d: - currentPrefix[%d]: %c -> %d \n", result.child, i, currentPrefix[i], currentPrefix[i]);
+				// }
+				// shared_data->buffer[0] = '\0'; //evitar que outro filho leia este prefixo
+				// strncpy(shared_data->buffer, '\0', BUFFER_SIZE );
+				available = 1;
+			}
 			
-			// Ler prefixo do pipe e colocar a variável available da estrutura como "ocupado/válido" (1):
-			read(pipeDown[result.child - 1][READ], currentPrefix, strlen(currentPrefix) + 1);
-			report.available = 1;
+			sem_post(worker_write_mutex);
 			
 			// Obter detalhe da "job reference" e do "e-mail do candidato":
 			char jobReference[250];
 			char jobApplicant[250];
-			if(getApplicationDetails(currentPrefix, jobReference, jobApplicant) == -1){
-				//printf("Failed to get application details from prefix: %s.\n", currentPrefix);
-				report.available = 0;
-			}
 			
+			if(available == 1 && getApplicationDetails(currentPrefix, jobReference, jobApplicant) == -1){
+				printf("Failed to get application details from prefix: %s.\n", currentPrefix); // TODO: apagar depois de testes
+				available = 0;
+			}
 			// Criar diretório da job reference, se não falhar nenhuma tarefa anterior:
 			char basePath[200];
 			strcpy(basePath, arg.outputPath);
 			strcat(basePath, "/");
 			char jobReferencePath[200];
-			if(report.available == 1) {
+			if(available == 1) {
 				strcpy(jobReferencePath, basePath);
 				strcat(jobReferencePath, jobReference);
 				if(createDirectory(jobReferencePath) == -1){
 					printf("Failed to create job reference directory: %s.\n", jobReferencePath);
-					report.available = 0;
+					available = 0;
 				}
 			}
 
 			// Criar diretório da application, se não falhar nenhuma tarefa anterior:
 			char jobApplicantPath[200];
-			if(report.available == 1) {
+			if(available == 1) {
 				strcpy(jobApplicantPath, jobReferencePath);
 				strcat(jobApplicantPath, "/");
 				strcat(jobApplicantPath, jobApplicant);
 				if(createDirectory(jobApplicantPath) == -1){
 					printf("Failed to create job applicant directory: %s.\n", jobApplicantPath);
-					report.available = 0;
+					available = 0;
 				} else {
-					strcpy(report.createdPath, jobApplicantPath);
+					strcpy(createdPath, jobApplicantPath);
 				}
 			}
-			
+		
 			// Contar ficheiros disponíveis a mover, se não falhar nenhuma tarefa anterior:
-			if(report.available == 1) {
-				report.qtyFilesMoved = getFilesOnDirectory(arg.inputPath, currentPrefix, report.filesMoved);
-				if(report.qtyFilesMoved <= 0){
+			if(available == 1) {
+				qtyFilesMoved = getFilesOnDirectory(arg.inputPath, currentPrefix, filesMoved);
+				if(qtyFilesMoved <= 0){
 					printf("No files to be moved.\n");
-					report.available = 0;
+					available = 0;
 				}
 			}
 
 			// Mover ficheiros para o diretório criado, se não falhar nenhuma tarefa anterior:
-			if(report.available == 1) {
+			if(available == 1) {
 				if(moveFilesToDirectory(arg.inputPath, jobApplicantPath, currentPrefix) == -1){
 					printf("Failed to move files to directory: %s.\n", jobApplicantPath);
-					report.available = 0;
+					available = 0;
 				};
 			}
-
-			// Escrever relatório para o pipe, enviando para o pai:
-			write(pipeUp[result.child - 1][WRITE], &report, sizeof(report));
-
-			// Limpa variáveis da estrutura:
-			report.available = 0;
-			report.qtyFilesMoved = 0;
-			report.createdPath[0] = '\0';
-			report.filesMoved[0] = '\0';
+			sem_wait(report_write_mutex);
+			//----> ESCREVER DADOS DO RELATÓRIO NA MEMÓRIA PARTILHADA-----------------------
+			if(available == 1) {
+				//printf("WORKER: VOU ESCREVER RELATORIO do PREFIXO %s\n", currentPrefix); //Remover no Final
+				//printf("WORKER:  ESCRITO RELATORIO do PREFIXO %s\n", currentPrefix);
+				shared_report->qtyFilesMoved = qtyFilesMoved;
+				shared_report->pid = getpid();
+				strcpy(shared_report->createdPath, jobApplicantPath);
+				strcpy(shared_report->filesMoved, filesMoved);
+				
+			}
+			else{
+				shared_report->qtyFilesMoved = 0;
+			}
+			sem_post(report_read_mutex);
+			
 
 		}
-		close(pipeDown[result.child - 1][READ]); // fechar canal de leitura
-		close(pipeUp[result.child - 1][WRITE]); // fechar canal de escrita
 		exit(EXIT_SUCCESS);
 	}
-	
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 	// Continua código do processo principal (pai)
+
 
 	// Preparar SIGINT
 	struct sigaction act2;
 	memset(&act2, 0, sizeof(struct sigaction));
 	act2.sa_handler = sigIntHandler;
 	sigaction(SIGINT, &act2, NULL);
-	
-	// Instancia variáveis a usar apenas pelo pai:
-	int end = 0;
-	int child = 0;
-	int lastChild = arg.nWorkers;
-	int qtyChildAvailable = lastChild;
-	char* oldPrefixes;
 
-	// Array de reports:
-	childReport childReports[arg.nWorkers];
-	for (int i = 0; i < lastChild; i++) {
-    	childReports[i].available = 0;
-    	childReports[i].qtyFilesMoved = 0; 
-    	childReports[i].createdPath[0] = '\0';
-    	childReports[i].filesMoved[0] = '\0';
-	}
 
-	// Matriz de gestão de tarefas atribuidas:
-	int taskTable[arg.nWorkers][2];
-	for (int i = 0; i < arg.nWorkers; i++) {
-		taskTable[i][0] = (i+1);
-		taskTable[i][1] = 0;
-	}
-	
-	// Fecha partes dos pipes que não serão usadas:
-	close(pipeDown[child][READ]); // fecha pipe DOWN de leitura
-	close(pipeUp[child][WRITE]); // fecha pipe UP de escrita 
-
+	char currentPrefix[20] = "";
+	sem_post(monitor_write_mutex);
 	while(1){
+		
 
-		// Inicia variáveis que serão usadas em cada ciclo:
+		//printf("DISTRIBUIDOR: A espera de Novos Ficheiros\n");
+		
+		//printf("DISTRIBUIDOR: A espera de Post para o Monitor\n");
+		sem_wait(monitor_read_mutex);
 		char* fileNames[50];
 		int fileCount = 0;
-
-		// Aguardar sinal do filho monitorizador
-		pause();
-		//("PAI: Recebi sinal do filho monitorizador.\n");
-		
-		// Repor o valor de end, contar os ficheiros que constam da pasta input, e guardar os nomes dos ficheiros que constam neste momento: 
-		end = 0;
+		int fileToProcess = 0;
+		int runningWorkers = 0;
+		int end = 0;
 		fileCount = getDirFileNames(arg.inputPath, fileNames);
-		//printf("filecount: %d\n", fileCount);
-		if(fileCount == -1){
-			perror("Error opening directory\n");
+		//printf("DISTRIBUIDOR: Recebi sinal do filho monitorizador. %d\n", fileCount);
+		if(fileCount == 0){
+			//perror("Error opening directory\n");
 			end = 1;
 		}
+
 		oldPrefixes = malloc(sizeof(char) * fileCount);
-		memset(oldPrefixes, 0, sizeof(char) * fileCount);
-
-		
-		// Ciclo para atribuir trabalho aos filhos:
-		while(end == 0){
-
-			// Encontrar um novo prefixo:
-			end = findNewPrefix(fileNames, fileCount, currentPrefix, oldPrefixes);
-			//printf("o valor de end é: %d\n", end);
-			
-			// Se for encontrado um novo prefixo, entregar trabalho ao filho trabalhador na fila:
-			if(end == 0) {
-				//printf("PAI: Hey filho %d, vou dar-te o prefixo %s.\n", child+1, currentPrefix);
-				write(pipeDown[child][WRITE], currentPrefix, strlen(currentPrefix));
-				taskTable[child][1]++;
-				strcat(oldPrefixes, currentPrefix);
-
-			// Se não for encontrado prefixo, fazer reset ao currentPrefix:
-			} else {
-				memset(currentPrefix, 0, sizeof(currentPrefix));
-			}
-			
-			// Passar ao próximo filho. Se atingir o limite, voltar ao primeiro filho:
-			child++;
-			if(child == lastChild){
-				child = 0;
-			}
+		//
+		if(oldPrefixes == NULL){
+			perror("Error allocating oldPrefixes memory\n");
+			fileCount = -1;
+		}else{
+			memset(oldPrefixes, '\0', sizeof(char) * fileCount);
 		}
-		
-
-		// Ciclo para ler dados para relatório, após trabalho concluído:
-		//childReport report = childReports[child] // APAGAR?!
-		int reportProcessed = 0;
-		while(reportProcessed < fileCount) {
-			//printf("\nPAI: Tenho %d relatórios para recolher\n\n", fileCount);
-			if(taskTable[child][1] > 0) {
-				//printf("PAI: O filho %d deverá enviar-me um relatório. Vou verificar.\n", child+1);
-				read(pipeUp[child][READ], &childReports[child], sizeof(childReport));
-				if(childReports[child].qtyFilesMoved > 0){
-					//printf("PAI: O filho %d tem dados para o relatório. A tratar.\n", child+1);
-					updateSessionFile(sessionFile, &childReports[child]);
-				} else {
-					//printf("PAI: O filho %d NÃO tem dados para o relatório.\n", child+1);
+		fileToProcess = fileCount;
+		while (fileToProcess > 0)
+		{
+			int to = fileCount < arg.nWorkers ? fileCount : arg.nWorkers;
+			//printf("DISTRIBUIDOR: fileToProcess %d,to %d,  nWorkers %d, runningWorkers %d \n", fileToProcess, to, arg.nWorkers, runningWorkers);
+			
+			for (int i = 0; i < to ; i++)
+			{
+				if (runningWorkers >=  arg.nWorkers)
+				{
+					printf("DISTRIBUIDOR: Nenhum Worker disponivel\n");
+					break;
 				}
-				taskTable[child][1]--;
-				reportProcessed++;
+				
+				//Atribuir tarefas aos WORKERS
+				end = findNewPrefix(fileNames, fileCount, currentPrefix, oldPrefixes);
+				if(end !=0){
+					// Se não for encontrado prefixo, fazer reset ao currentPrefix:
+					memset(currentPrefix, '\0', sizeof(currentPrefix));
+				}else{
+					
+					//printf("DISTRIBUIDOR: A Atribuir o Prefixo ao primeiro a responder %s\n", currentPrefix);
+					//Distribuir pelo workers
+					sem_wait(worker_write_mutex);
+					strncpy(shared_data->buffer, currentPrefix, BUFFER_SIZE );
+					strcpy(shared_data->prefixo, currentPrefix );
+					printf("DISTRIBUIDOR: A Processar o Prefixo %s - Buffer %s\n", currentPrefix, shared_data->buffer);
+					sem_post(worker_read_mutex);
+					runningWorkers++;
+					strcat(oldPrefixes, currentPrefix);
+					
+				}
 			}
-			
-			// Passar ao próximo filho. Se atingir o limite, voltar ao primeiro filho:
-			child++;
-			if(child == lastChild){
-				child = 0;
+			childReport report;
+			int updateSession = 0; //indicador que a operação correu com sucesso como tal deve atualizar o report
+			sem_wait(report_read_mutex);
+			//Se worker indicar que moveu ficheiros a operação correu corretamente
+			if(shared_report->qtyFilesMoved > 0){
+				updateSession = 1;
+				report.pid = shared_report->pid;
+				report.qtyFilesMoved = shared_report->qtyFilesMoved;
+				strcpy(report.createdPath, shared_report->createdPath );
+				strcpy(report.filesMoved, shared_report->filesMoved);
+				//Limpar dados da memoria partilhada
+				shared_report->qtyFilesMoved = 0;
+				shared_report->pid =0;
+				shared_report->createdPath[0] = '\0';
 			}
+			sem_post(report_write_mutex);
+			if(updateSession == 1){
+				updateSessionFile(sessionFile, &report);
+			}
+			fileToProcess--;
+			runningWorkers--;
 		}
+		
+		sem_post(monitor_write_mutex);
 	}
-
-	// Libertar memória alocada e fechar os pipes:
-	free(oldPrefixes);
-	close(pipeDown[child][WRITE]);
-	close(pipeUp[child][READ]);
-	exit(EXIT_SUCCESS);
+	terminate_app();
 }

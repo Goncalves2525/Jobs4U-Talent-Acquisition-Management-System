@@ -18,4 +18,9 @@ public interface ApplicationRepository extends DomainRepository<String, Applicat
 
     List<Application> ofJobReference(String jobReference);
 
+    List<Application> findGradableApplications(String jobReference);
+
+    int saveGrades(List<Application> listOfGradableApplications);
+
+    boolean addInterviewReplyPath(Candidate candidate, String jobReference, String interviewReplyPath);
 }

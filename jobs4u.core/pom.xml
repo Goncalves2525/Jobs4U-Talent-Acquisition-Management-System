@@ -3,7 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>lapr4</groupId>
         <artifactId>jobs4u</artifactId>
@@ -13,12 +12,12 @@
     <artifactId>jobs4u.core</artifactId>
 
     <properties>
-        <maven.compiler.source>19</maven.compiler.source>
-        <maven.compiler.target>19</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <dependencies>
+
         <dependency>
             <groupId>lapr4</groupId>
             <artifactId>jobs4u.infrastructure.application</artifactId>
@@ -31,12 +30,8 @@
             <version>0.1.0</version>
             <scope>compile</scope>
         </dependency>
-        <!-- It is duplicated with main pom.xml, but has to be kept this way for Authz to work -->
-<!--        <dependency>-->
-<!--            <groupId>jakarta.persistence</groupId>-->
-<!--            <artifactId>jakarta.persistence-api</artifactId>-->
-<!--            <version>3.1.0</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
+
     </dependencies>
+
+
 </project>

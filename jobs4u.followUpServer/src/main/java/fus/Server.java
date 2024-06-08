@@ -25,7 +25,7 @@ public class Server implements Runnable {
     @Override
     public void run() {
 
-        final int port = 99;
+        final int port = 1027;
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             ConsoleUtils.showMessageColor("Server is listening on port " + port, AnsiColor.CYAN);

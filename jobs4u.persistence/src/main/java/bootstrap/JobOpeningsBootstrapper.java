@@ -4,11 +4,13 @@ import appUserManagement.application.SignUpController;
 import appUserManagement.domain.Email;
 import appUserManagement.domain.Role;
 import console.ConsoleUtils;
+import infrastructure.persistance.PersistenceContext;
 import jobOpeningManagement.application.ListCustomersService;
 import jobOpeningManagement.application.RegisterCustomerController;
 import jobOpeningManagement.application.RegisterJobOpeningController;
 import jobOpeningManagement.domain.*;
 import jobOpeningManagement.domain.dto.JobOpeningDTO;
+import jobOpeningManagement.repositories.JobOpeningRepository;
 import textformat.AnsiColor;
 
 import java.util.Optional;
@@ -19,7 +21,7 @@ public class JobOpeningsBootstrapper {
     RegisterCustomerController registerCustomerController = new RegisterCustomerController();
     ListCustomersService listCustomersService = new ListCustomersService();
     RegisterJobOpeningController ctrl = new RegisterJobOpeningController();
-
+    JobOpeningRepository repo = PersistenceContext.repositories().jobOpenings();
 
     public JobOpeningsBootstrapper() {
     }
@@ -98,6 +100,7 @@ public class JobOpeningsBootstrapper {
         JobOpeningDTO dto3 = new JobOpeningDTO(jobReference3, title3, contractType3, mode3, address3,
                 company3, numberOfVacancies3, description3, requirements3, state3);
         ctrl.registerJobOpeningWithPhase(dto3);
+        repo.addInterviewModelPlugin("code3-0", "plugins/interviews/jar/job7interview.jar");
 
         // print job opening data
         System.out.println(dto3.toString());
