@@ -34,7 +34,7 @@ public class RegisterInterviewDateUI {
         if (success) {
             System.out.println("Application already has an Interview scheduled. You are about to replace it.");
         }
-        Date interviewDate = ConsoleUtils.readDateFromConsole("Interview Date: ");
+        Date interviewDate = ConsoleUtils.readDateFromConsole("Interview Date (dd-MM-yyyy): ");
         success = ctrl.registerInterviewDateToApplication(application, interviewDate);
         if (success) {
             System.out.println("Interview Date Registered Successfully!");

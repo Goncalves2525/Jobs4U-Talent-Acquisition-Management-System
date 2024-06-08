@@ -32,15 +32,15 @@
 
 ### 4.1. Realization
 
-| Interaction ID | Question: Which class is responsible for...              | Answer                          | Justification (with patterns)                                     |
-|:---------------|:---------------------------------------------------------|:--------------------------------|:------------------------------------------------------------------|
-| Step 1         | Initiating the interview scheduling process              | CustomerManager                 | The CustomerManager starts the process by inputting candidate details. |
-| Step 2         | Displaying input prompts for candidate, date, and time   | RegisterInterviewDateUI         | The UI class is responsible for gathering input from the user.       |
-| Step 3         | Handling user input and forwarding to the controller     | RegisterInterviewDateController | The Controller processes the input and coordinates further actions.  |
-| Step 5         | Retrieving the candidate's application                   | JpaApplicationRepository        | The Repository is responsible for accessing stored application data. |
-| Step 6         | Setting the interview date in the application            | Application                     | The Application class holds the interview date once validated.       |
-| Step 7         | Saving the updated application                           | ApplicationRepository           | The Repository saves the modified application data.                  |
-| Step 8         | Informing the CustomerManager of the result              | RegisterInterviewDateUI         | The UI provides feedback to the user based on the outcome.           |
+| Interaction ID | Question: Which class is responsible for...              | Answer                          | Justification (with patterns)                      |
+|:---------------|:---------------------------------------------------------|:--------------------------------|:-----------------------------|
+| Step 1         | Initiating the interview scheduling process              | CustomerManager                 | Information Expert           |
+| Step 2         | Displaying input prompts for candidate, date, and time   | RegisterInterviewDateUI         | Pure Fabrication             |
+| Step 3         | Handling user input and forwarding to the controller     | RegisterInterviewDateController | Controller                   |
+| Step 5         | Retrieving the candidate's application                   | JpaApplicationRepository        | Information Expert           |
+| Step 6         | Setting the interview date in the application            | Application                     | Information Expert           |
+| Step 7         | Saving the updated application                           | ApplicationRepository           | Information Expert           |
+| Step 8         | Informing the CustomerManager of the result              | RegisterInterviewDateUI         | Pure Fabrication             |
 
 
 Other software classes (i.e. Pure Fabrication) identified:
@@ -48,7 +48,7 @@ Other software classes (i.e. Pure Fabrication) identified:
 * CustomerManagerUI
 * RegisterInterviewDateUI
 * RegisterInterviewDateController
-* JpaApplicationRepository
+* ApplicationRepository
 
 ### 4.2. Class Diagram
 
