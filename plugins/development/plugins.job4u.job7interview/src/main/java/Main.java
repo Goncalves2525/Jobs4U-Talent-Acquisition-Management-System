@@ -125,8 +125,10 @@ public class Main {
             try {
                 FileWriter fileWriter = new FileWriter(filePath, true);
                 if(grade > 70){
+                    ConsoleUtils.showMessageColor("\n\n#RESULT: APPROVED with " + grade + "/100", AnsiColor.GREEN);
                     fileWriter.append("\n\n#RESULT: APPROVED with " + grade + "/100");
                 }else{
+                    ConsoleUtils.showMessageColor("\n\n#RESULT: REJECTED with " + grade + "/100", AnsiColor.RED);
                     fileWriter.append("\n\n#RESULT: REJECTED with " + grade + "/100");
                 }
                 fileWriter.close();
