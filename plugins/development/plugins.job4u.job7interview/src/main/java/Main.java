@@ -77,15 +77,15 @@ public class Main {
         StringBuilder content = new StringBuilder();
 
         content.append("Job 7 Interview Model\n\n");
-        content.append("#1 Is Java an object-oriented programming language? (True or False)\n" +
+        content.append("#1 Is Java an object-oriented programming language? (true or false)\n" +
                 "Answer:\n\n");
-        content.append("#2 How do you describe yourself in 5 words: (type each word separated by a semi-colon, with no spaces)\n" +
+        content.append("#2 How do you describe yourself in 5 words: (type each word separated by a semi-colon)\n" +
                 "Answer:\n\n");
         content.append("#3 Enter one degree: (None; Bachelor; Master; PHD)\n" +
                 "Answer:\n\n");
-        content.append("#4 Enter one or more programming languages you are proficient in: (java; javascript; python; c) (type each language separated by a semi-colon, with no spaces)\n" +
+        content.append("#4 Enter one or more programming languages you are proficient in: (java; javascript; python; c) (type each language separated by a semi-colon)\n" +
                 "Answer:\n\n");
-        content.append("#5 Enter the number of years of experience: (type one integer)\n" +
+        content.append("#5 Enter the number of years of experience: (type as integer)\n" +
                 "Answer:\n\n");
         content.append("#6 Enter your salary expectations: (use only 2 decimal numbers)\n" +
                 "Answer:\n\n");
