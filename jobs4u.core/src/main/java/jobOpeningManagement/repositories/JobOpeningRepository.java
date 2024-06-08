@@ -1,5 +1,6 @@
 package jobOpeningManagement.repositories;
 
+import applicationManagement.domain.Candidate;
 import eapli.framework.domain.repositories.DomainRepository;
 import jobOpeningManagement.domain.CompanyCode;
 import jobOpeningManagement.domain.Customer;
@@ -17,4 +18,9 @@ public interface JobOpeningRepository extends DomainRepository<String, JobOpenin
 
     Iterable<JobOpening> findAllActiveJobOpeningsResultPhase();
 
+    List<JobOpening> findAllActiveJobOpenings();
+
+    boolean addInterviewModelPlugin(String jobReference, String plugin);
+
+    String findInterviewModelPluginByJobReference(String jobReference);
 }

@@ -43,7 +43,6 @@ public class ListApplicationsController {
                             "\nJob Requirements: " + application.getJobOpening().getRequirements() +
                             "\nJob Recruitment State: " + application.getJobOpening().getState() +
                             "\n\nApplication Date: " + application.getApplicationDate() +
-                            "\nInterview Model: " + application.getInterviewModel() +
                             "\nInterview Model Path: " + application.filePath() +
                             "\nApplication Files Path: " + application.applicationFilesPath());
                 }

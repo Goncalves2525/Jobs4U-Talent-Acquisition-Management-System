@@ -16,11 +16,11 @@ public class ListWordCountController {
         WordCountMap map = new CountingWordsService().countWordsOnFiles(path);
 
         // TESTING COUNTING WORDS SERVICE BLOCK
-        ConsoleUtils.readLineFromConsole("Map created. I will now print all the words.\nPress ENTER to continue...");
-        map.printWordCountMap();
-        ConsoleUtils.readLineFromConsole("Press ENTER to continue...");
+//        ConsoleUtils.readLineFromConsole("Map created. I will now print all the words.\nPress ENTER to continue...");
+//        map.printWordCountMap();
+//        ConsoleUtils.readLineFromConsole("Press ENTER to continue...");
         // TESTING COUNTING WORDS SERVICE BLOCK
 
-        return new OrderingService().makeTopList(topNumber, map);
+        return OrderingService.makeTopList(topNumber, map);
     }
 }
