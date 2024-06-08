@@ -7,6 +7,7 @@
 #include <signal.h>
 #include <time.h>
 #include <semaphore.h>
+#include <ctype.h> 
 
 #include "functions.h"
 
@@ -70,10 +71,10 @@ returnValues cria_filhos(int n) {
  *
  * @param signal O número do sinal recebido.
  */
-void sigUsr1Handler(int signal){ 
-	puts("Handled SIGUSR1\n"); 
-    //write(STDOUT_FILENO, "Pai: recebi sinal do filho monitorizador\n", 27);
-}
+// void sigUsr1Handler(int signal){ 
+// 	puts("Handled SIGUSR1\n"); 
+//     //write(STDOUT_FILENO, "Pai: recebi sinal do filho monitorizador\n", 27);
+// }
 
 /**
  * Procura por um novo prefixo nos nomes dos ficheiros passados .
@@ -139,9 +140,9 @@ int compareFileNames(const void *a, const void *b) {
  *         0 se nenhum ficheiro é encontrado ou ocorrer um erro ao abrir o diretório.
  */
 int getDirFileNames(char* inputPath, char** fileNames) {
+    int fileCount = 0;  // Contador de ficheiros encontrados.
     DIR *dir; // Ponteiro para o diretório.
     struct dirent *entry; // Estrutura para armazenar informações sobre os ficheiros no diretório.
-    int fileCount = 0;  // Contador de ficheiros encontrados.
     int i = 0; 
 	// Abre o diretório especificado.
     dir = opendir(inputPath);
@@ -149,30 +150,43 @@ int getDirFileNames(char* inputPath, char** fileNames) {
     if (dir == NULL) {
 		//Erro ao abrir e envia mensagem de eero
         perror("Error opening directory\n");
-        return -1;
-    }
-	//Ir a cada um do diretorios
-    while ((entry = readdir(dir)) != NULL) {
-        //não conta com os ficheiros . e ..
-        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0 || strcmp(entry->d_name, ".DS_Store") == 0) {
-            continue;
-        }
-        // Procura se contém a substring "candidate-data.txt".
-        if (strstr(entry->d_name, "candidate-data.txt")) {
-			
-           fileNames[i] = malloc(strlen(entry->d_name) + 1); //aloca memória para cada nome de ficheiro
-            strcpy(fileNames[i], entry->d_name); //copia o nome do ficheiro
-            fileCount++;
-            i++;
-        }
-    }
 
-    closedir(dir);// Fecha o diretório após a leitura.
-    // Se mais de um ficheiro foi encontrado, ordena os nomes dos ficheiros em ordem alfabética.
-    if(i > 1){
-        qsort(fileNames, fileCount, sizeof(char *), compareFileNames);
+        return 0;
     }
+    else{
+        //Ir a cada um do diretorios
+        while ((entry = readdir(dir)) != NULL) {
+            //não conta com os ficheiros . e ..
+            if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0 || strcmp(entry->d_name, ".DS_Store") == 0) {
+                continue;
+            }
+            // Procura se contém a substring "candidate-data.txt".
+            if (strstr(entry->d_name, "candidate-data.txt")) {
+                
+                fileNames[i] = malloc(strlen(entry->d_name) + 1); //aloca memória para cada nome de ficheiro
+                if(fileNames[i] == NULL){
+                    perror("Error on allocating memory");
+                    fileCount = 0;
+                    // libertar  a memória já alocada antes de retornar 0
+                    for (int j = 0; j < i; j++) {
+                        free(fileNames[j]);
+                    }
+                    closedir(dir);
+                    i = 0; ///colocar o i a 0 para não executar a ordenação
+                    break;
+                }
+                strcpy(fileNames[i], entry->d_name); //copia o nome do ficheiro
+                fileCount++;
+                i++;
+            }
+        }
 
+        closedir(dir);// Fecha o diretório após a leitura.
+        // Se mais de um ficheiro foi encontrado, ordena os nomes dos ficheiros em ordem alfabética.
+        if(i > 1){
+            qsort(fileNames, fileCount, sizeof(char *), compareFileNames);
+        }
+    }
     return fileCount; // Retorna o número de ficheiros encontrados.
 }
 
@@ -186,16 +200,19 @@ int getDirFileNames(char* inputPath, char** fileNames) {
  *			-1  erro
  */
 int extractArguments(const char* configFile, arglocal* arg) {
-
+    int return_value = 0;
     FILE *file = fopen(configFile, "r"); // abrir ficheiro
     if (file == NULL) { // testar erro ao abrir ficheiro
         perror("Error opening file");
         //fclose(file);
-        return -1; // Retornar -1 para indicar erro
+        //return -1; // Retornar -1 para indicar erro
+        return_value = -1;
     }
 
-    if (fgetc(file) == EOF) { // testar se o ficheiro está vazio
-        return -1; // Retornar -1 para indicar erro
+    else if (fgetc(file) == EOF) { // testar se o ficheiro está vazio
+        //return -1; // Retornar -1 para indicar erro
+        fclose(file);
+        return_value = -1;
     } else { // executar código para recolher valores do ficheiro
         rewind(file); // reposicionar no inicio do ficheiro
         char lineRead[250]; // variável para guardar o conteúdo de cada linha temporariamente
@@ -245,7 +262,9 @@ int extractArguments(const char* configFile, arglocal* arg) {
         // Fechar o ficheiro
 		fclose(file);
     }
-    return 0;
+    
+    //return 0;
+    return return_value;
 }
 
 
@@ -376,15 +395,27 @@ int createDirectory(char* newDirectoryPath) {
 
     // Sendo processo filho, cria um novo diretorio de acordo com o parametro
     if(result.child > 0){
-		if(opendir(newDirectoryPath) == NULL){
-			int valid = 0;
-			char parameter[100];
-			strcpy(parameter, "mkdir ");
-			strcat(parameter, newDirectoryPath);
-			valid = execlp("mkdir", "mkdir", newDirectoryPath, NULL);
-			perror("Error creating directory\n");
-			exit(valid);
-		}
+        DIR *dir = opendir(newDirectoryPath);
+        if(dir == NULL){
+            int valid = 0;
+            char parameter[100];
+            strcpy(parameter, "mkdir ");
+            strcat(parameter, newDirectoryPath);
+            valid = execlp("mkdir", "mkdir", newDirectoryPath, NULL);
+            perror("Error creating directory\n");
+            exit(valid);
+            return-1;
+        }
+
+		// if(opendir(newDirectoryPath) == NULL){
+		// 	int valid = 0;
+		// 	char parameter[100];
+		// 	strcpy(parameter, "mkdir ");
+		// 	strcat(parameter, newDirectoryPath);
+		// 	valid = execlp("mkdir", "mkdir", newDirectoryPath, NULL);
+		// 	perror("Error creating directory\n");
+		// 	exit(valid);
+		// }
     }
 
     // Aguarda o término do filho para encerrar o processo
@@ -412,7 +443,7 @@ int countFilesOnDirectory(char* inputPath, char* currentPrefix) {
     if (dir == NULL) {
 		//Erro ao abrir diretorio
         perror("Error opening directory\n");
-        closedir(dir);
+        //closedir(dir);
         return -1; //retorna erro
     }
 	// Calcula o tamanho do prefixo.
@@ -557,7 +588,7 @@ int getFilesOnDirectory(char* inputPath, char* currentPrefix, char* reportFilesM
 
     if (dir == NULL) {
         perror("Error opening directory\n");
-        closedir(dir);
+        //closedir(dir);
         return -1;
     }
 
@@ -573,6 +604,25 @@ int getFilesOnDirectory(char* inputPath, char* currentPrefix, char* reportFilesM
     closedir(dir);
     
     return fileCount;
+}
+
+/**
+ * Verifica  os caracteres numericos 
+ * 
+ * @param prefixo a avalidar
+ * @return 1 se for numerico  0 se contiver  caractere não numérico
+ */
+int isNumeric(char *prefixo) {
+    for (int i = 0; i < 20; i++) {
+        //avalia se não 
+        if (prefixo[i] == '\0') {
+            break;
+        }
+        if (!isdigit((unsigned char)prefixo[i])) {
+            return 0; 
+        }
+    }
+    return 1; 
 }
 
 /**
@@ -605,7 +655,7 @@ void monitor_files(char* inputPath, int timeInterval) {
         closedir(dir); // Fechar o diretório
         if(num_files > 0){
             sem_wait(monitor_write_mutex);
-            printf("MONITOR: Ficheiros novos! Fiz POST, %d\n", num_files);
+            //printf("MONITOR: Ficheiros novos! Fiz POST, %d\n", num_files);
             
             sem_post(monitor_read_mutex);
         }
