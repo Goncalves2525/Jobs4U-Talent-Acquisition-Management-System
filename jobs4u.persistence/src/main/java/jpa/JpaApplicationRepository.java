@@ -137,9 +137,9 @@ public class JpaApplicationRepository implements ApplicationRepository {
         return query.getSingleResult().toString();
     }
 
-    private Optional<Application> findOfJobReferenceRanked(String jobReference, int rank) {
+    private Optional<Application> findOfJobReferenceRanked(String jobReference, String rank) {
         Query query = getEntityManager().createQuery(
-                "SELECT e FROM Application e WHERE e.jobReference LIKE :jobReference AND e.rankNumber.ordinal = :rank");
+                "SELECT e FROM Application e WHERE e.jobReference LIKE :jobReference AND e.rankNumber.rank = :rank");
         query.setParameter("jobReference", jobReference);
         query.setParameter("rank", rank);
         List applications = query.getResultList();
@@ -157,7 +157,7 @@ public class JpaApplicationRepository implements ApplicationRepository {
     }
 
     @Override
-    public boolean defineRanking(Candidate candidate, String jobReference, int rank) {
+    public boolean defineRanking(Candidate candidate, String jobReference, String rank) {
         Optional<Application> applicationFound = findOfJobReferenceRanked(jobReference, rank);
         if (applicationFound.isEmpty()){
             Application applicationToRank = findOfCandidateAndJobReference(candidate, jobReference);
