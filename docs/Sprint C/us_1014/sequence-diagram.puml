@@ -1,0 +1,42 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "CustomerManager" as CM
+participant "RegisterInterviewDateUI" as UI
+participant "RegisterInterviewDateController" as CTRL
+participant "Application" as APP
+participant "ApplicationRepository" as AREPO
+
+activate CM
+    activate UI
+        UI -> CM : prompts: candidate selection, date, time
+        CM -> UI : inserts: candidate, date, time
+        UI -> CTRL : registerInterviewDate(candidate, date, time)
+        activate CTRL
+            CTRL -> AREPO : getApplication(candidate)
+            activate AREPO
+                AREPO --> CTRL : return application
+            deactivate AREPO
+            alt when candidate is valid
+                CTRL -> APP : setInterviewDate(date, time)
+                activate APP
+                    APP --> CTRL : return application
+                deactivate APP
+                CTRL -> AREPO : save(application)
+                activate AREPO
+                    AREPO --> CTRL : return application
+                deactivate AREPO
+                CTRL --> UI : return true
+            else when candidate is invalid
+                CTRL --> UI : return false
+            end
+        deactivate CTRL
+        UI --> CM : inform success/failure of interview registration
+    deactivate UI
+deactivate CM
+
+@enduml

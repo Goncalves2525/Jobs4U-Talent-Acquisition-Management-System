@@ -3,16 +3,19 @@ package applicationManagement.application;
 import applicationManagement.domain.dto.WordCount;
 import applicationManagement.domain.dto.WordCountMap;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 public class OrderingService {
-    public WordCount[] makeTopList(int topNumber, WordCountMap map) {
+   public static WordCount[] makeTopList(int topNumber, WordCountMap map) {
         WordCount[] list = new WordCount[topNumber];
+        List<WordCount> sortedWordCounts = new ArrayList<>(map.getMap().values());
+        sortedWordCounts.sort(Comparator.comparingInt(WordCount::getWordCount).reversed());
 
-        // TODO: JORGE
-        // Atribuir X nr de palavras do map a uma thread (sugestão, o mesmo nr de topNumber
-            // - OU - Atribuir uma palavra de cada vez, a uma thread, até não haver mais palavras.
-        // Ordenar sub-contagens, com recurso a um qualquer método de ordenação.
-        // Executar ordenação final para ser retornada
-
+        for (int i = 0; i < topNumber && i < sortedWordCounts.size(); i++) {
+            list[i] = sortedWordCounts.get(i);
+        }
         return list;
     }
 }

@@ -8,19 +8,38 @@ import textformat.AnsiColor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class CustomerApp {
     final static Role ROLE_REQUIRED = Role.CUSTOMER;
-    final static String HOSTNAME = "localhost";
-    final static int PORT = 99;
+//    final static String HOSTNAME = "localhost";
+    //    final static String HOSTNAME = "vsrv27.dei.isep.ipp.pt";
+    final static String HOSTNAME = "labs-vsrv27.dei.isep.ipp.pt";
+    static InetAddress serverIP;
+    final static int PORT = 1027;
+    final static int TIMEOUT = 30000;
 
     public static void main(String[] args) {
 
         do {
+            // Get serverIP
+            try {
+                serverIP = InetAddress.getByName(HOSTNAME);
+            }
+            catch(UnknownHostException ex) {
+                System.out.println("Invalid server specified: " + HOSTNAME);
+                return;
+            }
+
             // Establish follow-up server connection
-            try (Socket socket = new Socket(HOSTNAME, PORT)) {
+            try (Socket socket = new Socket(serverIP, PORT)) {
+
+                System.out.println("Chego aqui!"); // TESTING
+
+//                socket.connect(new InetSocketAddress(HOSTNAME, PORT), TIMEOUT);
 
                 InputStream inputStream = socket.getInputStream();
                 OutputStream outputStream = socket.getOutputStream();
