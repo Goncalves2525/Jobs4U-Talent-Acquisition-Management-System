@@ -2,8 +2,10 @@ package presentation.Operator;
 
 import appUserManagement.domain.Role;
 import applicationManagement.domain.Candidate;
+import applicationManagement.repositories.CandidateRepository;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
 import jobOpeningManagement.application.UploadCandidateRequirementsController;
 import textformat.AnsiColor;
 
@@ -12,7 +14,8 @@ import java.util.Optional;
 public class UploadCandidateRequirementsFileUI {
 
     static Role operatorRole;
-    UploadCandidateRequirementsController uploadCandidateRequirementsController = new UploadCandidateRequirementsController();
+    CandidateRepository candidateRepository= PersistenceContext.repositories().candidates();
+    UploadCandidateRequirementsController uploadCandidateRequirementsController = new UploadCandidateRequirementsController(candidateRepository);
 
     protected boolean doShow(AuthzUI authzUI){
         ConsoleUtils.buildUiHeader("Upload Candidate Requirements File");

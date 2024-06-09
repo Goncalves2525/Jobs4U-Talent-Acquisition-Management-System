@@ -1,87 +1,91 @@
 package applicationManagement.application;
 
-import applicationManagement.domain.dto.CandidateDTO;
-import eapli.framework.domain.model.AggregateRoot;
 import jobOpeningManagement.application.UploadCandidateRequirementsController;
 import applicationManagement.domain.Candidate;
 import applicationManagement.repositories.CandidateRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class UploadCandidateRequirementsControllerTest {
 
+    @Mock
     private CandidateRepository candidateRepository;
-    private UploadCandidateRequirementsController controller = new UploadCandidateRequirementsController();
-
-    // Minimal implementation of CandidateRepository for testing
-    private static class TestCandidateRepository implements CandidateRepository {
-        private final Map<String, Candidate> store = new HashMap<>();
-
-        @Override
-        public Iterable<Candidate> findAll() {
-            return store.values();
-        }
-
-        @Override
-        public Optional<Candidate> ofIdentity(String email) {
-            return Optional.ofNullable(store.get(email));
-        }
-
-        @Override
-        public void delete(Candidate entity) {
-
-        }
-
-        @Override
-        public void deleteOfIdentity(String entityId) {
-
-        }
-
-        @Override
-        public long count() {
-            return 0;
-        }
-
-        @Override
-        public AggregateRoot save(Candidate candidate) {
-            store.put(candidate.email(), candidate);
-            return null;
-        }
-
-        @Override
-        public boolean createCandidate(CandidateDTO dto) {
-            return false;
-        }
-    }
+    private UploadCandidateRequirementsController controller;
 
     @BeforeEach
     void setUp() {
-        candidateRepository = new TestCandidateRepository();
+        MockitoAnnotations.openMocks(this);
+        controller = spy(new UploadCandidateRequirementsController(candidateRepository));
     }
 
     @Test
-    void testUploadValidCandidateRequirementsFile() {
-        Candidate candidate = new Candidate("test@example.com","123456789","Name");
-        candidateRepository.save(candidate);
+    void testUploadCandidateRequirementsFile_CandidateDoesNotExist() {
+        // Arrange
+        when(candidateRepository.ofIdentity("nonexistent@example.com")).thenReturn(Optional.empty());
 
+        // Act
+        boolean result = controller.uploadCandidateRequirementsFile("nonexistent@example.com", "path/to/file.txt");
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void testUploadCandidateRequirementsFile_InvalidFile() {
+        // Arrange
+        Candidate candidate = new Candidate("test@example.com", "123456789", "Name");
+        when(candidateRepository.ofIdentity("test@example.com")).thenReturn(Optional.of(candidate));
+        doReturn(false).when(controller).isValidFile("path/to/invalid/file.txt");
+
+        // Act
+        boolean result = controller.uploadCandidateRequirementsFile("test@example.com", "path/to/invalid/file.txt");
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void testUploadCandidateRequirementsFile_SuccessfulUpload() {
+        // Arrange
+        Candidate candidate = new Candidate("test@example.com", "123456789", "Name");
+        when(candidateRepository.ofIdentity("test@example.com")).thenReturn(Optional.of(candidate));
+        doReturn(true).when(controller).isValidFile("path/to/valid/file.txt");
+
+        // Act
         boolean result = controller.uploadCandidateRequirementsFile("test@example.com", "path/to/valid/file.txt");
 
+        // Assert
         assertTrue(result);
-        Optional<Candidate> updatedCandidate = candidateRepository.ofIdentity("test@example.com");
-        assertTrue(updatedCandidate.isPresent());
-        assertEquals("path/to/valid/file.txt", updatedCandidate.get().requirementsFilePath());
+        assertEquals("path/to/valid/file.txt", candidate.requirementsFilePath());
+        verify(candidateRepository, times(1)).save(candidate);
+    }
+
+    @Test
+    void testUploadCandidateRequirementsFile_SaveException() {
+        // Arrange
+        Candidate candidate = new Candidate("test@example.com", "123456789", "Name");
+        when(candidateRepository.ofIdentity("test@example.com")).thenReturn(Optional.of(candidate));
+        doReturn(true).when(controller).isValidFile("path/to/valid/file.txt");
+        doThrow(new RuntimeException("Save error")).when(candidateRepository).save(candidate);
+
+        // Act
+        boolean result = controller.uploadCandidateRequirementsFile("test@example.com", "path/to/valid/file.txt");
+
+        // Assert
+        assertFalse(result);
     }
 
     @Test
     void testUploadCandidateRequirementsFileForNonExistentCandidate() {
+        when(candidateRepository.ofIdentity(eq("nonexistent@example.com"))).thenReturn(Optional.empty());
         boolean result = controller.uploadCandidateRequirementsFile("nonexistent@example.com", "path/to/file.txt");
-
         assertFalse(result);
     }
 }

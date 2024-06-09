@@ -15,9 +15,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+
 public class UploadCandidateRequirementsController {
 
-    private final CandidateRepository candidateRepository = PersistenceContext.repositories().candidates();
+    private final CandidateRepository candidateRepository;
+
+    public UploadCandidateRequirementsController(CandidateRepository candidateRepository){
+        this.candidateRepository=candidateRepository;
+    }
 
     public Iterable<Candidate> getAllCandidates() {
         return candidateRepository.findAll();
@@ -47,7 +52,7 @@ public class UploadCandidateRequirementsController {
         }
     }
 
-    private boolean isValidFile(String filePath) {
+    public boolean isValidFile(String filePath) {
         try {
             String content = new String(Files.readAllBytes(Paths.get(filePath)));
             gen.antlr.CandidateRequirementsGrammarValidationLexer lexer = new gen.antlr.CandidateRequirementsGrammarValidationLexer(CharStreams.fromString(content));
