@@ -5,6 +5,8 @@ import applicationManagement.application.ListCandidatesService;
 import applicationManagement.repositories.CandidateRepository;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
+import jakarta.persistence.Persistence;
 import jobOpeningManagement.application.GenerateCandidateFieldsFileController;
 import jobOpeningManagement.application.ListJobOpeningsController;
 import jobOpeningManagement.domain.JobOpening;
@@ -22,9 +24,10 @@ public class GenerateJobRequirementSpecificationQuestionsFileUI {
     static Role csutomerManagerRole;
     GenerateCandidateFieldsFileController generateCandidateFieldsFileController;
     ListJobOpeningsController listJobOpeningsController = new ListJobOpeningsController();
+    JobOpeningRepository repo = PersistenceContext.repositories().jobOpenings();
 
-    public GenerateJobRequirementSpecificationQuestionsFileUI(JobOpeningRepository jobOpeningRepository) {
-        this.generateCandidateFieldsFileController = new GenerateCandidateFieldsFileController(jobOpeningRepository);
+    public GenerateJobRequirementSpecificationQuestionsFileUI() {
+        this.generateCandidateFieldsFileController = new GenerateCandidateFieldsFileController(repo);
     }
 
     protected boolean doShow(AuthzUI authzUI){

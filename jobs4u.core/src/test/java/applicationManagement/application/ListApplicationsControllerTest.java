@@ -43,7 +43,7 @@ class ListApplicationsControllerTest {
         JobOpening jobOpening = new JobOpening("DevOps", ContractType.FULL_TIME, JobMode.HYBRID, companyAddress, company, 1, "teste", requirements);
         application = new Application("JobRef123", candidate
                 , jobOpening, ApplicationStatus.SUBMITTED,
-                new Date(), "", "", "", "", RequirementsResult.APPROVED);
+                new Date(), "", "", "", RequirementsResult.APPROVED);
     }
 
     @Test

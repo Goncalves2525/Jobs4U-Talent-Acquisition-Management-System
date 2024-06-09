@@ -10,6 +10,7 @@ import applicationManagement.domain.Application;
 import applicationManagement.repositories.ApplicationRepository;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
 import textformat.AnsiColor;
 
 import java.util.Date;
@@ -18,8 +19,9 @@ import java.util.Optional;
 public class RegisterInterviewDateUI {
     private RegisterInterviewDateController ctrl;
     static Role managerRole;
+    ApplicationRepository appRepo = PersistenceContext.repositories().applications();
 
-    public RegisterInterviewDateUI(ApplicationRepository appRepo) {
+    public RegisterInterviewDateUI() {
         this.ctrl = new RegisterInterviewDateController(appRepo);
     }
 

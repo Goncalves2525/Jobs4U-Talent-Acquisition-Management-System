@@ -2,8 +2,12 @@ package applicationManagement.application;
 
 import appUserManagement.domain.Email;
 import applicationManagement.domain.*;
+import applicationManagement.repositories.ApplicationRepository;
 import jobOpeningManagement.domain.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Date;
 
