@@ -35,6 +35,7 @@ public class CustomerManagerUI {
         options.add("Evaluate Interview Model");                        // 13
         options.add("Check Application Data");                          // 14
         options.add("Notification Menu");                               // 15
+        options.add("Define Recruitment Phase");                        // 16
 
         String message = "What do you want to do?";
         String exit = "Exit";

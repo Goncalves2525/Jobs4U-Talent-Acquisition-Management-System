@@ -33,6 +33,5 @@ public class DefineRecruitmentPhaseController {
 
     public void setJobOpeningRecruitmentState(JobOpening jobOpening, RecruitmentState state) {
         jobOpening.setState(state);
-        repo.save(jobOpening);  // Save the updated job opening to the repository
     }
 }
