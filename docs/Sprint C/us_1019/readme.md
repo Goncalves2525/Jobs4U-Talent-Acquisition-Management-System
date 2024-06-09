@@ -117,7 +117,8 @@ Functionality added to Backoffice App, Customer Manager UI.
 
 > Commit list (descending)
 >
-> ...
+> 67d492e <br>
+> 3e1f27e
 
 ## 6. Integration/Demonstration
 

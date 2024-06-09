@@ -37,6 +37,20 @@
             <scope>compile</scope>
         </dependency>
 
+            <!-- ANTLR runtime dependency -->
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-runtime</artifactId>
+                <version>4.13.0</version> <!-- Replace with the latest version -->
+            </dependency>
+            <!-- ANTLR tool dependency (only if you need it for generating code) -->
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4</artifactId>
+                <version>4.13.0</version> <!-- Replace with the latest version -->
+            </dependency>
+
+
     </dependencies>
     <build>
         <plugins>

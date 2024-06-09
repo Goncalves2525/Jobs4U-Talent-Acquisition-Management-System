@@ -24,6 +24,7 @@ public class OperatorUI {
             System.out.println("3. List Candidates");
             System.out.println("4. Manage Candidates");
             System.out.println("5. Generate Template To Collect Candidate Fields");
+            System.out.println("6. Upload Candidate Requirements File");
             System.out.println("0. Exit");
             option = ConsoleUtils.readIntegerFromConsole("Option: ");
             switch (option){
@@ -46,6 +47,10 @@ public class OperatorUI {
                 case 5:
                     GenerateCandidateFieldsFileUI generateCandidateFieldsFileUI = new GenerateCandidateFieldsFileUI(jobOpeningRepository);
                     generateCandidateFieldsFileUI.doShow(authzUI);
+                    break;
+                case 6:
+                    UploadCandidateRequirementsFileUI uploadCandidateRequirementsFileUI = new UploadCandidateRequirementsFileUI();
+                    uploadCandidateRequirementsFileUI.doShow(authzUI);
                     break;
                 case 0:
                     return false;

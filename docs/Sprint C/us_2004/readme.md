@@ -1,8 +1,8 @@
-# US 2004 - Upload a text file with the data fields, for its verification
+# US 2004 - As Operator, I want to upload a text file with the data fields (requirements ) of a candidate for its verification.
 
 ## 1. Context
 
-* Operators need to upload a text file with the data fields of a candidate for its verification.
+* The operator needs to upload a text file with the data fields of a candidate to be verified. 
 
 ## 2. Requirements
 
@@ -10,9 +10,8 @@
 
 **Acceptance Criteria:**
 
-- 2004.1. 
-
-
+- 2004.1. The system shall validate the file uploaded by the operator, verifying it's a valid file.
+- 2004.2. The system shall allow the operator to upload a text file with the data fields of a candidate for its verification.
 
 **Dependencies/References:**
 
@@ -24,41 +23,39 @@
 ![Domain Model](domain_model.png)
 
 ### 3.2. Questions and Answers
-> **Question:** 
+> **Question: US2004 - Requirements Answers - I'm having trouble understading where are the requirements answer obtained from the candidates, so that the operator can then register their answers in the template previously generated and submit them to the system. Are these answers already within the files processed by tge application fie bot?** 
 > 
-> **Answer:** 
+> **Answer: Please see Q15, Q102, Q119 and Q123. We can assume that the operator has access to all the files submitted by the candidates (since he/she is the one that imports the files into the system – US2002). He/she can than consult these files in order to answer the questions in the requirements template file. She/he then submits the file with the answers (US2004).** 
+
+> **Question: US2004 - Candidate Answers - Does US2004 only deals with the upload of the file to the system or also the registration of the candidate's answer by the Operator? I've seen many mentions about the file's answers but I want to understand if that aspect is also part of US2004.**
+> 
+> **Answer: In US2003 the Operator downloads a template file that he/she uses to register the candidate requirements. In US 2004, the Operator uploads a file with the requirements and the system should validate the file (verify of the syntax is correct). US 1015 is the one that executes the verification of requirements for the candidates (based on the previously uploaded files).**
 
 
-### 3.3. Other Remarks
-
-n/a TODO
 
 ## 4. Design
 
 ### 4.1. Realization
 
-| Interaction ID                                                                            | Question: Which class is responsible for...                                         | Answer                     | Justification (with patterns) |
-|:------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------|:---------------------------|:------------------------------|
-| Step 1 : Customer Manager requests to register a Customer                                 | 	... requesting Customer Info?                                                      | RegisterCustomerUI         | Pure Fabrication              |
-| 		                                                                                        | 	... validating Customer Managers inputs?                                           | Customer                   | Information Expert            |
-| Step 2 : System registers Customer                                                        | 	... coordination between users request and saving the Job Opening in the Database? | RegisterCustomerController | Controller                    |
-|                                                                                           | 	... creating the Customer?                                                         | Customer                   | Creater                       |
-|                                                                                           | 	... persisting the Job Opening?                                                    | CustomerRepository         | Information Expert            |
-| Step 3 : System automatically creates a user                                              | 	... creating a user?                                                               | SignUpController           | Controller                    |
-|                                                                                           | 	... persisting ther user?                                                          | UserRepository             | Information Expert            |
-| Step 4 : System informs the Customer Manager of Success/insuccess of the operation			  		 | 	... Showing result?                                                                | RegisterCustomerUI         | Pure Fabrication              |
+### 4.1. Realization
+
+| Interaction ID | Question: Which class is responsible for...                 | Answer                                | Pattern            |
+|:---------------|:------------------------------------------------------------|:--------------------------------------|:-------------------|
+| Step 1         | Initiating the file upload process                          | UploadCandidateRequirementsFileUI     | Pure Fabrication   |
+| Step 2         | Handling the file input and forwarding it to the controller | UploadCandidateRequirementsFileController | Controller      |
+| Step 3         | Validating the file syntax using ANTLR                      | ANTLR Grammar Validator               | Service            |
+| Step 4         | Updating the Candidate entity with the file data            | Candidate                             | Information Expert |
+| Step 5         | Saving the candidate data                                   | JpaCandidateRepository                | Information Expert |
+| Step 6         | Informing the Operator of the upload result                 | UploadCandidateRequirementsFileUI     | Pure Fabrication   |
+
 
 According to the taken rationale, the conceptual classes promoted to software classes are:
 
-* Customer
+* 
 
 Other software classes (i.e. Pure Fabrication) identified:
 
-* RegisterCustomerUI
-* RegisterCustomerController
-* CustomerRepository
-* SignUpController
-* UserRepository
+* 
 
 
 ### 4.2. Class Diagram
@@ -71,304 +68,222 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 ### 4.4. Tests
 
-**Test 1:** *Verifies that the Customer has the folling information: Company Code, Company Name, Company Email, Company Address.*
+**Test 1:** *  *
 
-**Refers to Acceptance Criteria:** G001.1
+**Refers to Acceptance Criteria:** 2004.1
 
 
 ```java
-@Test
-void ensureCustomerHasFullInformation() {
-    //Success
-    assert (customer.getCode() != null);
-    assert (customer.getName() != null);
-    assert (customer.getEmail() != null);
-    assert (customer.getAddress() != null);
 
-    //Failure
-    Assertions.assertThrows(IllegalArgumentException.class, () -> new Customer(null, null, null, null));
-}
+@Test
+    void testUploadValidCandidateRequirementsFile() {
+        Candidate candidate = new Candidate("test@example.com","123456789","Name");
+        candidateRepository.save(candidate);
+
+        boolean result = controller.uploadCandidateRequirementsFile("test@example.com", "path/to/valid/file.txt");
+
+        assertTrue(result);
+        Optional<Candidate> updatedCandidate = candidateRepository.ofIdentity("test@example.com");
+        assertTrue(updatedCandidate.isPresent());
+        assertEquals("path/to/valid/file.txt", updatedCandidate.get().requirementsFilePath());
+    }
 
 ````
 
-**Test 2:** *Verifies that the Company Code has a maximum of 10 caracteres*
-
-**Refers to Acceptance Criteria:** G001.2
-
-```java
-@Test
-void ensureCompanyCodeHasMaxLength() {
-    //Success
-    CompanyCode companyCode = customer.getCode();
-    assert (companyCode.getCode().length() <= 10);
-
-    //Failure
-    Assertions.assertThrows(IllegalArgumentException.class, () -> new CompanyCode("12345678901"));
-}
-
-````
 
 
 ## 5. Implementation
-**Customer**
-    
+**Candidate**
+
 ```java
-package jobOpeningManagement.domain;
+package applicationManagement.domain;
 
+import appUserManagement.domain.Ability;
 import eapli.framework.domain.model.AggregateRoot;
-import eapli.framework.general.domain.model.EmailAddress;
 import jakarta.persistence.*;
-import lombok.Getter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-public class Customer implements AggregateRoot<CompanyCode> {
+public class Candidate implements AggregateRoot<String> {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Getter
-    @Embedded
+    private String email;
+
     @Column(unique = true)
-    private CompanyCode code;
-    @Getter
+    private String phoneNumber;
+
     @Column
     private String name;
-    @Getter
-    @Column
-    private EmailAddress email;
-    @Getter
-    @Embedded
-    private Address address;
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    private List<JobOpening> jobOpenings = new ArrayList<JobOpening>();
 
-    protected Customer() {
+    @Column
+    private String requirementsFilePath;
+
+    protected Candidate() {
         // for ORM
     }
 
-    public Customer(CompanyCode code, String name, EmailAddress email, Address address) {
-        if (code == null || name == null || email == null || address == null) {
-            throw new IllegalArgumentException();
-        }
-        this.code = code;
-        this.name = name;
+    public Candidate(String email, String phoneNumber, String name) {
         this.email = email;
-        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.name = name;
+    }
+
+    public String email() {
+        return email;
+    }
+
+    public String phoneNumber() {
+        return phoneNumber;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    public String requirementsFilePath() {
+        return requirementsFilePath;
+    }
+
+    public void setRequirementsFilePath(String requirementsFilePath) {
+        this.requirementsFilePath = requirementsFilePath;
     }
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "getCode=" + code +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", address=" + address +
-                '}';
+        return "Name: " + name +
+                "\nEmail: " + email +
+                "\nPhoneNumber: " + phoneNumber;
     }
 
     @Override
     public boolean sameAs(Object other) {
-        Customer customer = (Customer) other;
-        return this.code.equals(customer.code);
+        Candidate candidate = (Candidate) other;
+        return candidate.equals(candidate.email);
     }
 
     @Override
-    public CompanyCode identity() {
-        return code;
+    public String identity() {
+        return email;
     }
 }
 
 
-```
+````
 
-**RegisterCustomerUI**
-
-```java
-package presentation.CustomerManager;
-
-import appUserManagement.domain.User;
-import appUserManagement.repositories.UserRepository;
-import eapli.framework.presentation.console.AbstractUI;
-import infrastructure.persistance.PersistenceContext;
-import jobOpeningManagement.application.RegisterCustomerController;
-import jobOpeningManagement.domain.Address;
-import jobOpeningManagement.domain.CompanyCode;
-import appUserManagement.application.SignUpController;
-import appUserManagement.domain.Email;
-import utils.Utils;
-
-public class RegisterCustomerUI extends AbstractUI {
-    private RegisterCustomerController ctrl = new RegisterCustomerController();
-    private SignUpController signUpController = new SignUpController();
-
-    @Override
-    protected boolean doShow() {
-        UserRepository repo = PersistenceContext.repositories().users();
-        User user = new User(new Email("user@isep.ipp.pt"), "password");
-        repo.save(user);
-
-        CompanyCode code = null;
-        String name = "";
-        Email email = null;
-        Address address = null;
-
-        do {
-            code = new CompanyCode(Utils.readLineFromConsole("Company Code (10 caracteres max): "));
-        } while (code == null);
-
-        name = Utils.readLineFromConsole("Name: ");
-        do {
-            String emailString = Utils.readLineFromConsole("Email: ");
-            email = new Email(emailString);
-        } while (email == null);
-
-        System.out.println("-ADDRESS-");
-        String street, city, postalCode;
-        street = Utils.readLineFromConsole(" Street: ");
-        city = Utils.readLineFromConsole(" City: ");
-        postalCode = Utils.readLineFromConsole(" Postal Code: ");
-        address = new Address(street, city, postalCode);
-
-        boolean success = ctrl.registerCustomer(code, name, email, address);
-        if (success) {
-            System.out.println("Customer registered successfully!");
-            success = signUpController.signUp(email);
-            if (success) {
-                System.out.println("User registered successfully!");
-                return true;
-            } else {
-                System.out.println("User registration failed!");
-                ctrl.deleteCustomer(code);
-                System.out.println("Customer deleted!");
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public String headline() {
-        return "CUSTOMER REGISTRATION";
-    }
-}
-
-
-```
-**RegisterCustomerController**
+**CandidateRepository**
 
 ```java
-package jobOpeningManagement.application;
 
-import infrastructure.persistance.PersistenceContext;
-import jobOpeningManagement.domain.Address;
-import jobOpeningManagement.domain.CompanyCode;
-import jobOpeningManagement.domain.Customer;
-import jobOpeningManagement.repositories.CustomerRepository;
-import appUserManagement.domain.Email;
+package applicationManagement.repositories;
 
-public class RegisterCustomerController {
-    private CustomerRepository repo = PersistenceContext.repositories().customers();
-
-    public boolean registerCustomer(CompanyCode code, String name, Email email, Address address) {
-        Customer customer = new Customer(code, name, email, address);
-        customer = repo.save(customer);
-        return customer != null;
-    }
-
-    public boolean deleteCustomer(CompanyCode code) {
-        Customer customer = repo.ofIdentity(code).get();
-        repo.delete(customer);
-        return true;
-    }
-}
-
-
-```
-
-**JpaCustomerRepository**
-
-```java
-package jpa;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.Query;
-import jobOpeningManagement.domain.CompanyCode;
-import jobOpeningManagement.domain.Customer;
-import jobOpeningManagement.repositories.CustomerRepository;
+import appUserManagement.domain.Role;
+import appUserManagement.domain.dto.AppUserDTO;
+import applicationManagement.domain.dto.CandidateDTO;
+import eapli.framework.domain.repositories.DomainRepository;
+import applicationManagement.domain.Candidate;
 
 import java.util.List;
 import java.util.Optional;
 
-public class JpaCustomerRepository implements CustomerRepository {
+public interface CandidateRepository extends DomainRepository<String, Candidate>{
 
-    private EntityManager getEntityManager() {
-        EntityManagerFactory factory = Persistence.
-                createEntityManagerFactory("default");
-        EntityManager manager = factory.createEntityManager();
-        return manager;
-    }
-
-    @Override
-    public <S extends Customer> S save(S entity) {
-        EntityManager em = getEntityManager();
-        em.getTransaction().begin();
-        em.persist(entity);
-        em.getTransaction().commit();
-        em.close();
-        return entity;
-    }
-
-    @Override
-    public List<Customer> findAll() {
-        Query query = getEntityManager().createQuery(
-                "SELECT e FROM Customer e");
-        List<Customer> list = query.getResultList();
-        return list;
-    }
-
-    @Override
-    public Optional<Customer> ofIdentity(CompanyCode id) {
-        Query query = getEntityManager().createQuery(
-                "SELECT e FROM Customer e WHERE e.code = :id");
-        query.setParameter("id", id);
-        Customer customer = (Customer) query.getSingleResult();
-        return Optional.of(customer);
-    }
-
-    @Override
-    public void delete(Customer entity) {
-        EntityManager em = getEntityManager();
-        em.getTransaction().begin();
-        em.remove(entity);
-        em.getTransaction().commit();
-        em.close();
-    }
-
-    @Override
-    public void deleteOfIdentity(CompanyCode entityId) {
-        EntityManager em = getEntityManager();
-        em.getTransaction().begin();
-        Query query = em.createQuery(
-                "DELETE FROM Customer e WHERE e.code = :id");
-        query.setParameter("id", entityId);
-        query.executeUpdate();
-        em.getTransaction().commit();
-        em.close();
-    }
-
-    @Override
-    public long count() {
-        Query query = getEntityManager().createQuery(
-                "SELECT COUNT(e) FROM Customer e");
-        return (long) query.getSingleResult();
-    }
+    boolean createCandidate(CandidateDTO dto);
 }
 
 
-```
+````
+UploadCandidateRequirementsFileController
+
+```java
+package jobOpeningManagement.application;
+
+import applicationManagement.domain.Candidate;
+import applicationManagement.repositories.CandidateRepository;
+import infrastructure.persistance.PersistenceContext;
+
+import java.util.Optional;
+
+public class UploadCandidateRequirementsController {
+
+    private final CandidateRepository candidateRepository = PersistenceContext.repositories().candidates();
+
+    public Iterable<Candidate> getAllCandidates() {
+        return candidateRepository.findAll();
+    }
+
+    public Optional<Candidate> getCandidateByEmail(String email) {
+        return candidateRepository.ofIdentity(email);
+    }
+
+    public boolean uploadCandidateRequirementsFile(String email, String filePath) {
+        Optional<Candidate> candidate = getCandidateByEmail(email);
+        if(candidate.isEmpty()){
+            return false;
+        }
+        candidate.get().setRequirementsFilePath(filePath);
+        return true;
+    }
+
+}
+
+
+````
+
+UploadCandidateRequirementsFileUI
+
+```java
+package presentation.Operator;
+
+import appUserManagement.domain.Role;
+import applicationManagement.domain.Candidate;
+import console.ConsoleUtils;
+import infrastructure.authz.AuthzUI;
+import jobOpeningManagement.application.GenerateCandidateFieldsFileController;
+import jobOpeningManagement.application.UploadCandidateRequirementsController;
+import plugins.Plugin;
+import plugins.PluginLoader;
+import textformat.AnsiColor;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
+
+public class UploadCandidateRequirementsFileUI {
+
+    static Role operatorRole;
+    UploadCandidateRequirementsController uploadCandidateRequirementsController = new UploadCandidateRequirementsController();
+
+    protected boolean doShow(AuthzUI authzUI){
+        ConsoleUtils.buildUiHeader("Upload Candidate Requirements File");
+
+        operatorRole = authzUI.getValidBackofficeRole();
+        if (!operatorRole.showBackofficeAppAccess()) {
+            ConsoleUtils.showMessageColor("You don't have permissions for this action.", AnsiColor.RED);
+        }
+
+        Iterable<Candidate> candidates = uploadCandidateRequirementsController.getAllCandidates();
+        System.out.println("Candidates:");
+        for(Candidate candidate : candidates){
+            System.out.println(candidate.name() + "- " + candidate.email());
+        }
+        String choice = ConsoleUtils.readLineFromConsole("Choose a Candidate by its email: ");
+        Optional<Candidate> candidate = uploadCandidateRequirementsController.getCandidateByEmail(choice);
+        if(candidate.isEmpty()){
+            ConsoleUtils.showMessageColor("Candidate not found", AnsiColor.RED);
+            return false;
+        }
+
+        ConsoleUtils.readLineFromConsole("Path to the file: ");
+        if(uploadCandidateRequirementsController.uploadCandidateRequirementsFile(candidate.get().email(), choice))
+            ConsoleUtils.showMessageColor("File uploaded successfully", AnsiColor.GREEN);
+
+
+        return true;
+    }
+
+}
+
+````
 
 ## 6. Integration/Demonstration
 

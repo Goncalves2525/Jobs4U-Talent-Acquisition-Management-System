@@ -149,7 +149,18 @@ Functionality added to Follow-Up Server App, Client thread.
 
 > Commit list (descending)
 >
-> ...
+> 3487891 <br>
+> 5ba8373 <br>
+> ba80199 <br>
+> 5d93dd0 <br>
+> 4fa945b <br>
+> aae500a <br>
+> ee6f4f9 <br>
+> 00c4816 <br>
+> f478f7c <br>
+> 18d3999 <br>
+> c65c6ab <br>
+> 404ae6c
 
 ## 6. Integration/Demonstration
 

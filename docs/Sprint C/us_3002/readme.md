@@ -125,7 +125,10 @@ New methods were added to JobOpening Repositories, in order to accommodate the p
 
 > Commit list (descending)
 >
-> ...
+> 819bce8 <br>
+> 4c8e544 <br>
+> c65c6ab <br>
+> 404ae6c
 
 ## 6. Integration/Demonstration
 
