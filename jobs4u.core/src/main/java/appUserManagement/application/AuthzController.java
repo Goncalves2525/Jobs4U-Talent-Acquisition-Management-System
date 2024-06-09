@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public class AuthzController {
 
-    private final UserRepository repo = PersistenceContext.repositories().users();
+    private final UserRepository repo;
 
-    public AuthzController() {}
+    public AuthzController(UserRepository userRepository) {this.repo=userRepository;}
 
     public Optional<String> doLogin(String user, String pwd){ return repo.authenticate(user, pwd); };
 
@@ -19,4 +19,6 @@ public class AuthzController {
     public Role getValidBackofficeRole(String sessionToken){ return repo.getValidBackofficeRole(sessionToken); }
 
     public boolean doLogout(String sessionToken) { return repo.endSession(sessionToken); }
+
+    public String findCurrentUserEmail(String sessionToken) { return repo.findCurrentUserEmail(sessionToken); }
 }

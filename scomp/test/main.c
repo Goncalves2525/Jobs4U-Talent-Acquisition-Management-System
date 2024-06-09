@@ -6,11 +6,16 @@
 #include <signal.h>
 
 #include "unity.h"
+#include <fcntl.h>           
+#include <sys/stat.h>        
+#include <semaphore.h>
 #include "../functions.h"
+
 
 #define MAX_FILES 100 // Número máximo de ficheiros para o teste
 
-
+sem_t *monitor_write_mutex;
+sem_t *monitor_read_mutex;
 
 
 
@@ -131,6 +136,10 @@ void test_getDirFileNames() {
 void test_extractArguments() {
     // Cria  ficheiro de configuração de teste
     FILE *file = fopen("test_config.txt", "w");
+    if(file == NULL){
+        perror("File creation error");
+        _exit(1);
+    }
     fprintf(file, "#input-directory: input\r\n");
     fprintf(file, "#output-directory: output\r\n");
     fprintf(file, "#report-directory: report\r\n");
@@ -192,6 +201,10 @@ void test_getApplicationDetails() {
     system("mkdir input");
     //Cria o ficheiro candidate-data
     FILE *file = fopen("./input/99-candidate-data.txt", "w");
+    if(file == NULL){
+        perror("File creation error");
+        _exit(1);
+    }
     fprintf(file, "Isep2024\n");
     fprintf(file, "aluno.scomp@isep.ipp.pt\n");
     fprintf(file, "aluno doe\n");
@@ -361,31 +374,113 @@ void test_getFilesOnDirectory() {
     system("rm -rf input");
 }
 
+
+
+//+-+-+-+-+-+-+-+-+-+-+-US2001B-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+/**
+ * Teste de abertura de diretório inválido
+ * 
+ */
+void test_monitor_files_invalid_directory(void) {
+    char* invalidPath = "invalid_directory";
+    pid_t pid = fork();
+    if (pid == 0) {
+        monitor_files(invalidPath, 1);
+        _exit(0);
+    } else {
+        wait(NULL);
+    }
+}
+
+/**
+ *  Teste de novos ficheiros
+ * 
+ */
+
+void test_monitor_files_new_files(void) {
+    // Criar um diretório temporário para teste
+    const char* testDir = "./test_dir";
+    mkdir(testDir, 0700);
+    // Criar ficheiros temprarios
+    FILE* file1 = fopen("./test_dir/file1.txt", "w");
+    FILE* file2 = fopen("./test_dir/file2.txt", "w");
+    fclose(file1);
+    fclose(file2);
+
+    // Executar a monotorização num processo filho 
+    pid_t pid = fork();
+    if (pid == 0) {
+        printf("Teste: Criar filho\n");
+        monitor_files((char*)testDir, 1);
+        _exit(0);
+    } else {
+        // Esperar um curto período de tempo para permitir que a função monotorize o diretório
+        sleep(2);
+
+        // Verificar o número de ficheiros contados
+        //sem_wait(monitor_read_mutex);
+        //sem_wait(&monitor_write_mutex);
+        printf("Teste: Ficheiros novos! Fiz POST\n");
+        //sem_post(&monitor_read_mutex);
+
+        // Remover ficheiros e diretório criado no teste
+        remove("./test_dir/file1.txt");
+        remove("./test_dir/file2.txt");
+        rmdir(testDir);
+
+        // Matar o processo filho
+        kill(pid, SIGTERM);
+        wait(NULL);
+    }
+}
+
+
+//+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 void setUp(void) {
     // set stuff up here
+    //iniciar semaforos
+    //sem_init(&monitor_write_mutex, 0, 1);
+    sem_init(&monitor_read_mutex, 0, 0);
+    //monitor_read_mutex = sem_open(MONITOR_READ_MUTEX, O_CREAT, 0644,0 );
+	//monitor_write_mutex = sem_open(MONITOR_WRITE_MUTEX, O_CREAT, 0644, 0);
+    
 }
 
 void tearDown(void) {
     // clean stuff up here
+
+    //Descontinuar 
+    //sem_destroy(&monitor_write_mutex);
+    sem_destroy(&monitor_read_mutex);
+    // sem_close(monitor_read_mutex);
+	// shm_unlink(MONITOR_READ_MUTEX);
 }
 
 int main() {
     UNITY_BEGIN();
-    RUN_TEST(test_countChars);
-    //RUN_TEST(test_findNewPrefix);
-    RUN_TEST(test_compareFileNames);
-    RUN_TEST(test_getDirFileNames);
-    RUN_TEST(test_extractArguments);
-    RUN_TEST(test_validateAllArgumentsAvailable);
-    RUN_TEST(test_getApplicationDetails);
-    RUN_TEST(test_createDirectory);
-    RUN_TEST(test_countFilesOnDirectory);
-    RUN_TEST(test_moveFilesToDirectory);
-    RUN_TEST(test_createSessionFile);
-    RUN_TEST(test_updateSessionFile);
-    RUN_TEST(test_getFilesOnDirectory);
-	RUN_TEST(test_cria_filhos);
-	//RUN_TEST(test_monitor_files);
-   
+
+    //US2001
+    // RUN_TEST(test_countChars);
+    // //RUN_TEST(test_findNewPrefix);
+    // RUN_TEST(test_compareFileNames);
+    // RUN_TEST(test_getDirFileNames);
+    // RUN_TEST(test_extractArguments);
+    // RUN_TEST(test_validateAllArgumentsAvailable);
+    // RUN_TEST(test_getApplicationDetails);
+    // RUN_TEST(test_createDirectory);
+    // RUN_TEST(test_countFilesOnDirectory);
+    // RUN_TEST(test_moveFilesToDirectory);
+    // RUN_TEST(test_createSessionFile);
+    // RUN_TEST(test_updateSessionFile);
+    // RUN_TEST(test_getFilesOnDirectory);
+	// RUN_TEST(test_cria_filhos);
+
+	// //RUN_TEST(test_monitor_files);
+
+    //US2001b
+
+    RUN_TEST(test_monitor_files_invalid_directory);
+    //RUN_TEST(test_monitor_files_new_files);
+
     return UNITY_END();
 }

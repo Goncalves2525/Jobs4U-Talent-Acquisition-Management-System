@@ -3,15 +3,18 @@ package presentation.CustomerManager;
 import appUserManagement.domain.Role;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
 import jobOpeningManagement.application.SelectJobRequirementSpecificationController;
 import jobOpeningManagement.domain.JobOpening;
+import jobOpeningManagement.repositories.JobOpeningRepository;
 import plugins.Plugin;
 import textformat.AnsiColor;
 
 import java.util.List;
 
 public class SelectJobRequirementSpecificationUI {
-    private SelectJobRequirementSpecificationController ctrl = new SelectJobRequirementSpecificationController();
+    private JobOpeningRepository jobOpeningRepository= PersistenceContext.repositories().jobOpenings();
+    private SelectJobRequirementSpecificationController ctrl = new SelectJobRequirementSpecificationController(jobOpeningRepository);
     static Role managerRole;
 
     public void doShow(AuthzUI authzUI) {

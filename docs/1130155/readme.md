@@ -2,9 +2,9 @@
 
 ## Developed Tasks
 
-| Sprint | Task                                        |
-|--------|---------------------------------------------|
-| **A**  |                                             |
-| **B**  | [Documentation](/readme.md)                 |
-|        | [Testing](../../.github/workflows/cron.yml) | 
-| **C**  | (...)                                       |
+| Sprint | Task                                            |
+|--------|-------------------------------------------------|
+| **B**  | [Documentation](/readme.md)                     |
+|        | [Testing](../../.github/workflows/cron.yml)     | 
+| **C**  | [US 2000(b)](../Sprint%20C/us_2000b/readme.md)  |
+|        | [Integration_Tests](../../jobs4u.core/src/test) |

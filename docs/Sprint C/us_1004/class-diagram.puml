@@ -1,0 +1,27 @@
+@startuml
+
+package Presentation {
+    class EditJobOpeningUI
+}
+
+package Domain {
+    class JobOpening
+}
+
+package Persistence {
+    class JpaJobOpeningRepository
+    interface JobOpeningRepository
+}
+
+package Application {
+    class EditJobOpeningController
+}
+
+
+
+Presentation.EditJobOpeningUI --> Application.EditJobOpeningController
+Application.EditJobOpeningController --> Persistence.JobOpeningRepository
+Persistence.JobOpeningRepository <|-- Persistence.JpaJobOpeningRepository
+Application.EditJobOpeningController ---> Domain.JobOpening
+
+@enduml

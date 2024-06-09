@@ -1,13 +1,9 @@
 package jpa;
 
-import appUserManagement.domain.Ability;
-import applicationManagement.domain.dto.CandidateDTO;
-import console.ConsoleUtils;
-import jakarta.persistence.*;
 import applicationManagement.domain.Candidate;
+import applicationManagement.domain.dto.CandidateDTO;
 import applicationManagement.repositories.CandidateRepository;
-import org.hibernate.query.NativeQuery;
-import textformat.AnsiColor;
+import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,17 +25,59 @@ public class JpaCandidateRepository implements CandidateRepository {
 
     @Override
     public <S extends Candidate> S save(S entity) {
-        if (correctCandidate(entity)) {
-            EntityManager em = getEntityManager();
-            EntityTransaction tx = em.getTransaction();
+        EntityManager em = getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
             tx.begin();
-            em.persist(entity);
-            tx.commit();
-            em.close();
 
+            // Check if there's an existing record with the same phone number
+            Candidate existingCandidate = findByPhoneNumber(entity.phoneNumber());
+            if (existingCandidate != null && !existingCandidate.email().equals(entity.email())) {
+                throw new IllegalStateException("Phone number already exists in the database.");
+            }
+
+            // Merge the entity to update it in the database
+            entity = em.merge(entity);
+            tx.commit();
             return entity;
+        } catch (Exception e) {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            throw e; // Re-throw the exception to handle it in the service layer
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
-        return null;
+    }
+
+    // Helper method to find a candidate by phone number
+    private Candidate findByPhoneNumber(String phoneNumber) {
+        EntityManager em = getEntityManager();
+        try {
+            String jpql = "SELECT c FROM Candidate c WHERE c.phoneNumber = :phoneNumber";
+            Query query = em.createQuery(jpql, Candidate.class)
+                    .setParameter("phoneNumber", phoneNumber);
+            return (Candidate) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
+    }
+
+
+
+    public <S extends Candidate> S update(S entity) {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        entity = em.merge(entity);
+        em.getTransaction().commit();
+        em.close();
+        return entity;
     }
 
     private boolean correctCandidate(Candidate candidate) {

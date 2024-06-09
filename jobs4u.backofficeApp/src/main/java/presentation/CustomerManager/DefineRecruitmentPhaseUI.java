@@ -3,16 +3,19 @@ package presentation.CustomerManager;
 import appUserManagement.domain.Role;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
 import jobOpeningManagement.application.DefineRecruitmentPhaseController;
 import jobOpeningManagement.domain.JobOpening;
 import jobOpeningManagement.domain.RecruitmentState;
+import jobOpeningManagement.repositories.JobOpeningRepository;
 import textformat.AnsiColor;
 
 import java.util.List;
 
 public class DefineRecruitmentPhaseUI {
 
-    private DefineRecruitmentPhaseController ctrl = new DefineRecruitmentPhaseController();
+    JobOpeningRepository jobOpeningRepository= PersistenceContext.repositories().jobOpenings();
+    private DefineRecruitmentPhaseController ctrl = new DefineRecruitmentPhaseController(jobOpeningRepository);
     static Role managerRole;
 
     protected void doShow(AuthzUI authzUI) {
@@ -28,7 +31,8 @@ public class DefineRecruitmentPhaseUI {
         System.out.println("Job Openings:");
         Iterable<JobOpening> jobOpenings = ctrl.listJobOpenings();
         for (JobOpening jobOpening : jobOpenings) {
-            System.out.println(jobOpening.toString());
+            System.out.print(jobOpening.toString());
+            System.out.println(" ID:"+jobOpening.getId());
         }
 
         String jobID = "";
@@ -47,10 +51,10 @@ public class DefineRecruitmentPhaseUI {
     public void changeJobOpeningState(JobOpening jobOpening) {
 
         List<String> states = ctrl.getAllRecruitmentStates();
-        int choice = ConsoleUtils.readIntegerFromConsole("Select the new recruitment state:");
         for (int i = 0; i < states.size(); i++) {
             System.out.println((i + 1) + ". " + states.get(i));
         }
+        int choice = ConsoleUtils.readIntegerFromConsole("Select the new recruitment state:");
         if (choice < 1 || choice > states.size()) {
             System.out.println("Invalid choice.");
             return;

@@ -2,11 +2,14 @@ package bootstrap;
 
 import appUserManagement.application.SignUpController;
 import applicationManagement.application.CandidateController;
+import applicationManagement.application.RankingController;
 import applicationManagement.application.RegisterApplicationController;
 import applicationManagement.domain.ApplicationStatus;
 import applicationManagement.domain.dto.ApplicationDTO;
 import applicationManagement.domain.dto.CandidateDTO;
+import applicationManagement.repositories.ApplicationRepository;
 import console.ConsoleUtils;
+import infrastructure.persistance.PersistenceContext;
 import jobOpeningManagement.application.ListJobOpeningsController;
 import jobOpeningManagement.domain.JobOpening;
 import textformat.AnsiColor;
@@ -21,6 +24,8 @@ public class ApplicationsBootstrapper {
     SignUpController signUpController = new SignUpController();
     ListJobOpeningsController listJobOpeningsController = new ListJobOpeningsController();
     CandidateController candidateController = new CandidateController();
+    RankingController rankingController = new RankingController();
+    ApplicationRepository repo = PersistenceContext.repositories().applications();
 
     public ApplicationsBootstrapper() {
     }
@@ -34,6 +39,8 @@ public class ApplicationsBootstrapper {
         if(joIterator.hasNext()) { jo1 = joIterator.next(); }
         JobOpening jo2 = null;
         if(joIterator.hasNext()) { jo2 = joIterator.next(); }
+        JobOpening jo3 = null;
+        if(joIterator.hasNext()) { jo3 = joIterator.next(); }
 
         // create candidates
         String cand1email = "duarte@mail.pt";
@@ -66,14 +73,34 @@ public class ApplicationsBootstrapper {
         Optional<String> cand6pwd = candidateController.registerCandidate(cand6);
         System.out.println("Candidate : " + cand6.getEmail() + " | Password: " + cand6pwd.get());
 
+        String cand7email = "janedoe@email.com";
+        CandidateDTO cand7 = new CandidateDTO("Jane Doe", cand7email, "967654321");
+        Optional<String> cand7pwd = candidateController.registerCandidate(cand7);
+        System.out.println("Candidate : " + cand7.getEmail() + " | Password: " + cand7pwd.get());
+
+        String cand8email = "johndoe@email.com";
+        CandidateDTO cand8 = new CandidateDTO("John Doe", cand8email, "961234567");
+        Optional<String> cand8pwd = candidateController.registerCandidate(cand8);
+        System.out.println("Candidate : " + cand8.getEmail() + " | Password: " + cand8pwd.get());
+
         // create application
-        ApplicationDTO dto1 = new ApplicationDTO(jo1.jobReference(), candidateController.findCandidateByEmail(cand1email).get(), jo1, "comment", new Date(), null,null, ApplicationStatus.SUBMITTED, "", "");
+        ApplicationDTO dto1 = new ApplicationDTO(jo1.jobReference(), candidateController.findCandidateByEmail(cand1email).get(), jo1, "comment", new Date(), null,null, ApplicationStatus.SUBMITTED, "", "", null);
         ctrl.registerApplication(dto1);
 
-        ApplicationDTO dto2 = new ApplicationDTO(jo2.jobReference(), candidateController.findCandidateByEmail(cand3email).get(), jo2, "comment", new Date(), null, null, ApplicationStatus.SUBMITTED, "", "");
+        ApplicationDTO dto2 = new ApplicationDTO(jo2.jobReference(), candidateController.findCandidateByEmail(cand3email).get(), jo2, "comment", new Date(), null, null, ApplicationStatus.SUBMITTED, "", "", null);
         ctrl.registerApplication(dto2);
 
-        ApplicationDTO dto3 = new ApplicationDTO(jo2.jobReference(), candidateController.findCandidateByEmail(cand1email).get(), jo2, "comment", new Date(), null,null, ApplicationStatus.SUBMITTED, "", "");
+        ApplicationDTO dto3 = new ApplicationDTO(jo2.jobReference(), candidateController.findCandidateByEmail(cand1email).get(), jo2, "comment", new Date(), null,null, ApplicationStatus.SUBMITTED, "", "", null);
         ctrl.registerApplication(dto3);
+
+        ApplicationDTO dto4 = new ApplicationDTO(jo3.jobReference(), candidateController.findCandidateByEmail(cand7email).get(), jo3, "comment", new Date(), null,null, ApplicationStatus.REJECTED, "", "scomp/output/IBM-000123/janedoe@email.com", null);
+        ctrl.registerApplication(dto4);
+        rankingController.defineRanking(candidateController.findCandidateByEmail(cand7email).get(), jo3.jobReference(), "2");
+        repo.addInterviewReplyPath(candidateController.findCandidateByEmail(cand7email).get(), jo3.jobReference(), "plugins/interviews/txt/job7interview_candidate1_reply.txt");
+
+        ApplicationDTO dto5 = new ApplicationDTO(jo3.jobReference(), candidateController.findCandidateByEmail(cand8email).get(), jo3, "comment", new Date(), null,null, ApplicationStatus.HIRED, "", "scomp/output/IBM-000123/johndoe@email.com", null);
+        ctrl.registerApplication(dto5);
+        rankingController.defineRanking(candidateController.findCandidateByEmail(cand8email).get(), jo3.jobReference(), "1");
+        repo.addInterviewReplyPath(candidateController.findCandidateByEmail(cand8email).get(), jo3.jobReference(), "plugins/interviews/txt/job7interview_candidate2_reply.txt");
     }
 }

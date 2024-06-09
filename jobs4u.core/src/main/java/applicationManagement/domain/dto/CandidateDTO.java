@@ -14,4 +14,9 @@ public class CandidateDTO {
         this.email = email;
         this.phone = phone;
     }
+
+    @Override
+    public String toString() {
+        return "[" + name + "] " + email +" <"+ phone;
+    }
 }

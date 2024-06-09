@@ -1,14 +1,18 @@
 package presentation.Operator;
 
+import appUserManagement.application.AuthzController;
 import appUserManagement.domain.Role;
-import applicationManagement.application.GenerateCandidateFieldsFileController;
+import appUserManagement.repositories.UserRepository;
+import applicationManagement.application.CandidateController;
+import applicationManagement.application.ManageCandidateController;
+import jobOpeningManagement.application.GenerateCandidateFieldsFileController;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import jobOpeningManagement.repositories.JobOpeningRepository;
 import plugins.Plugin;
 import plugins.PluginLoader;
 import textformat.AnsiColor;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,7 +21,11 @@ public class GenerateCandidateFieldsFileUI {
 
     private final PluginLoader pluginLoader = new PluginLoader();
     static Role csutomerManagerRole;
-    GenerateCandidateFieldsFileController generateCandidateFieldsFileController = new GenerateCandidateFieldsFileController();
+    GenerateCandidateFieldsFileController generateCandidateFieldsFileController;
+
+    public GenerateCandidateFieldsFileUI(JobOpeningRepository jobOpeningRepository ) {
+        this.generateCandidateFieldsFileController = new GenerateCandidateFieldsFileController(jobOpeningRepository);
+    }
 
     protected boolean doShow(AuthzUI authzUI){
         ConsoleUtils.buildUiHeader("Generate a text file to collect candidate details");

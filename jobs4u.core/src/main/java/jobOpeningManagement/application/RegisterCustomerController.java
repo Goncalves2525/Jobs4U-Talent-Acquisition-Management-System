@@ -8,7 +8,11 @@ import jobOpeningManagement.repositories.CustomerRepository;
 import appUserManagement.domain.Email;
 
 public class RegisterCustomerController {
-    private CustomerRepository repo = PersistenceContext.repositories().customers();
+    private CustomerRepository repo;
+
+    public RegisterCustomerController(CustomerRepository repo) {
+        this.repo = repo;
+    }
 
     public boolean registerCustomer(CompanyCode code, String name, Email email, Address address) {
         Customer customer = new Customer(code, name, email, address);

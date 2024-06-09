@@ -11,14 +11,38 @@
     <class>applicationManagement.domain.Application</class>
     <class>applicationManagement.domain.Candidate</class>
     <class>appUserManagement.domain.AppUser</class>
+    <class>notificationManagement.domain.Notification</class>
 
     <properties>
       <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
+      <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+
+<!--      To allow single use database. -->
       <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:./db/jobs4u"/>
       <property name="jakarta.persistence.jdbc.user" value=""/>
       <property name="jakarta.persistence.jdbc.password" value=""/>
-<!--      <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>-->
-      <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+
+<!--      To allow multi-access to DB, the command is to be used along with the following step, before execution (just change the path accordingly): -->
+<!--      java -cp C:\Users\rcaro\EAPLI\eapli.base\target\dependency\h2-2.2.224.jar org.h2.tools.Server -tcpAllowOthers -tcpPort 9092 -baseDir C:\Users\rcaro\PI4\sem4pi-23-24-2nb1\db-->
+<!--      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:tcp://localhost:9092/~/PI4/sem4pi-23-24-2nb1/db/jobs4u"/>-->
+<!--      <property name="jakarta.persistence.jdbc.user" value=""/>-->
+<!--      <property name="jakarta.persistence.jdbc.password" value=""/>-->
+
+<!--      Hibernate Properties -->
+      <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+<!--      <property name="hibernate.c3p0.timeout" value="60000"/>-->
+
+<!--      To allow DB access through DEI (dei_remote).-->
+<!--      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:tcp://vsgate-s2.dei.isep.ipp.pt:11321/dei_remote"/>-->
+<!--      <property name="jakarta.persistence.jdbc.user" value="admin"/>-->
+<!--      <property name="jakarta.persistence.jdbc.password" value="admin"/>-->
+
+<!--      To allow DB access through DEI (dei_remote) local. VPN connection required. -->
+<!--      <property name="hibernate.connection.url" value="jdbc:h2:tcp://vs1321.dei.isep.ipp.pt:2225/dei_remote;LOCK_TIMEOUT=60000"/>-->
+<!--      <property name="hibernate.connection.username" value="admin"/>-->
+<!--      <property name="hibernate.connection.password" value="admin"/>-->
+<!--      <property name="hibernate.connection.pool_size" value="10"/>-->
+
     </properties>
   </persistence-unit>
 </persistence>

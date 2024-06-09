@@ -1,20 +1,33 @@
 package jobOpeningManagement.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.Instant;
+import java.util.Date;
+
 public enum RecruitmentState {
-    APPLICATION("Application"),
-    SCREENING("Screening"),
-    INTERVIEWS("InterviewS"),
-    ANALYSIS("Analysis"),
-    RESULT("Result");
-    
+    APPLICATION("Application", null, null),
+    SCREENING("Screening", null, null),
+    INTERVIEWS("Interviews", null, null),
+    ANALYSIS("Analysis", null, null),
+    RESULT("Result", null, null);
+
+    @Getter
     private final String state;
 
-    RecruitmentState(String state){
-        this.state = state;
-    }
+    @Getter
+    @Setter
+    private Date startDate;
 
-    public String getState(){
-        return state;
+    @Getter
+    @Setter
+    private Date endDate;
+
+    RecruitmentState(String state, Date startDate, Date endDate){
+        this.state = state;
+        this.startDate = Date.from(Instant.now());
+        this.endDate = null;
     }
 
 }

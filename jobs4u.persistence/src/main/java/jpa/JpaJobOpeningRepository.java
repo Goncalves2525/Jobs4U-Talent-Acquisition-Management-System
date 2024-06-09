@@ -1,6 +1,10 @@
 package jpa;
 
+import applicationManagement.domain.Application;
+import applicationManagement.domain.Candidate;
 import jakarta.persistence.*;
+import jobOpeningManagement.domain.CompanyCode;
+import jobOpeningManagement.domain.Customer;
 import jobOpeningManagement.domain.JobOpening;
 import jobOpeningManagement.domain.RecruitmentState;
 import jobOpeningManagement.repositories.JobOpeningRepository;
@@ -56,9 +60,9 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
             correct = false;
         }
         //We are letting "requirements" be null because Customer Manager can choose later
-        if (jobOpening.state() == null || jobOpening.state() != RecruitmentState.APPLICATION) {
-            correct = false;
-        }
+//        if (jobOpening.state() == null || jobOpening.state() != RecruitmentState.APPLICATION) {
+//            correct = false;
+//        }
         return correct;
     }
 
@@ -77,6 +81,21 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
         JobOpening jobOpening = (JobOpening) query.getSingleResult();
         return Optional.of(jobOpening);
     }
+
+    @Override
+    public JobOpening findByJobReference(String jobReference) {
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM JobOpening e WHERE e.jobReference LIKE :jobReference");
+        query.setParameter("jobReference", jobReference);
+        List<JobOpening> results = query.getResultList();
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return results.get(0);
+        }
+    }
+
+
 
     @Override
     public void delete(JobOpening entity) {
@@ -110,7 +129,66 @@ public class JpaJobOpeningRepository implements JobOpeningRepository {
 
 
     @Override
-    public void update(JobOpening jobOpening) {
+    public boolean update(JobOpening jobOpening) {
+        EntityManager em = getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.merge(jobOpening);
+        tx.commit();
+        em.close();
 
+        return true;
     }
+
+    @Override
+    public List<JobOpening> findAllActiveJobOpenings(Customer company) {
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM JobOpening e WHERE e.company = :company AND e.endDate is null");
+        query.setParameter("company", company);
+        List<JobOpening> list = query.getResultList();
+        return list;
+    }
+
+    @Override
+    public Iterable<JobOpening> findAllActiveJobOpeningsResultPhase() {
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM JobOpening e WHERE e.state = :state AND e.endDate is null");
+        query.setParameter("state", RecruitmentState.RESULT);
+        List<JobOpening> list = query.getResultList();
+        return list;
+    }
+
+    @Override
+    public List<JobOpening> findAllActiveJobOpenings() {
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM JobOpening e WHERE e.endDate is null");
+        List<JobOpening> list = query.getResultList();
+        return list;
+    }
+
+    @Override
+    public boolean addInterviewModelPlugin(String jobReference, String plugin) {
+        JobOpening jobOpening = findByJobReference(jobReference);
+        if (jobOpening != null){
+            jobOpening.associateInterviewModelToJobOpening(plugin);
+            update(jobOpening);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String findInterviewModelPluginByJobReference(String jobReference) {
+        Query query = getEntityManager().createQuery(
+                "SELECT e.interviewModel FROM JobOpening e WHERE e.jobReference LIKE :jobReference");
+        query.setParameter("jobReference", jobReference);
+
+        String result = (String) query.getSingleResult();
+        if (result == null) {
+            return null;
+        } else {
+            return result;
+        }
+    }
+
 }

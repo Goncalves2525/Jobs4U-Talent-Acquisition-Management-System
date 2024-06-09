@@ -50,12 +50,7 @@ public class Customer implements AggregateRoot<CompanyCode> {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "getCode=" + code +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", address=" + address +
-                '}';
+        return name + "(" + code + ")";
     }
 
     @Override

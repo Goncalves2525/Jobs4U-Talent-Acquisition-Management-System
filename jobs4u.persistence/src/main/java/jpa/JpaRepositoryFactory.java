@@ -7,6 +7,7 @@ import applicationManagement.repositories.ApplicationRepository;
 import applicationManagement.repositories.CandidateRepository;
 import jobOpeningManagement.repositories.CustomerRepository;
 import jobOpeningManagement.repositories.JobOpeningRepository;
+import notificationManagement.repositories.NotificationRepository;
 
 public class JpaRepositoryFactory implements RepositoryFactory {
 
@@ -36,29 +37,11 @@ public class JpaRepositoryFactory implements RepositoryFactory {
     }
 
     @Override
+    public NotificationRepository notifications() { return new JpaNotificationRepository(); }
+
+    @Override
     public CandidateRepository candidates() {
         return new JpaCandidateRepository();
     }
-
-
-//    @Override
-//    public UserRepository users(TransactionalContext autoTx) {
-//        return null;
-//    }
-//
-//    @Override
-//    public UserRepository users() {
-//        return null;
-//    }
-//
-//    @Override
-//    public EventConsumptionRepository eventConsumption() {
-//        return null;
-//    }
-//
-//    @Override
-//    public EventRecordRepository eventRecord() {
-//        return null;
-//    }
 
 }

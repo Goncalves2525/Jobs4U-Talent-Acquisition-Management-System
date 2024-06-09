@@ -1,5 +1,6 @@
 package applicationManagement.domain;
 
+import appUserManagement.domain.Ability;
 import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;
 
@@ -14,6 +15,9 @@ public class Candidate implements AggregateRoot<String> {
 
     @Column
     private String name;
+
+    @Column
+    private String requirementsFilePath;
 
     protected Candidate() {
         // for ORM
@@ -37,9 +41,17 @@ public class Candidate implements AggregateRoot<String> {
         return name;
     }
 
+    public String requirementsFilePath() {
+        return requirementsFilePath;
+    }
+
+    public void setRequirementsFilePath(String requirementsFilePath) {
+        this.requirementsFilePath = requirementsFilePath;
+    }
+
     @Override
     public String toString() {
-        return "NAME: " + name +
+        return "Name: " + name +
                 "\nEmail: " + email +
                 "\nPhoneNumber: " + phoneNumber;
     }
