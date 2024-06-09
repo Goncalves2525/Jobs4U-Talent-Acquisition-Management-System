@@ -10,13 +10,9 @@ import java.util.List;
 
 public interface JobOpeningRepository extends DomainRepository<String, JobOpening>{
 
-    void update(JobOpening entity);
-
     JobOpening findByJobReference(String jobRefrenece);
 
     boolean update(JobOpening entity);
-
-    JobOpening findByJobReference(String jobRefrence);
 
     List<JobOpening> findAllActiveJobOpenings(Customer code);
 

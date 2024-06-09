@@ -181,13 +181,13 @@ public class Application implements AggregateRoot<String>, Serializable {
             jobOpening.setState(newState);
     }
 
-    public void assotiateInterviewModelToApplication(int passed, String interviewModelPath) {
-        if(passed == 1){
-            this.InterviewModel = interviewModelPath;
-        }else{
-            this.InterviewModel = this.InterviewModel;
-        }
-    }
+//    public void assotiateInterviewModelToApplication(int passed, String interviewModelPath) {
+//        if(passed == 1){
+//            this.InterviewModel = interviewModelPath;
+//        }else{
+//            this.InterviewModel = this.InterviewModel;
+//        }
+//    }
     public void assotiateRequirementResultToApplication(int passed){
         if(passed == 1){
             this.requirementsResult = RequirementsResult.APPROVED;
