@@ -1,8 +1,7 @@
 // Generated from /Users/diogoespiritosanto/LAPR4/sem4pi-23-24-2nb1/antlr/CandidateRequirementsGrammarValidation.g4 by ANTLR 4.13.1
 
-    package gen.antlr;
+    package antlr;
 
-import antlr.CandidateRequirementsGrammarValidationParser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -37,5 +36,4 @@ public interface CandidateRequirementsGrammarValidationVisitor<T> extends ParseT
 	 * @return the visitor result
 	 */
 	T visitAnswer(CandidateRequirementsGrammarValidationParser.AnswerContext ctx);
-
 }

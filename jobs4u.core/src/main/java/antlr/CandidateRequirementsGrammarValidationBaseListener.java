@@ -88,5 +88,5 @@ public abstract class CandidateRequirementsGrammarValidationBaseListener impleme
 	 */
 	@Override public void visitErrorNode(ErrorNode node) { }
 
-	public abstract void exitValue(antlr.CandidateRequirementsGrammarValidationParser valueContext);
+	public abstract void exitValue(CandidateRequirementsGrammarValidationParser valueContext);
 }

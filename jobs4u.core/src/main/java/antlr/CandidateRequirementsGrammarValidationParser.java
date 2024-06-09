@@ -22,8 +22,7 @@ public class CandidateRequirementsGrammarValidationParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, TEXT=11, NEWLINE=12, WS=13;
+		TEXT=1, NEWLINE=2, WS=3;
 	public static final int
 		RULE_file = 0, RULE_qaPair = 1, RULE_question = 2, RULE_answer = 3;
 	private static String[] makeRuleNames() {
@@ -35,22 +34,12 @@ public class CandidateRequirementsGrammarValidationParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'How many years of experience do you have in IT?'", "'Select your Degree (None, Bachelor, Master, PhD)'", 
-			"'Which operating systems are you proficient in? (Windows, Linux) Note: Seperated by \",\"'", 
-			"'Which programming or scripting languages are you proficient in? (Python, Java, C++, Bash, PowerShell) Note: Seperated by \",\"'", 
-			"'How many years of experience do you have in penetration testing?'", 
-			"'Do you have any of the following certifications? (OSCP, CEH, CISSP, GPEN, CISM) Note: Seperated by \",\"'", 
-			"'Which penetration testing tools are you proficient in? (Metasploit, Burp Suite, Nmap, Wireshark, Nessus) Note: Seperated by \",\"'", 
-			"'Are you familiar with the OWASP Top Ten vulnerabilities? (Yes or No)'", 
-			"'How would you rate your analytical and problem-solving skills? (1-5)'", 
-			"'Can you start working within the next month? (Yes or No)'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, null, "TEXT", 
-			"NEWLINE", "WS"
+			null, "TEXT", "NEWLINE", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -123,15 +112,15 @@ public class CandidateRequirementsGrammarValidationParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_file; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof antlr.CandidateRequirementsGrammarValidationListener) ((antlr.CandidateRequirementsGrammarValidationListener)listener).enterFile(this);
+			if ( listener instanceof CandidateRequirementsGrammarValidationListener ) ((CandidateRequirementsGrammarValidationListener)listener).enterFile(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof antlr.CandidateRequirementsGrammarValidationListener ) ((antlr.CandidateRequirementsGrammarValidationListener)listener).exitFile(this);
+			if ( listener instanceof CandidateRequirementsGrammarValidationListener ) ((CandidateRequirementsGrammarValidationListener)listener).exitFile(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof gen.antlr.CandidateRequirementsGrammarValidationVisitor) return ((gen.antlr.CandidateRequirementsGrammarValidationVisitor<? extends T>)visitor).visitFile(this);
+			if ( visitor instanceof antlr.CandidateRequirementsGrammarValidationVisitor) return ((antlr.CandidateRequirementsGrammarValidationVisitor<? extends T>)visitor).visitFile(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -166,7 +155,7 @@ public class CandidateRequirementsGrammarValidationParser extends Parser {
 				setState(14); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 2046L) != 0) );
+			} while ( _la==TEXT );
 			setState(16);
 			match(EOF);
 			}
@@ -200,15 +189,15 @@ public class CandidateRequirementsGrammarValidationParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_qaPair; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof antlr.CandidateRequirementsGrammarValidationListener ) ((antlr.CandidateRequirementsGrammarValidationListener)listener).enterQaPair(this);
+			if ( listener instanceof CandidateRequirementsGrammarValidationListener ) ((CandidateRequirementsGrammarValidationListener)listener).enterQaPair(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof antlr.CandidateRequirementsGrammarValidationListener ) ((antlr.CandidateRequirementsGrammarValidationListener)listener).exitQaPair(this);
+			if ( listener instanceof CandidateRequirementsGrammarValidationListener ) ((CandidateRequirementsGrammarValidationListener)listener).exitQaPair(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof gen.antlr.CandidateRequirementsGrammarValidationVisitor) return ((gen.antlr.CandidateRequirementsGrammarValidationVisitor<? extends T>)visitor).visitQaPair(this);
+			if ( visitor instanceof antlr.CandidateRequirementsGrammarValidationVisitor ) return ((antlr.CandidateRequirementsGrammarValidationVisitor<? extends T>)visitor).visitQaPair(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -250,21 +239,22 @@ public class CandidateRequirementsGrammarValidationParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class QuestionContext extends ParserRuleContext {
+		public TerminalNode TEXT() { return getToken(CandidateRequirementsGrammarValidationParser.TEXT, 0); }
 		public QuestionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_question; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof antlr.CandidateRequirementsGrammarValidationListener ) ((antlr.CandidateRequirementsGrammarValidationListener)listener).enterQuestion(this);
+			if ( listener instanceof CandidateRequirementsGrammarValidationListener ) ((CandidateRequirementsGrammarValidationListener)listener).enterQuestion(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof antlr.CandidateRequirementsGrammarValidationListener ) ((antlr.CandidateRequirementsGrammarValidationListener)listener).exitQuestion(this);
+			if ( listener instanceof CandidateRequirementsGrammarValidationListener ) ((CandidateRequirementsGrammarValidationListener)listener).exitQuestion(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof gen.antlr.CandidateRequirementsGrammarValidationVisitor ) return ((gen.antlr.CandidateRequirementsGrammarValidationVisitor<? extends T>)visitor).visitQuestion(this);
+			if ( visitor instanceof antlr.CandidateRequirementsGrammarValidationVisitor ) return ((antlr.CandidateRequirementsGrammarValidationVisitor<? extends T>)visitor).visitQuestion(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -272,20 +262,11 @@ public class CandidateRequirementsGrammarValidationParser extends Parser {
 	public final QuestionContext question() throws RecognitionException {
 		QuestionContext _localctx = new QuestionContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_question);
-		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(24);
-			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 2046L) != 0)) ) {
-			_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
+			match(TEXT);
 			}
 		}
 		catch (RecognitionException re) {
@@ -308,15 +289,15 @@ public class CandidateRequirementsGrammarValidationParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_answer; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof antlr.CandidateRequirementsGrammarValidationListener ) ((antlr.CandidateRequirementsGrammarValidationListener)listener).enterAnswer(this);
+			if ( listener instanceof CandidateRequirementsGrammarValidationListener ) ((CandidateRequirementsGrammarValidationListener)listener).enterAnswer(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof antlr.CandidateRequirementsGrammarValidationListener ) ((antlr.CandidateRequirementsGrammarValidationListener)listener).exitAnswer(this);
+			if ( listener instanceof CandidateRequirementsGrammarValidationListener ) ((CandidateRequirementsGrammarValidationListener)listener).exitAnswer(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof gen.antlr.CandidateRequirementsGrammarValidationVisitor ) return ((gen.antlr.CandidateRequirementsGrammarValidationVisitor<? extends T>)visitor).visitAnswer(this);
+			if ( visitor instanceof antlr.CandidateRequirementsGrammarValidationVisitor ) return ((antlr.CandidateRequirementsGrammarValidationVisitor<? extends T>)visitor).visitAnswer(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -343,25 +324,25 @@ public class CandidateRequirementsGrammarValidationParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\r\u001d\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
-		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0001\u0000\u0001\u0000\u0003"+
-		"\u0000\u000b\b\u0000\u0004\u0000\r\b\u0000\u000b\u0000\f\u0000\u000e\u0001"+
-		"\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0003"+
-		"\u0001\u0017\b\u0001\u0001\u0002\u0001\u0002\u0001\u0003\u0001\u0003\u0001"+
-		"\u0003\u0000\u0000\u0004\u0000\u0002\u0004\u0006\u0000\u0001\u0001\u0000"+
-		"\u0001\n\u001b\u0000\f\u0001\u0000\u0000\u0000\u0002\u0012\u0001\u0000"+
-		"\u0000\u0000\u0004\u0018\u0001\u0000\u0000\u0000\u0006\u001a\u0001\u0000"+
-		"\u0000\u0000\b\n\u0003\u0002\u0001\u0000\t\u000b\u0005\f\u0000\u0000\n"+
-		"\t\u0001\u0000\u0000\u0000\n\u000b\u0001\u0000\u0000\u0000\u000b\r\u0001"+
-		"\u0000\u0000\u0000\f\b\u0001\u0000\u0000\u0000\r\u000e\u0001\u0000\u0000"+
-		"\u0000\u000e\f\u0001\u0000\u0000\u0000\u000e\u000f\u0001\u0000\u0000\u0000"+
-		"\u000f\u0010\u0001\u0000\u0000\u0000\u0010\u0011\u0005\u0000\u0000\u0001"+
-		"\u0011\u0001\u0001\u0000\u0000\u0000\u0012\u0013\u0003\u0004\u0002\u0000"+
-		"\u0013\u0014\u0005\f\u0000\u0000\u0014\u0016\u0003\u0006\u0003\u0000\u0015"+
-		"\u0017\u0005\f\u0000\u0000\u0016\u0015\u0001\u0000\u0000\u0000\u0016\u0017"+
+		"\u0004\u0001\u0003\u001d\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001"+
+		"\u0002\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0001\u0000\u0001\u0000"+
+		"\u0003\u0000\u000b\b\u0000\u0004\u0000\r\b\u0000\u000b\u0000\f\u0000\u000e"+
+		"\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
+		"\u0003\u0001\u0017\b\u0001\u0001\u0002\u0001\u0002\u0001\u0003\u0001\u0003"+
+		"\u0001\u0003\u0000\u0000\u0004\u0000\u0002\u0004\u0006\u0000\u0000\u001b"+
+		"\u0000\f\u0001\u0000\u0000\u0000\u0002\u0012\u0001\u0000\u0000\u0000\u0004"+
+		"\u0018\u0001\u0000\u0000\u0000\u0006\u001a\u0001\u0000\u0000\u0000\b\n"+
+		"\u0003\u0002\u0001\u0000\t\u000b\u0005\u0002\u0000\u0000\n\t\u0001\u0000"+
+		"\u0000\u0000\n\u000b\u0001\u0000\u0000\u0000\u000b\r\u0001\u0000\u0000"+
+		"\u0000\f\b\u0001\u0000\u0000\u0000\r\u000e\u0001\u0000\u0000\u0000\u000e"+
+		"\f\u0001\u0000\u0000\u0000\u000e\u000f\u0001\u0000\u0000\u0000\u000f\u0010"+
+		"\u0001\u0000\u0000\u0000\u0010\u0011\u0005\u0000\u0000\u0001\u0011\u0001"+
+		"\u0001\u0000\u0000\u0000\u0012\u0013\u0003\u0004\u0002\u0000\u0013\u0014"+
+		"\u0005\u0002\u0000\u0000\u0014\u0016\u0003\u0006\u0003\u0000\u0015\u0017"+
+		"\u0005\u0002\u0000\u0000\u0016\u0015\u0001\u0000\u0000\u0000\u0016\u0017"+
 		"\u0001\u0000\u0000\u0000\u0017\u0003\u0001\u0000\u0000\u0000\u0018\u0019"+
-		"\u0007\u0000\u0000\u0000\u0019\u0005\u0001\u0000\u0000\u0000\u001a\u001b"+
-		"\u0005\u000b\u0000\u0000\u001b\u0007\u0001\u0000\u0000\u0000\u0003\n\u000e"+
+		"\u0005\u0001\u0000\u0000\u0019\u0005\u0001\u0000\u0000\u0000\u001a\u001b"+
+		"\u0005\u0001\u0000\u0000\u001b\u0007\u0001\u0000\u0000\u0000\u0003\n\u000e"+
 		"\u0016";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());

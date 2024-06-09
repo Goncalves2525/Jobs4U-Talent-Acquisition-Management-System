@@ -1,30 +1,10 @@
 token literal names:
 null
-'How many years of experience do you have in IT?'
-'Select your Degree (None, Bachelor, Master, PhD)'
-'Which operating systems are you proficient in? (Windows, Linux) Note: Seperated by ","'
-'Which programming or scripting languages are you proficient in? (Python, Java, C++, Bash, PowerShell) Note: Seperated by ","'
-'How many years of experience do you have in penetration testing?'
-'Do you have any of the following certifications? (OSCP, CEH, CISSP, GPEN, CISM) Note: Seperated by ","'
-'Which penetration testing tools are you proficient in? (Metasploit, Burp Suite, Nmap, Wireshark, Nessus) Note: Seperated by ","'
-'Are you familiar with the OWASP Top Ten vulnerabilities? (Yes or No)'
-'How would you rate your analytical and problem-solving skills? (1-5)'
-'Can you start working within the next month? (Yes or No)'
 null
 null
 null
 
 token symbolic names:
-null
-null
-null
-null
-null
-null
-null
-null
-null
-null
 null
 TEXT
 NEWLINE
@@ -38,4 +18,4 @@ answer
 
 
 atn:
-[4, 1, 13, 29, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 1, 0, 1, 0, 3, 0, 11, 8, 0, 4, 0, 13, 8, 0, 11, 0, 12, 0, 14, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 23, 8, 1, 1, 2, 1, 2, 1, 3, 1, 3, 1, 3, 0, 0, 4, 0, 2, 4, 6, 0, 1, 1, 0, 1, 10, 27, 0, 12, 1, 0, 0, 0, 2, 18, 1, 0, 0, 0, 4, 24, 1, 0, 0, 0, 6, 26, 1, 0, 0, 0, 8, 10, 3, 2, 1, 0, 9, 11, 5, 12, 0, 0, 10, 9, 1, 0, 0, 0, 10, 11, 1, 0, 0, 0, 11, 13, 1, 0, 0, 0, 12, 8, 1, 0, 0, 0, 13, 14, 1, 0, 0, 0, 14, 12, 1, 0, 0, 0, 14, 15, 1, 0, 0, 0, 15, 16, 1, 0, 0, 0, 16, 17, 5, 0, 0, 1, 17, 1, 1, 0, 0, 0, 18, 19, 3, 4, 2, 0, 19, 20, 5, 12, 0, 0, 20, 22, 3, 6, 3, 0, 21, 23, 5, 12, 0, 0, 22, 21, 1, 0, 0, 0, 22, 23, 1, 0, 0, 0, 23, 3, 1, 0, 0, 0, 24, 25, 7, 0, 0, 0, 25, 5, 1, 0, 0, 0, 26, 27, 5, 11, 0, 0, 27, 7, 1, 0, 0, 0, 3, 10, 14, 22]
+[4, 1, 3, 29, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 1, 0, 1, 0, 3, 0, 11, 8, 0, 4, 0, 13, 8, 0, 11, 0, 12, 0, 14, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 23, 8, 1, 1, 2, 1, 2, 1, 3, 1, 3, 1, 3, 0, 0, 4, 0, 2, 4, 6, 0, 0, 27, 0, 12, 1, 0, 0, 0, 2, 18, 1, 0, 0, 0, 4, 24, 1, 0, 0, 0, 6, 26, 1, 0, 0, 0, 8, 10, 3, 2, 1, 0, 9, 11, 5, 2, 0, 0, 10, 9, 1, 0, 0, 0, 10, 11, 1, 0, 0, 0, 11, 13, 1, 0, 0, 0, 12, 8, 1, 0, 0, 0, 13, 14, 1, 0, 0, 0, 14, 12, 1, 0, 0, 0, 14, 15, 1, 0, 0, 0, 15, 16, 1, 0, 0, 0, 16, 17, 5, 0, 0, 1, 17, 1, 1, 0, 0, 0, 18, 19, 3, 4, 2, 0, 19, 20, 5, 2, 0, 0, 20, 22, 3, 6, 3, 0, 21, 23, 5, 2, 0, 0, 22, 21, 1, 0, 0, 0, 22, 23, 1, 0, 0, 0, 23, 3, 1, 0, 0, 0, 24, 25, 5, 1, 0, 0, 25, 5, 1, 0, 0, 0, 26, 27, 5, 1, 0, 0, 27, 7, 1, 0, 0, 0, 3, 10, 14, 22]
