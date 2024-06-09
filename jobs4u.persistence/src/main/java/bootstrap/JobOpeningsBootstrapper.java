@@ -10,6 +10,7 @@ import jobOpeningManagement.application.RegisterCustomerController;
 import jobOpeningManagement.application.RegisterJobOpeningController;
 import jobOpeningManagement.domain.*;
 import jobOpeningManagement.domain.dto.JobOpeningDTO;
+import jobOpeningManagement.repositories.CustomerRepository;
 import jobOpeningManagement.repositories.JobOpeningRepository;
 import textformat.AnsiColor;
 
@@ -17,8 +18,9 @@ import java.util.Optional;
 
 public class JobOpeningsBootstrapper {
 
+    CustomerRepository customerRepository=PersistenceContext.repositories().customers();
     SignUpController signUpController = new SignUpController();
-    RegisterCustomerController registerCustomerController = new RegisterCustomerController();
+    RegisterCustomerController registerCustomerController = new RegisterCustomerController(customerRepository);
     ListCustomersService listCustomersService = new ListCustomersService();
     RegisterJobOpeningController ctrl = new RegisterJobOpeningController();
     JobOpeningRepository repo = PersistenceContext.repositories().jobOpenings();

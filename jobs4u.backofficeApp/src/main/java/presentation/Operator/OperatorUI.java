@@ -12,7 +12,7 @@ public class OperatorUI {
     UserRepository userRepo = PersistenceContext.repositories().users();
     JobOpeningRepository jobOpeningRepository=PersistenceContext.repositories().jobOpenings();
     CandidateRepository candidateRepository = PersistenceContext.repositories().candidates();
-    AuthzController authzController = new AuthzController();
+    AuthzController authzController = new AuthzController(userRepo);
     public OperatorUI() {
     }
 

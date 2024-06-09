@@ -14,7 +14,7 @@ import java.util.List;
 
 public class DefineRecruitmentPhaseUI {
 
-    private JobOpeningRepository jobOpeningRepository= PersistenceContext.repositories().jobOpenings();
+    JobOpeningRepository jobOpeningRepository= PersistenceContext.repositories().jobOpenings();
     private DefineRecruitmentPhaseController ctrl = new DefineRecruitmentPhaseController(jobOpeningRepository);
     static Role managerRole;
 

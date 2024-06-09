@@ -4,17 +4,20 @@ import appUserManagement.domain.Role;
 import console.ConsoleUtils;
 import eapli.framework.presentation.console.AbstractUI;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
 import jobOpeningManagement.application.RegisterCustomerController;
 import jobOpeningManagement.domain.Address;
 import jobOpeningManagement.domain.CompanyCode;
 import appUserManagement.application.SignUpController;
 import appUserManagement.domain.Email;
+import jobOpeningManagement.repositories.CustomerRepository;
 import textformat.AnsiColor;
 
 import java.util.Optional;
 
 public class RegisterCustomerUI{
-    private RegisterCustomerController ctrl = new RegisterCustomerController();
+    private CustomerRepository customerRepository= PersistenceContext.repositories().customers();
+    private RegisterCustomerController ctrl = new RegisterCustomerController(customerRepository);
     private SignUpController signUpController = new SignUpController();
     private final Role validRole = Role.CUSTOMER;
     static Role managerRole;
