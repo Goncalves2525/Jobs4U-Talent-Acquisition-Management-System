@@ -654,7 +654,7 @@ void monitor_files(char* inputPath, int timeInterval) {
         }
         closedir(dir); // Fechar o diretório
         if(num_files > 0){
-            sem_wait(monitor_write_mutex);
+            //sem_wait(monitor_write_mutex);
             //printf("MONITOR: Ficheiros novos! Fiz POST, %d\n", num_files);
             
             sem_post(monitor_read_mutex);

@@ -7,11 +7,11 @@
 #define BUFFER_SIZE 20
 #define MONITOR_MUTEX "/monitor_mutex"
 #define MONITOR_READ_MUTEX "/monitor_read_mutex"
-#define MONITOR_WRITE_MUTEX "/monitor_write_mutex"
+//#define MONITOR_WRITE_MUTEX "/monitor_write_mutex"
 
 
 extern sem_t* monitor_read_mutex;
-extern sem_t* monitor_write_mutex;
+//extern sem_t* monitor_write_mutex;
 
 
 typedef struct Arguments {
