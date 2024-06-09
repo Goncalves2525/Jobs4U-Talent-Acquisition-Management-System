@@ -11,6 +11,7 @@ import jobOpeningManagement.application.ListJobOpeningsController;
 import jobOpeningManagement.domain.JobOpening;
 import notificationManagement.application.NotificationCustomerManagerController;
 import notificationManagement.domain.Notification;
+import notificationManagement.repositories.NotificationRepository;
 import textformat.AnsiColor;
 
 import java.util.ArrayList;
@@ -21,9 +22,10 @@ public class NotificationUI {
     static Role managerRole;
 
     ApplicationRepository appRepo= PersistenceContext.repositories().applications();
+    NotificationRepository notificationRepo=PersistenceContext.repositories().notifications();
     ListJobOpeningsController listJobOpeningCtrl = new ListJobOpeningsController();
     ListApplicationsController listApplicationCtrl = new ListApplicationsController(appRepo);
-    NotificationCustomerManagerController notificationCmCtrl = new NotificationCustomerManagerController();
+    NotificationCustomerManagerController notificationCmCtrl = new NotificationCustomerManagerController(notificationRepo);
 
     public NotificationUI() {
     }

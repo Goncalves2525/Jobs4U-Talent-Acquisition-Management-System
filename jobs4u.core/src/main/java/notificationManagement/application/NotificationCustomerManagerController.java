@@ -8,7 +8,11 @@ import java.util.ArrayList;
 
 public class NotificationCustomerManagerController {
 
-    NotificationRepository repo = PersistenceContext.repositories().notifications();
+    NotificationRepository repo;
+
+    public NotificationCustomerManagerController(NotificationRepository notificationRepository){
+        this.repo=notificationRepository;
+    }
 
     public ArrayList<Notification> findJobReferenceNotifications(String jobReference) { return repo.findAllByJobReference(jobReference); }
 

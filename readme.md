@@ -75,9 +75,9 @@ For executing tests run:
 
 - Run ./build_run_candidateApp.sh
 
-## 6. How to Install/Deploy into Another Machine (or Virtual Machine)
+## 6. How to Install in Another Machine (or Virtual Machine)
 
-To install or deploy the application into another machine or virtual machine, we follow these steps:
+To install the application in another machine or virtual machine, we follow these steps:
 
 - The JRE version should be compatible with the Java version used to compile the .jar file.
 
