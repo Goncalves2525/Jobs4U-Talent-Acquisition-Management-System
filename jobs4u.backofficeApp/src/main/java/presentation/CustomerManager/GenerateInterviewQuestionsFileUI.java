@@ -1,6 +1,7 @@
 package presentation.CustomerManager;
 
 import appUserManagement.domain.Role;
+import infrastructure.persistance.PersistenceContext;
 import jobOpeningManagement.application.GenerateAnswerCollectionFileController;
 import applicationManagement.application.ListApplicationsController;
 import applicationManagement.application.RegisterApplicationController;
@@ -9,6 +10,7 @@ import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
 import jobOpeningManagement.application.ListJobOpeningsController;
 import jobOpeningManagement.domain.JobOpening;
+import jobOpeningManagement.repositories.JobOpeningRepository;
 import plugins.PluginLoader;
 import textformat.AnsiColor;
 
@@ -20,7 +22,8 @@ public class GenerateInterviewQuestionsFileUI {
 
     private final PluginLoader pluginLoader = new PluginLoader();
     static Role csutomerManagerRole;
-    GenerateAnswerCollectionFileController generateAnswerCollectionFileController = new GenerateAnswerCollectionFileController();
+    JobOpeningRepository jobOpeningRepository= PersistenceContext.repositories().jobOpenings();
+    GenerateAnswerCollectionFileController generateAnswerCollectionFileController = new GenerateAnswerCollectionFileController(jobOpeningRepository);
     ListJobOpeningsController listJobOpeningsController = new ListJobOpeningsController();
 
     protected boolean doShow(AuthzUI authzUI){

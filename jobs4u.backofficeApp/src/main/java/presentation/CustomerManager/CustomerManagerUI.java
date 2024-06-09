@@ -1,15 +1,18 @@
 package presentation.CustomerManager;
 
-
+import applicationManagement.repositories.ApplicationRepository;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
+import jobOpeningManagement.repositories.JobOpeningRepository;
 import textformat.AnsiColor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerManagerUI {
-
+    ApplicationRepository appRepo = PersistenceContext.repositories().applications();
+    JobOpeningRepository jobOpeningRepository=PersistenceContext.repositories().jobOpenings();
 
     public void doShow(AuthzUI authzUI) throws Exception {
 
@@ -66,7 +69,7 @@ public class CustomerManagerUI {
                     listCandidatePersonalDataUI.doShow(authzUI);
                     break;
                 case 6:
-                    ListApplicationsUI listApplicationsUI = new ListApplicationsUI();
+                    ListApplicationsUI listApplicationsUI = new ListApplicationsUI(appRepo);
                     listApplicationsUI.doShow(authzUI);
                     break;
                 case 7:

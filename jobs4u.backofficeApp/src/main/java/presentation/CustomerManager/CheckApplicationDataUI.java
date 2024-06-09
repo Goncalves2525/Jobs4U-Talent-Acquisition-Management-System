@@ -2,15 +2,17 @@ package presentation.CustomerManager;
 
 import appUserManagement.domain.Role;
 import applicationManagement.application.ListApplicationsController;
+import applicationManagement.repositories.ApplicationRepository;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
 import textformat.AnsiColor;
 
 import static java.lang.Long.parseLong;
 
 public class CheckApplicationDataUI {
-
-    ListApplicationsController ctrl = new ListApplicationsController();
+    ApplicationRepository appRepo= PersistenceContext.repositories().applications();
+    ListApplicationsController ctrl = new ListApplicationsController(appRepo);
 
     static Role managerRole;
 

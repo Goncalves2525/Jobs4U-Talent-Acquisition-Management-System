@@ -1,4 +1,4 @@
-# US 1014
+# US 2001b
 
 ## 1. Context
 
@@ -6,22 +6,22 @@
 
 ## 2. Requirements
 
-**US 2001b** As Product Owner,I want the system to, continuously, process the￿ files produced by the Applications Email Bot, so that they can be imported into the system by initiative of the Operator.
+**US 2001b** As Product Owner,I want the system to, continuously, process the files produced by the Applications Email Bot, so that they can be imported into the system by initiative of the Operator.
 
 **Acceptance Criteria:**
 
-- 2001b.1. An alternative solution for the upload of ￿les must be implemented following speci￿c technical requirements such as the use of the C programming lan- guage with shared memory and semaphores.
+- 2001b.1. An alternative solution for the upload of files must be implemented following speci￿c technical requirements such as the use of the C programming language with shared memory and semaphores.
 
 **Dependencies/References:**
 
-*Regarding this requirement we understand that it relates to *
+n/a
 
 
 ## 3. Analysis
 
 > **Shared Memory**
 >
-> "**Shared Memory** is an efficeint means of passing data between programs. One program will create a memory portion which other processes (if permitted) can access." @[About Shared Memory](https://www.cs.unibo.it/~sacerdot/doc/C/corso2/node27.html)
+> "**Shared Memory** is an efficient means of passing data between programs. One program will create a memory portion which other processes (if permitted) can access." @[About Shared Memory](https://www.cs.unibo.it/~sacerdot/doc/C/corso2/node27.html)
 
 > **Semaphores**
 >
