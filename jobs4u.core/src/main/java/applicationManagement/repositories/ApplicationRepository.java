@@ -12,6 +12,8 @@ public interface ApplicationRepository extends DomainRepository<String, Applicat
 
     void update(Application entity);
 
+    Iterable<Application> ofJobReference(String jobReference);
+  
     String countApplicants(String jobReference);
 
     boolean defineRanking(Candidate candidate, String jobReference, String rank);
@@ -23,4 +25,5 @@ public interface ApplicationRepository extends DomainRepository<String, Applicat
     int saveGrades(List<Application> listOfGradableApplications);
 
     boolean addInterviewReplyPath(Candidate candidate, String jobReference, String interviewReplyPath);
+  
 }
