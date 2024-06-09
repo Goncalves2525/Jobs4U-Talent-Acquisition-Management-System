@@ -55,18 +55,24 @@ It is the job of the costumer manager to define in which phase of the recruitmen
 
 ### 4.1. Realization
 
-| Interaction ID                | Question: Which class is responsible for... | Answer | Justification (with patterns) |
-|:------------------------------|:--------------------------------------------|:-------|:------------------------------|
-| Step 1 :                      | 	...                                        |        |                               |
+| Interaction ID                                                           | Question: Which class is responsible for... | Answer                           | Justification (with patterns) |
+|:-------------------------------------------------------------------------|:--------------------------------------------|:---------------------------------|:------------------------------|
+| Step 1 : Customer Manager requests to select a job opening               | 	... showing available job opening?         | DefineRecruitmentPhaseUI         | Pure Fabrication              |
+| 		                                                                       | 	... showing job openings?                  | DefineRecruitmentPhaseUI         | Pure Fabrication              |
+| Step 2 : System updates the recruitment phase                            | 	... updating the status                    | DefineRecruitmentPhaseController | Controller                    |
+|                                                                          | 	... saving the status                      | JobOpening                       | Information Expert            |
+| Step 3 : System informs Customer Manager of success/failure of operation | 	... showing success/failure?               | SelectInterviewModelUI           | Pure Fabrication              |
 
 
 According to the taken rationale, the conceptual classes promoted to software classes are:
 
-* 
+* Job Opening
 
 Other software classes (i.e. Pure Fabrication) identified:
 
-* 
+* DefineRecruitmentPhaseUI
+* DefineRecruitmentPhaseController
+* JobOpeningRepository
 
 
 ### 4.2. Class Diagram
@@ -85,7 +91,17 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 
 ```java
+    @Test
+    public void testSetJobOpeningRecruitmentState() {
+        RecruitmentState newState = RecruitmentState.INTERVIEWS;
 
+        controller.setJobOpeningRecruitmentState(jobOpening, newState);
+
+        assertEquals(newState, jobOpening.getState());
+
+        JobOpening retrievedJobOpening = repo.ofIdentity(jobOpening.identity()).get();
+        assertEquals(newState, retrievedJobOpening.getState());
+    }
 
 ````
 
@@ -94,18 +110,22 @@ Other software classes (i.e. Pure Fabrication) identified:
 **Refers to Acceptance Criteria:** 1010.2
 
 ```java
+    @Test
+    public void testSetJobOpeningRecruitmentStateToSubsequentState() {
+        RecruitmentState initialState = RecruitmentState.RESULT;
+        RecruitmentState finalState = RecruitmentState.SCREENING;
+        jobOpening.setState(initialState);
 
+        controller.setJobOpeningRecruitmentState(jobOpening, finalState);
+
+        assertEquals(finalState, jobOpening.getState());
+        
+        JobOpening retrievedJobOpening = repo.ofIdentity(jobOpening.identity()).get();
+        assertEquals(finalState, retrievedJobOpening.getState());
+    }
 
 ````
 
-**Test 3:** *  *
-
-**Refers to Acceptance Criteria:** 1010.3
-
-```java
-
-
-````
 
 
 ## 5. Implementation
@@ -119,7 +139,7 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 ## 6. Integration/Demonstration
 
-n/a
+A manager can view and change the recruitment phase of job openings. The UI checks if the user has manager permissions, lists job openings, and prompts for a job ID. It then displays the current recruitment phase and allows the manager to select a new phase. The controller fetches job openings, lists recruitment states, and updates the job opening’s state. The JobOpening class holds job details and manages the recruitment state.
 
 ## 7. Observations
 

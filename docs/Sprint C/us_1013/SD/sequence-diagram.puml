@@ -1,0 +1,46 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "CustomerManager" as CM
+participant "RankCandidatesUI" as UI
+participant "RankCandidatesController" as CTRL
+participant "ApplicationRepository" as APPREPO
+participant "Application" as APP
+
+
+activate CM
+
+        CM -> UI : asks to rank candidates for a job opening
+        activate UI
+
+            UI --> CM : requests job opening identification
+            CM -> UI : inserts job opening identification
+            UI --> CM : requests list of candidates ordered by ranking
+            CM -> UI : inserts information
+            UI -> CTRL : rankCandidates()
+            activate CTRL
+
+                loop  for all candidates
+                CTRL -> APPREPO : defineRanking()
+                activate APPREPO
+
+                    APPREPO -> APP : changeRankingNumber()
+                    activate APP
+
+                        APP -> APP : setRanking()
+                        deactivate APP
+                    deactivate APPREPO
+                deactivate CTRL
+                end
+            deactivate UI
+deactivate CM
+
+
+
+
+@enduml

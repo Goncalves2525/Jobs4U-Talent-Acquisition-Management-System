@@ -1,15 +1,16 @@
 package presentation.CustomerManager;
 
-
+import applicationManagement.repositories.ApplicationRepository;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
 import textformat.AnsiColor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerManagerUI {
-
+    ApplicationRepository appRepo = PersistenceContext.repositories().applications();
 
     public void doShow(AuthzUI authzUI) throws Exception {
 
@@ -30,8 +31,11 @@ public class CustomerManagerUI {
         options.add("Generate Interview File");                         // 11
         options.add("Select Interview Model");                          // 12
         options.add("Evaluate Interview Model");                        // 13
-        options.add("Check Application Data");                          // 14
-        options.add("Notification Menu");                               // 15
+        options.add("List Applications by Interview Grade");            // 14
+        options.add("Check Application Data");                          // 15
+        options.add("Notification Menu");                               // 16
+        options.add("Define Recruitment Phase");                        // 17
+        options.add("Rank Candidates");                                 // 18
 
         String message = "What do you want to do?";
         String exit = "Exit";
@@ -66,7 +70,7 @@ public class CustomerManagerUI {
                     listCandidatePersonalDataUI.doShow(authzUI);
                     break;
                 case 6:
-                    ListApplicationsUI listApplicationsUI = new ListApplicationsUI();
+                    ListApplicationsUI listApplicationsUI = new ListApplicationsUI(appRepo);
                     listApplicationsUI.doShow(authzUI);
                     break;
                 case 7:
@@ -98,12 +102,24 @@ public class CustomerManagerUI {
                     evaluateInterviewUI.doShow(authzUI);
                     break;
                 case 14:
+                    ListOrderedInterviewGradeUI listOrderedInterviewGradeUI = new ListOrderedInterviewGradeUI();
+                    listOrderedInterviewGradeUI.doShow(authzUI);
+                    break;
+                case 15:
                     CheckApplicationDataUI checkApplicationDataUI = new CheckApplicationDataUI();
                     checkApplicationDataUI.doShow(authzUI);
                     break;
-                case 15:
+                case 16:
                     NotificationUI notificationUI = new NotificationUI();
                     notificationUI.doShow(authzUI);
+                    break;
+                case 17:
+                    DefineRecruitmentPhaseUI defineRecruitmentPhaseUI = new DefineRecruitmentPhaseUI();
+                    defineRecruitmentPhaseUI.doShow(authzUI);
+                    break;
+                case 18:
+                    RankCandidatesUI rankCandidatesUI = new RankCandidatesUI();
+                    rankCandidatesUI.doShow(authzUI);
                     break;
                 default:
                     ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);

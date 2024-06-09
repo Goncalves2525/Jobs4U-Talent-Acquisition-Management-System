@@ -1,17 +1,27 @@
 package presentation.Operator;
 
+import appUserManagement.application.AuthzController;
+import appUserManagement.repositories.UserRepository;
 import applicationManagement.application.CandidateController;
+import applicationManagement.application.ListCandidatesService;
+import applicationManagement.application.ManageCandidateController;
 import applicationManagement.domain.Candidate;
+import applicationManagement.repositories.CandidateRepository;
 import eapli.framework.presentation.console.AbstractUI;
 
 
 public class ListCandidatesUI extends AbstractUI{
 
-    private CandidateController ctrlCandidate = new CandidateController();
+    private ListCandidatesService listCandidatesService;
+
+    public ListCandidatesUI(CandidateRepository candidateRepository) {
+        this.listCandidatesService = new ListCandidatesService(candidateRepository);
+    }
 
     @Override
     protected boolean doShow() {
-        Iterable<Candidate> candidates = ctrlCandidate.allCandidatesSortedByName();
+
+        Iterable<Candidate> candidates = listCandidatesService.allCandidatesSortedByName();
 
         System.out.println("== CANDIDATES ==");
         if(candidates == null){

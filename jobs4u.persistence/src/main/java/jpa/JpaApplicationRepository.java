@@ -137,9 +137,9 @@ public class JpaApplicationRepository implements ApplicationRepository {
         return query.getSingleResult().toString();
     }
 
-    private Optional<Application> findOfJobReferenceRanked(String jobReference, int rank) {
+    private Optional<Application> findOfJobReferenceRanked(String jobReference, String rank) {
         Query query = getEntityManager().createQuery(
-                "SELECT e FROM Application e WHERE e.jobReference LIKE :jobReference AND e.rankNumber.ordinal = :rank");
+                "SELECT e FROM Application e WHERE e.jobReference LIKE :jobReference AND e.rankNumber.rank = :rank");
         query.setParameter("jobReference", jobReference);
         query.setParameter("rank", rank);
         List applications = query.getResultList();
@@ -157,7 +157,7 @@ public class JpaApplicationRepository implements ApplicationRepository {
     }
 
     @Override
-    public boolean defineRanking(Candidate candidate, String jobReference, int rank) {
+    public boolean defineRanking(Candidate candidate, String jobReference, String rank) {
         Optional<Application> applicationFound = findOfJobReferenceRanked(jobReference, rank);
         if (applicationFound.isEmpty()){
             Application applicationToRank = findOfCandidateAndJobReference(candidate, jobReference);
@@ -174,5 +174,42 @@ public class JpaApplicationRepository implements ApplicationRepository {
                 "SELECT e FROM Application e WHERE e.jobReference = :jobReference");
         query.setParameter("jobReference", jobReference);
         return query.getResultList();
+    }
+
+    @Override
+    public List<Application> findGradableApplications(String jobReference) {
+        Query query = getEntityManager().createQuery(
+                "SELECT e FROM Application e WHERE e.jobReference = :jobReference AND e.interviewGrade = -101 AND e.interviewReplyPath is not null");
+        query.setParameter("jobReference", jobReference);
+        return query.getResultList();
+    }
+
+    @Override
+    public int saveGrades(List<Application> listOfGradableApplications) {
+        int applicationSavedCounter = 0;
+
+        if(listOfGradableApplications.isEmpty()) {
+            return applicationSavedCounter;
+        }
+
+        for (Application app : listOfGradableApplications) {
+            if (app.addInterviewGrade()){
+                applicationSavedCounter ++;
+                update(app);
+            }
+        }
+
+        return applicationSavedCounter;
+    }
+
+    @Override
+    public boolean addInterviewReplyPath(Candidate candidate, String jobReference, String interviewReplyPath) {
+        Application application = findOfCandidateAndJobReference(candidate, jobReference);
+        if (application != null){
+            application.addInterviewFilePath(interviewReplyPath);
+            update(application);
+            return true;
+        }
+        return false;
     }
 }

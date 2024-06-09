@@ -6,6 +6,11 @@ import applicationManagement.domain.dto.WordCountMap;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * This service class is responsible for counting words in files.
+ *
+ */
+
 public class CountingWordsService {
 
     public CountingWordsService() {
