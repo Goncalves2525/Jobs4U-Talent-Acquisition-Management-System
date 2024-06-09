@@ -4,15 +4,18 @@ import appUserManagement.domain.Role;
 import applicationManagement.application.ListApplicationsController;
 import applicationManagement.application.RequirementsVerificationController;
 import applicationManagement.domain.Application;
+import applicationManagement.repositories.ApplicationRepository;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
 import jobOpeningManagement.domain.JobOpening;
 import textformat.AnsiColor;
 
 
 public class RequirementsVerificationUI {
+    ApplicationRepository appRepo= PersistenceContext.repositories().applications();
     RequirementsVerificationController ctrl = new RequirementsVerificationController();
-    ListApplicationsController listApplicationsController = new ListApplicationsController();
+    ListApplicationsController listApplicationsController = new ListApplicationsController(appRepo);
     static Role managerRole;
 
     public void doShow(AuthzUI authzUI) throws Exception {

@@ -1,5 +1,7 @@
 package jobOpeningManagement.application;
 
+import appUserManagement.application.AuthzController;
+import appUserManagement.repositories.UserRepository;
 import infrastructure.persistance.PersistenceContext;
 import jobOpeningManagement.domain.JobOpening;
 import jobOpeningManagement.repositories.JobOpeningRepository;
@@ -14,7 +16,11 @@ public class GenerateCandidateFieldsFileController {
 
     private final PluginLoader pluginLoader = new PluginLoader();
     private final String pluginsDirectory = "plugins/jobRequirements/jar";
-    private final JobOpeningRepository jobOpeningRepository = PersistenceContext.repositories().jobOpenings();
+    private final JobOpeningRepository jobOpeningRepository;
+
+    public GenerateCandidateFieldsFileController(JobOpeningRepository jobOpeningRepository) {
+        this.jobOpeningRepository = jobOpeningRepository;
+    }
 
     public void generateAnswerCollectionFile(int choice) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         try {

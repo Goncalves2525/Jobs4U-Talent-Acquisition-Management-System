@@ -1,11 +1,16 @@
 package presentation.CustomerManager;
 
 import appUserManagement.domain.Role;
+import applicationManagement.application.ListCandidatesService;
+import applicationManagement.repositories.CandidateRepository;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
+import jakarta.persistence.Persistence;
 import jobOpeningManagement.application.GenerateCandidateFieldsFileController;
 import jobOpeningManagement.application.ListJobOpeningsController;
 import jobOpeningManagement.domain.JobOpening;
+import jobOpeningManagement.repositories.JobOpeningRepository;
 import plugins.PluginLoader;
 import textformat.AnsiColor;
 
@@ -17,8 +22,13 @@ public class GenerateJobRequirementSpecificationQuestionsFileUI {
 
     private final PluginLoader pluginLoader = new PluginLoader();
     static Role csutomerManagerRole;
-    GenerateCandidateFieldsFileController generateCandidateFieldsFileController = new GenerateCandidateFieldsFileController();
+    GenerateCandidateFieldsFileController generateCandidateFieldsFileController;
     ListJobOpeningsController listJobOpeningsController = new ListJobOpeningsController();
+    JobOpeningRepository repo = PersistenceContext.repositories().jobOpenings();
+
+    public GenerateJobRequirementSpecificationQuestionsFileUI() {
+        this.generateCandidateFieldsFileController = new GenerateCandidateFieldsFileController(repo);
+    }
 
     protected boolean doShow(AuthzUI authzUI){
         ConsoleUtils.buildUiHeader("Generate a text file to collect the answers of an Job Requirement Specification");

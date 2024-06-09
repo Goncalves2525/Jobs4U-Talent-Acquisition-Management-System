@@ -2,8 +2,12 @@ package applicationManagement.application;
 
 import appUserManagement.domain.Email;
 import applicationManagement.domain.*;
+import applicationManagement.repositories.ApplicationRepository;
 import jobOpeningManagement.domain.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Date;
 
@@ -15,9 +19,12 @@ public class ApplicationTest {
     private RegisterInterviewDateController controller;
     private Application application;
 
-    @Test
-    public void testApplicationStatusChange() {
-        // Arrange
+    @Mock
+    private ApplicationRepository appRepo;
+
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
         Candidate candidate = new Candidate("joao@email.com", "123456789", "Joao Silva");
         CompanyCode companyCode = new CompanyCode("123");
         Address companyAddress = new Address("Rua dos Testes", "Test", "1234");
@@ -25,10 +32,17 @@ public class ApplicationTest {
         Customer company = new Customer(companyCode, "Company",companyEmail ,companyAddress);
         Requirements requirements = new Requirements("DevOps");
         JobOpening jobOpening = new JobOpening("DevOps", ContractType.FULL_TIME, JobMode.HYBRID, companyAddress, company, 1, "teste", requirements);
-        Application application = new Application("JobRef123", candidate
+
+        // Assign the created application to the class-level variable
+        application = new Application("JobRef123", candidate
                 , jobOpening, ApplicationStatus.SUBMITTED,
         new Date(), "", "", "", RequirementsResult.APPROVED);
 
+    }
+
+    @Test
+    public void testApplicationStatusChange() {
+        // Arrange
         application.changeStatus(ApplicationStatus.PENDING);
 
         assertEquals(ApplicationStatus.PENDING, application.getStatus());
