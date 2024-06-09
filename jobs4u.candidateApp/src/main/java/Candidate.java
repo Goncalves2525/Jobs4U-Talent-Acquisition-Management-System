@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 public class Candidate {
     final static Role ROLE_REQUIRED = Role.CANDIDATE;
-    final static String HOSTNAME = "localhost";
-    //    final static String HOSTNAME = "labs-vsrv27.dei.isep.ipp.pt";
+    //final static String HOSTNAME = "localhost";
+    final static String HOSTNAME = "labs-vsrv27.dei.isep.ipp.pt";
     static InetAddress serverIP;
     final static int PORT = 1027;
     final static int TIMEOUT = 30000;
@@ -32,8 +32,6 @@ public class Candidate {
 
             // Establish follow-up server connection
             try (Socket socket = new Socket(HOSTNAME, PORT)) {
-
-                System.out.println("Chego aqui!"); // TESTING
 
                 InputStream inputStream = socket.getInputStream();
                 OutputStream outputStream = socket.getOutputStream();
