@@ -140,6 +140,8 @@ public class JobOpening implements AggregateRoot<String> {
         this.requirements = requirements;
         this.state = recruitmentState;
         this.jobReference = jobReference;
+        this.startDate = Date.from(Instant.now());
+        this.endDate = null;
     }
 
     public String jobReference() {
