@@ -25,14 +25,12 @@ public class FollowUpServerApp {
         threadArrayList.add(threadClientNotificationFetcher);
 
         // Server temporário
-        while (ConsoleUtils.confirm("Continue? (y/n)")) {
-            try {
-                Thread threadServer = new Thread(new Server());
-                threadServer.start();
-                threadServer.join();
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace(); // TESTING
-            }
+        try {
+            Thread threadServer = new Thread(new Server());
+            threadServer.start();
+            threadServer.join();
+        } catch (InterruptedException interruptedException) {
+            interruptedException.printStackTrace(); // TESTING
         }
 
 //        // Server

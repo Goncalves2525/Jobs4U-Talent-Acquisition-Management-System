@@ -32,6 +32,7 @@ public class Server implements Runnable {
 
             AuthzUI authzUI = new AuthzUI();
 
+            ConsoleUtils.showMessageColor("Waiting for new connection.", AnsiColor.CYAN);
             // Waiting for new connection
             Socket socket = serverSocket.accept();
             boolean connectionStatus = true;
