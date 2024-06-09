@@ -16,6 +16,9 @@ public class Candidate implements AggregateRoot<String> {
     @Column
     private String name;
 
+    @Column
+    private String requirementsFilePath;
+
     protected Candidate() {
         // for ORM
     }
@@ -36,6 +39,14 @@ public class Candidate implements AggregateRoot<String> {
 
     public String name() {
         return name;
+    }
+
+    public String requirementsFilePath() {
+        return requirementsFilePath;
+    }
+
+    public void setRequirementsFilePath(String requirementsFilePath) {
+        this.requirementsFilePath = requirementsFilePath;
     }
 
     @Override

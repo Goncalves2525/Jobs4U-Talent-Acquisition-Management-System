@@ -1,0 +1,37 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "Operator" as OP
+participant "UploadCandidateRequirementsFileUI" as UI
+participant "UploadCandidateRequirementsFileController" as CTRL
+participant "JpaCandidateRepository" as CREPO
+participant "Candidate" as CAND
+
+activate OP
+    activate UI
+        UI --> OP : prompt for file upload
+        OP -> UI : upload file
+        activate CTRL
+            UI -> CTRL : handleFileUpload(file)
+            deactivate UI
+            activate CAND
+                CTRL -> CAND : update candidate(data)
+                CAND --> CTRL : return candidate
+            deactivate CAND
+            CTRL -> CREPO : save(candidate)
+            activate CREPO
+                CREPO -> CREPO : save(candidate)
+                CREPO --> CTRL : return true
+            deactivate CREPO
+            CTRL --> UI : return success message
+            activate UI
+        deactivate CTRL
+        UI --> OP : display success message
+    deactivate UI
+deactivate OP
+
+@enduml

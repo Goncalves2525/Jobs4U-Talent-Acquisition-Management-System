@@ -1,0 +1,25 @@
+@startuml
+
+package Presentation {
+    class UploadCandidateRequirementsFileUI
+}
+
+package Domain {
+    class Candidate
+}
+
+package Persistence {
+    class JpaCandidateRepository
+    interface CandidateRepository
+}
+
+package Application {
+    class UploadCandidateRequirementsFileController
+}
+
+Presentation.UploadCandidateRequirementsFileUI --> Application.UploadCandidateRequirementsFileController
+Application.UploadCandidateRequirementsFileController --> Persistence.CandidateRepository
+Persistence.CandidateRepository <|-- Persistence.JpaCandidateRepository
+Application.UploadCandidateRequirementsFileController --> Domain.Candidate
+
+@enduml
