@@ -9,6 +9,8 @@ import plugins.Plugin;
 import plugins.PluginLoader;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @ApplicationService
@@ -69,5 +71,35 @@ public class EvaluateInterviewManagerService {
 
         // Save grades from plugin work
         return repo.saveGrades(listOfGradableApplications);
+    }
+
+    public List<Application> orderApplicationsByInterviewGrade(List<Application> listOfApplications) {
+
+        if(listOfApplications == null) {
+            return null;
+        }
+
+        if(verifyApplicationPendingInterviewEvaluation(listOfApplications)){
+            return new ArrayList<>();
+        }
+
+        return orderApplicationListByInterviewGrade(listOfApplications);
+    }
+
+    private boolean verifyApplicationPendingInterviewEvaluation(List<Application> listOfApplications) {
+        // verify if there's any application with default grade value (-101) and available interview reply
+        for (Application app : listOfApplications) {
+            if (app.getInterviewGrade() == -101 && app.getInterviewReplyPath() != null){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private List<Application> orderApplicationListByInterviewGrade(List<Application> listOfApplications) {
+        listOfApplications.sort(Comparator.nullsFirst(Comparator
+                .comparingInt(Application::getInterviewGrade).reversed()
+                .thenComparing(app -> app.getCandidate().name())));
+        return listOfApplications;
     }
 }
