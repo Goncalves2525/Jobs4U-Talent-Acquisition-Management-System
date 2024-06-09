@@ -11,7 +11,7 @@ import jobOpeningManagement.domain.RecruitmentState;
 public class RankingController {
 
     private ApplicationRepository repo = PersistenceContext.repositories().applications();
-    private ListApplicationsController appController = new ListApplicationsController();
+    private ListApplicationsController appController = new ListApplicationsController(repo);
     private CandidateController candidateController = new CandidateController();
     private ListJobOpeningsController jobOpeningController = new ListJobOpeningsController();
 
