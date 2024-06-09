@@ -1,15 +1,18 @@
 package presentation.CustomerManager;
 
-
+import applicationManagement.repositories.ApplicationRepository;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
+import jobOpeningManagement.repositories.JobOpeningRepository;
 import textformat.AnsiColor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerManagerUI {
-
+    ApplicationRepository appRepo = PersistenceContext.repositories().applications();
+    JobOpeningRepository jobOpeningRepository=PersistenceContext.repositories().jobOpenings();
 
     public void doShow(AuthzUI authzUI) throws Exception {
 
@@ -32,7 +35,8 @@ public class CustomerManagerUI {
         options.add("Evaluate Interview Model");                        // 13
         options.add("Check Application Data");                          // 14
         options.add("Notification Menu");                               // 15
-        options.add("Rank Candidates");                                 // 16
+        options.add("Define Recruitment Phase");                        // 16
+        options.add("Rank Candidates");                                 // 17
 
         String message = "What do you want to do?";
         String exit = "Exit";
@@ -67,7 +71,7 @@ public class CustomerManagerUI {
                     listCandidatePersonalDataUI.doShow(authzUI);
                     break;
                 case 6:
-                    ListApplicationsUI listApplicationsUI = new ListApplicationsUI();
+                    ListApplicationsUI listApplicationsUI = new ListApplicationsUI(appRepo);
                     listApplicationsUI.doShow(authzUI);
                     break;
                 case 7:
@@ -107,6 +111,10 @@ public class CustomerManagerUI {
                     notificationUI.doShow(authzUI);
                     break;
                 case 16:
+                    DefineRecruitmentPhaseUI defineRecruitmentPhaseUI = new DefineRecruitmentPhaseUI();
+                    defineRecruitmentPhaseUI.doShow(authzUI);
+                    break;
+                case 17:
                     RankCandidatesUI rankCandidatesUI = new RankCandidatesUI();
                     rankCandidatesUI.doShow(authzUI);
                     break;

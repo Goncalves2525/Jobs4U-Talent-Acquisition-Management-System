@@ -1,11 +1,17 @@
 package applicationManagement.application;
 
+import appUserManagement.application.AuthzController;
+import appUserManagement.repositories.UserRepository;
 import applicationManagement.domain.Application;
 import applicationManagement.repositories.ApplicationRepository;
 import infrastructure.persistance.PersistenceContext;
 
 public class ListApplicationsController {
-    private ApplicationRepository repo = PersistenceContext.repositories().applications();
+    private ApplicationRepository repo;
+
+    public ListApplicationsController(ApplicationRepository applicationRepository) {
+        this.repo = applicationRepository;
+    }
 
     public Iterable<Application> listApplications() {
         return repo.findAll();
