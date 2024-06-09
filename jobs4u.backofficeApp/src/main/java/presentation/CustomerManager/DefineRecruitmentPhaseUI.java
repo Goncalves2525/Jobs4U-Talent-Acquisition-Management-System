@@ -3,16 +3,19 @@ package presentation.CustomerManager;
 import appUserManagement.domain.Role;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
 import jobOpeningManagement.application.DefineRecruitmentPhaseController;
 import jobOpeningManagement.domain.JobOpening;
 import jobOpeningManagement.domain.RecruitmentState;
+import jobOpeningManagement.repositories.JobOpeningRepository;
 import textformat.AnsiColor;
 
 import java.util.List;
 
 public class DefineRecruitmentPhaseUI {
 
-    private DefineRecruitmentPhaseController ctrl = new DefineRecruitmentPhaseController();
+    JobOpeningRepository jobOpeningRepository= PersistenceContext.repositories().jobOpenings();
+    private DefineRecruitmentPhaseController ctrl = new DefineRecruitmentPhaseController(jobOpeningRepository);
     static Role managerRole;
 
     protected void doShow(AuthzUI authzUI) {

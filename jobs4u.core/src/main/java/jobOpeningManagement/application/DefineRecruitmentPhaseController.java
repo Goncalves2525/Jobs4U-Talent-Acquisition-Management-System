@@ -11,7 +11,11 @@ import java.util.stream.Collectors;
 
 public class DefineRecruitmentPhaseController {
 
-    JobOpeningRepository repo = PersistenceContext.repositories().jobOpenings();
+    JobOpeningRepository repo;
+
+    public DefineRecruitmentPhaseController(JobOpeningRepository jobOpeningRepository){
+        this.repo=jobOpeningRepository;
+    }
 
     public JobOpening findJobOpeningById(String id){
         return repo.ofIdentity(id).get();

@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public class AuthzController {
 
-    private final UserRepository repo = PersistenceContext.repositories().users();
+    private final UserRepository repo;
 
-    public AuthzController() {}
+    public AuthzController(UserRepository userRepository) {this.repo=userRepository;}
 
     public Optional<String> doLogin(String user, String pwd){ return repo.authenticate(user, pwd); };
 

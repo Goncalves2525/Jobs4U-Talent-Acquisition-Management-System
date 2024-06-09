@@ -12,6 +12,8 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Date;
 
+import static org.junit.Assert.*;
+
 public class SelectInterviewModelTest {
 
     private Application application;
@@ -28,14 +30,73 @@ public class SelectInterviewModelTest {
         JobOpening jobOpening = new JobOpening("DevOps", ContractType.FULL_TIME, JobMode.HYBRID, companyAddress, company, 1, "teste", requirements);
         application = new Application("JobRef123", candidate
                 , jobOpening, ApplicationStatus.SUBMITTED,
-                new Date(), "", null, "", RequirementsResult.APPROVED);
+                new Date(), "", "/path/to/file", "/path/to/application/files", RequirementsResult.APPROVED);
     }
 
-//    @Test
-//    void ensureApplicationDoesNotHaveInterviewModel() {
-//        // Act
-//        boolean result = application.checkIfApplicationHasInterviewModel();
-//        // Assert
-//        Assertions.assertFalse(result);
-//    }
+    @Test
+    void ensureApplicationDoesNotHaveInterviewModel() {
+        // Act
+        boolean result = application.checkIfApplicationHasInterviewDate();
+        // Assert
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void testAssotiateRequirementResultToApplicationApproved() {
+        application.assotiateRequirementResultToApplication(1);
+
+        assertEquals(RequirementsResult.APPROVED, application.getRequirementsResult());
+    }
+
+    @Test
+    public void testAssotiateRequirementResultToApplicationRejected() {
+        application.assotiateRequirementResultToApplication(0);
+
+        assertEquals(RequirementsResult.REJECTED, application.getRequirementsResult());
+    }
+
+    @Test
+    public void testRegisterInterviewDateToApplication() {
+        Date interviewDate = new Date();
+
+        boolean result = application.registerInterviewDateToApplication(interviewDate);
+
+        assertTrue(result);
+        assertEquals(interviewDate, application.getInterviewDate());
+    }
+
+    @Test
+    public void testRegisterInterviewDateToApplicationNullDate() {
+        boolean result = application.registerInterviewDateToApplication(null);
+
+        assertTrue(result);
+        assertNull(application.getInterviewDate());
+    }
+
+    @Test
+    public void testChangeRankingNumber() {
+        int newRankingNumber = 5;
+
+        application.changeRankingNumber(newRankingNumber);
+
+        assertEquals(newRankingNumber, application.rankNumber().getOrdinal());
+    }
+
+    @Test
+    public void testChangeRankingNumberNegative() {
+        int newRankingNumber = -1;
+
+        application.changeRankingNumber(newRankingNumber);
+
+        assertEquals(newRankingNumber, application.rankNumber().getOrdinal());
+    }
+
+    @Test
+    public void testChangeRankingNumberZero() {
+        int newRankingNumber = 0;
+
+        application.changeRankingNumber(newRankingNumber);
+
+        assertEquals(newRankingNumber, application.rankNumber().getOrdinal());
+    }
 }
