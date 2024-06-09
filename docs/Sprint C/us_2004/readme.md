@@ -37,13 +37,16 @@
 
 ### 4.1. Realization
 
+### 4.1. Realization
+
 | Interaction ID | Question: Which class is responsible for...                 | Answer                                | Pattern            |
 |:---------------|:------------------------------------------------------------|:--------------------------------------|:-------------------|
 | Step 1         | Initiating the file upload process                          | UploadCandidateRequirementsFileUI     | Pure Fabrication   |
 | Step 2         | Handling the file input and forwarding it to the controller | UploadCandidateRequirementsFileController | Controller      |
-| Step 3         | Updating the Candidate entity with the file data            | Candidate                             | Information Expert |
-| Step 4         | Saving the candidate data                                   | JpaCandidateRepository                | Information Expert |
-| Step 5         | Informing the Operator of the upload result                 | UploadCandidateRequirementsFileUI     | Pure Fabrication   |
+| Step 3         | Validating the file syntax using ANTLR                      | ANTLR Grammar Validator               | Service            |
+| Step 4         | Updating the Candidate entity with the file data            | Candidate                             | Information Expert |
+| Step 5         | Saving the candidate data                                   | JpaCandidateRepository                | Information Expert |
+| Step 6         | Informing the Operator of the upload result                 | UploadCandidateRequirementsFileUI     | Pure Fabrication   |
 
 
 According to the taken rationale, the conceptual classes promoted to software classes are:

@@ -17,8 +17,13 @@ package Application {
     class UploadCandidateRequirementsFileController
 }
 
+package ExternalService {
+    class CandidateRequirementsGrammarValidation
+}
+
 Presentation.UploadCandidateRequirementsFileUI --> Application.UploadCandidateRequirementsFileController
 Application.UploadCandidateRequirementsFileController --> Persistence.CandidateRepository
+Application.UploadCandidateRequirementsFileController --> ExternalService.CandidateRequirementsGrammarValidation
 Persistence.CandidateRepository <|-- Persistence.JpaCandidateRepository
 Application.UploadCandidateRequirementsFileController --> Domain.Candidate
 

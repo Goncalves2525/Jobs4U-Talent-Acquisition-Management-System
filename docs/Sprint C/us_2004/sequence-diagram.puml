@@ -10,6 +10,7 @@ participant "UploadCandidateRequirementsFileUI" as UI
 participant "UploadCandidateRequirementsFileController" as CTRL
 participant "JpaCandidateRepository" as CREPO
 participant "Candidate" as CAND
+participant "ANTLR Grammar Validator" as ANTLR
 
 activate OP
     activate UI
@@ -18,8 +19,12 @@ activate OP
         activate CTRL
             UI -> CTRL : handleFileUpload(file)
             deactivate UI
+            activate ANTLR
+                CTRL -> ANTLR : validateFileSyntax(file)
+                ANTLR --> CTRL : validation result
+                deactivate ANTLR
             activate CAND
-                CTRL -> CAND : update candidate(data)
+                CTRL -> CAND : updateCandidate(data)
                 CAND --> CTRL : return candidate
             deactivate CAND
             CTRL -> CREPO : save(candidate)
