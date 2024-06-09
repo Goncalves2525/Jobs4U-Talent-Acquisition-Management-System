@@ -35,6 +35,7 @@ public class CustomerManagerUI {
         options.add("Check Application Data");                          // 15
         options.add("Notification Menu");                               // 16
         options.add("Define Recruitment Phase");                        // 17
+        options.add("Rank Candidates");                                 // 18
 
         String message = "What do you want to do?";
         String exit = "Exit";
@@ -115,6 +116,10 @@ public class CustomerManagerUI {
                 case 17:
                     DefineRecruitmentPhaseUI defineRecruitmentPhaseUI = new DefineRecruitmentPhaseUI();
                     defineRecruitmentPhaseUI.doShow(authzUI);
+                    break;
+                case 18:
+                    RankCandidatesUI rankCandidatesUI = new RankCandidatesUI();
+                    rankCandidatesUI.doShow(authzUI);
                     break;
                 default:
                     ConsoleUtils.showMessageColor("Invalid option! Try again.", AnsiColor.RED);

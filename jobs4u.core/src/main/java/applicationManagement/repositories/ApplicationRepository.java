@@ -14,7 +14,7 @@ public interface ApplicationRepository extends DomainRepository<String, Applicat
 
     String countApplicants(String jobReference);
 
-    boolean defineRanking(Candidate candidate, String jobReference, int rank);
+    boolean defineRanking(Candidate candidate, String jobReference, String rank);
 
     List<Application> ofJobReference(String jobReference);
 
