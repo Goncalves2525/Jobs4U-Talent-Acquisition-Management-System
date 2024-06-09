@@ -4,6 +4,8 @@ import infrastructure.persistance.PersistenceContext;
 import jobOpeningManagement.domain.JobOpening;
 import jobOpeningManagement.repositories.JobOpeningRepository;
 
+import java.util.List;
+
 public class ListJobOpeningsController {
     private JobOpeningRepository repo = PersistenceContext.repositories().jobOpenings();
 
@@ -12,4 +14,6 @@ public class ListJobOpeningsController {
     }
 
     public Iterable<JobOpening> listJobOpeningsResultPhase() { return repo.findAllActiveJobOpeningsResultPhase(); }
+
+    public List<JobOpening> listActiveJobOpenings() { return repo.findAllActiveJobOpenings(); }
 }
