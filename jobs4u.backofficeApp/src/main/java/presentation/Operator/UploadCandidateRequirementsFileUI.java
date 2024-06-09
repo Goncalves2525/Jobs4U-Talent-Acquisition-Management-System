@@ -4,16 +4,10 @@ import appUserManagement.domain.Role;
 import applicationManagement.domain.Candidate;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
-import jobOpeningManagement.application.GenerateCandidateFieldsFileController;
 import jobOpeningManagement.application.UploadCandidateRequirementsController;
-import plugins.Plugin;
-import plugins.PluginLoader;
 import textformat.AnsiColor;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
 
 public class UploadCandidateRequirementsFileUI {
 
@@ -40,8 +34,8 @@ public class UploadCandidateRequirementsFileUI {
             return false;
         }
 
-        ConsoleUtils.readLineFromConsole("Path to the file: ");
-        if(uploadCandidateRequirementsController.uploadCandidateRequirementsFile(candidate.get().email(), choice))
+        String filePath = ConsoleUtils.readLineFromConsole("Path to the file: ");
+        if(uploadCandidateRequirementsController.uploadCandidateRequirementsFile(candidate.get().email(), filePath))
             ConsoleUtils.showMessageColor("File uploaded successfully", AnsiColor.GREEN);
 
 
