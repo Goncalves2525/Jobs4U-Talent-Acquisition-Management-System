@@ -41,8 +41,11 @@ sem_t *report_write_mutex;
 
 
 /**
- *  
+ *  Finaliza a aplicação:
  * 
+ *  Liberta recursos os alocados e encerrando a execução.
+ *  Deve ser chamada antes da fim da aplicação para garantir que os recursos
+ *  sejam corretamente libertados
  */
 void terminate_app(){
 	
