@@ -6,7 +6,7 @@
 
 ## 2. Requirements
 
-**US 2004** 
+**US 2004** As Operator, I want to upload a text file with the data fields (requirements ) of a candidate for its verification.
 
 **Acceptance Criteria:**
 
@@ -15,7 +15,7 @@
 
 **Dependencies/References:**
 
-*Regarding this requirement we understand that it relates to *
+*.*
 
 
 ## 3. Analysis

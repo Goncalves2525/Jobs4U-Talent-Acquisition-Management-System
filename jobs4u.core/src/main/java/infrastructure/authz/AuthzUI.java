@@ -62,4 +62,7 @@ public class AuthzUI {
         }
         return authzController.findCurrentUserEmail(this.sessionToken.get());
     }
+    public Optional<String> getSessionToken() {
+        return this.sessionToken;
+    }
 }

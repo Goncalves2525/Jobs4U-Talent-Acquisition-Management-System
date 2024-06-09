@@ -3,8 +3,10 @@ package presentation.CustomerManager;
 import appUserManagement.domain.Role;
 import applicationManagement.application.ListApplicationsController;
 import applicationManagement.domain.Application;
+import applicationManagement.repositories.ApplicationRepository;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
+import infrastructure.persistance.PersistenceContext;
 import jobOpeningManagement.application.ListJobOpeningsController;
 import jobOpeningManagement.domain.JobOpening;
 import notificationManagement.application.NotificationCustomerManagerController;
@@ -18,8 +20,9 @@ public class NotificationUI {
 
     static Role managerRole;
 
+    ApplicationRepository appRepo= PersistenceContext.repositories().applications();
     ListJobOpeningsController listJobOpeningCtrl = new ListJobOpeningsController();
-    ListApplicationsController listApplicationCtrl = new ListApplicationsController();
+    ListApplicationsController listApplicationCtrl = new ListApplicationsController(appRepo);
     NotificationCustomerManagerController notificationCmCtrl = new NotificationCustomerManagerController();
 
     public NotificationUI() {

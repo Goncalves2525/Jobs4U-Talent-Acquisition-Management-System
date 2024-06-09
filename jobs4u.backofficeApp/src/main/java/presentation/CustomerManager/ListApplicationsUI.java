@@ -1,10 +1,15 @@
 package presentation.CustomerManager;
 
+import appUserManagement.application.AuthzController;
 import appUserManagement.domain.Role;
+import appUserManagement.repositories.UserRepository;
+import applicationManagement.application.CandidateController;
 import applicationManagement.application.ListApplicationsController;
 import applicationManagement.application.ListWordCountController;
+import applicationManagement.application.ManageCandidateController;
 import applicationManagement.domain.Application;
 import applicationManagement.domain.dto.WordCount;
+import applicationManagement.repositories.ApplicationRepository;
 import console.ConsoleUtils;
 import infrastructure.authz.AuthzUI;
 import jobOpeningManagement.application.ListJobOpeningsController;
@@ -15,11 +20,15 @@ import java.util.*;
 
 public class ListApplicationsUI {
 
-    ListApplicationsController ctrl = new ListApplicationsController();
+    ListApplicationsController ctrl;
     ListJobOpeningsController ctrlJobOpening = new ListJobOpeningsController();
     ListWordCountController ctrlWordCount = new ListWordCountController();
 
     static Role managerRole;
+
+    public ListApplicationsUI(ApplicationRepository applicationRepository) {
+        this.ctrl = new ListApplicationsController(applicationRepository);
+    }
 
     protected void doShow(AuthzUI authzUI) {
         ConsoleUtils.buildUiHeader("List Applications");
@@ -76,6 +85,7 @@ public class ListApplicationsUI {
                                     System.out.printf("%15s | ", wc.getWord());
                                     System.out.printf("%4d | ", wc.getWordCount());
                                     System.out.printf("%s ", wc.getFiles());
+                                    System.out.println();
                                 } catch (NullPointerException isNull){
                                     ConsoleUtils.showMessageColor("Word object is null. I will skip it.", AnsiColor.PURPLE);
                                 }
