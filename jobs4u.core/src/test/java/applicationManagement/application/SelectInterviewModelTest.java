@@ -75,28 +75,28 @@ public class SelectInterviewModelTest {
 
     @Test
     public void testChangeRankingNumber() {
-        int newRankingNumber = 5;
+        String newRankingNumber = "5";
 
         application.changeRankingNumber(newRankingNumber);
 
-        assertEquals(newRankingNumber, application.rankNumber().getOrdinal());
+        assertEquals(newRankingNumber, application.rankNumber().getRank());
     }
 
     @Test
     public void testChangeRankingNumberNegative() {
-        int newRankingNumber = -1;
+        String newRankingNumber = "-1";
 
         application.changeRankingNumber(newRankingNumber);
 
-        assertEquals(newRankingNumber, application.rankNumber().getOrdinal());
+        assertEquals(newRankingNumber, application.rankNumber().getRank());
     }
 
     @Test
     public void testChangeRankingNumberZero() {
-        int newRankingNumber = 0;
+        String newRankingNumber = "0";
 
         application.changeRankingNumber(newRankingNumber);
 
-        assertEquals(newRankingNumber, application.rankNumber().getOrdinal());
+        assertEquals(newRankingNumber, application.rankNumber().getRank());
     }
 }
