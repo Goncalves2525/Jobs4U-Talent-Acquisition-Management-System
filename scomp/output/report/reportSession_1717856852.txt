@@ -35,3 +35,108 @@
 5-email.txt
 5-report-.txt
 
+#subdir:  (qty files moved: 50)
+3-big-file-1.txt
+3-candidate-data.txt
+3-cv.txt
+3-email.txt
+3-report-.txt
+
+#subdir: output/IBM-000123/janedoe@email.com (qty files moved: 5)
+2-big-file1.txt
+2-candidate-data.txt
+2-cv.txt
+2-email.txt
+2-letter.txt
+
+#subdir:  (qty files moved: 52)
+2-big-file1.txt
+2-candidate-data.txt
+2-cv.txt
+2-email.txt
+2-letter.txt
+
+#subdir: output/IBM-000123/johndoe@email.com (qty files moved: 5)
+1-big-file-1.txt
+1-candidate-data.txt
+1-cv.txt
+1-email.txt
+1-report-1.txt
+
+#subdir:  (qty files moved: 53)
+4-big-file-1.txt
+4-candidate-data.txt
+4-cv.txt
+4-email.txt
+4-report-.txt
+
+#subdir: output/IBM-000123/johndoe@email.com (qty files moved: 5)
+3-big-file-1.txt
+3-candidate-data.txt
+3-cv.txt
+3-email.txt
+3-report-.txt
+
+#subdir:  (qty files moved: 50)
+5-big-file-1.txt
+5-candidate-data.txt
+5-cv.txt
+5-email.txt
+5-report-.txt
+
+#subdir: output/IBM-000123/johndoe@email.com (qty files moved: 5)
+1-big-file-1.txt
+1-candidate-data.txt
+1-cv.txt
+1-email.txt
+1-report-1.txt
+
+#subdir:  (qty files moved: 52)
+1-big-file-1.txt
+1-candidate-data.txt
+1-cv.txt
+1-email.txt
+1-report-1.txt
+
+#subdir:  (qty files moved: 53)
+2-big-file1.txt
+2-candidate-data.txt
+2-cv.txt
+2-email.txt
+2-letter.txt
+
+#subdir: output/IBM-000123/johndoe@email.com (qty files moved: 5)
+5-big-file-1.txt
+5-candidate-data.txt
+5-cv.txt
+5-email.txt
+5-report-.txt
+
+#subdir:  (qty files moved: 50)
+4-big-file-1.txt
+4-candidate-data.txt
+4-cv.txt
+4-email.txt
+4-report-.txt
+
+#subdir: output/IBM-000123/johndoe@email.com (qty files moved: 5)
+1-big-file-1.txt
+1-candidate-data.txt
+1-cv.txt
+1-email.txt
+1-report-1.txt
+
+#subdir:  (qty files moved: 52)
+1-big-file-1.txt
+1-candidate-data.txt
+1-cv.txt
+1-email.txt
+1-report-1.txt
+
+#subdir: output/IBM-000123/janedoe@email.com (qty files moved: 5)
+2-big-file1.txt
+2-candidate-data.txt
+2-cv.txt
+2-email.txt
+2-letter.txt
+

@@ -189,7 +189,7 @@ public class Application implements AggregateRoot<String>, Serializable {
         }
     }
 
-    public void changeRankingNumber(int i) { rankNumber.setOrdinal(i); }
+    public void changeRankingNumber(String rank) { rankNumber.setRank(rank); }
 
     public boolean addInterviewFilePath(String path) {
         if (this.interviewReplyPath == null){

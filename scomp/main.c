@@ -28,7 +28,7 @@ char* oldPrefixes;
 int fd;
 
 sem_t *monitor_read_mutex;
-sem_t *monitor_write_mutex;
+//sem_t *monitor_write_mutex;
 shared_data_type *shared_data;
 sem_t *worker_write_mutex;
 sem_t *worker_read_mutex;
@@ -49,8 +49,8 @@ void terminate_app(){
 	//MONITOR DATA
 	sem_close(monitor_read_mutex);
 	shm_unlink(MONITOR_READ_MUTEX);
-	sem_close(monitor_write_mutex);
-	shm_unlink(MONITOR_WRITE_MUTEX);
+	//sem_close(monitor_write_mutex);
+	//shm_unlink(MONITOR_WRITE_MUTEX);
 
 	//PREFIXES DATA
 	free(oldPrefixes);
@@ -149,7 +149,7 @@ int main(int argc, char *argv[]) {
 	//US201b:
 	//--->SEMÁFORO PARA MONITORIZAÇÃO
 	monitor_read_mutex = sem_open(MONITOR_READ_MUTEX, O_CREAT, 0644,0 );
-	monitor_write_mutex = sem_open(MONITOR_WRITE_MUTEX, O_CREAT, 0644, 0);
+	//monitor_write_mutex = sem_open(MONITOR_WRITE_MUTEX, O_CREAT, 0644, 0);
     //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
     // Código filho que monitoriza:
@@ -234,12 +234,10 @@ int main(int argc, char *argv[]) {
 			filesMoved[0] = '\0';
 			createdPath[0] = '\0';
 			currentPrefix[0] = '\0';
-			//printf("WORKER %d: À espera de Trabalho\n", result.child);
 			sem_wait(worker_read_mutex);
-			//printf("WORKER %d: Recebi trabalho a abrir data\n", result.child);
 			strcpy(currentPrefix, shared_data->prefixo);
 
-			printf("WORKER %d: Recebi o Buffer |%s| Prefixo |%s|\n", result.child,  shared_data->buffer, shared_data->prefixo);
+			//printf("WORKER %d: Recebi o Buffer |%s| Prefixo |%s|\n", result.child,  shared_data->buffer, shared_data->prefixo);
 			if(strcmp(currentPrefix, "") != 0 && currentPrefix[0] != '\0' && isNumeric(currentPrefix) == 1){
 				printf("WORKER %d: A processar Prefixo: |%s|\n", result.child,  currentPrefix);
 				// for (int i = 0; i < 20; i++) {
@@ -249,7 +247,7 @@ int main(int argc, char *argv[]) {
 				// 	}
 				// 	printf("WORKER %d: - currentPrefix[%d]: %c -> %d \n", result.child, i, currentPrefix[i], currentPrefix[i]);
 				// }
-				// shared_data->buffer[0] = '\0'; //evitar que outro filho leia este prefixo
+				// shared_data->buffer[0] = '\0'; 
 				// strncpy(shared_data->buffer, '\0', BUFFER_SIZE );
 				available = 1;
 			}
@@ -341,7 +339,7 @@ int main(int argc, char *argv[]) {
 
 
 	char currentPrefix[20] = "";
-	sem_post(monitor_write_mutex);
+	//sem_post(monitor_write_mutex);
 	while(1){
 		
 
@@ -360,7 +358,7 @@ int main(int argc, char *argv[]) {
 			//perror("Error opening directory\n");
 			end = 1;
 		}
-
+		//char* oldPrefixes;
 		oldPrefixes = malloc(sizeof(char) * fileCount);
 		//
 		if(oldPrefixes == NULL){
@@ -395,7 +393,7 @@ int main(int argc, char *argv[]) {
 					sem_wait(worker_write_mutex);
 					strncpy(shared_data->buffer, currentPrefix, BUFFER_SIZE );
 					strcpy(shared_data->prefixo, currentPrefix );
-					printf("DISTRIBUIDOR: A Processar o Prefixo %s - Buffer %s\n", currentPrefix, shared_data->buffer);
+					//printf("DISTRIBUIDOR: A Processar o Prefixo %s - Buffer %s\n", currentPrefix, shared_data->buffer);
 					sem_post(worker_read_mutex);
 					runningWorkers++;
 					strcat(oldPrefixes, currentPrefix);
@@ -425,7 +423,8 @@ int main(int argc, char *argv[]) {
 			runningWorkers--;
 		}
 		
-		sem_post(monitor_write_mutex);
+		//free(oldPrefixes);
+		//sem_post(monitor_write_mutex);
 	}
 	terminate_app();
 }
