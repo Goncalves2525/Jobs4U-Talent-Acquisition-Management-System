@@ -143,7 +143,11 @@ The implementation had minor changes, since the UI already had access to a list 
 
 > Commit list (descending)
 >
-> ...
+> 1353cb0 <br>
+> 86b6300 <br>
+> 22ac288 <br>
+> 8b807bd <br>
+> 3a93d25
 
 ## 6. Integration/Demonstration
 
