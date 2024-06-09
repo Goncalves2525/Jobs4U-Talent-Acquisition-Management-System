@@ -101,7 +101,9 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 ### 4.2. Logical and Sequence Diagram
 
-![4000 Logical Diagram](4000_LD_01.svg)
+![4000 Logical Diagram 01](4000_LD_01.svg)
+
+![4000 Logical Diagram 02](diagram.png)
 
 ![4000 SD-01 List 20 Most Referenced Words](4000_SD_01.svg)
 
