@@ -27,6 +27,12 @@ It is dependent on [US 1012](../../Sprint B/us_1012/readme.md), since it needs t
 > Isto é, na US 1017, devemos apenas verificar o formato do ficheiro ou devemos verificar também se as respostas são preenchidas com o tipo de dados correto? <br>
 > A214. O caso mencionado deve ser considerado um erro de validação do ficheiro (ou seja, o ficheiro submetido não corresponde à gramática definida).*"
 
+> "*A235. Na secção 2.3.4: “The system should provide a justification, such as "A minimum Bachelor degree is required for the job position”.
+> A similar approach is used for job interviews, but in this case, the goal is not to approve or reject a candidate but to evaluate the answers and calculate a grade for the interview in the range 1-100”.
+> Sim, seria importante apresentar uma listagem ordenada pelas notas.
+> Devia ainda ser possivel, para cada entrevista, saber a justfificação para a nota.
+> Pode ser considerada justificação saber para cada pergunta a nota obtida e qual foi a resposta data pelo candidato (por exemplo).*"
+
 ## 3. Analysis
 
 From the context and requirements, it was identified the following major features to take in consideration towards the design.
