@@ -208,8 +208,8 @@ int main(int argc, char *argv[]) {
 	//--->SEMAPHORES WORKER E PAI
 	worker_write_mutex = sem_open(WORKER_WRITE_MUTEX, O_CREAT, 0644, 1);
 	worker_read_mutex = sem_open(WORKER_READ_MUTEX, O_CREAT, 0644, 0);
-	report_read_mutex = sem_open(REPORT_READ_MUTEX, O_CREAT, 0644, 1);
-	report_write_mutex = sem_open(REPORT_WRITE_MUTEX, O_CREAT, 0644, 0);
+	report_read_mutex = sem_open(REPORT_READ_MUTEX, O_CREAT, 0644, 0);
+	report_write_mutex = sem_open(REPORT_WRITE_MUTEX, O_CREAT, 0644, 1);
 	//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
     // Cria filhos trabalhadores:
@@ -318,14 +318,12 @@ int main(int argc, char *argv[]) {
 				shared_report->pid = getpid();
 				strcpy(shared_report->createdPath, jobApplicantPath);
 				strcpy(shared_report->filesMoved, filesMoved);
-				
+				printf("WORKER: Escrevi este caminho no report: %s\n", shared_report->createdPath);
 			}
 			else{
 				shared_report->qtyFilesMoved = 0;
 			}
 			sem_post(report_read_mutex);
-			
-
 		}
 		exit(EXIT_SUCCESS);
 	}
@@ -371,6 +369,7 @@ int main(int argc, char *argv[]) {
 			memset(oldPrefixes, '\0', sizeof(char) * fileCount);
 		}
 		fileToProcess = fileCount;
+		printf("DISTRIBUIDOR: A Processar %d Ficheiros\n", fileCount);
 		while (fileToProcess > 0)
 		{
 			int to = fileCount < arg.nWorkers ? fileCount : arg.nWorkers;
@@ -386,7 +385,7 @@ int main(int argc, char *argv[]) {
 				
 				//Atribuir tarefas aos WORKERS
 				end = findNewPrefix(fileNames, fileCount, currentPrefix, oldPrefixes);
-				if(end !=0){
+				if(end != 0){
 					// Se não for encontrado prefixo, fazer reset ao currentPrefix:
 					memset(currentPrefix, '\0', sizeof(currentPrefix));
 				}else{
@@ -399,8 +398,8 @@ int main(int argc, char *argv[]) {
 					//printf("DISTRIBUIDOR: A Processar o Prefixo %s - Buffer %s\n", currentPrefix, shared_data->buffer);
 					sem_post(worker_read_mutex);
 					runningWorkers++;
+					printf("DISTRIBUIDOR: (inc)Running Workers %d\n", runningWorkers);
 					strcat(oldPrefixes, currentPrefix);
-					
 				}
 			}
 			childReport report;
@@ -421,9 +420,12 @@ int main(int argc, char *argv[]) {
 			sem_post(report_write_mutex);
 			if(updateSession == 1){
 				updateSessionFile(sessionFile, &report);
+				fileToProcess--;
+				runningWorkers--;
 			}
-			fileToProcess--;
-			runningWorkers--;
+			printf("DISTRIBUIDOR: (dec)Running Workers %d\n", runningWorkers);
+			printf("DISTRIBUIDOR: (dec)Ficheiros restantes %d\n", fileToProcess);
+			printf("Meteu-se este caminho no report: %s\n", report.createdPath);
 		}
 		
 		//free(oldPrefixes);

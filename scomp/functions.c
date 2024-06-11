@@ -658,6 +658,7 @@ void monitor_files(char* inputPath, int timeInterval) {
             //printf("MONITOR: Ficheiros novos! Fiz POST, %d\n", num_files);
             
             sem_post(monitor_read_mutex);
+            printf("MONITOR: Ficheiros novos! Fiz POST, %d\n", num_files);
         }
 
         // // Verificar se o número de ficheiros alterou

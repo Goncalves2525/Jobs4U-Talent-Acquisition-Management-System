@@ -1,9 +1,0 @@
-#subdir:  (qty files moved: 50)
-
-#subdir: output/IBM-000123/janedoe@email.com (qty files moved: 5)
-2-big-file1.txt
-2-candidate-data.txt
-2-cv.txt
-2-email.txt
-2-letter.txt
-
