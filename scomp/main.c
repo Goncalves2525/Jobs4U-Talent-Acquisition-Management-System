@@ -242,7 +242,6 @@ int main(int argc, char *argv[]) {
 
 			//printf("WORKER %d: Recebi o Buffer |%s| Prefixo |%s|\n", result.child,  shared_data->buffer, shared_data->prefixo);
 			if(strcmp(currentPrefix, "") != 0 && currentPrefix[0] != '\0' && isNumeric(currentPrefix) == 1){
-				printf("WORKER %d: A processar Prefixo: |%s|\n", result.child,  currentPrefix);
 				// for (int i = 0; i < 20; i++) {
 				// 	// Verifica se o caractere é nulo para evitar imprimir valores não inicializados
 				// 	if (currentPrefix[i] == '\0') {
@@ -369,7 +368,6 @@ int main(int argc, char *argv[]) {
 			memset(oldPrefixes, '\0', sizeof(char) * fileCount);
 		}
 		fileToProcess = fileCount;
-		printf("DISTRIBUIDOR: A Processar %d Ficheiros\n", fileCount);
 		while (fileToProcess > 0)
 		{
 			int to = fileCount < arg.nWorkers ? fileCount : arg.nWorkers;
@@ -398,7 +396,6 @@ int main(int argc, char *argv[]) {
 					//printf("DISTRIBUIDOR: A Processar o Prefixo %s - Buffer %s\n", currentPrefix, shared_data->buffer);
 					sem_post(worker_read_mutex);
 					runningWorkers++;
-					printf("DISTRIBUIDOR: (inc)Running Workers %d\n", runningWorkers);
 					strcat(oldPrefixes, currentPrefix);
 				}
 			}
@@ -423,9 +420,6 @@ int main(int argc, char *argv[]) {
 				fileToProcess--;
 				runningWorkers--;
 			}
-			printf("DISTRIBUIDOR: (dec)Running Workers %d\n", runningWorkers);
-			printf("DISTRIBUIDOR: (dec)Ficheiros restantes %d\n", fileToProcess);
-			printf("Meteu-se este caminho no report: %s\n", report.createdPath);
 		}
 		
 		//free(oldPrefixes);
