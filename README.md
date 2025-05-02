@@ -1,0 +1,287 @@
+# Jobs4U - Talent Acquisition Management System
+
+## 1. Description
+
+Jobs4U is an application developed to help talent acquisition companies simplify and optimize processes related to the selection and recruitment of candidates. The system provides automated recruitment processes with interfaces for all users involved in Jobs4U (system administrators, customer managers, operators, and candidates).
+
+The application streamlines the entire recruitment process from job posting to candidate selection, supporting features such as:
+- Job opening management
+- Candidate application processing
+- Requirements verification
+- Interview management
+- Candidate ranking
+- Communication with clients and candidates
+
+## 2. Project Structure
+
+The project is organized into several components:
+
+- **BackOffice App**: Main application used by administrators, customer managers, and operators
+- **Candidate App**: Console application for candidates to view applications and receive notifications
+- **Customer App**: Console application for clients to monitor job openings
+- **Applications File Bot**: Processes application files for system import
+- **Follow Up Server**: Manages communication between clients and the database
+- **Job Requirements and Interview Plugins**: ANTLR-based language processing for evaluating requirements and interviews
+
+## 3. System Requirements
+
+- Java JDK 11 or higher
+- Maven 3.6 or higher
+- ANTLR 4.10 or higher
+- C/C++ compiler (GCC or equivalent)
+- H2 Database Engine (included in the project)
+- Git
+
+## 4. Installation Guide
+
+### 4.1 Common Steps for All Platforms
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/jobs4u.git
+   cd jobs4u
+   ```
+
+2. Make sure JAVA_HOME is set to your JDK installation folder and Maven is on your system PATH.
+
+### 4.2 Platform-Specific Installation
+
+#### 4.2.1 Windows
+
+1. Install the required tools:
+  - Download and install Java JDK 11+ from [Oracle](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+  - Download and install Maven from [Apache Maven](https://maven.apache.org/download.cgi)
+  - Download and install Git from [Git for Windows](https://gitforwindows.org/)
+  - Install ANTLR using Maven (included in project dependencies)
+  - Install a C/C++ compiler:
+    ```
+    // Option 1: MinGW
+    choco install mingw
+    
+    // Option 2: Visual Studio Build Tools
+    // Download and install from https://visualstudio.microsoft.com/downloads/
+    ```
+
+2. Set environment variables:
+   ```
+   setx JAVA_HOME "C:\Program Files\Java\jdk-11"
+   setx PATH "%PATH%;%JAVA_HOME%\bin;C:\Program Files\Maven\bin"
+   ```
+
+3. Build the project:
+   ```
+   .\build-all.bat
+   ```
+
+#### 4.2.2 macOS
+
+1. Install the required tools using Homebrew:
+   ```bash
+   # Install Homebrew if not already installed
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   
+   # Install Java, Maven, and ANTLR
+   brew install openjdk@11
+   brew install maven
+   brew install antlr
+   
+   # Install C compiler (included with macOS, but ensure Xcode command line tools are installed)
+   xcode-select --install
+   ```
+
+2. Set environment variables:
+   ```bash
+   echo 'export JAVA_HOME=$(/usr/libexec/java_home -v 11)' >> ~/.zshrc
+   echo 'export PATH=$JAVA_HOME/bin:$PATH' >> ~/.zshrc
+   source ~/.zshrc
+   ```
+
+3. Build the project:
+   ```bash
+   chmod +x build-all.sh
+   ./build-all.sh
+   ```
+
+#### 4.2.3 Linux (Ubuntu/Debian)
+
+1. Install the required tools:
+   ```bash
+   # Update package list
+   sudo apt update
+   
+   # Install Java, Maven, and build tools
+   sudo apt install -y openjdk-11-jdk maven build-essential
+   
+   # Install ANTLR
+   sudo apt install -y antlr4
+   ```
+
+2. Set environment variables:
+   ```bash
+   echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64' >> ~/.bashrc
+   echo 'export PATH=$JAVA_HOME/bin:$PATH' >> ~/.bashrc
+   source ~/.bashrc
+   ```
+
+3. Build the project:
+   ```bash
+   chmod +x build-all.sh
+   ./build-all.sh
+   ```
+
+### 4.3 Special Considerations for ANTLR and C Components
+
+#### ANTLR Setup
+
+The project uses ANTLR for language processing in job requirements and interviews. The build process automatically handles ANTLR, but if you need to work with grammar files directly:
+
+1. Ensure ANTLR is installed:
+   ```bash
+   # Check ANTLR installation
+   antlr4 -version
+   ```
+
+2. Manually compile grammar files (if needed):
+   ```bash
+   # Navigate to grammar directory
+   cd src/main/antlr4
+   
+   # Generate ANTLR files
+   antlr4 -no-listener -visitor JobRequirements.g4
+   antlr4 -no-listener -visitor InterviewModel.g4
+   ```
+
+#### C Components with Mutexes and Threads
+
+The Applications File Bot uses C components with mutexes and threads for file processing. To compile these components manually:
+
+**Windows:**
+```batch
+cd SensorsManagement\ProcessadorDeDados
+nmake -f Makefile.win
+```
+
+**macOS/Linux:**
+```bash
+cd SensorsManagement/ProcessadorDeDados
+make
+```
+
+## 5. Running the System
+
+Once the project is built, you can run the different applications:
+
+### 5.1 BackOffice Application
+
+**Windows:**
+```batch
+.\build_run_backofficeApp.bat
+```
+
+**macOS/Linux:**
+```bash
+./build_run_backofficeApp.sh
+```
+
+### 5.2 Customer Application
+
+**Windows:**
+```batch
+.\build_run_customerApp.bat
+```
+
+**macOS/Linux:**
+```bash
+./build_run_customerApp.sh
+```
+
+### 5.3 Candidate Application
+
+**Windows:**
+```batch
+.\build_run_candidateApp.bat
+```
+
+**macOS/Linux:**
+```bash
+./build_run_candidateApp.sh
+```
+
+### 5.4 Bootstrap Mode
+
+The BackOffice application can be run in bootstrap mode, which initializes the database with sample data. When prompted, enter 'y' to run in bootstrap mode.
+
+## 6. System Configuration
+
+### 6.1 Database Configuration
+
+The system uses an H2 database engine for data persistence. The database connection settings can be modified in the `application.properties` file:
+
+```
+# Database Connection
+database.url=jdbc:h2:./db/jobs4u
+database.user=jobs4u
+database.password=password
+```
+
+### 6.2 Server Configuration
+
+The Follow Up Server settings can be configured in `server.properties`:
+
+```
+# Server Configuration
+server.port=1027
+server.timeout=30000
+server.hostname=localhost
+```
+
+## 7. Running Tests
+
+To run the automated tests:
+
+```bash
+mvn test
+```
+
+## 8. Project Documentation
+
+Detailed project documentation is available in the `docs` folder of the repository. This includes:
+- Sequence diagrams for user stories
+- Domain model
+- Technical documentation
+
+You can generate PlantUML diagrams for documentation by running:
+
+```bash
+./generate-plantuml-diagrams.sh
+```
+
+## 9. Troubleshooting
+
+### Common Issues
+
+1. **Database connection errors**
+  - Verify that the H2 database is properly configured in `application.properties`
+  - Check that the database files are not locked by another process
+
+2. **ANTLR grammar issues**
+  - Regenerate ANTLR files using the commands in Section 4.3
+  - Check for syntax errors in grammar files
+
+3. **C component compilation failures**
+  - Verify that the appropriate C compiler is installed
+  - Check for missing libraries or dependencies
+
+### Platform-Specific Issues
+
+#### Windows
+- If experiencing path-related issues, ensure system PATH variables are correctly set
+- For C component compilation, verify Visual Studio Build Tools or MinGW is properly installed
+
+#### macOS
+- If experiencing permissions issues with scripts, run `chmod +x *.sh` to make them executable
+- For ANTLR issues, verify installation with `brew info antlr`
+
+#### Linux
+- If experiencing shared library issues, run `sudo ldconfig` to update the shared library cache
+- For C component compilation issues, verify that build-essential package is installed
