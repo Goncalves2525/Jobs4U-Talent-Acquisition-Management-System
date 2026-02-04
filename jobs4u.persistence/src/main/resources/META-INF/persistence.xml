@@ -15,18 +15,12 @@
 
     <properties>
       <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
-      <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+      <property name="jakarta.persistence.schema-generation.database.action" value="update"/>
 
-     <!-- To allow single use database. -->
+     <!-- Shared database - all applications must run from project root directory -->
       <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:./db/jobs4u"/>
      <property name="jakarta.persistence.jdbc.user" value=""/>
       <property name="jakarta.persistence.jdbc.password" value=""/>
-
-<!--      To allow multi-access to DB, the command is to be used along with the following step, before execution (just change the path accordingly): -->
-<!--      java -cp C:\Users\rcaro\EAPLI\eapli.base\target\dependency\h2-2.2.224.jar org.h2.tools.Server -tcpAllowOthers -tcpPort 9092 -baseDir C:\Users\rcaro\PI4\sem4pi-23-24-2nb1\db-->
-<!--      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:tcp://localhost:9092/~/PI4/sem4pi-23-24-2nb1/db/jobs4u"/>-->
-<!--      <property name="jakarta.persistence.jdbc.user" value=""/>-->
-<!--      <property name="jakarta.persistence.jdbc.password" value=""/>-->
 
 <!--      Hibernate Properties -->
       <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
