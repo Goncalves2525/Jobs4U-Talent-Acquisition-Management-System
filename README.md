@@ -39,7 +39,6 @@ The project is organized into several components:
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/jobs4u.git
-   cd jobs4u
    ```
 
 2. Make sure JAVA_HOME is set to your JDK installation folder and Maven is on your system PATH.
@@ -91,7 +90,7 @@ The project is organized into several components:
 
 2. Set environment variables:
    ```bash
-   echo 'export JAVA_HOME=$(/usr/libexec/java_home -v 11)' >> ~/.zshrc
+   echo 'export JAVA_HOME=$(/usr/libexec/java_home -v 17)' >> ~/.zshrc
    echo 'export PATH=$JAVA_HOME/bin:$PATH' >> ~/.zshrc
    source ~/.zshrc
    ```
@@ -113,7 +112,7 @@ The project is organized into several components:
    sudo apt install -y openjdk-11-jdk maven build-essential
    
    # Install ANTLR
-   sudo apt install -y antlr4
+   sudo apt install -y antlr
    ```
 
 2. Set environment variables:
@@ -138,17 +137,17 @@ The project uses ANTLR for language processing in job requirements and interview
 1. Ensure ANTLR is installed:
    ```bash
    # Check ANTLR installation
-   antlr4 -version
+   antlr -version
    ```
 
 2. Manually compile grammar files (if needed):
    ```bash
    # Navigate to grammar directory
    cd src/main/antlr4
-   
+
    # Generate ANTLR files
-   antlr4 -no-listener -visitor JobRequirements.g4
-   antlr4 -no-listener -visitor InterviewModel.g4
+   antlr -no-listener -visitor JobRequirements.g4
+   antlr -no-listener -visitor InterviewModel.g4
    ```
 
 #### C Components with Mutexes and Threads
@@ -157,54 +156,64 @@ The Applications File Bot uses C components with mutexes and threads for file pr
 
 **Windows:**
 ```batch
-cd SensorsManagement\ProcessadorDeDados
-nmake -f Makefile.win
+cd scomp
+nmake -f makefile
 ```
 
 **macOS/Linux:**
 ```bash
-cd SensorsManagement/ProcessadorDeDados
+cd scomp
 make
 ```
 
 ## 5. Running the System
 
-Once the project is built, you can run the different applications:
+Once the project is built using `build-all.sh`, you can run the different applications. Each command below should be executed from the project root directory.
 
 ### 5.1 BackOffice Application
 
-**Windows:**
-```batch
-.\build_run_backofficeApp.bat
-```
+The BackOffice application runs standalone and does not require the Follow-Up Server.
 
-**macOS/Linux:**
 ```bash
-./build_run_backofficeApp.sh
+cd jobs4u.backofficeApp
+mvn dependency:copy-dependencies
+java -cp "target/jobs4u.backofficeApp-0.1.0.jar:target/dependency/*" BackOffice
+cd ..  # Return to project root
 ```
 
-### 5.2 Customer Application
+### 5.2 Follow-Up Server
 
-**Windows:**
-```batch
-.\build_run_customerApp.bat
-```
+The Follow-Up Server must be running before starting Customer or Candidate applications. It listens on port 1027 and handles authentication and notifications.
 
-**macOS/Linux:**
 ```bash
-./build_run_customerApp.sh
+cd jobs4u.followUpServer
+mvn dependency:copy-dependencies
+java -cp "target/jobs4u.followUpServer-0.1.0.jar:target/dependency/*:../jobs4u.core/target/jobs4u.core-0.1.0.jar:../jobs4u.persistence/target/jobs4u.persistence-0.1.0.jar:../jobs4u.infrastructure.application/target/jobs4u.infrastructure.application-0.1.0.jar:../jobs4u.common/target/jobs4u.common-0.1.0.jar" FollowUpServerApp
+cd ..  # Return to project root
 ```
 
-### 5.3 Candidate Application
+**Important:** Keep this server running in a separate terminal while using Customer or Candidate applications.
 
-**Windows:**
-```batch
-.\build_run_candidateApp.bat
-```
+### 5.3 Customer Application
 
-**macOS/Linux:**
+**Requires Follow-Up Server to be running first.**
+
 ```bash
-./build_run_candidateApp.sh
+cd jobs4u.customerApp
+mvn dependency:copy-dependencies
+java -cp "target/jobs4u.customerApp-0.1.0.jar:target/dependency/*:../jobs4u.core/target/jobs4u.core-0.1.0.jar:../jobs4u.persistence/target/jobs4u.persistence-0.1.0.jar:../jobs4u.infrastructure.application/target/jobs4u.infrastructure.application-0.1.0.jar:../jobs4u.common/target/jobs4u.common-0.1.0.jar" CustomerApp
+cd ..  # Return to project root
+```
+
+### 5.4 Candidate Application
+
+**Requires Follow-Up Server to be running first.**
+
+```bash
+cd jobs4u.candidateApp
+mvn dependency:copy-dependencies
+java -cp "target/jobs4u.candidateApp-0.1.0.jar:target/dependency/*:../jobs4u.core/target/jobs4u.core-0.1.0.jar:../jobs4u.persistence/target/jobs4u.persistence-0.1.0.jar:../jobs4u.infrastructure.application/target/jobs4u.infrastructure.application-0.1.0.jar:../jobs4u.common/target/jobs4u.common-0.1.0.jar" Candidate
+cd ..  # Return to project root
 ```
 
 ### 5.4 Bootstrap Mode

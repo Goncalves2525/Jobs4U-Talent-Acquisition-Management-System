@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public class CustomerApp {
     final static Role ROLE_REQUIRED = Role.CUSTOMER;
-    //final static String HOSTNAME = "localhost";
-    final static String HOSTNAME = "labs-vsrv27.dei.isep.ipp.pt";
+    final static String HOSTNAME = "localhost";
+    //final static String HOSTNAME = "labs-vsrv27.dei.isep.ipp.pt";  // ISEP server
     static InetAddress serverIP;
     final static int PORT = 1027;
     final static int TIMEOUT = 30000;

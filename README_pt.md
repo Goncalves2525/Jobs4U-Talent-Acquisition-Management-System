@@ -39,7 +39,6 @@ O projeto está organizado em vários componentes:
 1. Clonar o repositório:
    ```bash
    git clone https://github.com/seu-utilizador/jobs4u.git
-   cd jobs4u
    ```
 
 2. Certifique-se de que o JAVA_HOME está configurado para a pasta de instalação do JDK e que o Maven está no PATH do sistema.
@@ -91,7 +90,7 @@ O projeto está organizado em vários componentes:
 
 2. Configure as variáveis de ambiente:
    ```bash
-   echo 'export JAVA_HOME=$(/usr/libexec/java_home -v 11)' >> ~/.zshrc
+   echo 'export JAVA_HOME=$(/usr/libexec/java_home -v 17)' >> ~/.zshrc
    echo 'export PATH=$JAVA_HOME/bin:$PATH' >> ~/.zshrc
    source ~/.zshrc
    ```
@@ -113,7 +112,7 @@ O projeto está organizado em vários componentes:
    sudo apt install -y openjdk-11-jdk maven build-essential
    
    # Instale ANTLR
-   sudo apt install -y antlr4
+   sudo apt install -y antlr
    ```
 
 2. Configure as variáveis de ambiente:
@@ -138,17 +137,17 @@ O projeto utiliza ANTLR para processamento de linguagem em requisitos de emprego
 1. Certifique-se de que o ANTLR está instalado:
    ```bash
    # Verificar a instalação do ANTLR
-   antlr4 -version
+   antlr -version
    ```
 
 2. Compilar manualmente ficheiros de gramática (se necessário):
    ```bash
    # Navegue para o diretório de gramática
    cd src/main/antlr4
-   
+
    # Gere ficheiros ANTLR
-   antlr4 -no-listener -visitor JobRequirements.g4
-   antlr4 -no-listener -visitor InterviewModel.g4
+   antlr -no-listener -visitor JobRequirements.g4
+   antlr -no-listener -visitor InterviewModel.g4
    ```
 
 #### Componentes C com Mutex e Threads
@@ -157,54 +156,64 @@ O Bot de Ficheiros de Candidaturas utiliza componentes C com mutex e threads par
 
 **Windows:**
 ```batch
-cd SensorsManagement\ProcessadorDeDados
-nmake -f Makefile.win
+cd scomp
+nmake -f makefile
 ```
 
 **macOS/Linux:**
 ```bash
-cd SensorsManagement/ProcessadorDeDados
+cd scomp
 make
 ```
 
 ## 5. Executar o Sistema
 
-Depois de o projeto ser construído, pode executar as diferentes aplicações:
+Depois de construir o projeto com `build-all.sh`, pode executar as diferentes aplicações. Cada comando abaixo deve ser executado a partir do diretório raiz do projeto.
 
 ### 5.1 Aplicação BackOffice
 
-**Windows:**
-```batch
-.\build_run_backofficeApp.bat
-```
+A aplicação BackOffice funciona de forma independente e não requer o servidor Follow-Up.
 
-**macOS/Linux:**
 ```bash
-./build_run_backofficeApp.sh
+cd jobs4u.backofficeApp
+mvn dependency:copy-dependencies
+java -cp "target/jobs4u.backofficeApp-0.1.0.jar:target/dependency/*" BackOffice
+cd ..  # Voltar ao diretório raiz
 ```
 
-### 5.2 Aplicação de Cliente
+### 5.2 Servidor Follow-Up
 
-**Windows:**
-```batch
-.\build_run_customerApp.bat
-```
+O servidor Follow-Up deve estar em execução antes de iniciar as aplicações de Cliente ou Candidato. Escuta na porta 1027 e gere autenticação e notificações.
 
-**macOS/Linux:**
 ```bash
-./build_run_customerApp.sh
+cd jobs4u.followUpServer
+mvn dependency:copy-dependencies
+java -cp "target/jobs4u.followUpServer-0.1.0.jar:target/dependency/*:../jobs4u.core/target/jobs4u.core-0.1.0.jar:../jobs4u.persistence/target/jobs4u.persistence-0.1.0.jar:../jobs4u.infrastructure.application/target/jobs4u.infrastructure.application-0.1.0.jar:../jobs4u.common/target/jobs4u.common-0.1.0.jar" FollowUpServerApp
+cd ..  # Voltar ao diretório raiz
 ```
 
-### 5.3 Aplicação de Candidato
+**Importante:** Mantenha este servidor em execução num terminal separado enquanto utiliza as aplicações de Cliente ou Candidato.
 
-**Windows:**
-```batch
-.\build_run_candidateApp.bat
-```
+### 5.3 Aplicação de Cliente
 
-**macOS/Linux:**
+**Requer que o servidor Follow-Up esteja em execução primeiro.**
+
 ```bash
-./build_run_candidateApp.sh
+cd jobs4u.customerApp
+mvn dependency:copy-dependencies
+java -cp "target/jobs4u.customerApp-0.1.0.jar:target/dependency/*:../jobs4u.core/target/jobs4u.core-0.1.0.jar:../jobs4u.persistence/target/jobs4u.persistence-0.1.0.jar:../jobs4u.infrastructure.application/target/jobs4u.infrastructure.application-0.1.0.jar:../jobs4u.common/target/jobs4u.common-0.1.0.jar" CustomerApp
+cd ..  # Voltar ao diretório raiz
+```
+
+### 5.4 Aplicação de Candidato
+
+**Requer que o servidor Follow-Up esteja em execução primeiro.**
+
+```bash
+cd jobs4u.candidateApp
+mvn dependency:copy-dependencies
+java -cp "target/jobs4u.candidateApp-0.1.0.jar:target/dependency/*:../jobs4u.core/target/jobs4u.core-0.1.0.jar:../jobs4u.persistence/target/jobs4u.persistence-0.1.0.jar:../jobs4u.infrastructure.application/target/jobs4u.infrastructure.application-0.1.0.jar:../jobs4u.common/target/jobs4u.common-0.1.0.jar" Candidate
+cd ..  # Voltar ao diretório raiz
 ```
 
 ### 5.4 Modo Bootstrap

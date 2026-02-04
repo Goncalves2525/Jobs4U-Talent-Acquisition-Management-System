@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(brew list:*)",
+      "Bash(echo:*)",
+      "Bash(antlr:*)",
+      "Bash(ls:*)"
+    ]
+  }
+}
