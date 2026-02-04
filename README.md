@@ -1,5 +1,13 @@
 # Jobs4U - Talent Acquisition Management System
 
+## Screenshots
+
+### BackOffice Application
+![BackOffice Application](images/backoffice.png)
+
+### Candidate Application
+![Candidate Application](images/candidate.png)
+
 ## 1. Description
 
 Jobs4U is an application developed to help talent acquisition companies simplify and optimize processes related to the selection and recruitment of candidates. The system provides automated recruitment processes with interfaces for all users involved in Jobs4U (system administrators, customer managers, operators, and candidates).
@@ -18,9 +26,8 @@ The project is organized into several components:
 
 - **BackOffice App**: Main application used by administrators, customer managers, and operators
 - **Candidate App**: Console application for candidates to view applications and receive notifications
-- **Customer App**: Console application for clients to monitor job openings
 - **Applications File Bot**: Processes application files for system import
-- **Follow Up Server**: Manages communication between clients and the database
+- **Follow Up Server**: Manages communication between candidates and the database
 - **Job Requirements and Interview Plugins**: ANTLR-based language processing for evaluating requirements and interviews
 
 ## 3. System Requirements
@@ -183,7 +190,7 @@ cd ..  # Return to project root
 
 ### 5.2 Follow-Up Server
 
-The Follow-Up Server must be running before starting Customer or Candidate applications. It listens on port 1027 and handles authentication and notifications.
+The Follow-Up Server must be running before starting the Candidate application. It listens on port 1027 and handles authentication and notifications.
 
 ```bash
 cd jobs4u.followUpServer
@@ -192,20 +199,9 @@ java -cp "target/jobs4u.followUpServer-0.1.0.jar:target/dependency/*:../jobs4u.c
 cd ..  # Return to project root
 ```
 
-**Important:** Keep this server running in a separate terminal while using Customer or Candidate applications.
+**Important:** Keep this server running in a separate terminal while using the Candidate application.
 
-### 5.3 Customer Application
-
-**Requires Follow-Up Server to be running first.**
-
-```bash
-cd jobs4u.customerApp
-mvn dependency:copy-dependencies
-java -cp "target/jobs4u.customerApp-0.1.0.jar:target/dependency/*:../jobs4u.core/target/jobs4u.core-0.1.0.jar:../jobs4u.persistence/target/jobs4u.persistence-0.1.0.jar:../jobs4u.infrastructure.application/target/jobs4u.infrastructure.application-0.1.0.jar:../jobs4u.common/target/jobs4u.common-0.1.0.jar" CustomerApp
-cd ..  # Return to project root
-```
-
-### 5.4 Candidate Application
+### 5.3 Candidate Application
 
 **Requires Follow-Up Server to be running first.**
 

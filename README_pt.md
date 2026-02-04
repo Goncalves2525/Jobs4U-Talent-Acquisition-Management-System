@@ -1,5 +1,13 @@
 # Jobs4U - Sistema de Gestão de Recrutamento e Seleção
 
+## Capturas de Ecrã
+
+### Aplicação BackOffice
+![Aplicação BackOffice](images/backoffice.png)
+
+### Aplicação de Candidato
+![Aplicação de Candidato](images/candidate.png)
+
 ## 1. Descrição
 
 O Jobs4U é uma aplicação desenvolvida para ajudar empresas de recrutamento a simplificar e otimizar processos relacionados com a seleção e recrutamento de candidatos. O sistema oferece processos de recrutamento automatizados com interfaces para todos os utilizadores envolvidos no Jobs4U (administradores de sistema, gestores de clientes, operadores e candidatos).
@@ -18,9 +26,8 @@ O projeto está organizado em vários componentes:
 
 - **Aplicação BackOffice**: Aplicação principal utilizada por administradores, gestores de clientes e operadores
 - **Aplicação de Candidato**: Aplicação de consola para candidatos visualizarem candidaturas e receberem notificações
-- **Aplicação de Cliente**: Aplicação de consola para clientes monitorizarem ofertas de emprego
 - **Bot de Ficheiros de Candidaturas**: Processa ficheiros de candidatura para importação no sistema
-- **Servidor de Acompanhamento**: Gere a comunicação entre clientes e a base de dados
+- **Servidor de Acompanhamento**: Gere a comunicação entre candidatos e a base de dados
 - **Plugins de Requisitos de Emprego e Entrevistas**: Processamento de linguagem baseado em ANTLR para avaliação de requisitos e entrevistas
 
 ## 3. Requisitos do Sistema
@@ -183,7 +190,7 @@ cd ..  # Voltar ao diretório raiz
 
 ### 5.2 Servidor Follow-Up
 
-O servidor Follow-Up deve estar em execução antes de iniciar as aplicações de Cliente ou Candidato. Escuta na porta 1027 e gere autenticação e notificações.
+O servidor Follow-Up deve estar em execução antes de iniciar a aplicação de Candidato. Escuta na porta 1027 e gere autenticação e notificações.
 
 ```bash
 cd jobs4u.followUpServer
@@ -192,20 +199,9 @@ java -cp "target/jobs4u.followUpServer-0.1.0.jar:target/dependency/*:../jobs4u.c
 cd ..  # Voltar ao diretório raiz
 ```
 
-**Importante:** Mantenha este servidor em execução num terminal separado enquanto utiliza as aplicações de Cliente ou Candidato.
+**Importante:** Mantenha este servidor em execução num terminal separado enquanto utiliza a aplicação de Candidato.
 
-### 5.3 Aplicação de Cliente
-
-**Requer que o servidor Follow-Up esteja em execução primeiro.**
-
-```bash
-cd jobs4u.customerApp
-mvn dependency:copy-dependencies
-java -cp "target/jobs4u.customerApp-0.1.0.jar:target/dependency/*:../jobs4u.core/target/jobs4u.core-0.1.0.jar:../jobs4u.persistence/target/jobs4u.persistence-0.1.0.jar:../jobs4u.infrastructure.application/target/jobs4u.infrastructure.application-0.1.0.jar:../jobs4u.common/target/jobs4u.common-0.1.0.jar" CustomerApp
-cd ..  # Voltar ao diretório raiz
-```
-
-### 5.4 Aplicação de Candidato
+### 5.3 Aplicação de Candidato
 
 **Requer que o servidor Follow-Up esteja em execução primeiro.**
 
